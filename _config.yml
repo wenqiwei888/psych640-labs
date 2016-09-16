@@ -1,0 +1,1 @@
+exclude: ["labs/*.Rmd", "build_site.R","lab.Rproj", "Gemfile*", "README.md", "labs/*_cache"]

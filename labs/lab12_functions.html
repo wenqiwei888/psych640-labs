@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Writing Functions</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Writing Functions',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function">
+
+<p>Consider a common situation: You as a programmer need to perform a set of identical or extremely similar operations on several different pieces of information. What do you do?</p>
+
+<p>The solution with the least upfront cost is to write the code necessary for your task once and copy and paste it into the places where you&#39;ll need it, tweaking little things each time for the specific information you&#39;re operating on.</p>
+
+<p>While straightforward, this approach ends up costing more in the long run: Your script quickly grows in length and becomes difficult to read, and any time you need to make a change, you have to carefully keep track of every instance that needs changing.</p>
+
+</article></slide><slide class=''><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function-1">
+
+<p>A better approach which keeps your code clear and maintainable is to keep it <a href='https://en.wikipedia.org/wiki/Don&#39;t_repeat_yourself' title=''>DRY</a>, meaning &quot;Don&#39;t Repeat Yourself&quot;.</p>
+
+<p>Following the DRY principle when writing your code means that every piece of knowledge (e.g., how to calculate the mean in code, how to calculate the standard error in code) must have a <strong>single, authoritative representation</strong>.</p>
+
+<p>When you have a set of operations you want to use more than once, writing a function to contain them allows you to reuse the code <em>without</em> repeating the code itself.</p>
+
+</article></slide><slide class=''><hgroup><h2>Creating New Functions</h2></hgroup><article  id="creating-new-functions">
+
+<p>You can create a new function object in R with the <code>function</code> keyword and the following syntax:</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(arguments) { body }</pre>
+
+<p>This expression is called a <em>function declaration</em> or a <em>function definition</em>.</p>
+
+<p><code>arguments</code> represents a set of variable names (and optionally default values) to be used within the function, and <code>body</code> represents one or more an R expressions.</p>
+
+<p>The usual assignment operator, <code>&lt;-</code>, creates the object you can use to call the function. Just like any other variable, the name to the left of the <code>&lt;-</code> operator is arbitrary.</p>
+
+</article></slide><slide class=''><hgroup><h2>Arguments</h2></hgroup><article  id="arguments">
+
+<p>Any arguments defined in the declaration can be used as variables inside the function body. To define multiple arguments, each argument must be separated by a comma.</p>
+
+<p>The function definition below creates a new function object <code>f</code>, which takes two arguments, <code>arg1</code> and <code>arg2</code>, and prints out a report of their values to the console.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2) { 
+  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+}
+f(&quot;eleventeen&quot;, -Inf)</pre>
+
+<pre >## [1] &quot;arg1 is eleventeen and arg2 is -Inf&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Optional Arguments</h2></hgroup><article  id="optional-arguments">
+
+<p>You can assign default values for arguments with the <code>=</code> operator. While the <code>&lt;-</code> and <code>=</code> operators are usually interchangeable, <strong>only <code>=</code> may be used in function definitions and function calls</strong>.</p>
+
+<p>If you assign a default value, the argument is optional and may be omitted in the function call.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+}
+f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
+
+<pre >## [1] &quot;arg1 is squidily diddly and arg2 is not supplied!&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Required Arguments</h2></hgroup><article  id="required-arguments">
+
+Omitting arguments <em>without</em> a default value must always be specified on the function call. Omitting them will always result in a fatal error.
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>f(arg2=pi) # I always forget pi is a built in constant!!</pre>
+
+<pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre>
+
+<pre class = 'prettyprint lang-r'># Sorry for the formatting, errors don&#39;t line wrap</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
+
+<p>when you call a function without using argument name, the values you supply are matched with the functions arguments <strong>by position</strong> (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)</p>
+
+<pre class = 'prettyprint lang-r'>f(&quot;sir nose d&#39;voidoffunk&quot;, &quot;starchild&quot;)</pre>
+
+<pre >## [1] &quot;arg1 is sir nose d&#39;voidoffunk and arg2 is starchild&quot;</pre>
+
+<p>But, when you pair the values with argument names, they may be specified in any order.</p>
+
+<pre class = 'prettyprint lang-r'>f(arg2 = &quot;sir nose d&#39;voidoffunk&quot;, arg1 = &quot;starchild&quot;)</pre>
+
+<pre >## [1] &quot;arg1 is starchild and arg2 is sir nose d&#39;voidoffunk&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>The function body</h2></hgroup><article  id="the-function-body" class="img-centered">
+
+<p>The function body should just contain normal R code! Easy!</p>
+
+<p>Here&#39;s a picture of <a href='https://www.youtube.com/watch?v=YNXkw96HC7k' title=''>Sir Nose D’Voidoffunk</a> to take up the slide. <img src='/images/sirNose.jpg' title=''/></p>
+
+<p>His nose is long because he&#39;s been fakin&#39; the funk.</p>
+
+</article></slide><slide class=''><hgroup><h2>Function output</h2></hgroup><article  id="function-output">
+
+<p>All the functions you&#39;re familiar with do more than just print something to the console: they give you a result in the form of an R object, which you can assign to a variable in your environment.</p>
+
+<p>Lets try assigning the output from our function to a variable:</p>
+
+<pre class = 'prettyprint lang-r'>report &lt;- f(-1.05)</pre>
+
+<pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>report</pre>
+
+<pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
+
+<p>It appears our function output is the character vector we created in the function body.</p>
+
+</article></slide><slide class=''><hgroup><h2>Function output</h2></hgroup><article  id="function-output-1">
+
+<p>This makes intuitive sense on one level: making that string was the only expression in the function body, so what else would the output be?</p>
+
+<p>But consider more complex functions with many lines of code: which value should be the one the function outputs?</p>
+
+<p>By default, functions return the value of the <strong>last</strong> expression evaluated in the function body.</p>
+
+</article></slide><slide class=''><hgroup><h2>Return Statements</h2></hgroup><article  id="return-statements">
+
+<p>However, relying on implicit behavior doesn&#39;t make for the most understandable code. Additionally, you may want to a function to stop running and return a value at different places of the body (an &#39;early return&#39;).</p>
+
+<p>For these reasons, R has a reserved keyword <code>return</code> which halts a functions execution and returns the value specified to <code>return</code>.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+  x &lt;- paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2)
+  return(x)  # Same behavior, but more explicit
+}
+f(&quot;autumn leaves&quot;)</pre>
+
+<pre >## [1] &quot;arg1 is autumn leaves and arg2 is not supplied!&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values">
+
+<p>If you were writing a function to perform a t-test, you would probably like to write one function that tells you the t score, the degrees of freedom, and the <em>p</em> value, instead of writing one function for each.</p>
+
+<p>Unfortunately, returning multiple objects is impossible in R; the language simply does not support this behavior.</p>
+
+<p>However, we can circumvent this limitation by storing the multiple values we want to be output together in a single object!</p>
+
+</article></slide><slide class=''><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values-1">
+
+<p>Returning a list is a good general purpose solution to this problem, because lists are designed to have elements of arbitrary length and type.</p>
+
+<p>For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
+
+<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
+  x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
+            sem = sd(x)/sqrt(length(x)))
+  return(x)
+}
+statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
+statList$sem</pre>
+
+<pre >## [1] 6.463863</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
+
+<p>Like any object in R, your function object must be assigned and available from the global environment before you can use it.</p>
+
+<p>This raises the question of how to make your functions available whenever you need them, like the functions from base R or an R package.</p>
+
+<p>One option is to have a section starting each script where you define the personal functions you wish to use.</p>
+
+<p>However, this method makes scripts confusing to follow, and is prone to error thanks to violating the DRY principle: when you make a change to your cool new function in one script, you have to change it in every file you&#39;ve declared it in if you want to the function to have consistent behavior (which every function should!!!)</p>
+
+</article></slide><slide class=''><hgroup><h2>Sourcing your functions</h2></hgroup><article  id="sourcing-your-functions">
+
+<p>A better solution is to have one .R file where you define a single function (or several of related functions), and use the <code>source</code> keyword to execute the file and define the function whenever you want use it.</p>
+
+<pre class = 'prettyprint lang-r'>source(&#39;/path/to/file/with/function/definitions.R&#39;)</pre>
+
+<p><code>source</code> executes any R expressions found in the specified file in the environment where <code>source</code> was called. For example, executing the expression <code>x &lt;- 10</code> in the console and writing <code>x &lt;- 10</code> in a separate file and sourcing that file have the same effect.</p>
+
+<p>You can treat the <code>source</code> keyword like the <code>library</code> function this way, and adhere to the DRY principle by having single, authoritative versions of your functions.</p>
+
+</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors">
+
+<p>The <code>summaryStats</code> function implicitly requires that it&#39;s argument, <code>x</code>, be a numeric vector. If <code>x</code> is not a numeric vector with one or more elements, it makes no sense to take the mean or standard deviation.</p>
+
+<p>Of course, <em>you</em> know that, because you wrote the function, and <em>you</em> would never dream of passing a character vector or list to <code>summaryStats</code>.</p>
+
+<p>But can you guarantee that you group member or lab member knows that? And can you absolutely guarantee that <code>summaryStats</code> won&#39;t be unintentionally passed some other type of data when called from a more complex or non-interactive program?</p>
+
+</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-1">
+
+<p>The answer of course, is no. When you write a function, you should think carefully about what range of inputs your function can reliably compute sensible output from.</p>
+
+<p>Then, write expressions which test to be sure input meets your accepted conditions, and throw your own <em>informative</em> errors when they are not.</p>
+
+</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-2">
+
+<p>R provides the <code>stop</code> function which allows you to signal an error using your own message, and halt execution of the current function.</p>
+
+<p>We can use it together with an <code>if</code> statements to enforce our requirement that the input to <code>summaryStats</code> be numerals of some kind.</p>
+
+<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
+  if (is.numeric(x) || is.logical(x)) {
+    x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
+              sem = sd(x)/sqrt(length(x)))
+    return(x)
+  } else {
+    stop(&quot;Input to summaryStats must be a numeric or logical vector!&quot;)
+  }
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-3">
+
+<p>Lets test it out!</p>
+
+<p>First, a numeric vector which should be fine.</p>
+
+<pre class = 'prettyprint lang-r'>statList &lt;- summaryStats(runif(25,0,100))
+statList$mean # good!</pre>
+
+<pre >## [1] 50.56683</pre>
+
+Now, a character vector which should fail.
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>statList &lt;- summaryStats(as.character(runif(25,0,100)))</pre>
+
+<pre >## Error in summaryStats(as.character(runif(25, 0, 100))): Input to summaryStats must be a numeric or logical vector!</pre></div>
+
+<p>Hooray, an error! Whenever you write a test for your input, always test it with bad input to be sure it catches it.</p>
+
+</article></slide><slide class=''><hgroup><h2>Debugging your functions</h2></hgroup><article  id="debugging-your-functions">
+
+<p>The process of examining your code to track down the source of errors is easy enough in a normal R script: just interactively run one line at a time till you find the root cause.</p>
+
+<p>But debugging a function provides a new challenge: How do you get inside the function <em>while its running</em> to closely examine it&#39;s behavior with real input?</p>
+
+<p>We&#39;ll cover two basic ways you can debug code execution inside functions: by using the <code>debug</code> function, and by setting breakpoints through Rstudio.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>debug</code> function</h2></hgroup><article  id="the-debug-function">
+
+<p>When you want to interactively debug a function, provide the function object as an argument to the <code>debug</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>debug(summaryStats)</pre>
+
+<p>This appears to have no effect, but it tells R that whenever <code>summaryStats</code> is called, to pause before the first line of the function body is executed, and open an interactive console inside the function&#39;s environment.</p>
+
+<p>So, the next time <code>summaryStats</code> is called, debugging mode will activate!</p>
+
+<p>The console prompt <code>&gt;</code> should change to read <code>Browse [x]&gt;</code>, where x is some integer. In Rstudio, a new tab should open in the editor pane titled &quot;Source Viewer&quot;, and a set of navigation controls should appear just above the console window.</p>
+
+</article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging" class="img-centered">
+
+<p><img src='/images/debugControls.png' title=''/> The navigation controls &amp; corresponding keyboard shortcuts are shown above, and explained below:</p>
+
+<ol>
+<li>Executes the very next line of code in the function</li>
+<li>Executes the next function call and changes the current environment to that function
+
+<ul>
+<li>Allows you to follow the entire code path, not just code in your function</li>
+</ul></li>
+<li>Executes all code remaining in the function, or all remaining iterations of a loop</li>
+<li>Continue execution of all code normally (exits debugging mode)</li>
+<li>Exit debugging mode and halt all execution</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging-1">
+
+<p>When you decide that you want <code>summaryStats</code> to execute normally and no longer run under debugging mode, use the <code>undebug</code> function:</p>
+
+<pre class = 'prettyprint lang-r'>undebug(summaryStats)</pre>
+
+<p>Any subsequent calls to <code>summaryStats</code> will proceed as normal.</p>
+
+</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints">
+
+<p>A breakpoint is a flag set on a line of code in your function that tells the R interpreter to enter debugging mode when it hits that line. Just before executing the line with the breakpoint, R will enter debugging mode just like when you used the <code>debug</code> function.</p>
+
+<p>This method can save you quite a bit of time versus using the <code>debug</code> function by allowing you to stop execution just before the line where an error occurs.</p>
+
+</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-1" class="img-centered">
+
+<p>To set a breakpoint, use the mouse to click in the blank space between the line number of the expression you wish to pause execution prior to and the left edge of the editor pane.</p>
+
+<p>This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints. <img src='/images/setBreakpoint.png' title=''/></p>
+
+<p>You can set as many breakpoints as you wish, but you need to source the file each time you add new ones to activate them.</p>
+
+</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-2">
+
+<p>Hit the &#39;source&#39; button in the top right button of the editor pane to activate the breakpoints. This should dismiss the popup, and the open red circle should become a filled red circle, indicating the breakpoint is active.</p>
+
+<p>The console should echo the execution of a special function, <code>debugSource</code>, which is different from the <code>source</code> keyword mention earlier. The regular <code>source</code> function does <strong>not</strong> support sourcing files with breakpoints.</p>
+
+<p>The next time this function is called, the function will pause before executing the lines with the breakpoints on them.</p>
+
+</article></slide><slide class=''><hgroup><h2>Clearing Breakpoints</h2></hgroup><article  id="clearing-breakpoints">
+
+<p>After you&#39;ve squashed all your bugs, you can clear any breakpoints you&#39;ve set by clicking on the red circles representing each one. This will remove the breakpoint, after which you must source the file again to deactivate them.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Write a function called <code>find</code> that searches a given vector for a specific value, and returns it&#39;s position(s) in the vector.</p>
+
+<p>By default, it should return a vector with an element for each position in the vector where the value is found. But there should be an argument which can be used to restrict the output to a limited number of positions (e.g, the position of the first occurrence, or the second and third, etc.).</p>
+
+<p>Some hints:</p>
+
+<ul>
+<li>the <code>which</code> function can be used to find the position of <code>TRUE</code> elements in a logical vector</li>
+<li>Think carefully about the types of values which should be accepted for the argument controlling which positions are returned.</li>
+</ul>
+
+<p>Go the next slide for some input/output examples to help you start.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity Examples</h2></hgroup><article  id="activity-examples">
+
+<p>Here is a more a concrete example of what your function should behave like. When you think you are done, test your function to make sure your function can reproduce the results.</p>
+
+<pre class = 'prettyprint lang-r'>v &lt;- c(2,4,10,33,2,8,19,3, 20, 3, 4, 45) # vector to search
+x &lt;- find(v, 2) # search for 2, reporting all positions where it is found
+all(v[x] == 2) # Indexing the vector with the results should produce all 2&#39;s</pre>
+
+<pre >## [1] TRUE</pre>
+
+<pre class = 'prettyprint lang-r'>find(v, 2, 2) # Should produce 5 since the 5th element is the second 2</pre>
+
+<pre >## [1] 5</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

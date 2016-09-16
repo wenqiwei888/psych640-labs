@@ -1,0 +1,422 @@
+---
+title: 'Functional programming in R: The apply functions'
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+```
+
+## What is functional programming?
+Functional programming means (at least) 2 things:
+
+1. Evaluating expressions do *not* have side effects (i.e., don't create or change any variables)
+2. Functions are "first-class"
+    - Can be manipulated like any other R object
+    - Can be passed as arguments to other functions
+    - Can be returned as a result of a function
+
+Don't be scared though: You've been doing functional programming all along without knowing it, because at it's core, R is a functional programming language!
+
+We're going to focus on the second tenant today, as "first class" functions are the underpinning of the `*apply` family of functions in R.
+
+## First-Class Functions
+Being "First Class" simply means that functions can be treated as "just another object". They can be created, removed, passed to other environments and functions, and even have their names changed at will.
+
+To illustrate how flexible functions are, let's write a new function which has two inputs: a numeric vector, and a function that will operate on that numeric vector. We'll assign this function to the name `f`.
+
+```{r basic_apply}
+f <- function(x, fun) {
+  fun(x) 
+}
+```
+Yes, this is a function that takes a function as input!
+
+## First-Class Functions
+Lets use `f` to take the mean of some random binomial draws, and compare our results with "standard" syntax. 
+
+Note that we supply only the **name** of the `mean` function only, without any parenthesis following it.
+
+```{r basic_apply_2}
+f <- function(x, fun) {
+  fun(x)
+}
+a <- rbinom(10, 50, .35) # How many "heads" occur in 50 "flips", 10 times.
+x <- f(x = a, fun = mean) # mean, not mean()!
+y <- mean(a)
+identical(x, y)
+```
+
+## Your first apply function!
+Congratulations, you just wrote an `apply` function! In other words, your function takes a data structure and a function as inputs,  **applies** that function to the data structure, and returns the result. Functions which pattern after this basic archetype are called `apply` functions.
+
+If you're thinking "Why would anyone go through this contortionist act to take the mean?", you wouldn't be off base. 
+
+The `mean` function, like the majority of the functions in base R, is vector-oriented, meaning it is designed to operate on a vector of values. So if we want the mean of our random values, we can call `mean(a)` and that's it!
+
+But consider for a moment, how often do you have real data just lying around just as a vector?
+
+## Escape from Flatland
+99% of the time, your data structure is more complex than a vector. Most often, you'll have a list or data frame composed of many vectors.
+
+But even though your data structure is more complex, you'll still find yourself needing to use base R functions which take a vector as input.
+
+And often, you'll find yourself wanting to use **the same** function on each of the vectors in your data structure.
+
+It's in these cases that the `*apply` family of functions is most useful.
+
+## Use an apply to keep it DRY
+For example, needing to have factor variables instead of numeric or character variables before using `aov` to perform an ANOVA often leads to the following style of code:
+
+```{r bad_factor, eval=FALSE}
+data$Var1 <- as.factor(data$Var1)
+data$Var2 <- as.factor(data$Var2)
+data$Var3 <- as.factor(data$Var3)
+data$Var4 <- as.factor(data$Var4)
+```
+
+Code like this is "brittle", in that it is repetitive and error prone (likely from copy-pasta).
+
+With the right `*apply` function, we can replace these 4 expressions with a single, more flexible expression.
+
+## The *apply functions
+
+We'll be looking the 4 most frequently used `*apply` functions, listed below:
+
+  - `lapply`: The "Apply and List" function
+      - `lapply(X, FUN, ...)`
+  - `sapply`: The "Apply and Simplify" function
+      - `sapply(X, FUN, ..., simplify = TRUE)`
+  - `vapply`: The "Apply and Match to Template" function
+      - `vapply(X, FUN, FUN.VALUE, ..., )`
+  - `apply`: The "Apply to Array Dimension" function
+      - `apply(X, MARGIN, FUN, ...)`
+  
+NB: The help pages for these functions are obtuse, even for R help pages. Hopefully these slides suffice as an intuitive guide, until you reach a high enough plane of enlightenment to read the documentation.
+
+## The X <del>Files</del> FUNS
+The formal argument lists for these functions have an unmistakable pattern: Each one has arguments named `X` and `FUN`.
+
+`FUN`, as you might imagine, must be the function you wish to apply. And `X` must be the data structure whose individual elements will have that function applied to them.
+
+Amazingly enough, `X` can be any object that has elements (which is pretty much any R object)! So, the keys to understanding the behavior of `*apply` functions are:
+
+1) Understanding what things are considered to be "the elements" for any given data structure `X`
+2) Knowing the sizes of input that `FUN` consumes (e.g., scalar value, vector, data frame, etc.)
+
+## Elemental Heirarchy of Data Structures
+This table describes what the elements of the 4 most common data structures are, in order of flexibility.
+
+| Data Structure | Elements | Notes |
+|:--------------:|:--------:|:----------:|
+| Atomic Vector | Identically typed "Primitives" (e.g, individual integers or characters ) | Called "Atomic" because it's elements are the smallest possible units in the R language | 
+| Matrix/Array | Identically typed "Primitives" | Matrices/Arrays are just Vectors with a "dim" attribute (e.g, `dim = c(2,4,2)` means 2 rows, 3 columns, 2 pages) | 
+| Data Frame | Atomic vectors | Data Frames are special cases of lists, where each element has the same length | 
+| List | Any R object | Lists are still vectors, but their elements are allowed to be anything! | 
+
+## lapply: The "Apply and List" Function
+The `lapply` function applies the given function to each element of the given data structure, and always returns its results as a list.
+
+The length of the resulting list (i.e., the number of elements it holds) is equal to the number of elements in the input data structure `X`.
+
+Here, we supply a two-element numeric vector as the input data structure `X`, and apply the `seq` function to each of its elements.
+
+```{r lapply_1}
+lapply(c(8, 6), seq)
+```
+
+## lapply: The "Apply and List" Function
+Under the hood, `lapply` splits two-element vector into individual values, and provides each of these values as the first argument to `seq`. 
+
+In other words, it calls `seq(8)` and `seq(6)` and assembles the results of each function call as a list.
+
+```{r lapply_2}
+x <- lapply(c(8, 6), seq)
+y <- list(seq(8), seq(6))
+identical(x,y)
+```
+
+The advantage of the `lapply` approach is that you don't have to manually call the function *n* times when you have a vector with *n* elements.
+
+## lapply: The for-loop alternative
+You may be thinking to yourself "Hmm, `lapply` acts a lot like a for-loop...". 
+
+Well, you're right! In both situations, you're iterating over a series of specified values, and those values serve to control the input to other functions.
+
+So naturally, the question of which style should be preferred? An apply function, or a for loop?
+
+In reality, the question has no definitively right or wrong answer, and a careful consideration of the task at hand should determine which you should use.
+
+## lapply: The for-loop killer
+My personal preference is to use one of the apply functions whenever possible. 
+
+I find them to be more semantic than for loops: to me, `lapply(c(8, 6), seq)` more clearly conveys the intent to use the `seq` function on each element of the input than the code below.
+```{r}
+for (x in c(8,6)) {
+  seq(x)
+}
+```
+
+Or even worse, you often see the following.
+
+```{r}
+v <- c(8,6)
+for (x in 1:length(v)) {
+  seq(v[1])
+}
+```
+Shudder.
+
+## lapply: The for-loop killer
+The apply functions also automatically create the data structure holding the results. With a for loop, you have to handle the output yourself, leaving you with two choices of how to do so:
+
+1) Manually create an empty data structure of *exactly the right size*, and progressively fill in it's elements with on each loop iteration
+2) "Grow" a data structure "on the fly" inside the loop (e.g., add a new row to a matrix on each loop iteration)
+
+The second option is easier, but has the nasty downside of making your loop incredibly slow. The first option is preferred, but creating the right size empty data structure can be tricky in practice, and fills your scripts with verbose boiler-plate code.
+
+## lapply and flexibility
+One reason users often prefer loops over using apply statements is that the function call in apply statements feels "rigid". 
+
+By default, each element of the data structure is used as the first argument for the specified function (not unlike [pipes](lab14_dplyr2.html#8)). On the other hand, you as the user are always in complete control of any function calls inside a for loop.
+
+However, this is a false dichotomy, and there are several simple methods available that give you complete control over the arguments to the function call inside any of the `*apply` functions.
+
+## Using the ... elipsis
+Each `*apply` functions includes the ellipsis (the `...`) in their formal argument list. 
+
+The ellipsis is used to pass any named arguments in the call to the `*apply` function not matching its native named arguments (e.g., any arguments not named `X` or `FUN`) to the function you've specified to be applied to the data structure's elements.
+
+To demonstrate, we'll include an argument named `to` in our call to `lapply(c(8,6), seq)`. The value of the `to` argument will be passed to `seq` and change the final value of the sequence.
+
+```{r lapply_elipsis}
+lapply(c(8,6), seq, to = 15) # from 8 to 15, and from 6 to 15
+```
+
+## Using the ... elipsis
+Alternatively, if we wanted to use the elements in our data structure as the final values in each sequence instead of the starting value, we can include the named argument `from` in our call to `lapply`.
+
+This forces the elements of our input vector to be used as the values for the `to` argument to `seq` , instead of as the values for `from`.
+
+```{r lapply_elipsis2}
+lapply(c(8,6), seq, from = 15) # from 15 to 8, and from 15 to 6
+```
+
+## Using an anonymous function
+Another useful way to control the arguments to your function are to supply anonymous functions as the `FUN` argument.
+
+Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared "in-line" (i.e., inside another function call), and used as "one-off" tools when you need to supply a function as a argument, but have no other use for that specific function. 
+
+Here we'll use an anonymous function to get the same results as `lapply(c(8,6), seq, from = 15)`.
+
+```{r lapply_anon}
+lapply(c(8,6), function(x) seq(from = 15, to = x)) # 6 and 8 become "x"
+```
+
+## Practical lapply
+Remember the example of using `data$X <- as.factor(data$X)` over and over again to make each column in a data frame a factor? 
+
+Because a data frame is actually a simplified "special case" of a list, we can add or overwrite columns with elements from a list, provided that list has equal-length vectors as its elements. This is going to allow use to replace that brittle code with a single expression!
+
+To see how, lets start by reading in the `marathon` dataset.
+
+```{r, sapply_tofactor, eval=FALSE}
+marathon <- read.csv("http://wjhopper.github.io/psych640/data/marathon.csv")
+```
+```{r, sapply_tofactor_real, echo = FALSE}
+marathon <- read.csv("../data/marathon.csv")
+
+```
+
+## Practical lapply
+As you may recall, the marathon dataset has the race results and demographic information about the runners in the 2009 Credit Union Cherry Blossom Ten Mile Run in Washington D.C. If we were analyzing these data, it might be useful to have our demographic variables as factors.
+
+We can convert the 8 ID variables by l-applying `factor` to each column (because the columns are the "elements" of a data frame), and overwriting those columns in the `marathon` data frame with the resulting list (which works because a data frame is secretly a list!).
+
+```{r}
+marathon[,4:11] <- lapply(marathon[,4:11], factor) # "factor" columns 4:11
+class(marathon[,6]) # Lets check on one
+```
+
+## sapply: The "Apply and Simplify" function
+The syntax and behavior of the `sapply` function is identical to the `lapply` function, except in one regard.
+
+By default, `sapply` will try to "simplify" its output, meaning that if possible, it will return its results as a vector, matrix, or array. `lapply` on the other hand, **always** returns a list.
+
+You can control how `sapply` tries to perform its simplification with the `SIMPLIFY` argument. The default is `TRUE`, to perform simplification, and it can be set to `FALSE` to disable it, or `"array"` if you want to force it the output to **not** be a vector. 
+
+## sapply: The "Apply and Simplify" function
+To see this simplification in action, contrast the following examples. We can find out what the unique values in the "city", "state", and "country" variables are, by using `sapply` to call the `unique` function on each of those columns.
+
+
+```{r}
+x <- sapply(marathon[,c("city","state","country")], unique)
+str(x) # not printing it because it's too big for a slide
+```
+
+These results have to be represented in a list because each column has a different number of unique values (1259 unique cities, 51 unique states, and 13 unique countries).
+
+## sapply: The "Apply and Simplify" function
+If all we were interesting in was finding out *how many* unique values there were in each variable, we could do the following:
+
+```{r}
+x <- sapply(X = marathon[,c("city","state","country")],
+            FUN = function(x) length(unique(x)))
+x
+```
+This time, our output is a vector.
+
+This is because calling `length(unique(x))` on each column `x` produces the same type of result each time: a single numeric value. `sapply` then assembles the results using the simplest data structure possible for combining lots of numeric values: an atomic vector!
+
+## vapply: The "Apply and Match to Template" function
+The `vapply` function is a "safe" version of `sapply` that is preferable in situations when your results **MUST** be in a specific data structure (e.g., you need to feed them into another function which only operates on vectors, or a result of more than one value can't logically occur, etc.)
+
+The `FUN.VALUE` argument to `vapply` allows you to define a "template" result, and each individual result must conform to the template or `vapply` throws an error. 
+
+This may seem like an odd features, but in many cases you can't know the results of a running function without running that function! For instance, imagine if the `marathon` dataset only had runners from one city in one state from one country. Then the results of calling `unique` on each column would have been a vector, not a list!
+
+## vapply: The "Apply and Match to Template" function
+If we wanted to enforce that the results of calling `length(unique(x))` on each element of the input **must** return a single numeric value, you would do the following:
+
+The `numeric(1)` expression is our template, and `vapply` checks to make sure each result is a numeric of length 1. 
+```{r vapply}
+x <- vapply(X = marathon[,c("city","state","country")],
+            FUN = function(x) length(unique(x)),
+            FUN.VALUE = numeric(1))
+print(x)
+```
+
+## When template matching fails
+If the result of calling `FUN` on an element of our data structure doesn't pass validation (i.e., it is not the same size and type as the template), you get an error:
+
+Here, our data structure is a list of vectors with 2 elements each, and our template specifies that the given function must return a numeric of length 1. Because our given function just returns its input (the vectors with 2 elements), this call will fail.
+
+<div class="errormsg">
+```{r vapply2, error=TRUE}
+x <- vapply(X = list(c(10, 25), c(3, 11)),
+            FUN = function(x) return(x), # just returns its input!
+            FUN.VALUE = numeric(1))
+```
+</div>
+
+## apply: "Apply to Array Dimension" function
+As was mentioned in the "notes" columns in the table about data structure elements, matrices and arrays are just vectors with a special `dim` attribute that says hows the elements should be arranged into rows, columns, pages, etc.
+
+So, we can use `lapply`/`sapply`/`vapply` to operate on each individual "cell" in matrices and arrays, just as though it were a vector without dimensionality.
+
+But in practice, we never use a matrix or array in place of a vector, but instead give the different rows and columns semantic significance (e.g., each row might represent a different subject, and the columns might be different variables measured from each subject).
+
+## apply: "Apply to Array Dimension" function
+The `apply` function (no prefix!) allows you to treat one of the dimensions in a matrix/array as defining the "elements" of the matrix or array, and apply the specified function to each unit along that dimension.
+
+You control which dimension is treated as an "element" with the `MARGIN` argument. `MARGIN = 1` means treat the rows as distinct elements, `MARGIN = 2` means treat the columns as distinct elements, and so on through more dimensions.
+
+In other words, it allows you say "Treat each row of the matrix as a different vector element, and apply this specific function to each of the rows" or "Treat each column of the matrix as a different vector element, and apply this specific function to each of the columns".
+
+## apply: The "Apply to Array Dimension" function
+For example, we could use `apply` to find the standard error of the mean for each column in a numeric matrix.
+
+```{r apply_sem}
+x <- matrix(rnorm(15), nrow = 5, dimnames = list(NULL, c("A","B","C")))
+apply(x, MARGIN = 2, FUN = function(x) sd(x)/sqrt(length(x)))
+```
+
+## apply: The "Apply to Array Dimension" function
+Or, we could use it to sort each column of the matrix from smallest to largest value.
+```{r apply_sort}
+sorted_x <- apply(x, MARGIN = 2, FUN = sort)
+sorted_x
+```
+
+## apply: The "Apply to Array Dimension" function
+However, when you apply a function to the rows of a matrix, `apply` transposes the resulting matrix.
+
+```{r wrong_row_cols}
+sorted_x <- apply(x, MARGIN = 1, FUN = sort)
+sorted_x
+```
+Though we started out with a 5 by 3 matrix, we end up with a 3 by 5 matrix after applying `sort` to each row! 
+
+## apply: The "Apply to Array Dimension" function
+Since this is probably not what you want, you'll have to transpose the output of `apply` when you treat the rows as the "elements".
+```{r transposed}
+t(sorted_x)
+```
+
+## Summary
+`lapply` applies the given function to each element in a data structure, and returns a list.
+```{r lapply_summary}
+data <- list(A = c(5,1,10), B = c(11,8,3))
+lapply(X = data, FUN = mean)
+```
+
+`sapply` applies the given function to each element in a data structure, and returns the simplest possible data structure.
+```{r sapply_summary}
+sapply(X = data, FUN = mean) # same input, but vector output
+```
+
+## Summary
+`vapply` applies the given function to each element in a data structure, and returns the simplest possible data structure. Additionally, each individual result must match a given output template.
+```{r vapply_summary, error=TRUE}
+data <- list(A = c(5,1,10), B = c(11,8,3))
+vapply(X = data, FUN = mean, FUN.VALUE = numeric(1))
+```
+
+`apply` applies the given function along a specific dimension (e.g., rows or columns) of a matrix, array, or data frame, and returns the simplest possible data structure.
+```{r apply_summary}
+data <- matrix(c(5,1,10,11,8,3), ncol = 2)
+apply(data, MARGIN = 2, FUN = mean)
+```
+
+## Activities 
+
+1. Using `sapply`, find the median value of the `time` and `netTime` variables in the `marathon` data frame, as both a list, and a vector.
+2. Find the minimum and maximum value value in each column of the matrix `x`.
+3. Execute the following expressions, which will write several .csv's to a temp folder.
+```{r write, results='hide'}
+tmp <- tempdir()
+sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
+                file = file.path(tmp, paste0("FakeSubject", x, ".csv")),
+                row.names = FALSE))
+filenames <- list.files(path = tmp, pattern = "FakeSubject[0-9]+.csv",
+                        full.names = TRUE)
+```
+
+Given the vector `filenames`, read each csv into R and take the mean of each variable `A` and `B` using only `read.csv`, `*apply` functions, and any anonymous functions you write.
+
+```{r solutions, include = FALSE, eval = FALSE}
+library(magrittr)
+sapply(marathon[,1:2], median, simplify = TRUE)
+sapply(marathon[,1:2], median, simplify = FALSE)
+apply(x, 2, function(x) c(min(x), max(x)))
+lapply(filenames, read.csv) %>% sapply(function(x) data.frame(A = mean(x$A), B = mean(x$B)))
+```
+
+
+# Advanced Extras
+
+## Evaluating Expressions
+What does it mean to say our programs evaluating expressions that do *not* have side effects or change global state?
+
+Well, lets run the following code and describe what happens:
+```{r functional}
+1
+x <- 1
+x + 1
+x + 1
+```
+
+## No Side Effects
+```{r ref.label="functional", echo = 1, eval = 1}
+```
+When we run the expression `1`, we the number `1`  gets printed to the console. And nothing else. 
+
+Nothing about our global environment changes; we have to explicitly ask for an variable assignment with `<-`.
+
+## No Side Effects
+```{r ref.label="functional",  echo = -1, eval = -1}
+```
+When we assign `x` to be `1`, and then add `1` to `x`, we get the same thing both times we do the addition; the value of `x` is unchanged by adding 1. 
+
+In other words, executing the expression `x + 1` has no effect on our environment. We have to **explicitly** ask to make a new variable, or change the value of `x`.

@@ -1,0 +1,172 @@
+table.rmdtable td, table.rmdtable th {
+  padding: .25em;
+}
+
+#values td {
+  border: 3px #288E26 solid;
+}
+
+#variables table.rmdtable {
+  border-collapse: separate;
+  border-spacing: 2px 0;
+}
+
+#variables td, #variables th{
+  border-right: 3px #D5252D solid;  
+  border-left: 3px #D5252D solid;
+}
+
+#variables th{
+  border-top: 3px #D5252D solid;  
+}
+
+#variables tr:last-child td {
+  border-bottom: 3px #D5252D solid;  
+}
+
+#observations table.rmdtable {
+  border-collapse: separate;
+  border-spacing: 0 2px;
+}
+
+#observations td {
+  border-top: 3px #B825D5 solid;  
+  border-bottom: 3px #B825D5 solid;
+  
+}
+
+#observations table td:last-child {
+ border-right: 3px #B825D5 solid;
+}
+
+#observations table td:first-child {
+ border-left: 3px #B825D5 solid;
+}
+
+#long td, #haresData td {
+  font-size: 14px;
+}
+
+#wide table.rmdtable { 
+   max-width: 40%;
+   margin: 15px auto;
+}
+
+#VarTypes table.rmdtable {
+  border-collapse: separate;
+  border-spacing: 2px 0;
+}
+
+#VarTypes td { 
+  font-size: 14px;
+}
+
+#VarTypes table td:nth-child(1), #VarTypes table td:nth-child(2), #VarTypes table th:nth-child(1), #VarTypes table th:nth-child(2)  {
+  border-left: 3px #D5252D solid;
+  border-right: 3px #D5252D solid;
+}
+
+#VarTypes table td:nth-child(1), #VarTypes table td:nth-child(2), #VarTypes table th:nth-child(1), #VarTypes table th:nth-child(2)  {
+  border-left: 3px #D5252D solid;
+  border-right: 3px #D5252D solid;
+}
+
+#VarTypes tr:last-child td:nth-child(1), #VarTypes  tr:last-child td:nth-child(2) {
+  border-bottom: 3px #D5252D solid;  
+}
+
+#VarTypes tr:first-child th:nth-child(1), #VarTypes tr:first-child th:nth-child(2) {
+  border-top: 3px #D5252D solid;  
+}
+
+#VarTypes table td:nth-child(1), #VarTypes table td:nth-child(2), #VarTypes table th:nth-child(1), #VarTypes  th:nth-child(2)  {
+  border-left: 3px #D5252D solid;
+  border-right: 3px #D5252D solid;
+}
+
+#VarTypes table td:nth-child(3), #VarTypes table th:nth-child(3) {
+  border-left: 3px #E4B500 solid;
+  border-right: 3px #E4B500 solid;
+}
+
+#VarTypes tr:last-child td:nth-child(3) {
+  border-bottom: 3px #E4B500 solid;  
+}
+
+#VarTypes tr:first-child th:nth-child(3) {
+  border-top: 3px #E4B500 solid;  
+}
+
+caption { 
+  font-weight: bold;
+}
+
+table:nth-child(2) caption {
+  margin-top:10px;
+}
+
+.memory table.rmdtable td {
+  font-size: 14px;
+}
+
+.memory table.rmdtable caption {
+  font-size: 12px;
+}
+
+/* AGGREGATE */
+#agg table.rmdtable {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+#agg table.rmdtable caption {
+  font-size: 14px;
+}
+
+#agg table.rmdtable:last-child  td {
+  font-size: 23px;
+}
+
+/* Group 1, Table 1*/
+#agg table.rmdtable:first-child tr:nth-child(2) td {
+  border-top: 3px #B825D5 solid;
+}
+
+#agg table.rmdtable:first-child tr:nth-child(3) td {
+  border-bottom: 3px #B825D5 solid;
+}
+
+#agg table.rmdtable:first-child tr:nth-child(2) td:first-child, #agg table.rmdtable:first-child tr:nth-child(3) td:first-child{
+  border-left: 3px #B825D5 solid;    
+}
+
+#agg table.rmdtable:first-child tr:nth-child(2) td:last-child, #agg table.rmdtable:first-child tr:nth-child(3) td:last-child{
+  border-right: 3px #B825D5 solid;
+}
+
+/* Group 2, Table 1*/
+#agg table.rmdtable:first-child tr:nth-child(4) td {
+  border-top: 3px #288E26 solid;
+}
+
+#agg table.rmdtable:first-child tr:nth-child(5) td {
+  border-bottom: 3px #288E26 solid;
+}
+
+#agg table.rmdtable:first-child tr:nth-child(4) td:first-child, #agg table.rmdtable:first-child tr:nth-child(5) td:first-child{
+  border-left: 3px #288E26 solid;    
+}
+
+#agg table.rmdtable:first-child tr:nth-child(4) td:last-child, #agg table.rmdtable:first-child tr:nth-child(5) td:last-child{
+  border-right: 3px #288E26 solid;
+}
+/* Group 1, Table 2*/
+#agg table.rmdtable:last-child tr:nth-child(2) td:nth-child(2) {
+  border: 3px #B825D5 solid;
+}
+
+/* Group 2, Table 2*/
+#agg table.rmdtable:last-child tr:nth-child(2) td:nth-child(3) {
+  border: 3px #288E26 solid;
+}
+

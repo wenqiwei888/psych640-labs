@@ -1,0 +1,233 @@
+---
+title: "Manipulating Data Part 1: The Data Awakens"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+```
+
+
+## Indexing 
+
+All throughout your data analysis pipeline, you will face the need to take smaller chunks out of a larger data structure. Sometimes you will need to change the data that is stored in your structure, or use it as input to another function, or perhaps you need to plot it. 
+
+The task of slicing a smaller chunk out of a larger data structure is called **indexing** in R (sometimes called **subsetting** depending on context), and is performed using the square bracket characters `[]`. 
+
+## Indexing 'Ingredients'
+
+Indexing a data structure in R requires 4 ingredients. 
+
+1. An R object that supports indexing 
+    + e.g. A data frame, matrix, vector or list
+2. An opening square bracket `[`
+3. 1 (or more) vectors which indicate which values from the larger data structure should be pulled out. 
+4. a closing squre bracket `]`
+
+Arrange the ingredients in an R expression like so:
+
+`DataStructure[IndexVector]`
+
+We will focus on learning what can go inside the square brackets for different types of R data structures
+
+## Indexing Vectors
+
+Broadly, there are 2 types of indexing vectors that can be put inside the square brackets. 
+
+1. Numeric Vectors
+    + e.g. `c(1,4,5,6,10)`
+2. Logical Vectors 
+    + e.g. `c(TRUE,FALSE,FALSE,TRUE)`
+    
+We'll start with numeric indexing vectors to get a feel for the general procedure, and move up to logical indexing.
+
+## Numeric Index Vectors 
+Lets start with a large vector and break it down. The numeric vectors inside the brackets tell R the positions of the elements we wish to extract.
+```{r large_and_smaller}
+alphabet <- c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
+              "p","q","r","s","t","u","v","w","x","y","z") 
+alphabet[c(1,26)] # Extract First and 26th element
+alphabet[10:20] # Extract tenth through 20th
+alphabet[seq(from=1,to=26,by=2)] # Extract every other element
+```
+
+## Common Errors with Numeric Indices
+The most common mistake is including a value in your indexing vector which is greater than the length of the vector you are subsetting
+```{r outofbounds, error=TRUE}
+alphabet[100] # there are not 100 letters in the alphabet
+```
+The `NA` means the value is missing. This is commonly referred to as an "index out of bounds" error.
+
+Another common mistake is forgetting to concatenate the values you want to slice out into a vector (i.e. forgetting the `c()` function)
+<div class = "errormsg">
+```{r no-c, error=TRUE}
+alphabet[1,5,10]
+```
+</div>
+
+## Indexing Tricks
+
+Instead of creating a vector of values you *do* want to pick out, it may be easier to come up with a vector of ones you *don't* want. We can use negative number's to specify which vector elements we don't want. 
+
+```{r negatives}
+alphabet[c(-1,-26)] # Same as alphabet[2:24]
+alphabet[-1:-10]
+```
+Indexing with positive vectors is usually prefered, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)
+
+## Activity
+Execute the following code and look at the values in `months`:
+```{r example1}
+months <- c("January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December")
+months
+```
+
+Now, do the following:
+
+1. Index `months` to pull out `"February"` and `"March"`
+2. Index months to pull out third month
+
+## Logical Indexing
+
+You can perform indexing with logical vectors in the same fashion as numeric indexing - just make a vector of logicals and stick it in the square brackets after your vector. 
+
+But this is not a good use case for logical vectors. Why?
+
+1. Longer Code: length of the logical vector must match the length of the object its subsetting.
+2. Duplicating work: If you already know the position of the elements you want, just put them into a vector and you're done!
+
+The logical vector's utility comes into play when you *don't* know the numeric positions of the elements you are interested in.
+
+## Logical Indexing
+
+"But wait" you say: "If we don't know where they are already, how are we going to find them?". This brings us to **logical testing** and **relational operators**
+
+Relational operators are R expressions that can be used to test whether or not some value meets a condition or not. If it meets your test's conditions, the test returns `TRUE`. If it does not, it returns `FALSE`. 
+
+You already know lots of relational operators. The equal to, greater than and less than expressions from 3rd grade math are all relational operators!
+
+## Relational Operators Table
+
+Comparison | Expression | Example
+---------- | ---------- | -------
+Less Than | `<` | `5 < 10`, `5 < 1`
+Less Than or Equal To | `<=` | `5 <= 5`, `5 <= 1`
+Greater Than | `>` | `10 > 5`, `5 > 5`
+Greater Than or Equal To | `>=` | `10 >= 10`, `10 >= 12`
+Equal To | `==` | `5 == 6`, `5 == 5`
+Not equal to | `!=` | `5 != 6`, `5 != 5`
+
+## Relational Operators & Indexing
+What makes relational operators useful is that they can be applied to all the elements of a data structure simultaneously. 
+```{r sometest}
+x <- 2:11
+x <= 5 # Apply the less than or equals test
+```
+As you can see, values that meet the criteria (<= 5) return as `TRUE`. 
+```{r sometest_pt2}
+x[x <= 5] # Index vector x with the results of the test. 
+```
+When this logical vector is used to index the vector `x`, only the elements where the logical vector has value `TRUE` are returned.
+
+## Relational Operators & Indexing
+We index character vectors using the `==` and `!=` operators, but not the greater/less than operators. Quantity makes no sense for characters!
+```{r charTesting}
+months == "June" # The sixth element is TRUE
+months[months == "June"]
+months[months != "July"]
+```
+
+## Other Useful Tests: `is.na()`
+Unfortunately, we often have to deal with missing observations in real world data sets. R codes missing data as `NA` (or sometimes `NaN`). We can use the `is.na()` function to find any missing values in a vector. 
+```{r isna}
+missingno <- c(10,NA,1,4,2,NA,NA,99,NaN, NA)
+is.na(missingno)
+missingno[!is.na(missingno)] # Select things that are the opposite of missing
+```
+
+## Other Useful Tests: modulus division
+An important arithmetic operator that was not mentioned last week
+is the modulus operator `%%`, which gives us the remainder of division.  For example:
+`5 %% 3` is `2`.
+
+```{r lisa}
+lisa <- c(1,34,5,63,209,11,17,998,78,3330)
+lisa %% 17 == 0
+lisa[lisa %% 17 == 0]
+```
+This returns all the values of the vector called `lisa` that are multiples of 17, since multiples of 17 will have a remainder of zero.
+
+## Tips and Tricks
+A useful function to know is `which()`. When used on a logical vector, it will return to your the position indices of the vector's `TRUE` element. It is useful when you want to know **where** in the vector your matches occur. 
+```{r which}
+lisa %% 17 == 0
+which(lisa %% 17 == 0)
+```
+
+## Activity 
+Write an expression using logical testing and indexing that, when applied to the vector `dummy`, returns the same output as the numeric indexing example shown below. 
+```{r indexingActivity}
+dummy <- 17:23
+dummy[5:7]
+```
+
+```{r indexingActivity_answer,include=FALSE}
+dummy[dummy >= 21]
+```
+## Testing Multiple Conditions 
+Sometimes you need to test multiple conditions, for example, perhaps you need to pick only values within a certain range to exclude some outliers. This neccesitates that we combine multiple logical tests in order to pull out only values that meet at least one or all of our requirements.
+
+Luckily, we have logical operators around to help use chain our comparisons together! The logical operations we have at our disposal are: 
+
+- AND: **Both** Conditions must be met to return TRUE
+- OR: **Either** condition can be met to return TRUE
+- negation: Reverse the current logical (TRUE becomes FALSE)
+
+## Logical Operators 
+Logic | Expression | Example | Result
+----- | ---------- | ------- | ------
+Elementwise AND | `&` | `c(1,3) > 0 & c(1,3) <=2` |`r c(1,3) > 0 & c(1,3) <=2` 
+Scalar AND | `&&` | `3 > 0 & 3 <=2` | `r 3 > 0 & 3 <=2`
+Elementwise OR | **`|`** | `c(1,3) > 0 | c(1,3) <=2` | `r c(1,3) > 0 | c(1,3) <=2` 
+Scalar OR | **`||`** |` 3 > 0 | 3 <=2` | `r 3 > 0 | 3 <=2`
+Negate | `!` | `!(3 > 0)` | `r !(3 > 0)`
+
+## Indexing with Multiple Conditions 
+Lets bring back our old friend `lisa` to try out some examples of multiple conditionals.
+```{r lisa_or}
+lisa[lisa < 500 | lisa > 1000]
+```
+The logical tests inside the brackets test to see whether each number in `lisa` is less than 500 **OR** greater than or equal to 998.`lisa` has more than one element,so we use a single **`|`**. 
+
+This produces a logical vector with `TRUE` in the position of items that meet the test criteria, and a `FALSE` in the position of items that don't. 
+
+Then, the square brackets subset `lisa` using this logical vector, returning the values where it is `TRUE`.
+
+## Indexing with Multiple Conditions 
+```{r lisa_and}
+lisa[lisa < 100 & lisa >= 10]
+```
+This test selects for 2-digit numbers - those between 10 and 100. For the test to return `TRUE`, it must be both greater than or equal to 10, **AND** less than 100. 
+
+## Indexing with Multiple Conditions 
+```{r lisa_nothing}
+lisa[lisa < 500 & lisa >= 998]
+```
+When you index any structure in R with a vector of all `FALSE`s, you get back `numeric(0)` which means "nothing to see here!"
+
+So why does this test and subset return nothing? Because no number can be less than 500 and greater than 998, so every test comes back `FALSE`, and all elements are ignored in the subset.
+
+## Exercise
+1. Use R to find all the numbers between 1 and 10,000 that are multiples of 2 or multiples of 3. How many are there?
+```{r exercise_ans1,include=FALSE}
+numbers <- 1:10000
+multiples <- numbers %% 2 ==0 | numbers %% 3 ==0
+sum(multiples)
+```
+2. Use R to find all the numbers between 1 and 10,000 that are multiples of both 2 and 3. How many are there?
+```{r exercise_ans2,include=FALSE}
+multiples <- numbers %% 2 ==0 & numbers %% 3 ==0
+sum(multiples)
+```

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Types and Structures In R</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Data Types and Structures In R',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>What is a data type?</h2></hgroup><article  id="what-is-a-data-type">
+
+<ul>
+<li>A data type is defined by how your computer represents the data in memory and by the types of operations that can be performed on them.</li>
+<li>R uses many different data types, but the most important to learn are <strong>integer, double, character</strong>, and <strong>logical</strong></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Integers &amp; Doubles</h2></hgroup><article  id="integers-doubles">
+
+<ul>
+<li>Just as in mathematics, the <strong>integer</strong> data type can only represent whole numbers
+
+<ul>
+<li>e.g. 6</li>
+</ul></li>
+<li>The <strong>double</strong> data type is used to represent <a href='https://en.wikipedia.org/wiki/Rational_number' title=''>rational numbers</a> with a fractional component.
+
+<ul>
+<li>e.g. 6.66666667</li>
+</ul></li>
+<li>However, the <strong>double</strong> data type is not perfectly precise, and those with a long decimal component must be approximated.</li>
+<li>By default, R uses the <strong>double</strong> data type to represent the numbers you feed into it</li>
+<li>I will often refer to doubles and integers together as &quot;numeric&quot; data types.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Character</h2></hgroup><article  id="character">
+
+<ul>
+<li>The <strong>character</strong> data type is used for representing textual data</li>
+<li>To encode a string of text as character data in R, it must be wrapped in quotes (&quot; &quot; or &#39; &#39; are both acceptable)</li>
+<li>Without the quotes, R will interpret the text as the name of an R object, and attempt to find that object and return its value. Missing quotes is a common source of &quot;object not found&quot; errors</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>a &lt;- &quot;foobar&quot;
+a</pre>
+
+<pre >## [1] &quot;foobar&quot;</pre>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>a &lt;- foobar </pre>
+
+<pre >## Error in eval(expr, envir, enclos): object &#39;foobar&#39; not found</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>Numbers as Numerics vs. Numbers as Characters</h2></hgroup><article  id="numbers-as-numerics-vs.-numbers-as-characters">
+
+<ul>
+<li>4.2 can be represented in R as both a character and a double. But, only in one case can mathematical operations be performed on them.</li>
+</ul>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>&quot;4.2&quot; + 1</pre>
+
+<pre >## Error in &quot;4.2&quot; + 1: non-numeric argument to binary operator</pre></div>
+
+<pre class = 'prettyprint lang-r'>4.2 + 1</pre>
+
+<pre >## [1] 5.2</pre>
+
+<p>This illustrates that practical differences between data types we care about are that some types do not support some operations (e.g. characters do not support math)</p>
+
+</article></slide><slide class=''><hgroup><h2>Logical</h2></hgroup><article  id="logical">
+
+<ul>
+<li>Logical data can only take on 2 possible values: 1 (<code>TRUE</code>) or 0 (<code>FALSE</code>)</li>
+<li>This type of datum is used to represent whether some state exists (is true) or does not exist (is false)</li>
+<li><code>TRUE</code> and <code>FALSE</code> <em>must</em> be uppercased
+
+<ul>
+<li>can be abbreviated as <code>T</code> and <code>F</code>, but it is not recommended</li>
+<li><code>T</code> and <code>F</code> can be over-written (e.g. <code>T &lt;- 2</code>)</li>
+<li>But <code>TRUE</code> and <code>FALSE</code> are special and can never be overwritten</li>
+</ul></li>
+<li>This type of data will be more useful when we learn about data manipulation and program control flow.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Checking Data Types</h2></hgroup><article  id="checking-data-types">
+
+<p>You can use the <code>typeof</code> function to see what data type an object holds.</p>
+
+<pre class = 'prettyprint lang-r'>typeof(2)</pre>
+
+<pre >## [1] &quot;double&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(2L) # L at the end makes an integer</pre>
+
+<pre >## [1] &quot;integer&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(as.integer(2)) # Same as L suffix</pre>
+
+<pre >## [1] &quot;integer&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(&quot;herp&quot;)</pre>
+
+<pre >## [1] &quot;character&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(FALSE)</pre>
+
+<pre >## [1] &quot;logical&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
+
+<p>Of course, it is helpful in a language focused on analysing large data sets to have data structures capable of holding more than a single value.</p>
+
+<p>Think of data structures in R as big containers used for grouping together many values. After storing your data in these containers, you can reuse it multiple places (e.g. create an R object to store it) or access different subsets of it by postion or name.</p>
+
+In this course, we will primarily be working with 4 different types of data structures:
+
+<style>
+.dslist li {
+    float:left;
+    margin: 0 25px 0px 5px;
+    padding: 15px 15px 0px 0px;    
+}
+</style>
+
+<ol>
+<li>Vectors</li>
+<li>Matrices</li>
+<li>Data Frames</li>
+<li>Lists</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors">
+
+<p>Vectors are 1 dimensional data structures which can hold numeric, logical, and character data. The different values themselves in the vector are referred to as <em>elements</em>, and vectors have a <em>length</em> equal to the number of elements it contains.</p>
+
+<p>Vectors are the most basic data structures in R. In fact, all the scalar values we have worked with so far are represented internally by R as stored in vectors of length 1!!</p>
+
+</article></slide><slide class=''><hgroup><h2>Creating a vector</h2></hgroup><article  id="creating-a-vector">
+
+<p>Vectors, no matter what type of data they hold, can be created by using the <code>c()</code> function in R, short for <em>concatenate</em>. Just separate each value you want to be in the vector inside the parenthesis, separated with a comma.</p>
+
+<pre class = 'prettyprint lang-r'>new_vector &lt;- c(1,10,45,-1)
+char_vector &lt;- c(&quot;foo&quot;,&quot;bar&quot;,&quot;herp&quot;,&quot;derp&quot;)</pre>
+
+<p><code>c()</code> can combine vectors stored as R objects in environment, not just create new one</p>
+
+<pre class = 'prettyprint lang-r'>c(new_vector,c(1,2,3,4,5))</pre>
+
+<pre >## [1]  1 10 45 -1  1  2  3  4  5</pre>
+
+</article></slide><slide class=''><hgroup><h2>Vector Tricks</h2></hgroup><article  id="vector-tricks">
+
+<p>You can create a sequential numeric vector using the colon operator <code>:</code>, instead of typing out hundreds or thousands of values by hand.</p>
+
+<pre class = 'prettyprint lang-r'>55:100</pre>
+
+<pre >##  [1]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71
+## [18]  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88
+## [35]  89  90  91  92  93  94  95  96  97  98  99 100</pre>
+
+<p>Sequences of other step sizes can be made with the <code>seq()</code> function</p>
+
+<pre class = 'prettyprint lang-r'>seq(from = 5, to = 22, by = 3)</pre>
+
+<pre >## [1]  5  8 11 14 17 20</pre>
+
+</article></slide><slide class=''><hgroup><h2>Element-wise Math operations</h2></hgroup><article  id="element-wise-math-operations">
+
+<p>You can apply the math opertators we used in the first class to vectors as well. When you add, divide, etc. vectors, R matches them up by postition and applies the operation to each pair of elements.</p>
+
+<pre class = 'prettyprint lang-r'>vec1 &lt;- c(5,-1,100,75)
+vec2 &lt;- c(10,3,4,-4)
+vec2 + vec1</pre>
+
+<pre >## [1]  15   2 104  71</pre>
+
+<pre class = 'prettyprint lang-r'>vec2 * vec1</pre>
+
+<pre >## [1]   50   -3  400 -300</pre>
+
+<p>So, the first element of <code>vec1</code> gets added to the first element of <code>vec2</code>, etc&#8230;</p>
+
+</article></slide><slide class=''><hgroup><h2>Summarizing Vectors</h2></hgroup><article  id="summarizing-vectors">
+
+<p>Often it is useful to summarise a vector with a single number, and many common statistical operations in R are implemented as function that take vector input.</p>
+
+<pre class = 'prettyprint lang-r'>mean(55:100) # can use : operator inline</pre>
+
+<pre >## [1] 77.5</pre>
+
+<pre class = 'prettyprint lang-r'>sd(55:100) # standard deviation</pre>
+
+<pre >## [1] 13.42262</pre>
+
+<pre class = 'prettyprint lang-r'>sum(55:100) # I&#39;ll bet you can guess...</pre>
+
+<pre >## [1] 3565</pre>
+
+<p>See more examples in Andrew&#39;s Chapter 2 R file.</p>
+
+</article></slide><slide class=''><hgroup><h2>Inspecting Vectors</h2></hgroup><article  id="inspecting-vectors">
+
+<p>We can check what type of data our vectors hold with the <code>typeof</code> function, just like we did with single numbers</p>
+
+<pre class = 'prettyprint lang-r'>typeof(c(5.5,3.1,4))</pre>
+
+<pre >## [1] &quot;double&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(c(TRUE,TRUE,FALSE))</pre>
+
+<pre >## [1] &quot;logical&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(c(5L,10L,-1L))</pre>
+
+<pre >## [1] &quot;integer&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>typeof(c(&quot;hi&quot;,&quot;class&quot;))</pre>
+
+<pre >## [1] &quot;character&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<ol>
+<li>Try to create a vector that uses all the 4 basic data types. What type of data is stored in the resulting vector?</li>
+<li>Take <code>vec1</code> and <code>vec2</code> you created earlier and concatenate them together, and find the grand sum.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Matrices</h2></hgroup><article  id="matrices">
+
+<p>Matrices in R are the same as matrices from linear algebra, with the notable difference of being able to hold non-numeric types of data. They are a rectangular 2D data structure, meaning that the number of elements in the matrix must be equal to the product of the number of rows and the number of columns.</p>
+
+<ul>
+<li>rows = dimension 1</li>
+<li>columns = dimension 2</li>
+</ul>
+
+<p>Do note that data types may not be mixed in a matrix (e.g. cannot have some elements be characters and other be numeric, etc.)</p>
+
+</article></slide><slide class=''><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices">
+
+<p>A matrix can be created by feeding a vector into the <code>matrix()</code> function, and specifying either the number of rows <em>or</em> number of columns, <em>or</em> both.</p>
+
+<pre class = 'prettyprint lang-r'>wide &lt;- matrix(c(1:3,99:101),ncol=3)
+wide</pre>
+
+<pre >##      [,1] [,2] [,3]
+## [1,]    1    3  100
+## [2,]    2   99  101</pre>
+
+<pre class = 'prettyprint lang-r'>long &lt;- matrix(c(1:3,99:101),nrow=3)
+long</pre>
+
+<pre >##      [,1] [,2]
+## [1,]    1   99
+## [2,]    2  100
+## [3,]    3  101</pre>
+
+</article></slide><slide class=''><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices-1">
+
+<p>If you want a large matrix but with only a few unique values, take advantage of R&#39;s ability to <strong>recycle</strong> input.</p>
+
+<pre class = 'prettyprint lang-r'>matrix(c(4),nrow=3,ncol=10)</pre>
+
+<pre >##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+## [1,]    4    4    4    4    4    4    4    4    4     4
+## [2,]    4    4    4    4    4    4    4    4    4     4
+## [3,]    4    4    4    4    4    4    4    4    4     4</pre>
+
+<p>Note the matrix is filled up by column (i.e. first element goes to row 1 column 1, second element goes to row 2, column 1, etc.)</p>
+
+<pre class = 'prettyprint lang-r'>matrix(c(4,0),nrow=2,ncol=10)</pre>
+
+<pre >##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+## [1,]    4    4    4    4    4    4    4    4    4     4
+## [2,]    0    0    0    0    0    0    0    0    0     0</pre>
+
+</article></slide><slide class=''><hgroup><h2>Matrix Operations</h2></hgroup><article  id="matrix-operations">
+
+<p>You can inspect the dimensionality of a matrix (or any R object) with the <code>dim</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>dim(long) # 3 by 2</pre>
+
+<pre >## [1] 3 2</pre>
+
+<pre class = 'prettyprint lang-r'>dim(wide) # 2 by 3</pre>
+
+<pre >## [1] 2 3</pre>
+
+<p>You can get the total number of elements in the matrix by multiplying these numbers</p>
+
+<pre class = 'prettyprint lang-r'>prod(dim(wide))</pre>
+
+<pre >## [1] 6</pre>
+
+</article></slide><slide class=''><hgroup><h2>Matrix Math</h2></hgroup><article  id="matrix-math">
+
+<p>When doing math on matrices with the <code>+</code>, <code>*</code>, <code>/</code> or <code>-</code> operators, R will by default applies the operations element-wise. But you can do matrix multiplication from linear algebra with the <code>%*%</code> operator.</p>
+
+<pre class = 'prettyprint lang-r'>long %*% wide</pre>
+
+<pre >##      [,1]  [,2]  [,3]
+## [1,]  199  9804 10099
+## [2,]  202  9906 10300
+## [3,]  205 10008 10501</pre>
+
+</article></slide><slide class=''><hgroup><h2>Matrix Indexing</h2></hgroup><article  id="matrix-indexing">
+
+<p>The elements of a matrix can be individually accessed via indexing with the <code>[</code> operator. The <code>[</code> operator is combined with a (row,column) subscript or a linear position index.</p>
+
+<pre class = 'prettyprint lang-r'>long[1,2] </pre>
+
+<pre >## [1] 99</pre>
+
+<pre class = 'prettyprint lang-r'>long[3,] </pre>
+
+<pre >## [1]   3 101</pre>
+
+<pre class = 'prettyprint lang-r'>wide[,2]</pre>
+
+<pre >## [1]  3 99</pre>
+
+<pre class = 'prettyprint lang-r'>wide[5]</pre>
+
+<pre >## [1] 100</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+
+<p>Try creating a matrix with 900 elements and 9 columns that contains only logical <code>TRUE</code>s. Confirm the dimensionality using R.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
+
+<p>Data Frames are similar to matrices, in that they are 2D rectangular structures, but are more flexible because they allow for mixed data types. A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables.</p>
+
+<p>Data frames also support a more powerful syntax for subsetting and combining data than matrices, making them a prefered data structure in many instances where explicit matrix algebra is not required.</p>
+
+</article></slide><slide class=''><hgroup><h2>Creating Data Frames</h2></hgroup><article  id="creating-data-frames">
+
+<p>Data frames can be created by passing <code>name = value</code> pairs to the <code>data.frame()</code> function. The values should be vectors (of any type) and the names should be unquoted character strings, which will be used to name the columns of the data frame. Using numeric values to name the columns (e.g. 1) is possible, but discouraged.</p>
+
+<pre class = 'prettyprint lang-r'>df &lt;- data.frame(x=c(1,4,4,2), y=c(3,3,1,4),
+                 month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Jan&quot;))
+df</pre>
+
+<pre >##   x y month
+## 1 1 3   Sep
+## 2 4 3   Oct
+## 3 4 1   Nov
+## 4 2 4   Jan</pre>
+
+</article></slide><slide class=''><hgroup><h2>Data Frame Indexing</h2></hgroup><article  id="data-frame-indexing">
+
+<p>A useful feature of data frames is the ability to access the vectors you stored in it, using the name from the <code>name=value</code> pair you used at creation, and the <code>$</code> operator.</p>
+
+<pre class = 'prettyprint lang-r'>df$month # Quotes around month are OK, but not needed</pre>
+
+<pre >## [1] &quot;Sep&quot; &quot;Oct&quot; &quot;Nov&quot; &quot;Jan&quot;</pre>
+
+<p>More than 1 name doesn&#39;t work here though. We&#39;ll see a way to get more than 1 column next wek</p>
+
+</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames">
+
+<p>Columns can be added with the <code>cbind</code> function (short for column bind)</p>
+
+<pre class = 'prettyprint lang-r'>cbind(df, age = c(21,29,31,40))</pre>
+
+<pre >##   x y month age
+## 1 1 3   Sep  21
+## 2 4 3   Oct  29
+## 3 4 1   Nov  31
+## 4 2 4   Jan  40</pre>
+
+</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames-1">
+
+<p>You can add new columns to a data frame &quot;on the fly&quot; with the <code>$</code> operator</p>
+
+<pre class = 'prettyprint lang-r'>df$age &lt;- c(21,29,31,40)
+df</pre>
+
+<pre >##   x y month age
+## 1 1 3   Sep  21
+## 2 4 3   Oct  29
+## 3 4 1   Nov  31
+## 4 2 4   Jan  40</pre>
+
+<p>But unlike with the <code>cbind</code> example, we did assigmnet here, so the column got added instead of jsut printed.</p>
+
+</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames-2">
+
+<p>Rows can be added with rbind (guess what thats short for&#8230;)</p>
+
+<pre class = 'prettyprint lang-r'>rbind(df, c(5,1,&quot;Mar&quot;,10)) # Vector length equals number of columns in df</pre>
+
+<pre >##   x y month age
+## 1 1 3   Sep  21
+## 2 4 3   Oct  29
+## 3 4 1   Nov  31
+## 4 2 4   Jan  40
+## 5 5 1   Mar  10</pre>
+
+<p>But be careful, this can change the type of data held in the data frame. Its safer to make a new data frame, and then <code>rbind</code> those together.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Frame Indexing</h2></hgroup><article  id="data-frame-indexing-1">
+
+<p>Data Frames can also be indexed with <code>[</code> like a matrix.</p>
+
+<pre class = 'prettyprint lang-r'>df[1,] # Still A data frame</pre>
+
+<pre >##   x y month age
+## 1 1 3   Sep  21</pre>
+
+<pre class = 'prettyprint lang-r'>df[,3] # A vector, like when using $</pre>
+
+<pre >## [1] &quot;Sep&quot; &quot;Oct&quot; &quot;Nov&quot; &quot;Jan&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps" class="smaller">
+
+<p>Data Frames can also recycle input, so if you have a column that has only a few unique values that repeat over and over, you can save some keystroke.</p>
+
+<pre class = 'prettyprint lang-r'>data.frame(x=c(1,4,4,2),y=c(3,3,1,4),month=&quot;Sep&quot;)</pre>
+
+<pre >##   x y month
+## 1 1 3   Sep
+## 2 4 3   Sep
+## 3 4 1   Sep
+## 4 2 4   Sep</pre>
+
+<p>But be careful, <code>data.frame()</code> will throw an error if the length of your longer vector is not a multiple of your shorter vector&#39;s lengths.</p>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'># length of month is 3, which is not a factor of length of x or y
+data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
+           month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;)) </pre>
+
+<pre >## Error in data.frame(x = c(1, 4, 4, 2), y = c(3, 3, 1, 4), month = c(&quot;Sep&quot;, : arguments imply differing number of rows: 4, 3</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
+
+<p>Create a data frame that has:</p>
+
+<ol>
+<li>Rows for you and your neighbor</li>
+<li>Columns to hold your first names, last names, birthday, and age.</li>
+<li>Add a new row for your imaginary best friend.</li>
+</ol>
+
+<p>Note: If you get some errors about &quot;Invalid Factor Levels generated&quot;, run this command <code>options(stringsAsFactors =FALSE)</code> and start over.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Lists</h2></hgroup><article  id="lists">
+
+</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists-1">
+
+<p>Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn&#39;t impose any relationship between them. You can have a list holding matrices, data frames, vectors, and even other lists!</p>
+
+</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists-2">
+
+<p>Think of them almost like a directory on your hard drive. You can stuff any kind of file you like in there and give it a name, but there is no relationship between them inside that folder, other than the order they are sorted in.</p>
+
+<p>Anytime you need to hold disparate types of data together, use a list. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with</p>
+
+</article></slide><slide class=''><hgroup><h2>Creating Lists</h2></hgroup><article  id="creating-lists">
+
+<p>As you might have guessed, you can create lists of your own with the <code>lists()</code> function. Like the <code>data.frame()</code> function, you pass in name=value pairs. But now, the values can be any R object, not just vectors.</p>
+
+<pre class = 'prettyprint lang-r'>biglist &lt;- list(first = new_vector, second = wide)
+biglist</pre>
+
+<pre >## $first
+## [1]  1 10 45 -1
+## 
+## $second
+##      [,1] [,2] [,3]
+## [1,]    1    3  100
+## [2,]    2   99  101</pre>
+
+</article></slide><slide class=''><hgroup><h2>Indexing Lists</h2></hgroup><article  id="indexing-lists">
+
+<p>Like data frames, lists can be indexed with <code>$</code>. But, <code>$</code> only works if the list items have names.</p>
+
+<pre class = 'prettyprint lang-r'>biglist$first</pre>
+
+<pre >## [1]  1 10 45 -1</pre>
+
+<p>You can use <code>[</code> with a numeric position index also, but its trickier - we&#39;ll talk about it next time</p>
+
+</article></slide><slide class=''><hgroup><h2>List Tips</h2></hgroup><article  id="list-tips">
+
+<ul>
+<li>Avoid nesting lists if you can. One level of nesting is usually allright, but more than 1 is pain.</li>
+<li>Use the <code>str()</code> function to examine the structure of the list if you&#39;re having problems working with it. This function will tell you useful information about any R object&#39;s internal structure, such as the class of the data structure and data types it hold, all the unique values in it, etc.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>str(biglist)</pre>
+
+<pre >## List of 2
+##  $ first : num [1:4] 1 10 45 -1
+##  $ second: int [1:2, 1:3] 1 2 3 99 100 101</pre>
+
+</article></slide><slide class=''><hgroup><h2>Exercises</h2></hgroup><article  id="exercises">
+
+<ol>
+<li>Make a list of length 3, where each element is a data structure with more than one element. Each element of the list must be named.</li>
+<li>report the details of this lists struture, and the structure of the objects it holds, using an R function.</li>
+</ol>
+
+<p>*Hint: reuse some of the data structures you&#39;ve created in the previous exercises as your list elements.</p>
+
+</article></slide><slide class=''><hgroup><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
+
+</article></slide><slide class=''><hgroup><h2>Coercion</h2></hgroup><article  id="coercion">
+
+<ul>
+<li>Values stored in one data type can often be changed to another data type. This transformation is called <em>coercion</em></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>as.double(&quot;4.2&quot;) + 1</pre>
+
+<pre >## [1] 5.2</pre>
+
+<ul>
+<li>Sometimes when an operation requires a specific data type, R will coerce things to the proper types for us.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>TRUE + 1 # coerce TRUE to integer and add</pre>
+
+<pre >## [1] 2</pre>
+
+<ul>
+<li>But things can&#39;t always be magically perfect</li>
+</ul>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>&quot;TRUE&quot; + 1</pre>
+
+<pre >## Error in &quot;TRUE&quot; + 1: non-numeric argument to binary operator</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
+
+<p>After you create a vector, you can give the elements names, using the <code>names()</code> function, and a character vector. This can be useful later when you want to pick out a few values from the larger vector.</p>
+
+<pre class = 'prettyprint lang-r'>names(new_vector) &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+---
+title: "Data Visualization with Base Graphics: Part 2"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    css: ["../theme/css/custom.css", "../theme/css/toothgrow.css"]
+    mathjax: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+```
+
+## Different Data, Different Plots
+- Today we're going to move away from scatter plots and lines graphs, and use the `ToothGrow` data set to look at:
+    - Histograms
+    - Boxplots
+    - Barplots
+- Along the way, we'll learn more graphical parameters that control the appearance of our figures
+    - Focus on settings that change the global layout of the plots, rather than appearance of the data itself
+
+## ToothGrow
+- The `ToothGrow` data set measures the effects of Vitamin C on the length of Guinea Pig teeth. 
+- 2 Factors: 
+    1. Dose Level: .5, 1, or 2 mg.
+    2. Delivery Method: O.J. or vitamin supplements
+
+```{r}
+head(ToothGrowth)
+```
+
+## Histograms {.smaller}
+- Histograms summarize a single continuous variable by showing the relative likelihoods of observing specific values. To give a representative summary, be sure to consider:
+    1. The number of breaks on the x-axis (i.e., how wide are the bins)
+    2. Use of frequency (i.e., total counts) or proportions on the y axis
+
+<div class="columns-2">  
+```{r tooth_hist, fig.height = 3, fig.width = 4.5,echo=-1}
+par(mar = c(4,4,1,1))
+hist(ToothGrowth$len,freq = TRUE,
+     main = NULL, xlab="Tooth Length")
+hist(ToothGrowth$len,freq = FALSE,
+     main = NULL, xlab="Tooth Length")
+```
+</div>
+
+## Histograms {.smaller}
+- You can also change whether values that fall **exactly** on a break value are sorted into the left or the right hand bin. 
+    - This is especially important for summarising discrete data with a small number of possible responses (e.g. a 7-point likert scale).
+
+<div class="columns-2">  
+```{r tooth_hist2, fig.height = 3, fig.width = 4.5,echo=-1}
+par(mar = c(4,4,1,1))
+hist(ToothGrowth$len,right = TRUE) # right-inclusive
+hist(ToothGrowth$len,right = FALSE) # left-inclusive
+```
+</div>
+
+## Histograms 
+In the previous example, the bins were too wide and made the histogram looked rectangular. We can change this with the `breaks` argument:
+
+```{r fake_breaks, echo = TRUE,eval=FALSE}
+hist(ToothGrowth$len, breaks = 20, main =NULL,xlab = "Tooth Length")
+```
+
+We'll compare how well different breaks describe the data by plotting several on the same figure. We can do this by changing the `mfrow` (**m**ultiple **f**igures by **row**) graphics setting.
+
+The `mfrow` is set through `par()`, and divides the plot window up into a grid regions so a different plot can be drawn in each region. 
+
+## ¡Danger!
+When using `par`, remember that the changes you make affect *all subsequent plots*, which is not usually what you want. 
+
+One solution is to make a copy of the default `par()` settings *before* you modify them, then use that copy to reset the defaults after your plotting.
+
+```{r pardefaults,warning=FALSE}
+par_defaults <- par(no.readonly=TRUE) # copy the current settings
+## Do some plotting stuff 
+par(par_defaults) # Reset the  defaults 
+```
+
+If you happen to forget this, another trick is to restart your R session (Ctrl + Shift + f10) or "Restart R" under the "Session" menu.
+
+## par 
+With the warnings finished, lets change the plot window layout.
+
+- `mfrow` must be a vector of length 2.
+    - The first element gives the desired number of rows in the grid layout
+    - The second element gives the number of columns 
+
+With `par()`, you modify the settings using keyname/value pairs. So, the syntax for setting the layout style with `mfrow` is:
+
+```{r set_mfrow}
+par(mfrow=c(2,2)) # sets a 2x2 grid of plots
+```
+
+## Comparing Breaks {.helppage}
+Now that we've set par, lets looks at 4 different values for the `breaks' arguments (the right two columns seem the best)
+
+<br>
+```{r diff_breaks,echo=FALSE}
+par(mfrow=c(2,2))
+breaksList <- list(quote(8), quote(16),quote(32), substitute(seq(0,35,by=2.5)))
+for (x in breaksList) { 
+  hist(ToothGrowth$len, breaks = eval(x), main = paste("breaks =",deparse(x)),xlab = "Tooth Length")
+}
+```
+
+## Common Axis {.smaller .img-centered}
+When putting multiple plots on one figure, its often useful to have them share a common axis. You can suppress the plotting of the axis by setting the `xaxt` or `yaxt` to 'n', and then manually drawing an axis on the last figure you plot
+
+```{r no_acis,echo=FALSE,fig.height=3, echo= c(2,3,5,6)}
+par(mar=c(2,4,2,2))
+par(mfrow=c(2,1))
+hist(ToothGrowth$len, breaks=20, main=NULL, xlab=NULL, xaxt="n")
+par(mar=c(4,4,.5,2))
+hist(ToothGrowth$len, breaks=60, main=NULL, xlab="Tooth Length", xaxt="n")
+axis(side=1,col="blue", lwd=2) # side 1 is bottom axis
+```
+
+The `axis()` function, allows for very fine grained control over axis appearance
+
+## Box Plots {.img-centered}
+Box plots are a good way to present the shape of an observed sample along with some summary statistics. 
+
+Unlike histograms, we can plot an arbitrary number of box plots on the same axis without invoking `par()`
+```{r boxplotting,fig.height=2.75,echo=-1}
+par(mar = c(4,4,1,1))
+OJ <- ToothGrowth$len[ToothGrowth$supp=="OJ"]
+AA <- ToothGrowth$len[ToothGrowth$supp=="VC"]
+boxplot(OJ, AA, names=c("Orange Juice","Ascorbic Acid"),
+        xlab="Supp. Type", ylab="Tooth Length")
+```
+
+## Box Plots {.img-centered}
+If our data  come from a data frame, we can use a formula instead of subsetting out every individual group.
+
+Below, the formula `len~dose`  means "Group the values in the `len` column by the values in the `dose` column. `dose` has 3 unique values, so we get 1 boxplot per dose.
+
+```{r boxplot_formula,fig.height=3,echo=-1}
+par(mar = c(4,4,1,1))
+boxplot(len~dose,data=ToothGrowth,xlab="Dose", ylab="Tooth Length")
+```
+
+## Customizing Box Plots {.img-centered}
+Two useful boxplot customizations are:
+
+1. Make them horizontal (`horizontal = TRUE`)
+2. Make their width proportional to the sample size (`varwidth=TRUE`)
+```{r boxplot_formula2,fig.height=3,echo=-1}
+par(mar = c(4,4,1,1))
+boxplot(len~dose, data=ToothGrowth, horizontal = TRUE,
+        varwidth=TRUE,ylab="Dose",xlab = "Tooth Length")
+```
+
+## Bar Plot {.img-centered}
+Bar plots are used to visualize single summary statistics, like the mean and median across groups. Here is the basic syntax for `barplot` for plotting a vector. 
+
+```{r simple_barplot,fig.height=3.5}
+barplot(height = c(5,10,7.5), names.arg = c("Slow","Medium","Fast"),
+        main="Fictional Data",ylab="Avg. Score",xlab="Speed")
+```
+
+
+## Bar Plot
+Since bar plots only plot 1 value per group, we need to summarise the `ToothGrowth` data before plotting.
+
+```{r summarise_teeth,echo=1:3,warning=F,message=F}
+# Don't worry about this just do it =)
+library(dplyr); library(reshape2)
+TG <- ToothGrowth %>% group_by(supp,dose) %>% 
+  summarise(y = mean(len)) %>% acast(supp~dose) %>%
+  `dimnames<-`(list("Supp"=c("O.J.","Vit. C"), "Dose"=c(.5,1,2)))
+knitr::kable(as.table(TG), caption = "Mean Tooth Length by Supplement and Dosage")
+```
+
+Reshaping from `data.frame` to `matrix` is neccesary because `barplot` can only work with vectors or matices.
+
+## Bar Plot {.img-centered}
+The default `barplot` settings for a matrix are not so hot.
+```{r bar, fig.height = 3}
+barplot(TG,xlab="Dose", ylab="Tooth Length")
+```
+Side-by-side barplots are preffered to stacked barplots, and we need a legend, to have a functional plot. 
+
+## Barplot: Good {.img-centered}
+Use `beside=TRUE` to put the bars next to one another.
+```{r barplot_good, fig.height = 3, fig.width = 5,echo=-1}
+par(mar=c(5,4,1,1))
+barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length")
+```
+
+## Barplot: Better{.img-centered}
+Lets increase the size of the main title, the two axis tick labels (`cex.names` = y axis tick labels, `cex.names` = x axis tick labels), and the axis labels themselves 
+```{r barplot_better, fig.height = 3, fig.width = 5,echo=-1}
+par(mar=c(5,4,1,1))
+barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length", 
+        cex.main=1.75, cex.axis=1.35,
+        cex.names=1.35, cex.lab=1.25)
+```
+
+## Barplot: Best {.img-centered}
+```{r barplot_best, fig.height = 3, fig.width = 5,echo=-1}
+par(mar=c(5,4,1,1))
+barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length", 
+        legend.text=TRUE, args.legend=list(x=3,y=25,bty="n"),
+        cex.main=1.75, cex.axis=1.35,
+        cex.names=1.35, cex.lab=1.25)
+```
+
+You can also use the `legend` function we looked at last time.
+
+## Legend Placement
+In a barplot, its hard to know what x and y coordinates to use for your legend if the position keywords are not appropriate for your plot (e.g. the "topright" corner has data in it). 
+
+One trick is to use the `locator()` function. 
+
+1. Call `locator()` with no arugments, and your cursor should turn into crosshairs.
+2. Click those cross hairs on the plot window and  hit `escape`
+3. In the console, you should see the x and y position of the point you clicked on. 
+4. Yay!
+
+## Asepct Ratio {.smaller}
+- We can force the length of the x and y axis to be equal on our plots
+    - `par(pty="s")` makes the plot region square, no matter the window size
+    - `par(pty="m")` makes the plot region as large as margins allow
+
+A square plot is very useful when the both axis have the same limits (e.g., when both x and y axis go from 0 to 1)
+
+<div class="columns-2">  
+```{r barplot_aspect, fig.height = 2.75,fig.width = 5,echo=-1}
+par(mar=c(5,4,1,1))
+par(pty="m")
+barplot(TG, beside = TRUE, 
+        xlab="Dosage (mg)",
+        ylab="Tooth Length", 
+        legend.text=TRUE, 
+        args.legend=list(x=3,y=25,
+                         bty="n"))
+par(pty="s")
+barplot(TG, beside = TRUE,
+        xlab="Dosage (mg)",
+        ylab="Tooth Length",
+        legend.text=TRUE,
+        args.legend=list(x=16,y=25,
+                         bty="n"))
+```
+
+## Barplots
+One thing is missing from our barplots that was included in our other 2 types of figures: An estimate of variability!
+
+We'll add errors bars equal to 1 Standard Error of the Mean (SEM) to our barplot, using the matrix made below
+
+```{r TGerror,echo=1}
+TGerr <- ToothGrowth %>% group_by(supp,dose) %>% 
+  summarise(sd = sd(len)/sqrt(n())) %>%
+  acast(supp~dose,value.var="sd")
+knitr::kable(as.table(TGerr), caption = "Standard Error of the Mean for Tooth Length by Supplement and Dosage")
+```
+
+## Error Bars
+The key is to plotting error bars capturing the return value of barplot, which tells you the x-axis coordinates the bars are centered on. 
+```{r errorbars_step1, fig.height = 4,fig.width = 5}
+x <- barplot(TG, xlab="Dosage (mg)", ylab="Tooth Length",
+             legend.text=TRUE, beside=TRUE, ylim=c(0,35),
+             plot=FALSE, args.legend =list(x=3,y=30,bty="n"))
+print(x)
+```
+Then, you can use this matrix to tell the `arrows` function where to plot the error bars along the x axis.
+
+## Error Bars {.img-centered}
+`arrows()` needs the starting x and y coordinates of the error bars (arguments `x0` and `y0`) and the ending x and y coordinates (arguments `x1` and `y1`). 
+
+The `angle` argument should be 90 (i.e. a line cap), and the `code` should be 3 (meaning draw caps on top and bottom).
+```{r errorbars_step2, fig.height = 3, fig.width = 5,echo=3}
+par(mar=c(5,4,0,0))
+x <- barplot(TG, xlab="Dosage (mg)", ylab="Tooth Length",
+             legend.text=TRUE, beside = TRUE,ylim=c(0,35),
+             args.legend =list(x=3,y=30,bty="n"))
+arrows(x0=x, y0=TG+TGerr, x1=x, y1=TG-TGerr, angle=90, code=3,
+       length=.1)
+```
+
+## More layout control
+Lets imagine we want to put our histogram, box plot and barplot on the same figure.
+
+We could use `mfrow` or `mfcol` to do that, but we have an odd number of plots, and would end up with a blank spot in the grid of plot locations. 
+
+A better choice would be to use the `layout` function, which lets you divide the plot window into rows and columns for multiple plots, but **also** lets you specify how many rows and columns each plot takes up.
+
+## More layout control
+- The primary argument to `layout` is a `mat`, a numeric matrix
+- The dimensions (e.g. 2 by 2) determine the number of rows and column in the plot window
+- The value in each cell of the matrix determine which rows and columns the next figure is drawn across
+
+For example, passing the matrix $\left[\begin{array}{cc}1 & 1 \\ 2 & 3\end{array}\right]$ to `layout` means:
+
+1. Create a 2x2 grid layout
+2. Draw the first plot made across both columns of the first row
+3. Draw the second and third plots in one column each of the second row
+
+
+## More layout control {.smaller .img-centered}
+Lets use this layout matrix to put our 3 plots in the same figure window.
+```{r layouttime,fig.height=3.25,fig.width = 8, fig.show="hold",echo=-1}
+par(mar=c(4,4,1,1))
+layout(mat=matrix(c(1,1,2,3), nrow=2, byrow=TRUE))
+boxplot(len~dose, data=ToothGrowth, horizontal = TRUE, varwidth=TRUE, 
+        xlab="Tooth Length", ylab="Dose")
+hist(ToothGrowth$len,freq = FALSE, main = NULL, xlab="Tooth Length")
+x <- barplot(TG, xlab="Dosage (mg)", ylab="Tooth Length", legend.text=TRUE,
+             beside = TRUE,ylim=c(0,35), args.legend =list(x=3,y=40,bty="n"))
+arrows(x0=x, y0=TG+TGerr, x1=x, y1=TG-TGerr, angle=90, code=3, length=.1)
+par(mfrow=c(1,1)) # reset back to default layout
+```
+
+## More layout control
+You might notice that there is still some "dead space" in this layout (i.e. space where it is not useful) and a lack of space where we might want some to be.
+
+To fix this, we often want to change the:
+
+- inner margin size (the distance between the plot axis and the figure limits)
+- the outer margin size (the padding between the figure limits and the window edges)
+
+## mar and oma {.img-centered}
+- The graphical parameter `mar` controls the inner margins, shown as the distance between the green and blue boxes below
+- The  graphical parameter `oma` controls the outer margins, shown as the distance between the blue and red boxes below (default distance is 0)
+
+![](/images/margins.png)<br>
+
+## mar and oma {.helppage}
+You change these distances with the `par` function, passing in a 4-element vector. The 4 elements of the vector correspond to the distances along the bottom, left, top, and right sides, respectively.
+```{r adjustmargins,echo=1:2, fig.height=3.25, fig.width = 8, fig.show="hold"}
+par(mar = c(4,4,2,2)) # Shrink vertical margins of each plot
+par(oma = c(1,1,1,1)) # Add 1 line of padding around the window
+layout(mat=matrix(c(1,1,2,3), nrow=2, byrow=TRUE))
+boxplot(len~dose, data=ToothGrowth, horizontal = TRUE, varwidth=TRUE, 
+        xlab="Tooth Length", ylab="Dose")
+hist(ToothGrowth$len,freq = FALSE, main = NULL, xlab="Tooth Length")
+x <- barplot(TG, xlab="Dosage (mg)", ylab="Tooth Length", legend.text=TRUE,
+             beside = TRUE,ylim=c(0,35), args.legend =list(x=3,y=50,bty="n"))
+arrows(x0=x, y0=TG+TGerr, x1=x, y1=TG-TGerr, angle=90, code=3, length=.1)
+par(mfrow=c(1,1)) # reset back to default layout
+```
+
+## Activity
+Using the `warpbreaks` data set:
+
+1. Make a box plot for each combination of wool type (A and B) and tensions (Low, Medium, and High), all on the same axis.
+2.  Make a bar plot for each combination of wool type and tensions with errors bars (summary code below), be sure to include a legend.
+3. Put these two figures in one plot window, with `layout` or `par(mfrow)`.
+
+```{r activity}
+library(dplyr); library(reshape2)
+WB <- warpbreaks %>% 
+  group_by(wool,tension) %>% 
+  summarise(y = mean(breaks),
+            se = sd(breaks)/sqrt(n()))
+WB_means <- acast(WB, wool~tension,value.var="y")
+WB_err <- acast(WB, wool~tension,value.var="se")
+```
+
+```{r activity_sol,include =FALSE}
+par(mfrow=c(2,1))
+boxplot(breaks~wool*tension, data=warpbreaks, horizontal=TRUE,
+        xlab="Number of Breaks",ylab = "Yarn Type (A,B) by Tension (L, M, H)",
+        main = "Yarn Breakages Across Types")
+x <- barplot(WB_means,beside = TRUE, main = "Yarn Breakages Across Types",
+             xlab = "Tension", ylab = "Avg. Breaks", ylim = c(0,55),
+             legend.text=TRUE, args.legend=list(x=9, y=45, bty="n"))
+arrows(x0=x, y0=WB_means-WB_err, x1=x, y1=WB_means+WB_err, code=3,angle=90,
+       length=.1)
+```

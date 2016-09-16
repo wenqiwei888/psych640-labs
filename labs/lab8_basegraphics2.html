@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Visualization with Base Graphics: Part 2</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Data Visualization with Base Graphics: Part 2',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/toothgrow.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Different Data, Different Plots</h2></hgroup><article  id="different-data-different-plots">
+
+<ul>
+<li>Today we&#39;re going to move away from scatter plots and lines graphs, and use the <code>ToothGrow</code> data set to look at:
+
+<ul>
+<li>Histograms</li>
+<li>Boxplots</li>
+<li>Barplots</li>
+</ul></li>
+<li>Along the way, we&#39;ll learn more graphical parameters that control the appearance of our figures
+
+<ul>
+<li>Focus on settings that change the global layout of the plots, rather than appearance of the data itself</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>ToothGrow</h2></hgroup><article  id="toothgrow">
+
+<ul>
+<li>The <code>ToothGrow</code> data set measures the effects of Vitamin C on the length of Guinea Pig teeth.</li>
+<li>2 Factors:
+
+<ol>
+<li>Dose Level: .5, 1, or 2 mg.</li>
+<li>Delivery Method: O.J. or vitamin supplements</li>
+</ol></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>&gt; head(ToothGrowth)</pre>
+
+<pre >##    len supp dose
+## 1  4.2   VC  0.5
+## 2 11.5   VC  0.5
+## 3  7.3   VC  0.5
+## 4  5.8   VC  0.5
+## 5  6.4   VC  0.5
+## 6 10.0   VC  0.5</pre>
+
+</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms" class="smaller">
+
+<ul>
+<li>Histograms summarize a single continuous variable by showing the relative likelihoods of observing specific values. To give a representative summary, be sure to consider:
+
+<ol>
+<li>The number of breaks on the x-axis (i.e., how wide are the bins)</li>
+<li>Use of frequency (i.e., total counts) or proportions on the y axis</li>
+</ol></li>
+</ul>
+
+<div class="columns-2">
+<pre class = 'prettyprint lang-r'>&gt; hist(ToothGrowth$len,freq = TRUE,
+... +       main = NULL, xlab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/tooth_hist-1.png" width="432" /></p>
+
+<pre class = 'prettyprint lang-r'>&gt; hist(ToothGrowth$len,freq = FALSE,
+... +       main = NULL, xlab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/tooth_hist-2.png" width="432" /></p></div>
+
+</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-1" class="smaller">
+
+<ul>
+<li>You can also change whether values that fall <strong>exactly</strong> on a break value are sorted into the left or the right hand bin.
+
+<ul>
+<li>This is especially important for summarising discrete data with a small number of possible responses (e.g. a 7-point likert scale).</li>
+</ul></li>
+</ul>
+
+<div class="columns-2">
+<pre class = 'prettyprint lang-r'>&gt; hist(ToothGrowth$len,right = TRUE) # right-inclusive</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/tooth_hist2-1.png" width="432" /></p>
+
+<pre class = 'prettyprint lang-r'>&gt; hist(ToothGrowth$len,right = FALSE) # left-inclusive</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/tooth_hist2-2.png" width="432" /></p></div>
+
+</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-2">
+
+<p>In the previous example, the bins were too wide and made the histogram looked rectangular. We can change this with the <code>breaks</code> argument:</p>
+
+<pre class = 'prettyprint lang-r'>&gt; hist(ToothGrowth$len, breaks = 20, main =NULL,xlab = &quot;Tooth Length&quot;)</pre>
+
+<p>We&#39;ll compare how well different breaks describe the data by plotting several on the same figure. We can do this by changing the <code>mfrow</code> (<strong>m</strong>ultiple <strong>f</strong>igures by <strong>row</strong>) graphics setting.</p>
+
+<p>The <code>mfrow</code> is set through <code>par()</code>, and divides the plot window up into a grid regions so a different plot can be drawn in each region.</p>
+
+</article></slide><slide class=''><hgroup><h2>¡Danger!</h2></hgroup><article  id="danger">
+
+<p>When using <code>par</code>, remember that the changes you make affect <em>all subsequent plots</em>, which is not usually what you want.</p>
+
+<p>One solution is to make a copy of the default <code>par()</code> settings <em>before</em> you modify them, then use that copy to reset the defaults after your plotting.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; par_defaults &lt;- par(no.readonly=TRUE) # copy the current settings
+&gt; ## Do some plotting stuff 
+&gt; par(par_defaults) # Reset the  defaults </pre>
+
+<p>If you happen to forget this, another trick is to restart your R session (Ctrl + Shift + f10) or &quot;Restart R&quot; under the &quot;Session&quot; menu.</p>
+
+</article></slide><slide class=''><hgroup><h2>par</h2></hgroup><article  id="par">
+
+<p>With the warnings finished, lets change the plot window layout.</p>
+
+<ul>
+<li><code>mfrow</code> must be a vector of length 2.
+
+<ul>
+<li>The first element gives the desired number of rows in the grid layout</li>
+<li>The second element gives the number of columns</li>
+</ul></li>
+</ul>
+
+<p>With <code>par()</code>, you modify the settings using keyname/value pairs. So, the syntax for setting the layout style with <code>mfrow</code> is:</p>
+
+<pre class = 'prettyprint lang-r'>&gt; par(mfrow=c(2,2)) # sets a 2x2 grid of plots</pre>
+
+</article></slide><slide class=''><hgroup><h2>Comparing Breaks</h2></hgroup><article  id="comparing-breaks" class="helppage">
+
+<p>Now that we&#39;ve set par, lets looks at 4 different values for the `breaks&#39; arguments (the right two columns seem the best)</p>
+
+<p><br> <img src="lab8_basegraphics2_files/figure-html/diff_breaks-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Common Axis</h2></hgroup><article  id="common-axis" class="smaller img-centered">
+
+<p>When putting multiple plots on one figure, its often useful to have them share a common axis. You can suppress the plotting of the axis by setting the <code>xaxt</code> or <code>yaxt</code> to &#39;n&#39;, and then manually drawing an axis on the last figure you plot</p>
+
+<pre class = 'prettyprint lang-r'>&gt; par(mfrow=c(2,1))
+&gt; hist(ToothGrowth$len, breaks=20, main=NULL, xlab=NULL, xaxt=&quot;n&quot;)
+&gt; hist(ToothGrowth$len, breaks=60, main=NULL, xlab=&quot;Tooth Length&quot;, xaxt=&quot;n&quot;)
+&gt; axis(side=1,col=&quot;blue&quot;, lwd=2) # side 1 is bottom axis</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/no_acis-1.png" width="720" /></p>
+
+<p>The <code>axis()</code> function, allows for very fine grained control over axis appearance</p>
+
+</article></slide><slide class=''><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots" class="img-centered">
+
+<p>Box plots are a good way to present the shape of an observed sample along with some summary statistics.</p>
+
+<p>Unlike histograms, we can plot an arbitrary number of box plots on the same axis without invoking <code>par()</code></p>
+
+<pre class = 'prettyprint lang-r'>&gt; OJ &lt;- ToothGrowth$len[ToothGrowth$supp==&quot;OJ&quot;]
+&gt; AA &lt;- ToothGrowth$len[ToothGrowth$supp==&quot;VC&quot;]
+&gt; boxplot(OJ, AA, names=c(&quot;Orange Juice&quot;,&quot;Ascorbic Acid&quot;),
+... +          xlab=&quot;Supp. Type&quot;, ylab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/boxplotting-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots-1" class="img-centered">
+
+<p>If our data come from a data frame, we can use a formula instead of subsetting out every individual group.</p>
+
+<p>Below, the formula <code>len~dose</code> means &quot;Group the values in the <code>len</code> column by the values in the <code>dose</code> column. <code>dose</code> has 3 unique values, so we get 1 boxplot per dose.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; boxplot(len~dose,data=ToothGrowth,xlab=&quot;Dose&quot;, ylab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/boxplot_formula-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Customizing Box Plots</h2></hgroup><article  id="customizing-box-plots" class="img-centered">
+
+<p>Two useful boxplot customizations are:</p>
+
+<ol>
+<li>Make them horizontal (<code>horizontal = TRUE</code>)</li>
+<li>Make their width proportional to the sample size (<code>varwidth=TRUE</code>)</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>&gt; boxplot(len~dose, data=ToothGrowth, horizontal = TRUE,
+... +          varwidth=TRUE,ylab=&quot;Dose&quot;,xlab = &quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/boxplot_formula2-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot" class="img-centered">
+
+<p>Bar plots are used to visualize single summary statistics, like the mean and median across groups. Here is the basic syntax for <code>barplot</code> for plotting a vector.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; barplot(height = c(5,10,7.5), names.arg = c(&quot;Slow&quot;,&quot;Medium&quot;,&quot;Fast&quot;),
+... +          main=&quot;Fictional Data&quot;,ylab=&quot;Avg. Score&quot;,xlab=&quot;Speed&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/simple_barplot-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-1">
+
+<p>Since bar plots only plot 1 value per group, we need to summarise the <code>ToothGrowth</code> data before plotting.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; # Don&#39;t worry about this just do it =)
+&gt; library(dplyr); library(reshape2)
+&gt; TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;% 
+... +    summarise(y = mean(len)) %&gt;% acast(supp~dose) %&gt;%
+... +    `dimnames&lt;-`(list(&quot;Supp&quot;=c(&quot;O.J.&quot;,&quot;Vit. C&quot;), &quot;Dose&quot;=c(.5,1,2)))</pre>
+
+<table class = 'rmdtable'>
+<caption>Mean Tooth Length by Supplement and Dosage</caption>
+<tr class="header">
+<th align="left"></th>
+<th align="right">0.5</th>
+<th align="right">1</th>
+<th align="right">2</th>
+</tr>
+<tr class="odd">
+<td align="left">O.J.</td>
+<td align="right">13.23</td>
+<td align="right">22.70</td>
+<td align="right">26.06</td>
+</tr>
+<tr class="even">
+<td align="left">Vit. C</td>
+<td align="right">7.98</td>
+<td align="right">16.77</td>
+<td align="right">26.14</td>
+</tr>
+</table>
+
+<p>Reshaping from <code>data.frame</code> to <code>matrix</code> is neccesary because <code>barplot</code> can only work with vectors or matices.</p>
+
+</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-2" class="img-centered">
+
+<p>The default <code>barplot</code> settings for a matrix are not so hot.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; barplot(TG,xlab=&quot;Dose&quot;, ylab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/bar-1.png" width="720" /> Side-by-side barplots are preffered to stacked barplots, and we need a legend, to have a functional plot.</p>
+
+</article></slide><slide class=''><hgroup><h2>Barplot: Good</h2></hgroup><article  id="barplot-good" class="img-centered">
+
+<p>Use <code>beside=TRUE</code> to put the bars next to one another.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; barplot(TG, beside = TRUE, xlab=&quot;Dosage (mg)&quot;, ylab=&quot;Tooth Length&quot;)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/barplot_good-1.png" width="480" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Barplot: Better</h2></hgroup><article  id="barplot-better" class="img-centered">
+
+<p>Lets increase the size of the main title, the two axis tick labels (<code>cex.names</code> = y axis tick labels, <code>cex.names</code> = x axis tick labels), and the axis labels themselves</p>
+
+<pre class = 'prettyprint lang-r'>&gt; barplot(TG, beside = TRUE, xlab=&quot;Dosage (mg)&quot;, ylab=&quot;Tooth Length&quot;, 
+... +          cex.main=1.75, cex.axis=1.35,
+... +          cex.names=1.35, cex.lab=1.25)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/barplot_better-1.png" width="480" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Barplot: Best</h2></hgroup><article  id="barplot-best" class="img-centered">
+
+<pre class = 'prettyprint lang-r'>&gt; barplot(TG, beside = TRUE, xlab=&quot;Dosage (mg)&quot;, ylab=&quot;Tooth Length&quot;, 
+... +          legend.text=TRUE, args.legend=list(x=3,y=25,bty=&quot;n&quot;),
+... +          cex.main=1.75, cex.axis=1.35,
+... +          cex.names=1.35, cex.lab=1.25)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/barplot_best-1.png" width="480" /></p>
+
+<p>You can also use the <code>legend</code> function we looked at last time.</p>
+
+</article></slide><slide class=''><hgroup><h2>Legend Placement</h2></hgroup><article  id="legend-placement">
+
+<p>In a barplot, its hard to know what x and y coordinates to use for your legend if the position keywords are not appropriate for your plot (e.g. the &quot;topright&quot; corner has data in it).</p>
+
+<p>One trick is to use the <code>locator()</code> function.</p>
+
+<ol>
+<li>Call <code>locator()</code> with no arugments, and your cursor should turn into crosshairs.</li>
+<li>Click those cross hairs on the plot window and hit <code>escape</code></li>
+<li>In the console, you should see the x and y position of the point you clicked on.</li>
+<li>Yay!</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Asepct Ratio</h2></hgroup><article  id="asepct-ratio" class="smaller">
+
+<ul>
+<li>We can force the length of the x and y axis to be equal on our plots
+
+<ul>
+<li><code>par(pty=&quot;s&quot;)</code> makes the plot region square, no matter the window size</li>
+<li><code>par(pty=&quot;m&quot;)</code> makes the plot region as large as margins allow</li>
+</ul></li>
+</ul>
+
+<p>A square plot is very useful when the both axis have the same limits (e.g., when both x and y axis go from 0 to 1)</p>
+
+<div class="columns-2">
+
+
+<pre class = 'prettyprint lang-r'>&gt; par(pty=&quot;m&quot;)
+&gt; barplot(TG, beside = TRUE, 
+... +          xlab=&quot;Dosage (mg)&quot;,
+... +          ylab=&quot;Tooth Length&quot;, 
+... +          legend.text=TRUE, 
+... +          args.legend=list(x=3,y=25,
+... +                           bty=&quot;n&quot;))</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/barplot_aspect-1.png" width="480" /></p>
+
+<pre class = 'prettyprint lang-r'>&gt; par(pty=&quot;s&quot;)
+&gt; barplot(TG, beside = TRUE,
+... +          xlab=&quot;Dosage (mg)&quot;,
+... +          ylab=&quot;Tooth Length&quot;,
+... +          legend.text=TRUE,
+... +          args.legend=list(x=16,y=25,
+... +                           bty=&quot;n&quot;))</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/barplot_aspect-2.png" width="480" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Barplots</h2></hgroup><article  id="barplots">
+
+<p>One thing is missing from our barplots that was included in our other 2 types of figures: An estimate of variability!</p>
+
+<p>We&#39;ll add errors bars equal to 1 Standard Error of the Mean (SEM) to our barplot, using the matrix made below</p>
+
+<pre class = 'prettyprint lang-r'>&gt; TGerr &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;% 
+... +    summarise(sd = sd(len)/sqrt(n())) %&gt;%
+... +    acast(supp~dose,value.var=&quot;sd&quot;)</pre>
+
+<table class = 'rmdtable'>
+<caption>Standard Error of the Mean for Tooth Length by Supplement and Dosage</caption>
+<tr class="header">
+<th align="left"></th>
+<th align="right">0.5</th>
+<th align="right">1</th>
+<th align="right">2</th>
+</tr>
+<tr class="odd">
+<td align="left">OJ</td>
+<td align="right">1.410284</td>
+<td align="right">1.2367520</td>
+<td align="right">0.8396031</td>
+</tr>
+<tr class="even">
+<td align="left">VC</td>
+<td align="right">0.868562</td>
+<td align="right">0.7954104</td>
+<td align="right">1.5171757</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars">
+
+<p>The key is to plotting error bars capturing the return value of barplot, which tells you the x-axis coordinates the bars are centered on.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- barplot(TG, xlab=&quot;Dosage (mg)&quot;, ylab=&quot;Tooth Length&quot;,
+... +               legend.text=TRUE, beside=TRUE, ylim=c(0,35),
+... +               plot=FALSE, args.legend =list(x=3,y=30,bty=&quot;n&quot;))
+&gt; print(x)</pre>
+
+<pre >##      [,1] [,2] [,3]
+## [1,]  1.5  4.5  7.5
+## [2,]  2.5  5.5  8.5</pre>
+
+<p>Then, you can use this matrix to tell the <code>arrows</code> function where to plot the error bars along the x axis.</p>
+
+</article></slide><slide class=''><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars-1" class="img-centered">
+
+<p><code>arrows()</code> needs the starting x and y coordinates of the error bars (arguments <code>x0</code> and <code>y0</code>) and the ending x and y coordinates (arguments <code>x1</code> and <code>y1</code>).</p>
+
+<p>The <code>angle</code> argument should be 90 (i.e. a line cap), and the <code>code</code> should be 3 (meaning draw caps on top and bottom).</p>
+
+<pre class = 'prettyprint lang-r'>&gt; arrows(x0=x, y0=TG+TGerr, x1=x, y1=TG-TGerr, angle=90, code=3,
+... +         length=.1)</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/errorbars_step2-1.png" width="480" /></p>
+
+</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control">
+
+<p>Lets imagine we want to put our histogram, box plot and barplot on the same figure.</p>
+
+<p>We could use <code>mfrow</code> or <code>mfcol</code> to do that, but we have an odd number of plots, and would end up with a blank spot in the grid of plot locations.</p>
+
+<p>A better choice would be to use the <code>layout</code> function, which lets you divide the plot window into rows and columns for multiple plots, but <strong>also</strong> lets you specify how many rows and columns each plot takes up.</p>
+
+</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-1">
+
+<ul>
+<li>The primary argument to <code>layout</code> is a <code>mat</code>, a numeric matrix</li>
+<li>The dimensions (e.g. 2 by 2) determine the number of rows and column in the plot window</li>
+<li>The value in each cell of the matrix determine which rows and columns the next figure is drawn across</li>
+</ul>
+
+<p>For example, passing the matrix \(\left[\begin{array}{cc}1 &amp; 1 \\ 2 &amp; 3\end{array}\right]\) to <code>layout</code> means:</p>
+
+<ol>
+<li>Create a 2x2 grid layout</li>
+<li>Draw the first plot made across both columns of the first row</li>
+<li>Draw the second and third plots in one column each of the second row</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-2" class="smaller img-centered">
+
+<p>Lets use this layout matrix to put our 3 plots in the same figure window.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; layout(mat=matrix(c(1,1,2,3), nrow=2, byrow=TRUE))
+&gt; boxplot(len~dose, data=ToothGrowth, horizontal = TRUE, varwidth=TRUE, 
+... +          xlab=&quot;Tooth Length&quot;, ylab=&quot;Dose&quot;)
+&gt; hist(ToothGrowth$len,freq = FALSE, main = NULL, xlab=&quot;Tooth Length&quot;)
+&gt; x &lt;- barplot(TG, xlab=&quot;Dosage (mg)&quot;, ylab=&quot;Tooth Length&quot;, legend.text=TRUE,
+... +               beside = TRUE,ylim=c(0,35), args.legend =list(x=3,y=40,bty=&quot;n&quot;))
+&gt; arrows(x0=x, y0=TG+TGerr, x1=x, y1=TG-TGerr, angle=90, code=3, length=.1)
+&gt; par(mfrow=c(1,1)) # reset back to default layout</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/layouttime-1.png" width="768" /></p>
+
+</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-3">
+
+<p>You might notice that there is still some &quot;dead space&quot; in this layout (i.e. space where it is not useful) and a lack of space where we might want some to be.</p>
+
+<p>To fix this, we often want to change the:</p>
+
+<ul>
+<li>inner margin size (the distance between the plot axis and the figure limits)</li>
+<li>the outer margin size (the padding between the figure limits and the window edges)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma" class="img-centered">
+
+<ul>
+<li>The graphical parameter <code>mar</code> controls the inner margins, shown as the distance between the green and blue boxes below</li>
+<li>The graphical parameter <code>oma</code> controls the outer margins, shown as the distance between the blue and red boxes below (default distance is 0)</li>
+</ul>
+
+<p><img src='/images/margins.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma-1" class="helppage">
+
+<p>You change these distances with the <code>par</code> function, passing in a 4-element vector. The 4 elements of the vector correspond to the distances along the bottom, left, top, and right sides, respectively.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; par(mar = c(4,4,2,2)) # Shrink vertical margins of each plot
+&gt; par(oma = c(1,1,1,1)) # Add 1 line of padding around the window</pre>
+
+<p><img src="lab8_basegraphics2_files/figure-html/adjustmargins-1.png" width="768" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Using the <code>warpbreaks</code> data set:</p>
+
+<ol>
+<li>Make a box plot for each combination of wool type (A and B) and tensions (Low, Medium, and High), all on the same axis.</li>
+<li>Make a bar plot for each combination of wool type and tensions with errors bars (summary code below), be sure to include a legend.</li>
+<li>Put these two figures in one plot window, with <code>layout</code> or <code>par(mfrow)</code>.</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>&gt; library(dplyr); library(reshape2)
+&gt; WB &lt;- warpbreaks %&gt;% 
+... +    group_by(wool,tension) %&gt;% 
+... +    summarise(y = mean(breaks),
+... +              se = sd(breaks)/sqrt(n()))
+&gt; WB_means &lt;- acast(WB, wool~tension,value.var=&quot;y&quot;)
+&gt; WB_err &lt;- acast(WB, wool~tension,value.var=&quot;se&quot;)</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

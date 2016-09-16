@@ -1,0 +1,531 @@
+---
+title: "Reshaping Datasets"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    css: ["../theme/css/custom.css", "../theme/css/cellHighlighting.css"]
+    mathjax: default
+---
+
+```{r setup,echo=FALSE,message=FALSE,warning=FALSE}
+library(pander)
+library(reshape2)
+library(dplyr)
+knitr::opts_chunk$set("warning"=FALSE, "message"=FALSE, cache = TRUE)
+prettifyTable <- function(data, rows) {
+  rbind(sapply(data[1:rows,],as.character),
+        rep("...", ncol(data)))
+}
+```
+
+## Why shape matters
+- Reshaping refers to the act of changing the physical layout of a data set
+
+- Reshaping is useful and important for two main reasons:
+    1. A proper physical layout eases the readability and interpretation of the data
+    2. Different analysis tools expect data to be laid out in different physical formats
+
+- You *could* put all your data on a single 1 million character line, but that would impede working with it and understanding it
+
+## Data Semantics
+To prepare for learning a reshaping tool set, it is useful to define a vocabulary we can use to describe the content of our datasets, independent of their physical form. 
+
+- A data set is a collection of **values**, which can be grouped in two different ways: according to the **variable** a value belongs to, and according the the **observation** a value belongs to.
+
+ - A **variable** contains all the values that measure the same underlying attribute
+    - A variable could be all the values measuring reaction time, or all the values recording levels of an experimental factor, etc.
+
+- An **observation** contains all values measured from the same observational unit
+    - An observational unit may be a person, an experimental trial, a day, etc.
+
+## Data Semantics
+Lets make these terms more concrete with an example dataset.
+
+The fictional dataset below shows the results of a study comparing two treatments for migraine headaches. It holds 18 total values, from 6 observations of 3 variables.
+
+```{r goodData,echo=FALSE}
+gooddata <- data.frame(person = rep(c("John Smith", "Jane Doe", "Mary Johnson"), each=2),
+                       treatment = rep(c("a","b"),times=3),
+                       headaches = c(NA,2,16,11,2,1))
+pander(gooddata,style = "rmarkdown")
+```
+
+
+## Data Semantics: Values {#values}
+```{r goodData2, ref.label= "goodData",echo=FALSE}
+```
+
+The <span style="color: #288E26">values</span> are everything that is not a row or column label. They are represented physically by each cell of the table.
+
+## Data Semantics: Variables {#variables}
+```{r goodData3, ref.label= "goodData",echo=FALSE}
+```
+
+The <span style="color: #D5252D">variables</span> are represented physically by the columns in the data set. Here we have 3 variables:
+
+1. `person`, with three possible values (John Smith, Mary Johnson, and Jane Doe).
+2. `treatment`, with two possible values (a and b).
+3. `headache`, with five values (or six,depending on how you think of the missing value (NA,
+16, 3, 2, 11, 1).
+
+## Data Semantics: Variables {#VarTypes}
+```{r goodData3, ref.label= "goodData",echo=FALSE}
+```
+
+Variables can be naturally divided into two classes:
+
+1. <span style="color: #D5252D">Identifier (ID) variables</span> define the unit of observation that measurements take place on.
+    - ID variables are the subscripts that identify what condition an observation is from (e.g., $Y_{ij}$). Here, the observation in row two could be written $Y_{person = John Smith, treatment = b}$
+2. <span style="color: #E4B500">Measured variables</span> represent what is measured from that observational unit.
+    - Measure variables are the $Y$ in $Y_{ij}$. For example, $Y_{person = John Smith, treatment = b} = 2$
+    
+## Data Semantics: Observations {#observations}
+```{r goodData4, ref.label= "goodData",echo=FALSE}
+```
+
+Each <span style="color: #B825D5">observation</span> made is represented physically by a row in the data frame.
+
+This makes it easy to see that the single unit of observation in this dataset is a person within a treatment condition.
+
+## Data Semantics: Normal Form
+```{r goodData5, ref.label= "goodData",echo=FALSE}
+```
+
+When each variable forms a column, each observation forms a row, and the table holds measurements from a single observational unit, the dataset is said to be [normalized](https://en.wikipedia.org/wiki/Third_normal_form). This is the optimal format for your data in most cases.
+
+But normalized is far from the only format datasets may come in, and we will now examine two broader classes of data forms, "long" and "wide".
+
+## Data Semantics: Long Data {#long .table-column}
+
+```{r longdata, echo=FALSE}
+long <- melt(gooddata, measure.vars = 1:3)
+pander(long,style = "rmarkdown")
+```
+
+Long datasets have a column whose values identify which variable the values in *other* columns are associated with. 
+
+This format differs from normalized data in that it does not preserve the "variables-as-columns" and "observations-as-rows relationship".
+
+All the variables are stuffed into one column and single observations are now spread over multiple rows.
+
+## Data Semantics: Wide Data {#wide}
+Wide datasets are defined by having a column for each variable, so the normalized data set we looked at earlier was also a wide data set.
+
+But, not all wide data sets are normalized. Below is another version of the same data, but this version contains less information about the data. 
+
+```{r widedata, echo=FALSE,message=FALSE}
+wide <- dcast(gooddata, ... ~ treatment)
+pander(wide,style = "rmarkdown")
+```
+
+Here, the `headaches` label is gone, and single observations are now combined into one row. Additionally, `a` and `b` are now used as distinct variables, instead of as different values of the "condition" variable.
+
+## Trouble defining 'Wide' and 'Long'
+While wide data and long data *do* have concrete definitions, these terms are often used imprecisely. 
+
+They are often used in a relative sense, meaning to make a set of data longer or wider than it originally was, which may or may not correspond to making the data fit the actual definition of wide or long. 
+
+These labels can also be confusing because when you change data from one layout to another, the absolute size of the table may shrink, but the new shape may still be referred to as wide or long form.
+
+Additionally, a dataset may have many different layouts that each can be called wide or long form.
+
+So, read carefully whenever you see these terms, and take care when using them yourself.
+
+## Reshaping your data
+Let get into reshaping some data with using the `reshape2` package. Install that package now with `install.packages("reshape2")` and load it with `library(reshape2)`.
+
+A word of caution: don't confuse the `reshape2` package with the `reshape` function in base R - they are unrelated.
+
+Next, download and import the two datasets we will be practicing with: the [hare-lynx trapping data set](/data/hare_lynx.csv) and the familiar [loci/image/rhyme memory experiment data](/data/memorydata.csv).
+
+```{r importdata,echo=TRUE,eval = FALSE}
+hares <- read.csv("http://wjhopper.github.io/psych640/data/hare_lynx.csv")
+memory <- read.csv("http://wjhopper.github.io/psych640/data/memorydata.csv")
+```
+
+## Melting and casting
+Changing a dataset's layout with tools from `reshape2` revolves around two operations, melting and casting. 
+
+Melting is the process of transforming data into long format by moving variables from column headers into cells of the table. This is also called stacking, or gathering, and `reshape2` provides the `melt` function to perform this task. 
+
+Casting is the process of transforming data into into wide(er) format, also called spreading. `reshape2` provides the `dcast` and `acast` function to create reshaped data frames and arrays/matrices, respectively.
+
+Reshaping often begins by melting data into long format, so we will begin by using the `melt` function with the hares-lynx data.
+
+## The hare-lynx dataset {#haresData}
+This dataset records the number of hares and lynx trapped in North Canada from 1900 to 1920. 
+```{r hare_preview,echo=FALSE}
+hares <- read.csv("../data/hare_lynx.csv")
+pander(rbind(sapply(head(hares),as.character)
+             ,rep("...",3)),
+       style = "rmarkdown")
+```
+
+There are 3 variables here: **Year**, **Animal Type**, and **Number Trapped**.
+
+This is a wide dataset, because it has a column for each variable. But it is non-normalized, because **hare** and **lynx** are used as variables, when they should be used in the cells of the table as the values the variable **Animal** can take.
+
+## Stacking Data with `melt`
+The `melt` function takes values that are stored in column headers and moves them into rows in the data set, while preserving their relationships to other values. It has 4 key arguments:
+
+1. `id.vars`: A vector defining which columns of the data should be used as ID variables. This can be a numeric vector of column numbers, or character vector of column names.
+2. `measure.vars`: A vector defining which columns of the data hold measured variables. This can also be a numeric vector of column numbers, or character vector of column names.
+3. `variable.name`: A character vector used to name the new column in the reshaped data that holds the values shifted from the column headers down into the rows. 
+4. `value.name`: A character vector used to name the new column in the reshaped data that holds the measured values.
+
+## Stacking Data with `melt`
+To normalize our data, we need to shift `Hare` and `Lynx` from measured variables into values, so we set `measure.vars = c("Hares","Lynx")`. We also need to preserve the `Year` column as an ID variable, so we set `id.vars = "Year"`.
+
+Since "Hare" and "Lynx" are values the **Animal Type** variable takes on, we'll call the new column holding these values "Animal" by setting `variable.name = "Animal"`. 
+
+The numeric values from the `Hare` and `Lynx` columns measure the "Number Trapped" variable, so we'll name the new column holding them "Trapped" by setting `value.name = "Trapped"`.
+
+```{r melt_hares, echo=1}
+hareMelted <- melt(hares, id.vars="Year",
+                 measure.vars=c("Hares","Lynx"),
+                 variable.name="Animal", value.name="Trapped")
+hareMelted <- arrange(hareMelted,Year,Animal)
+```
+
+## Stacking Data with `melt`
+Lets compare the structure of the data before and after melting.
+```{r melt_hares_2, echo=1, ref.label="melt_hares"}
+```
+
+<div class="columns-2">
+```{r orig_data,echo=FALSE}
+pander(rbind(sapply(head(hares,6),as.character)
+             ,rep("...",3)),
+       style = "rmarkdown", caption = "Original data")
+```
+
+```{r long_data,echo=FALSE}
+pander(rbind(sapply(head(hareMelted,6),as.character)
+             ,rep("...",3)),
+       style = "rmarkdown", caption = "Reshaped normalized data")
+```
+
+</div>
+
+## Stacking Data with `melt`
+If you omit either the `id.vars` or the `measure.vars` arguments, `melt` assumes all columns that were not specified as ID variables or measure variable belong to the other set.
+
+Here, we only specify the value of `id.vars`, and `melt` assumes all other columns (`Hares` and `Lynx`) hold measure variables.
+```{r omitMeasure, echo = 1}
+omitMeasure <- melt(hares, id.vars = "Year", variable.name="Animal",
+                    value.name="Trapped")
+pander(prettifyTable(melt(hares, id.vars = "Year", variable.name="Animal", value.name="Trapped"), 5),
+       style = "rmarkdown")
+```
+
+
+## Stacking Data with `melt`
+Here, we only specify the value of `measure.vars`, and `melt` assumes all other columns (`Year`) should be used as ID variables. Thus, we get the same result as the previous slide.
+```{r omitID, echo = 1}
+omitID <- melt(hares, measure.vars = c("Hares","Lynx"))
+pander(prettifyTable(melt(hares, measure.vars = c("Hares","Lynx")), 5),
+       style = "rmarkdown")
+```
+
+We can also see that when we omit values for the `variable.name` and `value.name` arguments, `melt` defaults to using the generic terms "variable" and "value" for those column names.
+
+## Stacking Data with `melt`
+If you omit both `id.vars` and `measure.vars`, `melt` assumes all columns holding character data or factors are ID variables, and any other columns are measure variables.
+
+```{r omitall, echo = 1, message=FALSE, warning=FALSE}
+omitID <- melt(hares)
+pander(prettifyTable(melt(hares), 4),
+       style = "rmarkdown")
+```
+
+Since all columns in `hares` hold numeric data which get treated as measure variables, melt gives the warning seen above about having no ID variables.
+
+
+## Spreading Data with `dcast`
+The `dcast` function is the inverse of the `melt` function: it takes a variable's values stored in rows of a dataset and making a new column for each one.
+
+Using `dcast` can be tricky, since the form of the reshaped data is controlled with a grouping formula (like those used for `aov`). To cast your data correctly, remember these two rules:
+
+ - On the left side of the `~` operator, list out the columns in the data frame which you want to remain as ID variables, each one separated with a `+`. 
+
+ - On the right side of the `~` operator, list the column in the data frame whose values should be "spread out" to form new variables.
+
+## Spreading Data with `dcast`
+Lets use `dcast` to reshape our new normalized data set `hareMelted` back into its original shape.
+
+Since the original data set had the `Year` variable as an ID variable, we'll put `Year` on the left side of the `~`. 
+
+The original also used `Hare` and `Lynx` as separate measured variables instead of values. To recover this layout, we'll put the name of the column holding the `Hare` and `Lynx` values, in this case `Animal`, on the right side of the formula.
+
+We also need to specify the name of the column holding our measured variable, so we'll set `value.var = "Trapped"`. Here's the full call we'll use:
+```{r recast}
+hareOrig <- dcast(hareMelted, formula = Year ~ Animal,
+                  value.var="Trapped")
+```
+
+## Spreading Data with `dcast`
+Lets look at the resulting data frame - we got our original layout back!
+```{r ref.label="recast"}
+```
+<div class="columns-2">
+```{r printRecast,echo=FALSE}
+pander(rbind(sapply(head(hareMelted, 6), as.character),
+             rep("...", ncol(hareOrig))),
+       style = "rmarkdown", caption = "hareMelted data frame")
+pander(rbind(sapply(head(hareOrig, 6), as.character),
+             rep("...", ncol(hareOrig))),
+       style = "rmarkdown", caption = "Cast to original form")
+```
+
+</div>
+
+## Spreading Data with `dcast`
+The `value.var` argument is optional and if omitted, `dcast` will use some heuristics to guess which column holds the measured variable in your data.
+
+1. If there is a column named "value" or "(all)" in your data frame, use that column as the measure variable.
+2. Otherwise, guess that the final column is the measure variable.
+
+Usually your measure  variable *should* be the last column, but if you have multiple measure variables in the same data frame, these heuristics will not necessarily give you the desired result.
+
+## Activities
+1. Using `dcast`, reshape the data frame `hareMelted` to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.
+2. Download [this dataset](/data/JJ.csv), which measures the quarterly earnings per Johnson & Johnson share from 1960 to 1980.
+```{r getJJ,eval=FALSE}
+JJ <- read.csv("http://wjhopper.github.io/psych640/data/JJ.csv")
+```
+Reshape it to use fiscal quarter as an ID variable instead of using Qtr1, Qtr2, Qtr3, and Qtr4 as measure variables.
+
+3. Add an observation ID to the `InsectSprays` data frame:
+```{r add_ObservationID}
+InsectSprays$obsID <- rep(1:12,nrow(InsectSprays)/12)
+```
+Then reshape the `InsectSprays` data frame to use the values from the `spray` column as individual measure variables.
+
+NB: Be specific about which column is the measured variable.
+```{r solution1, eval=FALSE,echo=FALSE}
+#1
+dcast(hareMelted, Year ~ Animal, value.var = "Trapped")
+#2
+JJ <- read.csv("../data/JohnsonJohnson.csv")
+melt(JJ, id.vars = "Year", variable.name = "Quarter", value.name = "Earnings")
+#3
+InsectSprays$obsID <- rep(1:12,nrow(InsectSprays)/12)
+dcast(InsectSprays, obsID ~ spray, value.var = 'count')
+```
+
+## More reshaping {.memory}
+Now we'll work with the loci/image/rhyme memory data set, which I've modified to include a second between-subject factor, presentation duration.
+```{r getMem, eval =FALSE}
+memory <- read.csv("http://wjhopper.github.io/psych640/data/memorydata.csv")
+```
+```{r memorydata,echo=FALSE}
+memory <- read.csv("../data/memorydata.csv")
+pander(rbind(sapply(head(memory, 6), as.character),
+             rep("...", 4)),
+       style = "rmarkdown")
+```
+
+This data set is normalized, and holds `r prod(dim(memory))` values across 40 unique observations from 3 ID variables (`Subject`, `Method`, and `Duration`) and 1 measure variable (`Score`). The observational unit is a subject in a condition of method and condition of duration.
+
+## More reshaping {.memory}
+Lets say we wanted to de-normalize this dataset to only use subject and method as ID variables. This layout would use more rows to hold the data, so we need the `melt` function to "lengthen" or "stack" the data.
+
+```{r memory_long,echo=1}
+memLong <- melt(memory, id.vars=c("Subject","Method"),
+                measure.vars=c("Duration","Score"))
+memLong <- arrange(memLong, Subject, Method, rev(variable))
+pander(rbind(sapply(head(memLong, 8), as.character),
+             rep("...", 4)),
+       style = "rmarkdown")
+```
+
+
+## Melting missing values {.memory}
+```{r NAbehavior,echo=FALSE}
+pander(rbind(sapply(head(memLong, 6), as.character),
+             rep("...",4)),
+       style = "rmarkdown")
+```
+
+`melt` also preserves any missing values in the measure variables by default. You should *always* keep `NA`'s when reshaping your data if they are **explicitly** missing values, meaning a value should have been sampled but was not (e.g., a survey question was not answered).
+
+If a value is **implictly** missing, like an `NA` from a male respondent in a survey that asked about pregnancy history, then set the `na.rm` argument to `TRUE`.
+
+## When and when *not* to melt {.memory}
+```{r echo=FALSE,ref.label="NAbehavior"}
+```
+
+The usefulness of different layouts is contextual, but having the dataset in this form is not useful here because it mixes values from different variables in the same column (i.e., mixing accuracy scores and presentation durations in the `values` column).
+
+Instead, the values of the presentation duration variable better aid analysis and interpretation when used as values in an ID variable.
+
+## Aggregation {.memory}
+Lets use `dcast` to reshape our long form data into a form that uses each of the four practice methods as measure variables. Using the grouping formula `Subject ~ Method` to reshape the data gives an unexpected result:
+
+```{r aggregate, echo=1}
+memWide <- dcast(memLong, Subject ~ Method, value.var="value")
+pander(rbind(sapply(head(memWide, 4), as.character),
+             rep("...", ncol(memWide))),
+       style = "rmarkdown")
+```
+
+We see the number 2 instead of scores and durations because our formula defined groups of more than one observation. `dcast` handles this situation by applying a function to summarize the observations with a single value (the default aggregation function is `length`).
+
+## Aggregation {#agg}
+To better understand why this happens, lets take a closer look at our formula. `Subject ~ Method` defines `Subject` as the only ID variable, and `Method` as the only measured variable. 
+
+Thus, we can read the formula as saying "For each subject, make a group of values from the `value` column for each unique value in `Method` column".
+
+<div class="columns-2">
+```{r aggregate2, echo=FALSE}
+pander(rbind(sapply(head(memLong, 4), as.character),
+             rep("...", ncol(memLong))),
+       style = "rmarkdown", caption = "Outlining the groups our forumla defines")
+pander(rbind(sapply(head(memWide, 3), as.character),
+             rep("...", ncol(memWide))),
+       style = "rmarkdown", caption = "Groups of observations aggregated by length()")
+```
+
+</div>
+
+These groups form the values for the new measure variables, but since the groups are too large they are first summarized with `length`, yielding our result of all twos.
+
+## Aggregation {.memory}
+If you really *did* want to layout your this way, but aren't interested in reporting the number of observation in each group, you have two options:
+
+1. Supply the aggregation function you wish to use to summarize the groups of values by setting the `fun.aggregate` argument (e.g. `fun.aggregate = mean`).
+    - Only do this when it makes sense to combine values across variables. We should not do this, as combining duration and accuracy values doesn't make sense.
+2. Subset the data to remove values from variables you're not interested in
+    - e.g.. `memLong[memLong$variable != "Duration",]`
+    
+## Aggregating Wisely
+It would be useful to know the average number of items recalled in each condition. We can use `dcast` with the appropriate grouping formula and aggregation function to find this out!
+
+```{r method_by_dur_FAKE, eval = FALSE}
+dcast(memory, Method ~ Duration, fun.aggregate = mean) #mean not in quotes!
+```
+
+```{r method_by_dur, echo=FALSE}
+dcast(memory, Method ~ Duration, fun.aggregate = mean) %>%
+  pander(style="rmarkdown")
+```
+
+Our formula says "Take the scores at each unique value of `Method` and group them by their `Duration`". This makes 8 groups of 4 observations, and we set `fun.aggregate = mean` to summarize these four values with a single value, the mean.
+
+## Aggregating Wisely
+If we would like to see the mean of each condition, ignoring the fact that some observations were not made when they should have been, we can include `na.rm = TRUE`.
+
+```{r discardMissings_FAKE, eval = FALSE}
+dcast(memory, Method ~ Duration, fun.aggregate = mean, na.rm =TRUE)
+```
+
+```{r discardMissings, echo = FALSE}
+dcast(memory, Method ~ Duration, fun.aggregate = mean, na.rm =TRUE) %>%
+  pander(style="rmarkdown")
+```
+
+## Formulas with > 2 variables
+Alternatively, you may not have meant to aggregate the data at all and instead misspecified the grouping formula.
+
+- To avoid aggregating, you must include either all the columns, or all but 1 of the columns, in the grouping formula (making 3 the minimum number to include for this dataset).
+
+- Exactly where variables are used in the formula will affect the resulting layout
+    - All variables before the `~` will simply be used as ID variables.
+    - When multiple variables are used after the `~`, the values from each variable are concatenated with each value from all other variables to form the column headers.
+
+## Formulas with > 2 variables
+Subject & Duration as ID vars
+```{r twoIDs_FAKE, eval=FALSE}
+dcast(memLong, Subject + variable ~ Method)
+```
+
+```{r twoIDs,echo=FALSE}
+dcast(memLong, Subject + variable ~ Method) %>% 
+  head(8) %>%
+  sapply(as.character) %>%
+  rbind(rep("...", ncol(.))) %>%
+  pander(style="rmarkdown")
+```
+
+## Formulas with > 2 variables
+Method and Duration values get combined in the column headers
+```{r concatHeader_FAKE, eval=FALSE}
+dcast(memLong, Subject ~ Method + variable)
+```
+
+```{r concatHeader,echo=FALSE}
+dcast(memLong, Subject ~ Method + variable) %>%
+  head(4) %>%  
+  sapply(as.character) %>%
+  rbind(rep("...", ncol(.))) %>%
+  pander(style="rmarkdown", split.tables = 100)
+```
+
+## Special forumula terms
+There are two special terms you can include in your grouping formulas in place of column names: `...` and `.`
+
+1. The `...` term is shorthand for "all other variables", so using it makes your formula mean "group by everything else"
+2. The `.` term means "no variables", so using it makes your formula mean "group by nothing"
+
+## Using ...
+Casting the `memLong` data frame using `Subject + variable ~ Method` and `... ~ Method` give the same results because `Subject` and `variable` are the only remaining columns after specifying `value.var` as `value`.
+```{r shorthand_FAKE, eval=FALSE}
+dcast(memLong, ... ~ Method, value.var = 'value')
+```
+
+```{r shorthand,echo=FALSE}
+dcast(memLong, ... ~ Method, value.var = 'value') %>%
+  prettifyTable(3) %>%
+  pander(style="rmarkdown")
+```
+
+```{r longhand_FAKE, eval=FALSE}
+dcast(memLong, Subject + variable ~ Method )
+```
+
+```{r longhand, echo=FALSE}
+dcast(memLong, Subject + variable ~ Method) %>%
+  prettifyTable(3) %>%
+  pander(style="rmarkdown")
+```
+
+## Using . 
+Here we use the special term `.` to write a formula telling `dcast` to group all the the measured values for method of practice by nothing else!
+```{r nothing_FAKE, eval=FALSE}
+dcast(memLong, . ~ Method )
+```
+
+```{r nothing, echo=FALSE}
+dcast(memLong, . ~ Method) %>%
+  pander(style="rmarkdown")
+```
+
+Since there are multiple measurements for each methods, `dcast` applies the defaults aggregation function `length` to boil the observations down to a single value. The value 16 means 16 measurements were taken for each practice method.
+
+## Activities
+1. Reshape the `airquality` dataset to only use month and day as ID variables. Should missing values be dropped or preserved?
+2. Using the results for #1, layout the `airquality` dataset using the Months as measure variables, and use all other variables as ID variables.
+3. Use `dcast` on the built in `ToothGrowth` data frame, find the standard deviation of the recorded tooth lengths at every combination of supplement type and dose level. 
+4. Using `melt` and then `dcast` on the built in `DNase` dataset, find the average protein concentration and optical density on each run of the DNA assay. The final data frame should have `Run` as an ID variable, and `conc` and `density` as measure variables.
+
+```{r solutions, eval=FALSE, echo=FALSE}
+#1
+aq_melt <- melt(airquality, id.vars=c("Month","Day"),
+                measure.vars = c("Ozone","Solar.R","Wind","Temp"),
+                variable.name = "Climate_variable")
+#2
+dcast(aq_melt, ... ~ Month, value.var = 'value')
+#3 
+dcast(ToothGrowth, supp ~ dose, fun.aggregate = sd, value.var = 'len')
+#4
+dcast(melt(DNase, id.vars = "Run"), Run ~ variable, fun.aggregate = mean)
+```
+
+## More Resources
+
+- [A brief intro but good intro to reshape2](http://seananderson.ca/2013/10/19/reshape.html)
+- [The reshape2 package authors intro to reshape2](http://had.co.nz/reshape/introduction.pdf)
+- A general, modern framework for tidy data
+    - [Short intro](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+    - [Full Paper](http://vita.had.co.nz/papers/tidy-data.html)

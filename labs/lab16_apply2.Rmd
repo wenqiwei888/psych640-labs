@@ -1,0 +1,21 @@
+---
+title: 'Functional programming in R: Higher-Order Functions and Closures'
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+```
+
+## Last Time...
+We explored "First-Class" functions in R, and how having functions be "just another object" makes possible the `apply` family of functions (`lapply`, `sapply`, `vapply` and regular old `apply`).
+
+Today, we're going to look at a few neat tricks that you need to have up your sleeve when doing functional-style programming in R.
+
+  - Working around R's "Synactic Sugar"
+  - Higher-order functions: When imperative style just wont do
+  - Closures (aka functions, but with some data along for the ride)
+
+## R's Sytactic Sugar
+I briefly mentioned last the time, R is truly a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In "pure" functional languages, *everything* is done as a function call.  

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Control-Flow Statements</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Control-Flow Statements',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+  <script src="lib/htmlwidgets-0.7/htmlwidgets.js"></script>
+  <script src="lib/viz-0.3/viz.js"></script>
+  <link href="lib/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+  <script src="lib/grViz-binding-0.8.4/grViz.js"></script>
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Go with the &quot;Flow&quot;</h2></hgroup><article  id="go-with-the-flow">
+
+<ul>
+<li>Any program will be designed to perform some set of computational operations, for example:
+
+<ul>
+<li>Calculate summary statistics</li>
+<li>Plot raw data</li>
+<li>Do a t-test</li>
+</ul></li>
+<li>&quot;Control Flow&quot; describes the order in which specific operations take place</li>
+<li>A key objective when writing your code is to make your program&#39;s control flow as simple as possible while minimizing redundancy.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow">
+
+<ul>
+<li>So far, the control flow of your code has been solely determined by the line number of each expression
+
+<ul>
+<li>&quot;Code rolls downhill&quot;</li>
+</ul></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>group1 &lt;- sleep[sleep$group==1,] # Separate group 1 
+group2 &lt;- sleep[sleep$group==2,] # Separate group 2
+x1 &lt;- mean(group1$extra) # Calculate group 1 mean
+x2 &lt;- mean(group2$extra) # Calculate group 2 means
+sem &lt;- sqrt(.5*(var(group1$extra) + var(group2$extra)))*sqrt(2/10) # Calculate SEM
+t &lt;- (x1-x2)/sem # Find the t score</pre>
+
+</article></slide><slide class=''><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow-1">
+
+<ul>
+<li>The control flow diagram for this script is shown below
+
+<ul>
+<li>A. Separate groups</li>
+<li>B. Calculate the mean</li>
+<li>C. Calculate SEM</li>
+<li>D. Find the t score</li>
+</ul></li>
+</ul>
+
+<div id="htmlwidget-f6ffb0c6dbb6c8abcd4c" style="width:385px;height:150px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f6ffb0c6dbb6c8abcd4c">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+</article></slide><slide class=''><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
+
+<ul>
+<li>R has expressions which can alter this linear flow. Specifically, we can:
+
+<ul>
+<li>Execute a set of statements <em>only if</em> some condition is met
+
+<ul>
+<li><code>if else</code> statements</li>
+</ul></li>
+<li>Execute a set of statements <em>zero or more times, until some condition is met</em>
+
+<ul>
+<li><code>for</code> and <code>while</code> statements</li>
+</ul></li>
+<li>Stop the program, preventing any further execution
+
+<ul>
+<li><code>stop</code> statements</li>
+</ul></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>if else syntax</h2></hgroup><article  id="if-else-syntax">
+
+<p>An <code>if else</code> statement allows us to conditionally evaluate specific statements. The general syntax is:</p>
+
+<pre class = 'prettyprint lang-r'>if (condition) {
+  expressionA
+} else {
+  expressionB  
+}</pre>
+
+<ul>
+<li><code>condition</code> is an R expression that evaulates to a single logical value (i.e. a single <code>TRUE</code> or <code>FALSE</code> value)
+
+<ul>
+<li>This expression <strong>must</strong> be in parenthesis</li>
+</ul></li>
+<li><code>expressionA</code> and <code>expressionB</code> are two different blocks of R code
+
+<ul>
+<li>These expressions should be contained in curly brackets</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>if else control flow</h2></hgroup><article  id="if-else-control-flow">
+
+<div id="htmlwidget-631caa1b02ba5a8149f5" style="width:385px;height:225px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-631caa1b02ba5a8149f5">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"x > y\" fontsize = 18]\nB->D [label=\"x < y\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+<ul>
+<li>if x &lt; y, take the path through C</li>
+<li>if y &gt; x, take the path through D</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else">
+
+<p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random intergers is larger.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
+y &lt;- sample(1:50000,1)
+if (x &lt; y) {
+  print(&quot;Y Wins!&quot;)
+} else {
+  print(&quot;X Wins!&quot;)
+}</pre>
+
+<pre >## [1] &quot;Y Wins!&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-1">
+
+<p>But we forgot a corner case - what if y equals x? We can add on additional if into this same statement like so:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
+y &lt;- sample(1:50000,1)
+if (x &lt; y) {
+  print(&quot;Y Wins!&quot;)
+} else if (y &lt; x) {
+  print(&quot;X Wins!&quot;)
+} else {
+  print(&quot;zomg X equals Y!!&quot;)
+}</pre>
+
+<pre >## [1] &quot;Y Wins!&quot;</pre>
+
+<p>We can have as many <code>else if</code> statements chained together as we want, but only one <code>else</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-2">
+
+<p>We can also use just the <code>if</code> part of the statement.</p>
+
+<p>Here, we sample a random integer for <code>x</code>, and if it comes out negative, we flip the sign with the <code>abs()</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- sample(-10:10,1)
+if (x &lt; 0) { 
+  x &lt;- abs(x)
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Sample 2 random values from a standard normal distribution, using <code>rnorm()</code>. Call them x and y.</p>
+
+<p>Then, write an if-else that does the following:</p>
+
+<ul>
+<li>If they are both greater than the mean of that normal distribution, print &quot;x and y are above the mean&quot;.</li>
+<li>If they are both less than the mean of that normal distribution, print &quot;x and y are below the mean&quot;.</li>
+<li>If x and y fall on either side of the mean, print &quot;x and y straddle the mean&quot;</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Loops</h2></hgroup><article  id="loops">
+
+<p>Loops are a class of control flow that allow you to repeat the same operations over and over again, without explicitly writing out those operations over and over again in the code.</p>
+
+<ul>
+<li><code>for</code> loops repeat your operations for an explicit number of repetitions</li>
+<li><code>while</code> loops repeat your operations an indeterminite number of times, stopping only when a prespecified condition occurs (whenever that might be) <div id="htmlwidget-4b1a55bf4b294eeaaf81" style="width:385px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4b1a55bf4b294eeaaf81">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
+
+<p>At the heart of a <code>for</code> loop is the R object which serves as a counter. This counter variable determines the number of iterations your <code>for</code> loop should have.</p>
+
+<p>It is common to refer to the counter variable as the variable you &quot;loop over&quot;.</p>
+
+<p>In this example, we use a for loop to print out the integers 1 through 3, one at a time.</p>
+
+<pre class = 'prettyprint lang-r'>for (i in 1:3) {
+  print(i)
+}</pre>
+
+<pre >## [1] 1
+## [1] 2
+## [1] 3</pre>
+
+</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-1">
+
+<p>But the counter variable doesn&#39;t have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and i will sequentially take on each value in the vector.</p>
+
+<pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,1,2,3)) {
+  print(i)
+}</pre>
+
+<pre >## [1] &quot;A&quot;
+## [1] &quot;B&quot;
+## [1] &quot;C&quot;
+## [1] &quot;1&quot;
+## [1] &quot;2&quot;
+## [1] &quot;3&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-2">
+
+<pre class = 'prettyprint lang-r'>for (i in 1:3) {
+  print(i)
+}</pre>
+
+<ul>
+<li>Note 2 important things that happened:
+
+<ol>
+<li>The <code>print()</code> statement was executed exactly 6 times, the same number of times as the length of <code>c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,1,2,3)</code></li>
+<li>The value of <code>i</code> changed on every iteration of the loop, as evidenced by the fact that <code>print(i)</code> spit out a different value every time</li>
+</ol></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>for loops s</h2></hgroup><article  id="for-loops-s">
+
+<ul>
+<li>For loops are most often used for their &quot;side effects&quot;
+
+<ul>
+<li>This means you loop over one object (eg. <code>i = 1:10</code>), but use the value of <code>i</code> inside the loop as a subscript to index into other data structures</li>
+<li>This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-3">
+
+<p>To demonstrate this indexing, here we:</p>
+
+<ol>
+<li>Create 4 element character vector</li>
+<li>Create another 4 element vector of numeric indices</li>
+<li>Loop over those indices, and use the iterator to index into the character vector and print it&#39;s value.</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>letters &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)
+indices &lt;- 1:4
+for (x in indices) { print(letters[x])}</pre>
+
+<pre >## [1] &quot;A&quot;
+## [1] &quot;B&quot;
+## [1] &quot;C&quot;
+## [1] &quot;D&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group Means Example</h2></hgroup><article  id="group-means-example">
+
+<p>A common problem to solve in R is calculating summary statistics for each group in some data set. We&#39;re going to tackle this problem in the <code>InsectSprays</code> data set.</p>
+
+<pre class = 'prettyprint lang-r'>head(InsectSprays,5)</pre>
+
+<pre >##   count spray
+## 1    10     A
+## 2     7     A
+## 3    20     A
+## 4    14     A
+## 5    14     A</pre>
+
+<p>First we&#39;ll walk through how we would accomplish this process with a purely linear control flow, and then we&#39;ll see how to approach the problem with a loop.</p>
+
+</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way">
+
+<p>First we need find the unique sprays used, and create a &quot;placeholder&quot; data frame which will end up storing the mean for each spray.</p>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+sprayMeans</pre>
+
+<pre >##   spray meanCount
+## 1     A        NA
+## 2     B        NA
+## 3     C        NA
+## 4     D        NA
+## 5     E        NA
+## 6     F        NA</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-1">
+
+<p>Then we select the first spray, and use <code>$</code> and <code>==</code> to extract the observed counts for that spray group from the <code>InsectSprays</code> data frame.</p>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+counts &lt;- InsectSprays$count==i </pre>
+
+</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-2">
+
+<p>Then we average those extacted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.</p>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+counts &lt;- InsectSprays$count[InsectSprays$spray==i]
+m &lt;- mean(counts)
+sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- m
+sprayMeans</pre>
+
+<pre >##   spray meanCount
+## 1     A      14.5
+## 2     B        NA
+## 3     C        NA
+## 4     D        NA
+## 5     E        NA
+## 6     F        NA</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-3">
+
+<pre >##   spray meanCount
+## 1     A      14.5
+## 2     B        NA
+## 3     C        NA
+## 4     D        NA
+## 5     E        NA
+## 6     F        NA</pre>
+
+<p>OK, one group down, 5 to go! We will repeat the same thing over and over and over again for each group. If only there was a way to get R to repeat the same operations over and over and over again&#8230;.</p>
+
+<p>Oh wait, <code>for</code> loops do just that!</p>
+
+</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop">
+
+<p>We start the same way as before, finding the unique sprays used, and creating a &quot;placeholder&quot; data frame to store results.</p>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-1">
+
+<p>But this time we use a for loop, looping over each unique spray. Inside the loop, we:</p>
+
+<ol>
+<li>Subset out the observed counts for a particular spray</li>
+<li>Find the mean of those counts, and fill that mean into the placeholder data frame</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+
+for (i in sprays) {
+  counts &lt;- InsectSprays$count[InsectSprays$spray==i]
+  sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- mean(counts)
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-2">
+
+<p>The result is a data frame the holds the mean insect count for each unique spray used, with no code duplication</p>
+
+<pre class = 'prettyprint lang-r'>sprayMeans</pre>
+
+<pre >##   spray meanCount
+## 1     A 14.500000
+## 2     B 15.333333
+## 3     C  2.083333
+## 4     D  4.916667
+## 5     E  3.500000
+## 6     F 16.666667</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+
+<p>Write a for loop that calculates the cumulative sum of the vector <code>c(7,2,22,5,33,8)</code>.</p>
+
+<p>If you don&#39;t know, the cumulative sum is a sequence of the partial sums of a given sequence. For example, the cumulative sum of the vector <code>c(1,2,3)</code> is (1,3,6).</p>
+
+</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops">
+
+<ul>
+<li><code>while</code> loops are like a hybrid of an <code>if else</code> and <code>for</code> loops
+
+<ul>
+<li>They repeat the same code block over and over again like <code>for</code> loop</li>
+<li>But they only repeat the block <code>if</code> some condition is met</li>
+</ul></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>k &lt;- 1
+while(k &lt; 5) {
+  print(k)
+  k &lt;- k + 1
+}</pre>
+
+<pre >## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4</pre>
+
+</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-1">
+
+<ul>
+<li><code>while</code> loops are approriate to write when you don&#39;t know <em>a priori</em> how many iterations you will need
+
+<ul>
+<li>e.g. How many samples from the normal must you take before getting a value more than 3 SD&#39;s away?</li>
+</ul></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>r &lt;- rnorm(1)
+samples &lt;- 1
+while(r &lt; 3 &amp;&amp; r &gt; -3) {
+    samples &lt;- samples+1
+    r &lt;- rnorm(1)
+}
+print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
+
+<pre >## [1] &quot;Success only took 12 samples&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
+
+<p>A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to acheive a specific level of experimental power</p>
+
+<pre class = 'prettyprint lang-r'>power &lt;- 0; alt_p &lt;- .75; null_p &lt;- .5; n &lt;- 1;
+while (power &lt; .8) {
+  crit_n &lt;- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE)
+  power &lt;- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
+  n &lt;- n+1
+}
+n-1 # Number of trials needed</pre>
+
+<pre >## [1] 30</pre>
+
+</article></slide><slide class=''><hgroup><h2>loop pro-tips</h2></hgroup><article  id="loop-pro-tips">
+
+<ul>
+<li>Loops are slow, and as a consequence, you should avoid large loops.</li>
+<li>If you must use one (and sometimes you must), <strong>ALWAYS PREALLOCATE THE FINAL DATA STRUCTURES YOU WANT</strong></li>
+<li>Remember in our InsectSprays means example, we made a place holder data frame the exact size and shape we wanted, and then filled it in</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+
+for (i in sprays) {
+  counts &lt;- InsectSprays$count[InsectSprays$spray==i]
+  sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- mean(counts)
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2><code>stop</code></h2></hgroup><article  id="stop">
+
+<ul>
+<li>You can halt the execution of your program using a <code>stop</code> statement
+
+<ul>
+<li>You probably don&#39;t need this just yet in your programming lives, but its good to know it exists</li>
+</ul></li>
+<li>One good use for this is in combination with <code>if</code> statements, to detect states that are indicative of serious problems, and throw an error</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>x &lt;- somenumbers
+if (sd(x) &lt; 0) {
+  stop(&quot;Standard Deviation cannot be negative!&quot;)
+}</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

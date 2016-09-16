@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Documents using the Rmarkdown Toolkit</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Dynamic Documents using the Rmarkdown Toolkit',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<style>
+.in-list-img img {
+  padding: 0;
+}
+</style>
+
+<slide class=''><hgroup><h2>What is the Rmarkdown toolkit?</h2></hgroup><article  id="what-is-the-rmarkdown-toolkit">
+
+<p>More generally, it provides a solution to the problem of separating our work from our reporting of that work.</p>
+
+<p>More specifically, it is a toolkit which allow us to tightly integrate any code used to solve a problem, the results of running that code, and the human-readable explanation of the methods and the solution.</p>
+
+<p>By using the Rmarkdown toolkit, we can blend human language, computer language, and computer output in a single, executable file.</p>
+
+<p>The final product of our work becomes a typeset PDF or HTML document explaining all of our work and results, rather than an arcane R script and console output with random copy-pasta to a word document.</p>
+
+</article></slide><slide class=''><hgroup><h2>Installing Dependencies</h2></hgroup><article  id="installing-dependencies">
+
+<p>If you&#39;re running a newer version* of Rstudio, then you should have Rmarkdown installed already. Other R package dependencies will be automatically pulled in as needed when you start using Rmarkdown.</p>
+
+<p>In non-Rstudio environments, you must manually install the Rmarkdown package with <kbd> <code>install.packages(&quot;rmarkdown&quot;)</code> </kbd>. You&#39;ll also need to install <a href='http://pandoc.org/installing.html' title=''>pandoc</a>, which is a standalone executable that converts document between formats.</p>
+
+<p><br><br><br><br><br><br></p>
+
+<p>*newer means newer than version 98.932 (released June 2014)</p>
+
+</article></slide><slide class=''><hgroup><h2>Documentation</h2></hgroup><article  id="documentation">
+
+<p>Since we can&#39;t exhaustively learn Rmarkdown in one class, you&#39;ll need to know where to look for help and refreshers.</p>
+
+<ul>
+<li>Be sure to look at all the pages at <a href='http://rmarkdown.rstudio.com/' title=''>http://rmarkdown.rstudio.com/</a></li>
+<li>Under the &quot;Help&quot; menu in Rstudio, you can open a built-in markdown quick reference. This opens in the same pane as the help files for R functions.</li>
+<li>Thoroughly explore all the chunk options at <a href='http://yihui.name/knitr/options/' title=''>http://yihui.name/knitr/options/</a> (more on chunk options later in the class).</li>
+<li>For a longer, more in depth intro checkout <a href='http://www.introductoryr.co.uk/Reproducibility/Markdown_guide.html' title=''>this tutorial</a> by Rob Knell</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>The R part of Rmarkdown</h2></hgroup><article  id="the-r-part-of-rmarkdown" class="sampleslide">
+
+<ol>
+<li>Start by going to File &#8211;&gt; New File &#8211;&gt; R Markdown</li>
+<li>In the a dialogue box, select HTML as our output format.</li>
+<li>Choose your title and set yourself as author.</li>
+<li>Hit the &quot;Knit HTML&quot; button just above the editor window and you shoud something like: <img src='/images/Rmarkdownsample.png' title=''/></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Success! Now, more work!</h2></hgroup><article  id="success-now-more-work">
+
+<p>We&#39;ve created our first dynamic document, huzzah!</p>
+
+<p>But we&#39;re going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/master/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let&#39;s get to making even better documents.</p>
+
+<p>We&#39;ll work through the sections of this document together, and as we go through it, try to connect the dots between the format of the input document, and the resulting elements in the output document.</p>
+
+</article></slide><slide class=''><hgroup><h2>YAML</h2></hgroup><article  id="yaml">
+
+<p>The section at the very top, separated by <code>---</code>, is called the YAML header (YAML stands for <strong>Y</strong>AML <strong>A</strong>int <strong>M</strong>arkup <strong>L</strong>anguage).</p>
+
+<p>The YAML header stores info about your document <em>in</em> your document (i.e. <strong>metadata</strong>), and tells the interpreter about how to render the final document. <img src='/images/YAML.png' title=''/></p>
+
+<p>For example, the <kbd> <code>output: html_document</code> </kbd> option tells interpreter to construct an HTML document (as opposed to a PDF)</p>
+
+</article></slide><slide class=''><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics">
+
+<p><img src='/images/Text1.png' title=''/><br/></p>
+
+</article></slide><slide class=''><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics-1">
+
+<p><img src='/images/Text2.png' title=''/><br/></p>
+
+</article></slide><slide class=''><hgroup><h2>Images</h2></hgroup><article  id="images">
+
+<p><img src='/images/images.png' title=''/><br/></p>
+
+</article></slide><slide class=''><hgroup><h2>Embedding Equations with LaTeX syntax</h2></hgroup><article  id="embedding-equations-with-latex-syntax">
+
+<ul>
+<li>For inline equations, enclose your equations in single <code>$</code> like so: <kbd> <code>$equation$</code> </kbd></li>
+<li>To give your equation its own centered &quot;paragraph&quot;, use double <code>$</code> with spaces, like so: <kbd><code>$$ equation $$</code></kbd> <img src='/images/latex.png' title=''/></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Tables</h2></hgroup><article  id="tables">
+
+<p><img src='/images/Tables.png' title=''/><br/><br></p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="left">Header 1</th>
+<th align="left">Header 2</th>
+</tr>
+<tr class="odd">
+<td align="left">info 11</td>
+<td align="left">info 21</td>
+</tr>
+<tr class="even">
+<td align="left">info 12</td>
+<td align="left">info 22</td>
+</tr>
+<tr class="odd">
+<td align="left">info 13</td>
+<td align="left">info 23</td>
+</tr>
+<tr class="even">
+<td align="left">info 14</td>
+<td align="left">info 24</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>R code chunks</h2></hgroup><article  id="r-code-chunks">
+
+<p><img src='/images/chunks.png' title=''/><br/></p>
+
+</article></slide><slide class=''><hgroup><h2>Converting R data structures to Markdown</h2></hgroup><article  id="converting-r-data-structures-to-markdown">
+
+<p><img src='/images/kable.png' title=''/><br/></p>
+
+<table class = 'rmdtable'>
+<caption>With Knitr</caption>
+<tr class="header">
+<th align="center">speed</th>
+<th align="center">dist</th>
+</tr>
+<tr class="odd">
+<td align="center">Min. : 4.0</td>
+<td align="center">Min. : 2.00</td>
+</tr>
+<tr class="even">
+<td align="center">1st Qu.:12.0</td>
+<td align="center">1st Qu.: 26.00</td>
+</tr>
+<tr class="odd">
+<td align="center">Median :15.0</td>
+<td align="center">Median : 36.00</td>
+</tr>
+<tr class="even">
+<td align="center">Mean :15.4</td>
+<td align="center">Mean : 42.98</td>
+</tr>
+<tr class="odd">
+<td align="center">3rd Qu.:19.0</td>
+<td align="center">3rd Qu.: 56.00</td>
+</tr>
+<tr class="even">
+<td align="center">Max. :25.0</td>
+<td align="center">Max. :120.00</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Chunks with Plots</h2></hgroup><article  id="chunks-with-plots">
+
+<p><img src='/images/plotchunk.png' title=''/> <img src="lab10_rmarkdown_files/figure-html/Car%20plot-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Other Features</h2></hgroup><article  id="other-features" class="in-list-img">
+
+<p>RStudio also allows you to evaluate the code inside you code chunks without knitting the document.</p>
+
+<ul>
+<li>You can run code line-by-line with the <code>Run</code> button</li>
+<li>You can run the entire code chunk by pressing the small green &quot;play&quot; button on the right side of the chunk
+
+<ul>
+<li>Looks like <img src='/images/run_chunk_button.png' title=''/></li>
+</ul></li>
+<li>You can run all <em>preceeding</em> chunks by pressing the small grey arrow next to the green play buttton
+
+<ul>
+<li>Looks like <img src='/images/run_previous_button.png' title=''/></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Activity: Writing a Report on <code>InsectSprays</code></h2></hgroup><article  id="activity-writing-a-report-on-insectsprays">
+
+<ol>
+<li>Create a new .Rmd file, set up to compile to HTML</li>
+<li>Use an inline R expression to make the date stamp update each time the document is compiled. Do this by embdedding the function <code>Sys.Date()</code> in the date YAML field. Be sure to keep the enclosing double quotes!</li>
+<li>Make a center-aligned boxplot of the distribution of <code>count</code> values for each value of <code>spray</code> in the <code>InsectSprays</code> data frame.
+
+<ul>
+<li>Hint: Remember you can use the <code>~</code> operator in the call to <code>boxplot()</code></li>
+</ul></li>
+<li>Below the figure, write a one sentence description of the plot (e.g. a short figure caption).</li>
+<li>Add a proper table summarizing the <code>InsectSprays</code> data frame in your document using <code>kable</code>. Keep the line of R code loading the <code>knitr</code> package out of the final document.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Styling your HTML</h2></hgroup><article  id="styling-your-html">
+
+<p>Your resulting HTML document can be extensively customized by including styling information via CSS (<strong>C</strong>ascading <strong>S</strong>tyle <strong>S</strong>heets).</p>
+
+<p>Teaching you HTML + CSS is <em>definitely</em> outside the scope of this class, but there are approximately 10<sup>20</sup> tutorials and classes available online that you can use.</p>
+
+<p>When you have written a style sheet you want applied to your HTML document, you can include it via the <code>css</code> YAML header like so:</p>
+
+<p><code>css: &quot;path/to/your/stylesheet.css&quot;</code></p>
+
+</article></slide><slide class=''><hgroup><h2>Producing HTML slideshows with Rmarkdown</h2></hgroup><article  id="producing-html-slideshows-with-rmarkdown">
+
+<p>You can take an existing Rmd file, change the output type in the YAML header to <code>ioslides_presentaion</code>, and then add slide separators everywhere you want to divide content up into discrete slides. <img src='/images/slides.png' title=''/></p>
+
+<p>Or if you want to start a new Rmd file set up to compile to a slide show, go to File &#8211;&gt; New File &#8211;&gt; R Markdown, select &quot;Presentation&quot; from the menu on the left, and pick your format (I prefer ioslides)</p>
+
+</article></slide><slide class=''><hgroup><h2>Producing PDFs with Rmarkdown</h2></hgroup><article  id="producing-pdfs-with-rmarkdown">
+
+<p>It also easy to make your final document a PDF. Creating PDFs requires a \(\LaTeX\) installation. <a href='http://miktex.org/download' title=''>MikTeX</a> is preferred for Window&#39;s, while <a href='https://tug.org/mactex/mactex-download.html' title=''>MacTex</a> is prefered for Mac.</p>
+
+<p>Once \(\LaTeX\) is installed, just change the <code>output</code> YAML header value to <code>pdf_document</code> to set PDF as final format.</p>
+
+<p>Because they are typeset with \(\LaTeX\), you have more powerful formatting options when compiling to PDF. But, having a paginated final product can mean more typsetting headaches, especially with table and figure placement, relative to HTML.</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

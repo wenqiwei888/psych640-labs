@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Introduction to Functions</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Introduction to Functions',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Functions</h2></hgroup><article  id="functions">
+
+<p>So far, we have used several functions in lab examples and activities, and many more in the R scripts from lecture.</p>
+
+<p>Today we will be learning more about how to use functions in general through the lens of the help pages for 2 functions: <code>mean()</code> and <code>var()</code>.</p>
+
+<p>But what are functions, other than the names of things you type in to get your answers?</p>
+
+</article></slide><slide class=''><hgroup><h2>What is a Function?</h2></hgroup><article  id="what-is-a-function">
+
+<p>A function is fixed piece of code that accepts input values, performs some operations or calcuations on these values, and returns some results.</p>
+
+<p>A good way to start thinking about functions is think about algebraic equations. For instance, if we have the algebraic equation \(y=\sqrt{x}\):</p>
+
+<ul>
+<li>\(x\) is the input</li>
+<li>\(\sqrt\\\) is the operation performed on the input</li>
+<li>\(y\) is the output, in this case the result of taking the square root of \(x\)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Function Terminology:</h2></hgroup><article  id="function-terminology">
+
+<ul>
+<li>When you use a function in your script, you perform a &#39;function call&#39; in computer science-ish terms. This leads to colloquialisms like &quot;Call mean on that matrix&quot; or &quot;This code calls diag to extract the diagonal elements&quot;.
+
+<ul>
+<li>&#39;Call&#39; does not mean anything special to us. All using the word &#39;call&#39; means in this context is &#39;use a function&#39;.</li>
+</ul></li>
+<li>The inputs to functions go by several names, but most often they are called &quot;<strong>arguments</strong>&quot; or &quot;<strong>parameters</strong>&quot;.
+
+<ul>
+<li>Calling a function with some specific input is often called &quot;passing an argument&quot;.</li>
+<li>Don&#39;t confuse function parameters with population parameters from the statistics side of class</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>?mean</h2></hgroup><article  id="mean" class="img-centered helppage">
+
+<p>Lets start by going to the help page for the mean. You can access it two easy ways:</p>
+
+<ol>
+<li>Type <code>?mean</code> into the console</li>
+<li>Go to the &#39;Help&#39; tab in the miscellaneous pane of Rstudio and in the search box type &#39;mean&#39;.</li>
+</ol>
+
+<p><img src='/images/mean_page1_short.png' title=''/> <br></p>
+
+</article></slide><slide class=''><hgroup><h2>?mean</h2></hgroup><article  id="mean-1" class="image-column helppage">
+
+<p><img src='/images/mean_usage.png' title=''/> In the top left corner, you are shown the name of the help page you are on, as well as the package/namespace the function lives in.</p>
+
+<p>Under that is the title of the help page, and a basic description of what the functions listed on this page are used to accomplish</p>
+
+</article></slide><slide class=''><hgroup><h2>?mean: usage</h2></hgroup><article  id="mean-usage" class="image-column helppage">
+
+<p><img src='/images/mean_usage.png' title=''/> The usage section tells you:</p>
+
+<ul>
+<li>The syntax for invoking the function</li>
+<li>The names of the accepted arguments</li>
+<li>The order of the arguments</li>
+<li>Which arguments are required and which are optional
+
+<ul>
+<li>Arguments with an <code>=</code> are optional</li>
+<li>All others are required</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>?mean: Usage</h2></hgroup><article  id="mean-usage-1" class="image-column helppage">
+
+<p><img src='/images/mean_usage.png' title=''/> But the usage section is also cryptic!</p>
+
+<ul>
+<li>What is x?</li>
+<li>What is trim?</li>
+<li>What do they do?</li>
+</ul>
+
+<p>For clarification, we must go the the arguments sections.</p>
+
+</article></slide><slide class=''><hgroup><h2>?mean: Arguments</h2></hgroup><article  id="mean-arguments" class="image-column helppage">
+
+<p><img src='/images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.</p>
+
+<p>It also tell us what particular behavior that specific argument controls.</p>
+
+<p>For example, the <code>na.rm</code> argument must be a logical value (i.e., <code>TRUE</code> or <code>FALSE</code>) and it controls whether or not missing values are removed before finding the mean.</p>
+
+</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed Arguments</h2></hgroup><article  id="named-vs.-unnamed-arguments">
+
+<p>Every funtion argument has a name (e.g., <code>x</code>, <code>na.rm</code>, <code>trim</code>). When you call a function, those names can be used in a <code>keyname = value</code> style of syntax, or they may be omitted in favor of just specifying the value.</p>
+
+<p>If you wish to omit the names of the arguments when calling a function <strong>you must order your inputs in the exact same order as they appear in the <code>Usage</code> section!!!</strong></p>
+
+<p>If you specify arguments as <code>keyname=value</code> pairs, they may be passed in any order.</p>
+
+<p>If you mix and match name and unnamed, unnamed inputs that R encounters will be paired up with the unnmatched arguments following their order in the Usage section.</p>
+
+</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed Examples</h2></hgroup><article  id="named-vs.-unnamed-examples">
+
+<pre class = 'prettyprint lang-r'>data &lt;- c(4,10,3,33,2,NA,43,22,31,95)
+mean(x=data) # named key/value style</pre>
+
+<pre >## [1] NA</pre>
+
+<pre class = 'prettyprint lang-r'>mean(x=data,na.rm=TRUE) # removing na&#39;s changes output</pre>
+
+<pre >## [1] 27</pre>
+
+<pre class = 'prettyprint lang-r'>mean(data) # unnamed style</pre>
+
+<pre >## [1] NA</pre>
+
+<div class="errormsg">
+
+
+<pre class = 'prettyprint lang-r'>mean(data,TRUE) #TRUE gets matched up with trim, not na.rm!</pre>
+
+<pre >## Error in mean.default(data, TRUE): &#39;trim&#39; must be numeric of length one</pre>
+
+<div>
+
+
+</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed: Verdict?</h2></hgroup><article  id="named-vs.-unnamed-verdict" class="img-centered">
+
+<p>Prefer named arguments. <img src='http://dev.mensfeld.pl/wp-content/uploads/2014/08/you-have-been-warned.jpg' title=''/></p>
+
+</article></slide><slide class=''><hgroup><h2>An Argument&#39;s Name vs. An Argument&#39;s Value</h2></hgroup><article  id="an-arguments-name-vs.-an-arguments-value">
+
+<p>As pointed out earlier, all the arguments a function accepts have a name that identifies them.</p>
+
+<p>Inside the function, these names then become the names of R objects that the code acts upon.</p>
+
+<p>So, when you call <code>mean(x=data)</code> (or <code>mean(data)</code>), the values you had stored in <code>data</code> become known to the code inside the <code>mean</code> function by the name <code>x</code> instead of <code>data</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping">
+
+<ul>
+<li>The code which calculates the mean runs off &quot;in its own world&quot;
+
+<ul>
+<li>These worlds have their own names: <strong>environments</strong></li>
+<li>You don&#39;t see objects in the function&#39;s environment, and it doesn&#39;t see yours.</li>
+</ul></li>
+<li>The only way for objects in <strong>your</strong> environment to get into the function environment, where the cool calculations take place, is through the function interface.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-1">
+
+<p><img src='/images/scoping.svg' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-2">
+
+<pre class = 'prettyprint lang-r'>data &lt;- c(10, 11, 12)
+x &lt;- c(1, 2, 3)
+mean(x=data) # Takes the mean of data, not of x from global env</pre>
+
+<pre >## [1] 11</pre>
+
+<pre class = 'prettyprint lang-r'>x # didn&#39;t re-assign in global env</pre>
+
+<pre >## [1] 1 2 3</pre>
+
+<pre class = 'prettyprint lang-r'>mean(x) #same as mean(x=x)</pre>
+
+<pre >## [1] 2</pre>
+
+<div class="errormsg">
+
+
+<pre class = 'prettyprint lang-r'>mean()</pre>
+
+<pre >## Error in mean.default(): argument &quot;x&quot; is missing, with no default</pre>
+
+<div>
+
+
+</article></slide><slide class=''><hgroup><h2><code>...</code> : The &quot;dot dot dot&quot;</h2></hgroup><article  id="the-dot-dot-dot">
+
+<ul>
+<li>You will often encounter &quot;&#8230; : further arguments passed to or from other methods this in the <code>Arguments</code> section.</li>
+<li>A full explanation is beyond the scope of our class, but for our purposes, we can treat it like a special catch-all device for inputs that aren&#39;t otherwise explicitly specified.</li>
+<li>Protip: When looking for help on this, do not google &quot;R dot dot dot&quot; of &quot;R &#8230;&quot;. It will not be helpful. Instead, google for &quot;R ellipsis&quot;</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>?mean: Value</h2></hgroup><article  id="mean-value" class="image-column helppage">
+
+<p><img src='/images/mean_value.png' title=''/> The value section tells you about what the function returns to you when it finishes its calculations.</p>
+
+<ul>
+<li>The type of data structure (e.g. list, matrix, etc.)</li>
+<li>What values are held in that data structure</li>
+</ul>
+
+<p>The return value often differs depending on what arguments were used</p>
+
+</article></slide><slide class=''><hgroup><h2>?mean: Examples</h2></hgroup><article  id="mean-examples" class="image-column helppage">
+
+<p><img src='/images/mean_examples.png' title=''/> Help pages generally end with a section showing toy examples of using the function.</p>
+
+<p>These examples can demonstrate common use cases for the function.</p>
+
+<p>They can also show the effects of using different combinations of arguments on the returned value.</p>
+
+</article></slide><slide class=''><hgroup><h2>?var</h2></hgroup><article  id="var" class="img-centered helppage">
+
+<p>Lets take a look at the help page for the <code>var()</code> function now.</p>
+
+<p>The first thing you might notice is that the information about the <code>var()</code> function is on the help page for the <code>cor()</code> function!</p>
+
+<p><img src='/images/var_top.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>?var</h2></hgroup><article  id="var-1" class="image-column helppage">
+
+<p><img src='/images/var_arguments.png' title=''/> While there are 4 different functions defined here, they all have similar syntax</p>
+
+<p>In fact, looking at the <code>Arugments</code> section we see that between the 4 functions there are only 6 unique arguments between all 4 of these functions!</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity: Simulating Card Dealing</h2></hgroup><article  id="activity-simulating-card-dealing" class="img-centered">
+
+<p>Your activity is to simulate dealing a hand of 5 playing cards from a standard deck.</p>
+
+<p>The cards have face values of 2 through 10, as well as the Ace, King, Queen, and Jack. Each of those cards comes in all 4 suites (Clubs, Diamonds, Hearts and Spades).</p>
+
+<p><img src='/images/cards.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck" class="img-centered">
+
+<ol>
+<li>Use the <code>rep()</code> function to help you figure out how to create a vector representing all the face values in the deck. Abbreviate Ace as &quot;A&quot;, King as &quot;K&quot;, etc.
+
+<ul>
+<li>Hint: The face value vector should have as many &quot;Kings&quot; as the real deck (4)</li>
+<li>Hint: Have the order of the face values match the order in the image</li>
+</ul></li>
+</ol>
+
+<p><img src='/images/cards.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-1" class="img-centered">
+
+<ol>
+<li>Use <code>rep()</code> again to create a vector representing all the suite in the deck. Abbreviate Hearts as &quot;H&quot;, Clubs as &quot;C&quot;, etc.
+
+<ul>
+<li>Hint: The suites vector should have as many &quot;Hearts&quot; as the real deck (13)</li>
+<li>Hint: Have the order of the suites values match the order in the image</li>
+</ul></li>
+</ol>
+
+<p><img src='/images/cards.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-2">
+
+<ol>
+<li>Use the help page for the <code>paste()</code> function to figure out how to combine these 2 vectors into a single vector that defines each unique combination of face value and suite
+
+<ul>
+<li>Hint: Each element of the vector should be face-value/suite combination, like &quot;AH&quot; for ace of hearts.</li>
+<li>Hint: there might be a better function to use than <code>paste()</code>: read the help page closely and look at the examples to find out more.</li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Dealing the Cards</h2></hgroup><article  id="dealing-the-cards">
+
+<ol>
+<li>Use the <code>sample()</code> function to figure out how to simulate drawing 5 cards from this &quot;deck&quot; vector.
+
+<ul>
+<li>Hint: Be sure that you are sampling cards like a real dealer: without replacement!</li>
+</ul></li>
+</ol></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

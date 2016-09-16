@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ggplot2: The Grammar of Graphics (Part 2)</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'ggplot2: The Grammar of Graphics (Part 2)',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>The Grammar of Graphics</h2></hgroup><article  id="the-grammar-of-graphics">
+
+<p>We&#39;re going to continue the tour of the <code>ggplot2</code> package we began <a href='./lab17_ggplot2.html' title=''>last week</a></p>
+
+<p>We&#39;ll look at data management issues in the context of ggplot-ing, explore some more &quot;advanced&quot; features of the package, and make some common types of visualizations.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset" class="img-centered">
+
+<p>We&#39;ll begin our examples with the <code>iris</code> dataset, which gives measurements of the length and width (in cm.) of the sepals and petals from 3 species of irises (<em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>). <img src='/images/sepal.png' title=''/></p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset-1">
+
+<p>Lets take a glimpse at the data itself.</p>
+
+<table class = 'rmdtable'>
+<col width="20%" />
+<col width="19%" />
+<col width="20%" />
+<col width="19%" />
+<col width="12%" />
+<tr class="header">
+<th align="center">Sepal.Length</th>
+<th align="center">Sepal.Width</th>
+<th align="center">Petal.Length</th>
+<th align="center">Petal.Width</th>
+<th align="center">Species</th>
+</tr>
+<tr class="odd">
+<td align="center">5.1</td>
+<td align="center">3.5</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">4.9</td>
+<td align="center">3</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">4.7</td>
+<td align="center">3.2</td>
+<td align="center">1.3</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">4.6</td>
+<td align="center">3.1</td>
+<td align="center">1.5</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">3.6</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">5.4</td>
+<td align="center">3.9</td>
+<td align="center">1.7</td>
+<td align="center">0.4</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset-2">
+
+<p>Let&#39;s warm up by making a scatter plot of Sepal width against the Sepal length for the 3 different species. We&#39;ll save the plot as an object, so we can build on it in later slides.</p>
+
+<pre class = 'prettyprint lang-r'>library(ggplot2)
+p &lt;- ggplot(data = iris, 
+        mapping = aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()
+print(p)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/iris_scatter-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding smooths</h2></hgroup><article  id="adding-smooths">
+
+<p>ggplot has a special geometric object called a &quot;smooth&quot;, which is a line path whose x and y values are determined by a regression algorithm (e.g., loess, or lm).</p>
+
+<p>We can show a regression line and conditional mean C.I. for each flower group by adding a <code>geom_smooth</code> layer to the plot, and setting the <code>method</code> argument to be <code>&quot;lm&quot;</code>.</p>
+
+<pre class = 'prettyprint lang-r'>p + geom_smooth(method = &quot;lm&quot;, fullrange = TRUE)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/iris_smooth-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Layer-specific data and mappings</h2></hgroup><article  id="layer-specific-data-and-mappings">
+
+<p>So far, any geometric object layers we&#39;ve added have inherited their data and aesthetic mapping from the &quot;global&quot; mapping defined in the call to the <code>gpplot</code> function.</p>
+
+<p>However, that need not be the case: geoms can set their own layer-specific data sets and aesthetic mappings. This feature is mainly useful for two tasks:</p>
+
+<ul>
+<li>Adding summary-level information to plots of raw data</li>
+<li>Plotting part of a dataset with one geom, and different part with another geom (e.g. mixing a barplot and a scatter plot.)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Layer-specific mappings</h2></hgroup><article  id="layer-specific-mappings">
+
+<p>The layer-specific dataset or mapping is set inside the call the <code>geom_*whatever*</code>, using the same syntax as inside <code>ggplot</code>.</p>
+
+<p>Here, we&#39;ll use a layer specific mapping for <code>geom_smooth</code> which removes the mappings of <code>Species</code> to color, thus regressing width on length for all 3 species of iris at once.</p>
+
+<pre class = 'prettyprint lang-r'>p + geom_smooth(method = &quot;lm&quot;, fullrange = TRUE,
+                mapping = aes(color = NULL))</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/bad_idea-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Layer-specific mappings</h2></hgroup><article  id="layer-specific-mappings-1">
+
+<p>Of course, this is an example of how to use <code>ggplot</code> and not an example of how to fit a regression model.</p>
+
+<p>Ignoring species is a Bad Idea™, because our model violates the assumption of normally distributed residual error around the regression line.</p>
+
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Layer-specific data</h2></hgroup><article  id="layer-specific-data">
+
+<p>A better use of layer-specific setting would be to add another layer of points that has the mean Sepal width and length for each species.</p>
+
+<p>To do this, we&#39;ll need to create a dataset that summaries the Sepal length and width for each species with their average size.</p>
+
+<pre class = 'prettyprint lang-r'>library(dplyr)
+iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_each(&quot;mean&quot;)</pre>
+
+<table class = 'rmdtable'>
+<col width="15%" />
+<col width="20%" />
+<col width="19%" />
+<col width="20%" />
+<col width="20%" />
+<tr class="header">
+<th align="center">Species</th>
+<th align="center">Sepal.Length</th>
+<th align="center">Sepal.Width</th>
+<th align="center">Petal.Length</th>
+<th align="center">Petal.Width</th>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">5.006</td>
+<td align="center">3.428</td>
+<td align="center">1.462</td>
+<td align="center">0.246</td>
+</tr>
+<tr class="even">
+<td align="center">versicolor</td>
+<td align="center">5.936</td>
+<td align="center">2.770</td>
+<td align="center">4.260</td>
+<td align="center">1.326</td>
+</tr>
+<tr class="odd">
+<td align="center">virginica</td>
+<td align="center">6.588</td>
+<td align="center">2.974</td>
+<td align="center">5.552</td>
+<td align="center">2.026</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Layer-specific data</h2></hgroup><article  id="layer-specific-data-1">
+
+<p>Now, we&#39;ll include another layer of points, and set it to use the summarized dataset as its source of information. We&#39;ll also set it to use a different shape (an X) and size, so we can distinguish it from the raw data.</p>
+
+<pre class = 'prettyprint lang-r'>p + geom_point(data = iris_means, size = 5, shape = 4)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/means-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding Petal Width and Length</h2></hgroup><article  id="adding-petal-width-and-length">
+
+<p>So far we&#39;ve only been looking at half the data, so lets add in the Petal length and width data.</p>
+
+<p>But we&#39;ve got a problem: the widths and lengths for Petals and Sepals are separated individual variables!</p>
+
+<table class = 'rmdtable'>
+<col width="20%" />
+<col width="19%" />
+<col width="20%" />
+<col width="19%" />
+<col width="12%" />
+<tr class="header">
+<th align="center">Sepal.Length</th>
+<th align="center">Sepal.Width</th>
+<th align="center">Petal.Length</th>
+<th align="center">Petal.Width</th>
+<th align="center">Species</th>
+</tr>
+<tr class="odd">
+<td align="center">5.1</td>
+<td align="center">3.5</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">4.9</td>
+<td align="center">3</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>This means we can&#39;t easily add a new aesthetic mapping to distinguish Sepal measurements from Petal measurements, because there is no single variable in the data set which identifies Sepal measurements from Petal measurements.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset-3">
+
+<p>We&#39;ll need to reshape the data, so that one variable in the data set identifies Sepal measurements from Petal measurements in the <code>Length</code> and <code>Width</code> variables.</p>
+
+<pre class = 'prettyprint lang-r'>library(tidyr)
+
+# Add a primary key
+iris_normal &lt;- mutate(iris, FlowerID = row_number(Species)) %&gt;%
+# change layout to long-form
+  gather(key = variable, value = size, Sepal.Length:Petal.Width) %&gt;%
+# Break &quot;Sepal/Petal&quot; &amp; &quot;Length/Width&quot; into 2 columns
+  separate(variable, c(&quot;Structure&quot;, &quot;dimension&quot;))
+
+# Make a variable for length and width each  
+iris_long &lt;- spread(iris_normal, dimension, size)</pre>
+
+</article></slide><slide class=''><hgroup><h2>The new <code>iris_long</code> dataset</h2></hgroup><article  id="the-new-iris_long-dataset">
+
+<p>Ah, much better</p>
+
+<table class = 'rmdtable'>
+<col width="13%" />
+<col width="15%" />
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">Species</th>
+<th align="center">FlowerID</th>
+<th align="center">Structure</th>
+<th align="center">dimension</th>
+<th align="center">size</th>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">1</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">5.1</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">2</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">4.9</td>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">3</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">4.7</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">4</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">4.6</td>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">5</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">6</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">5.4</td>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">7</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">4.6</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Plotting Petal and Sepal measurements</h2></hgroup><article  id="plotting-petal-and-sepal-measurements">
+
+<p>Since the plot of just the Sepal measurements was already pretty &quot;full&quot;, I think the best way to add in the Petal measurements is to put the Sepal measurements and the Petal measurements into two different panels.</p>
+
+<p>Panel&#39;s are called <code>facets</code> in the &quot;grammar of graphics&quot;, and are functionally similar to dividing the plot window up into a &quot;matrix&quot; of different plots in base R plotting with <code>par(mfrow = c(x,y))</code>.</p>
+
+<p>Facets are added to the plot with the <code>facet_grid()</code> function (for when the number of facets could evenly fill a matrix) or the <code>facet_wrap()</code> function (for the more general case when the number of facets does <em>not</em> evenly fill a matrix)</p>
+
+</article></slide><slide class=''><hgroup><h2>Facetting</h2></hgroup><article  id="facetting">
+
+<p>Facets are added just like adding a new geom layer, and the layout of the panels is determined using the <code>lm</code>-style formula syntax.</p>
+
+<p>Here, we&#39;re asking for that dataset to be divided into different plots according to the values of the <code>Structure</code> variable.</p>
+
+<p>We&#39;ll use <code>facet_grid</code> here, since dividing plot according to the <code>Structure</code> variable would evenly fill a 2x1 or 1x2 matrix.</p>
+
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_long, 
+        mapping = aes(x = Length, y = Width, color = Species)) +
+  geom_point() + 
+  facet_grid( ~ Structure)</pre>
+
+<p>We&#39;ll show the plot on the next slide&#8230;</p>
+
+</article></slide><slide class=''><hgroup><h2>Facetting</h2></hgroup><article  id="facetting-1">
+
+<p>Panels created with faceting share the same scales!.</p>
+
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_long, 
+        mapping = aes(x = Length, y = Width, color = Species)) +
+  geom_point() + 
+  facet_grid( ~ Structure)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Plots with error bars</h2></hgroup><article  id="plots-with-error-bars">
+
+<p>Lets switch from scatter-plotting the lengths and widths to plotting some summary statistics of the Petal/Sepal lengths and widths for each species.</p>
+
+<p>Of course, any good plot of summary statistics includes error bars. Luckily, ggplot makes it easy to add error bars, so long as we make their upper and lower limits part of the dataset we are plotting.</p>
+
+<p>Step 1: Summarizing the data, including the upper and lower bounds of the 95% CI.</p>
+
+<pre class = 'prettyprint lang-r'>iris_means &lt;- iris_normal %&gt;%
+  group_by(Species, Structure, dimension) %&gt;%
+  summarise(avg = mean(size), SD = sd(size), N = n()) %&gt;%
+  mutate(SEM = SD/sqrt(N),
+         upper = avg + SEM*qt(.975, N-1,lower.tail = F),
+         lower = avg - SEM*qt(.975, N-1,lower.tail = F))</pre>
+
+</article></slide><slide class=''><hgroup><h2>Petal/Sepal Averages</h2></hgroup><article  id="petalsepal-averages">
+
+<table class = 'rmdtable'>
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+<col width="6%" />
+<col width="11%" />
+<col width="4%" />
+<col width="12%" />
+<col width="11%" />
+<col width="11%" />
+<tr class="header">
+<th align="center">Species</th>
+<th align="center">Structure</th>
+<th align="center">dimension</th>
+<th align="center">avg</th>
+<th align="center">SD</th>
+<th align="center">N</th>
+<th align="center">SEM</th>
+<th align="center">upper</th>
+<th align="center">lower</th>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">Petal</td>
+<td align="center">Length</td>
+<td align="center">1.462</td>
+<td align="center">0.1736640</td>
+<td align="center">50</td>
+<td align="center">0.02455980</td>
+<td align="center">1.4126452</td>
+<td align="center">1.5113548</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">Petal</td>
+<td align="center">Width</td>
+<td align="center">0.246</td>
+<td align="center">0.1053856</td>
+<td align="center">50</td>
+<td align="center">0.01490377</td>
+<td align="center">0.2160497</td>
+<td align="center">0.2759503</td>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">5.006</td>
+<td align="center">0.3524897</td>
+<td align="center">50</td>
+<td align="center">0.04984957</td>
+<td align="center">4.9058235</td>
+<td align="center">5.1061765</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">Sepal</td>
+<td align="center">Width</td>
+<td align="center">3.428</td>
+<td align="center">0.3790644</td>
+<td align="center">50</td>
+<td align="center">0.05360780</td>
+<td align="center">3.3202711</td>
+<td align="center">3.5357289</td>
+</tr>
+<tr class="odd">
+<td align="center">versicolor</td>
+<td align="center">Petal</td>
+<td align="center">Length</td>
+<td align="center">4.260</td>
+<td align="center">0.4699110</td>
+<td align="center">50</td>
+<td align="center">0.06645545</td>
+<td align="center">4.1264528</td>
+<td align="center">4.3935472</td>
+</tr>
+<tr class="even">
+<td align="center">versicolor</td>
+<td align="center">Petal</td>
+<td align="center">Width</td>
+<td align="center">1.326</td>
+<td align="center">0.1977527</td>
+<td align="center">50</td>
+<td align="center">0.02796645</td>
+<td align="center">1.2697993</td>
+<td align="center">1.3822007</td>
+</tr>
+<tr class="odd">
+<td align="center">versicolor</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">5.936</td>
+<td align="center">0.5161711</td>
+<td align="center">50</td>
+<td align="center">0.07299762</td>
+<td align="center">5.7893058</td>
+<td align="center">6.0826942</td>
+</tr>
+<tr class="even">
+<td align="center">versicolor</td>
+<td align="center">Sepal</td>
+<td align="center">Width</td>
+<td align="center">2.770</td>
+<td align="center">0.3137983</td>
+<td align="center">50</td>
+<td align="center">0.04437778</td>
+<td align="center">2.6808195</td>
+<td align="center">2.8591805</td>
+</tr>
+<tr class="odd">
+<td align="center">virginica</td>
+<td align="center">Petal</td>
+<td align="center">Length</td>
+<td align="center">5.552</td>
+<td align="center">0.5518947</td>
+<td align="center">50</td>
+<td align="center">0.07804970</td>
+<td align="center">5.3951533</td>
+<td align="center">5.7088467</td>
+</tr>
+<tr class="even">
+<td align="center">virginica</td>
+<td align="center">Petal</td>
+<td align="center">Width</td>
+<td align="center">2.026</td>
+<td align="center">0.2746501</td>
+<td align="center">50</td>
+<td align="center">0.03884138</td>
+<td align="center">1.9479453</td>
+<td align="center">2.1040547</td>
+</tr>
+<tr class="odd">
+<td align="center">virginica</td>
+<td align="center">Sepal</td>
+<td align="center">Length</td>
+<td align="center">6.588</td>
+<td align="center">0.6358796</td>
+<td align="center">50</td>
+<td align="center">0.08992695</td>
+<td align="center">6.4072850</td>
+<td align="center">6.7687150</td>
+</tr>
+<tr class="even">
+<td align="center">virginica</td>
+<td align="center">Sepal</td>
+<td align="center">Width</td>
+<td align="center">2.974</td>
+<td align="center">0.3224966</td>
+<td align="center">50</td>
+<td align="center">0.04560791</td>
+<td align="center">2.8823475</td>
+<td align="center">3.0656525</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Plotting the averages</h2></hgroup><article  id="plotting-the-averages">
+
+<p>This time, let&#39;s put the type of structure measured on the x-axis (i.e., map the <code>dimension</code> variable to the <code>x</code> aesthetic).</p>
+
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(iris_means, aes(x = dimension, y = avg, color = Species)) +
+  geom_point() + facet_grid(~Structure)
+print(p)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/plot_averages-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding the confidence intervals</h2></hgroup><article  id="adding-the-confidence-intervals">
+
+<p>To add error bars for the confidence intervals, all we need to do is add a new layer containing them with <code>geom_errorbar</code>.</p>
+
+<p>The 2 important aesthetics for the error bar geoms are <code>ymin</code> and <code>ymax</code>, which should be mapped to the <code>lower</code> and <code>upper</code> variables, respectively.</p>
+
+<pre class = 'prettyprint lang-r'>p + geom_errorbar(aes(ymin = lower, ymax = upper), width = .15)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/error_bars-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages">
+
+<p>You could also plot these averages with a barplot, which are created with <code>geom_bar</code>. Making a bar plot with these geoms requires a little tweaking:</p>
+
+<ul>
+<li>The <code>color</code> aesthetic of bars corresponds to the color if the bar&#39;s perimeter, rather than the color of its area, so we need to map the <code>fill</code> aesthetic instead</li>
+<li>To get side-by-side bars (instead of stacked bars), we need tell <code>ggplot</code> to put space between each bar with the <code>position_dodge()</code> function. This function takes 1 argument (<code>width</code>), which controls how far apart the bars are placed</li>
+<li>By default, the y-axis aesthetic is determined by the total number of observations in each group. To map the y aesthetic to a value in our dataset, we need to set the <code>stat</code> argument to <code>&quot;identity&quot;</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages-1">
+
+<p>Here&#39;s how we apply those tweaks to get a bar plot of the averages</p>
+
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(iris_means, aes(x = dimension, y = avg, fill = Species)) + 
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 1)) + 
+  facet_grid(~Structure)
+print(p)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>A barplot with errror bars</h2></hgroup><article  id="a-barplot-with-errror-bars">
+
+<p>To include error bars, we use <code>geom_errorbar</code> like before, but we also must set <code>position_dodge(width = 1)</code> to get each error bar to match up correctly.</p>
+
+<pre class = 'prettyprint lang-r'>p + geom_errorbar(aes(ymin = lower, ymax = upper),
+                position = position_dodge(width = 1),
+                width = .15)</pre>
+
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Miscellaneous</h2></hgroup><article  id="miscellaneous">
+
+<p>There is still a lot more to ggplot (the author of the package has a <a href='http://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/0387981403' title=''>great book</a>) but here are a few more pointers.</p>
+
+<ul>
+<li>You&#39;ll often need to change the name and limits of a scale. You can do this by invoking the appropriate <code>scale_*whatever*</code> function, and using the <code>scale_name</code> and <code>limits</code> arguments
+
+<ul>
+<li>E.g., <code>scale_y_continuous(scale_name = &quot;Petal Width&quot;, limits = c(0,15))</code></li>
+</ul></li>
+<li>Things like font, font size, background color, aspect ratio, etc., are controlled using the <code>theme</code> function.
+
+<ul>
+<li>The <code>theme</code> function is quite extensive, so see <a href='http://docs.ggplot2.org/current/theme.html' title=''>this list</a> and <code>?theme</code> for a description of all its arguments and options.</li>
+<li><code>ggplot2</code> includes several pre-made themes (e.g., use <code>p + theme_bw()</code> for black and white, or <code>p + theme_dark()</code>)</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>The <code>esoph</code> dataset reports the number of patients who did and did not develop esophageal cancer given three observational variables: age, alcohol consumption, and tobacco consumption (see <code>?esoph</code> for more info).</p>
+
+<p>First, create 3 new variables using the code below.</p>
+
+<ul>
+<li><code>p</code>: The probability of getting cancer</li>
+<li><code>upper</code>: The upper bound of cancers (assuming a binomial distribution)</li>
+<li><code>lower</code>: The lower bound of cancers (assuming a binomial distribution)</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>esoph &lt;- mutate(esoph, cell_size = ncontrols + ncases,
+            p = ncases/cell_size,
+            upper = qbinom(.975, size = cell_size, prob = p)/cell_size,
+         lower = qbinom(.025, size = cell_size, prob = p)/cell_size,
+         cell_size = NULL)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+
+<p>Plot the probability of cancer for each group, along with errors bars, using</p>
+
+<ol>
+<li>A barplot</li>
+<li>A dot-plot</li>
+</ol>
+
+<p>Remember to take advantage of facets, including <code>facet_grid</code> or <code>facet_wrap</code>.</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

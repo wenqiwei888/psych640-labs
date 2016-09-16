@@ -1,0 +1,6 @@
+ioslides_presentation:
+  lib_dir: lib
+  self_contained: false
+  css: ["../theme/css/custom.css"]
+  mathjax: null
+  widescree: true

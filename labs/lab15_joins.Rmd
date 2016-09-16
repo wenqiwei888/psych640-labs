@@ -1,0 +1,319 @@
+---
+title: 'Merging Datasets with Joins'
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+<style>
+img {
+  margin-top: -50px;
+  float: left;
+}
+</style>
+
+
+```{r setup, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.height = 4, fig.width = 4, cache = TRUE)
+options(stringsAsFactors = FALSE)
+library(dplyr)
+library(colorfulVennPlot)
+library(stringi)
+heroes <- read.csv("../data/heroes.csv")
+companies <- read.csv("../data/companies.csv")
+joinPlot <- function(type, color = "red", title = NULL) {
+  fills <- switch(type,
+                  inner = c("white", "white", color),
+                  left = c("white", color, color),
+                  left_exclude = c("white", color, "white"),
+                  right = c(color,"white", color),
+                  right_exclude = c(color, "white", "white"),
+                  full= c(color, color, color),
+                  outer = c(color, color, "white"))
+  grid.newpage()
+  plotVenn2d(c("","", ""), labels = c('', ''),  Colors=fills)
+  grid.text(c("X","Y"), c(.3, .7), c(.5,.5), gp=gpar(fontsize=28))
+  grid.text(title, .5, .8, gp=gpar(fontsize=16))
+}
+
+```
+
+## Merging Data Sets
+Intentionally or unintentionally, its common to find yourself needing to merge two data sets into a single one.
+
+  - To make plotting simpler
+  - To make a table
+  - More easily subtract variables
+  - Cross check for errors/missing values
+
+If these two data sets have exactly the same variables (i.e., the same column names measuring the same things) this is a simple task.
+
+
+
+## Identical Variables
+When the variables in the data frames you wish to merge are identical, you can use the `rbind` function (short for row bind) to combine them. For example, if the data for two different subjects are in separate data frames, we can merge them like so:
+
+```{r rowbind}
+sub1 <- data.frame(sub = 1, treatment = c("A", "B"), score = c(6,1000))
+sub2 <- data.frame(sub = 2, treatment = c("A", "B"), score = c(4,9999))
+rbind(sub1, sub2) # Can bind any number of data frames, not just 2
+```
+
+But if the datasets only have some variables in common, the task is more complex than `rbind` can handle. This is where join functions come into play.
+
+## What are joins?
+Joins are functions that merge two datasets based on common values from variables shared across the datasets.
+
+To give you an idea about what joins are designed to accomplish, consider the two data frames below. The first, `pre`, has the pre-test scores for treatment conditions A and B. The second, `post`, has the post-test scores for the two treatments.
+```{r dummy, echo = c(1,3)}
+pre <- data.frame(treatment = c("A","B"), score = c(9, 11))
+pre
+post <- data.frame(treatment = c("B","A"), score = c(21, 8))
+post
+```
+
+## What are joins
+It may be useful to have the pre and post-test scores in the same data frame . But we can't just move a column from one data frame to another, because treatment A and B are in different orders in each one.
+
+One way we could match the scores up with the right treatment row would be with logical indexing and subsetting.
+
+```{r dumbjoin}
+pre$score_post <- c(NA, NA)
+pre$score_post[pre$treatment=="A"] <- post$score[post$treatment == "A"]
+pre$score_post[pre$treatment=="B"] <- post$score[post$treatment == "B"]
+pre
+```
+
+## What are joins
+```{r ref.label="dumbjoin", echo = 1:3, eval= FALSE}
+```
+
+This implements the basic functionality of a join:
+
+1. Find the rows in one data set that have a matching value in another dataset
+2. Add in corresponding values from other variables they don't have in common.
+
+## Why use joins then?
+This approach works fine for this toy example, and you could even scale it up to handle many different treatments (e.g., A, B, C, D, E, etc.) with a `for` loop.
+
+But more complicated situations make this approach tedious and verbose. 
+
+- Combining data frames based on combinations of many variables?
+- Variables with the same name, but sets of values that do not perfectly intersect?
+- Data frames don't match in length?
+- Removing common rows instead of adding new columns?
+
+Join functions are preferable because they are faster than indexing and assigning inside of loops, and will have reliable, consistent behavior.
+
+## Getting Started
+Lets start by loading dplyr and downloading the two datasets we'll be practicing our joins with.
+```{r fake_setup, eval = FALSE}
+library(dplyr)
+heroes <- read.csv("http://wjhopper.github.io/psych640/data/heroes.csv")
+companies <- read.csv("http://wjhopper.github.io/psych640/data/companies.csv")
+```
+
+Thanks to the instructors of UBC's [Statistics 545](https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html) course for these useful data sets and for inspiring this tutorial.
+
+## Heroes
+The `heroes` dataset has some basic info about a few comic book heroes. For each superhero, it tells us whether they are "good" or "bad", their gender, and what company published their comics.
+
+```{r superheros, echo=FALSE}
+heroes
+```
+
+## Companies
+The `companies` dataset just tells us the year these 3 comic book publishing companies were founded.
+```{r pubs, echo=FALSE}
+companies
+```
+
+The important thing to note about these two data sets is that they have one variable in common: `publisher`. 
+
+This is the variable which will be doing all the 'work' in the join examples to follow.
+
+## Types of joins 
+There are six different types of joins, each with its own function:
+
+- Inner Join --> `inner_join(x, y, by = NULL)`
+- Left Join --> `left_join(x, y, by = NULL)`
+- Right Join --> `right_join(x, y, by = NULL)`
+- Full Join --> `full_join(x, y, by = NULL)`
+- Semi Join --> `semi_join(x, y, by = NULL)`
+- Anti Join --> `anti_join(x, y, by = NULL)`
+
+`x` and `y` are the two data frames to join together and `by` is an optional character vector of column names to base the join on (like the `treatment` column in the first example).
+
+If the `by` argument is omitted, the join will be based on all shared columns.
+
+## How to think of joins 
+Learning joins can be tricky because different joins often appear to give equivalent results, but are different in subtle and important ways. In fact, its possible to get *exactly* equivalent results from two different joins by re-ordering arguments or joining on different columns (e.g., a left join can be rewritten as right join).
+
+To see how each join is different, it helps to realize that one of the data sets is treated as the "master" that already has most of the information you are most interested in, and the other is treated as a "helper" which can add or remove variables and observations to the "master" set.
+
+## Inner Join
+An inner join returns all rows from `x` that have matching rows in `y`, and all columns from `x` and `y`.
+
+The `x` data frame is considered the "master" set and `y` is the "helper" set which adds new variables, but thins out the number of observations
+```{r inner_join_venn, echo=FALSE}
+joinPlot("inner", title = "Rows returned from Inner Join")
+joinPlot("full", color = "blue", title = "Columns returned from Inner Join")
+```
+
+## Inner Join: All rows in x with a match in y
+```{r inner_join}
+inner_join(x = heroes, y = companies)
+```
+
+We kept all the rows in `heroes` that had a value in the `publisher` variable that also appeared in the `publisher` variable in the `companies` dataset.
+
+Since Hellboy was character published by Dark Horse Comics, and Dark Horse Comics was not in our list of publishers, the row for Hellboy is not included in the results from the inner join.
+
+## Inner Join: All columns from x and y
+```{r ref.label="inner_join"}
+```
+The results have all the columns originally in `heroes` (`name`, `alignment`, `gender` and `publisher`) and all the columns originally in `companies` (`publisher` and `yr_founded`).
+
+The value of the `yr_founded` variable for each publisher in `companies` was added to the row for each superhero with that publishing company (e.g., Magneto, Storm and Mystique all have "1939" for their `yr_founded` variable).
+
+## Left Join
+A left join will return all rows from `x`, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns.
+
+The `x` data frame is considered the "master" set and `y` is the "helper" set which adds new variables and observations.
+
+```{r left_join_venn, echo=FALSE}
+joinPlot('left', title = "Rows returned from Left Join")
+joinPlot('full', color = "blue", title = "Columns returned from Left Join")
+```
+
+## Left Join: All rows from x
+```{r left_join}
+left_join(x = heroes, y = companies)
+```
+
+All the rows from `heroes` are included in the output, as well as all columns from both data sets.
+
+## Left Join: Missing Values
+```{r ref.label="left_join"}
+```
+
+Since there is no record for "Dark Horse Comics"" in the `publishers` variable from `companies`, the row for Hellboy in the `yr_founded` is column is filled with `NA` in the results from the join (instead of dropping the row entirely, as with an inner join).
+
+## Right Join
+A right join returns all rows from y, and all columns from x and y. Rows in y with no match in x will have NA values in the new columns.
+
+The `y` data frame is considered the "master" set and `x` is the "helper" set which adds new variables.
+
+```{r right_join_plot, echo = FALSE}
+joinPlot('right', title = "Rows returned from Right Join")
+joinPlot('full', color = "blue", title = "Columns returned from Right Join")
+```
+
+## Right Join: All rows from y
+```{r right_join}
+right_join(x = heroes, y = companies)
+```
+
+The results from the right join preserves each publisher from the `companies` dataset, and adds in all the variables from the `heroes` data frame.
+
+All the DC and Marvel heroes are included in the output, since their publishers appeared in the `companies` data set.
+
+## Right Join: Only matches from x
+```{r ref.label="right_join"}
+```
+
+The row for Hellboy is again not included because it's publisher is not in the `companies` dataset.
+
+Since no characters from "Image" publishers are in the `heroes` dataset, the `name`, `alignment` and `gender` columns for that publisher are filled with `NA`'s.
+
+## Full Join
+A full join returns all rows and columns from both x and y. Any values not present in one table, but present in the other, will have NA values in the variables found *only* in the other table.
+
+There is no clear "master" or "helper" set in a full join; both data sets act in both capacities. A full join is more like shuffling two decks of cards together, if each row the datasets were a card.
+
+```{r full_join_plot, echo=FALSE}
+joinPlot('full', title = "Rows returned from Full Join")
+joinPlot('full', color = "blue", title = "Columns returned from Full Join")
+```
+
+## Full Join: All the rows!
+```{r full_join}
+full_join(x = heroes, y = companies)
+```
+
+The results from the full join results include each super hero, as well as each publisher.
+
+## Full Join: All the rows!
+```{r ref.label="full_join"}
+```
+
+For super heroes without a publisher in the `companies` dataset, the `yr_founded` variable has an `NA` value.
+
+For publishers without a super hero in the `heroes` dataset, the `name`, `alignment` and `gender` variables have an `NA` value.
+
+## Semi Join
+A Semi Join returns all rows from x where there are matching values in y, keeping just columns from x. Thus, a semi join is really a concise filtering operation, not a "join".
+
+The `x` data frame is considered the "master" set and `y` is the "helper" set which thins out the number of observations.
+
+```{r semi_join_plot, echo=FALSE}
+joinPlot('inner', title = "Rows returned from Left Join")
+joinPlot('left', color = "blue", title = "Columns returned from Semi Join")
+```
+
+## Semi Join
+```{r semi}
+semi_join(x = heroes, y = companies)
+```
+
+Rows for super heroes with a publisher not listed in the `companies` dataset are dropped (like an inner join) but no new columns are added (unlike an inner join, which includes the columns from y in the results).
+
+## Anti Join
+An anti join returns all rows from x where there are **not** matching values in y, keeping just columns from x. Thus an anti join is the inverse of a semi join.
+
+```{r anti_join_plot, echo=FALSE}
+joinPlot('left_exclude', title = "Rows returned from Anti Join")
+joinPlot('left', color = "blue", title = "Columns returned from Anti Join")
+```
+
+## Anti Join
+```{r anti}
+anti_join(x = heroes, y = companies)
+```
+
+Finally, its Hellboy's time to shine!! Since Hellboy is the only character in `heroes` whose publisher isn't listed in `companies`, the row for Hellboy is the only one included in the results.
+
+## Anti Join
+```{r anti_reversed}
+anti_join(x = companies, y = heroes)
+```
+
+If we reverse the arguments (`x` is now `companies` and `y` is now `heroes`), then the row for "Image" publishers is the only observation returned.
+
+## Activity
+Experimenters administering a double-blind study comparing different drug treatments record their participant's measurement at each timepoint in a spreadsheet that only has each subjects random ID number. You have the "key" that identifies what treatments each participant received.
+
+```{r study_data,eval=FALSE}
+data <- read.csv("http://wjhopper.github.io/psych640/data/drugdata.csv")
+key <- read.csv("http://wjhopper.github.io/psych640/data/drugkey.csv")
+```
+
+After the study ends, the administrators give you the data to analyze, and you have to match each subject's observations with the correct treatment condition.
+
+Make a combined data set that reports each subject's observations from each treatment condition. Which drugs were tested on all subjects?
+
+```{r solutions, include=FALSE}
+# key <- data.frame(subID = rep(c("192498","891614","172106"), each=4),
+#                   time = rep(1:4, times = 3),
+#                   treatment = c("teamocil", "placebo","euphorazine", "zanotab",
+#                                 "placebo", "zanotab", "euphorazine", "teamocil",
+#                                 "euphorazine", "teamocil", "zanotab", "placebo"))
+# 
+# data <- data.frame(subID = rep(c("192498","891614","172106"), each=3),
+#                    time = c(2, 1, 3, 3, 4, 1, 4, 2, 3),
+#                    score = c(60.2,45.8,55.2,59.7,71.5,78.4,70.1,73.7,99.5))
+key <- read.csv(file = "../data/drugkey.csv")
+data <- read.csv(file = "../data/drugdata.csv")
+right_join(data,key) # or left_join(key, data)
+anti_join(key, data)
+```
+

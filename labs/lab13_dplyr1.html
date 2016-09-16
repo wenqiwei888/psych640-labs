@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dplyr, Part 1: Basic Verbs</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'dplyr, Part 1: Basic Verbs',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>What is dplyr?</h2></hgroup><article  id="what-is-dplyr">
+
+<p>The <code>dplyr</code> package is quickly becoming the de-facto standard for common tasks that involve manipulating data frames. Some of its biggest advantages are:</p>
+
+<ul>
+<li>A streamlined and unified interface for tasks commonly performed together.</li>
+<li>More syntactically and semantically intuitive functions than the tools in base R</li>
+<li>Often much faster!</li>
+<li>The ability to manipulate data stored in databases (e.g. MySQL, SQLite, PostgreSQL) with the same language you use for &#39;ordinary&#39; data in R (i.e., data frames).</li>
+</ul>
+
+<p>This is not to say that it replaces or makes base R syntax obsolete, but it is a great tool to have at your disposal.</p>
+
+</article></slide><slide class=''><hgroup><h2>Functions == Verbs in dplyr</h2></hgroup><article  id="functions-verbs-in-dplyr">
+
+<p><code>dplyr</code> provides some basic &quot;verbs&quot;, i.e., functions that correspond to the most common data manipulation tasks.</p>
+
+<p>This model helps build a bridge between your thoughts (i.e., what you want to do to the data, like &quot;I want to select only observations from the first time point&quot;) into code. For example:</p>
+
+<ul>
+<li>&quot;I want to sort the rows&quot; &#8211;&gt; <code>arrange()</code></li>
+<li>&quot;I want to select only some rows&quot; &#8211;&gt; <code>filter()</code></li>
+<li>&quot;I want to select only some columns&quot; &#8211;&gt; <code>select()</code></li>
+<li>&quot;I want to find the unique rows&quot; &#8211;&gt; <code>distinct()</code></li>
+<li>&quot;I want to create a new column&quot; &#8211;&gt; <code>mutate()</code></li>
+<li>&quot;I want to aggregate the data&quot; &#8211;&gt; <code>summarise()</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Getting Started</h2></hgroup><article  id="getting-started">
+
+<p>We&#39;ll start our tour by installing the <code>dplyr</code> package and loading a dataset to use in our examples.</p>
+
+<pre class = 'prettyprint lang-r'>install.packages(&#39;dplyr&#39;)
+library(dplyr)
+cropYield &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/crops.csv&quot;)
+head(cropYield)</pre>
+
+<pre >##   Field   Till    Fert Yield
+## 1     1 Chisel   Broad   119
+## 2     1 Chisel    Deep   130
+## 3     1 Chisel Surface   123
+## 4     2 Chisel   Broad   135
+## 5     2 Chisel    Deep   148
+## 6     2 Chisel Surface   134</pre>
+
+<p>The <code>cropYield</code> data frame has 99 observations of 4 variables: Field, Till, Fert, and Yield.</p>
+
+</article></slide><slide class=''><hgroup><h2>The arrange function</h2></hgroup><article  id="the-arrange-function">
+
+<p>The <code>arrange</code> function sorts the rows of a data frame based on the values of one or more variables. Lets use it to sort the rows of the <code>cropYield</code> data frame by fertilizer type.</p>
+
+<p><code>arrange</code> expects the first argument to be the data frame to sort, and uses any remaining arguments as the names of the variables to sort by.</p>
+
+<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert) # Column names are unquoted!!</pre>
+
+<pre >##    Field    Till    Fert Yield
+## 1      1  Chisel   Broad   119
+## 2      2  Chisel   Broad   135
+## 3      3  Chisel   Broad   140
+## 4      4  Chisel   Broad   126
+## 5      5  Chisel   Broad   128
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 94 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The arrange function</h2></hgroup><article  id="the-arrange-function-1">
+
+<p>If you ask <code>arrange</code> to sort by multiple variables, the rows are sorted hierarchically according to the order of the variables listed in the function call.</p>
+
+<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert, Yield)</pre>
+
+<pre >##    Field    Till    Fert Yield
+## 1      7  Chisel   Broad   104
+## 2      8  Chisel   Broad   108
+## 3     26   Ridge   Broad   110
+## 4     12  Chisel   Broad   114
+## 5     23   Ridge   Broad   115
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 94 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The arrange function</h2></hgroup><article  id="the-arrange-function-2">
+
+<p>You can also sort by reverse alphabetical or numerically descending order by using the <code>desc</code> function inside the call to <code>arrange</code>.</p>
+
+<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert, desc(Yield)) # desc only works inside arrange</pre>
+
+<pre >##    Field    Till    Fert Yield
+## 1     16 Moldbrd   Broad   160
+## 2     24   Ridge   Broad   156
+## 3     33   Ridge   Broad   153
+## 4     20 Moldbrd   Broad   147
+## 5     11  Chisel   Broad   146
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 94 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The filter function</h2></hgroup><article  id="the-filter-function">
+
+<p>The <code>filter</code> function selects a subset of rows from the data frame based on logical tests, similar to the <code>[</code> operator.</p>
+
+<p><code>filter</code> also expects the first argument to be a data frame. Any other arguments must be expressions that return logical vectors, and <code>filter</code> returns only the rows where the logical conditions are met.</p>
+
+<pre class = 'prettyprint lang-r'># Find the rows where the tilling method is ridge
+filter(cropYield, Till == &quot;Ridge&quot;)</pre>
+
+<pre >##    Field  Till    Fert Yield
+## 1     23 Ridge   Broad   115
+## 2     23 Ridge    Deep   142
+## 3     23 Ridge Surface   148
+## 4     24 Ridge   Broad   156
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 29 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The filter function</h2></hgroup><article  id="the-filter-function-1">
+
+<p>If you list multiple conditions, they are combined with the <code>&amp;</code> operator, meaning that a row must meet <em>both</em> conditions to be included in the output.</p>
+
+<p>Here, a row must have it&#39;s <code>Till</code> value equal to <code>Ridge</code>, and it&#39;s <code>Fert</code> value equal to <code>Deep</code> to be part of the output.</p>
+
+<pre class = 'prettyprint lang-r'>filter(cropYield, Till == &quot;Ridge&quot;, Fert == &quot;Deep&quot;)</pre>
+
+<pre >##    Field  Till Fert Yield
+## 1     23 Ridge Deep   142
+## 2     24 Ridge Deep   174
+## 3     25 Ridge Deep   144
+## 4     26 Ridge Deep   128
+## 5     27 Ridge Deep   153
+## 6     28 Ridge Deep   165
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 5 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The filter function</h2></hgroup><article  id="the-filter-function-2">
+
+<p>If you want to include a row if it meets <em>any</em> given condition (a logical <code>OR</code> statement), you must combine the conditions yourself with the <code>|</code> operator.</p>
+
+<pre class = 'prettyprint lang-r'>filter(cropYield, Till == &quot;Ridge&quot; | Fert == &quot;Deep&quot;) </pre>
+
+<pre >##    Field    Till    Fert Yield
+## 1      1  Chisel    Deep   130
+## 2      2  Chisel    Deep   148
+## 3      3  Chisel    Deep   146
+## 4      4  Chisel    Deep   132
+## 5      5  Chisel    Deep   141
+## 6      6  Chisel    Deep   130
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 49 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The filter function</h2></hgroup><article  id="the-filter-function-3">
+
+<p>If you want to include rows where the value of a variable is a member of a larger subset (e.g., rows where x is 1 or 2, instead of just 1), you can use the <code>%in%</code> operator.</p>
+
+<p>Here we filter out the rows where the <code>Till</code> variable has a value in the set defined by the character vector <code>c(&quot;Ridge&quot;,&quot;Chisel&quot;)</code>.</p>
+
+<pre class = 'prettyprint lang-r'>filter(cropYield, Till %in% c(&quot;Ridge&quot;, &quot;Chisel&quot;))</pre>
+
+<pre >##    Field   Till    Fert Yield
+## 1      1 Chisel   Broad   119
+## 2      1 Chisel    Deep   130
+## 3      1 Chisel Surface   123
+## 4      2 Chisel   Broad   135
+## 5      2 Chisel    Deep   148
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 64 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>A note on using <code>%in%</code></h2></hgroup><article  id="a-note-on-using-in">
+
+<p>Sometimes it makes sense to use the <code>%in%</code> operator to with a set of just one value. A good example is when you&#39;re filtering on a variable which has <code>NA</code> values. If you try to use the <code>==</code> operator to filter the values, your results will have the rows which meet this criterion, <strong>AND</strong> all the <code>NA</code> values!</p>
+
+<p>This occurs because R treats <code>NA</code> as meaning literally missing, thus there is no second value to compare to, and thus the result of the logical test is itself missing.</p>
+
+<p>But if you use the <code>%in%</code> operator, the <code>NA</code> values will be judged &quot;not in the set&quot;, and not included in the results.</p>
+
+<pre class = 'prettyprint lang-r'>c(NA == 1, NA %in% 1) # Logical Weirdness, Exhibit A!</pre>
+
+<pre >## [1]    NA FALSE</pre>
+
+</article></slide><slide class=''><hgroup><h2>The select function</h2></hgroup><article  id="the-select-function">
+
+<p>The <code>select</code> function allows you to pare down your data set by only keeping the columns that you specify, and also allows you to rename and reorder the selected columns on the fly.</p>
+
+<pre class = 'prettyprint lang-r'># Existing column name on the right of the =, new name on the left 
+select(cropYield, fertilizer = Fert, bushels = Yield, Till)</pre>
+
+<pre >##    fertilizer bushels    Till
+## 1       Broad     119  Chisel
+## 2        Deep     130  Chisel
+## 3     Surface     123  Chisel
+## 4       Broad     135  Chisel
+## 5        Deep     148  Chisel
+## 6     Surface     134  Chisel
+## 7       Broad     140  Chisel
+## 8        Deep     146  Chisel
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 91 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The select function</h2></hgroup><article  id="the-select-function-1">
+
+<p>The <code>select</code> function even allows you to select a continuous range of columns using the start and end column names, separated with the <code>:</code> operator, just like a numeric vector!!!</p>
+
+<pre class = 'prettyprint lang-r'># So awesome! But, you can&#39;t rename at the same time with this syntax
+select(cropYield, Till:Yield)</pre>
+
+<pre >##       Till    Fert Yield
+## 1   Chisel   Broad   119
+## 2   Chisel    Deep   130
+## 3   Chisel Surface   123
+## 4   Chisel   Broad   135
+## 5   Chisel    Deep   148
+## 6   Chisel Surface   134
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 93 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The select function</h2></hgroup><article  id="the-select-function-2">
+
+<p>You can even specify just the columns you <em>don&#39;t</em> want to keep, which is useful for very wide data frames where you want to discard just one or two columns</p>
+
+<pre class = 'prettyprint lang-r'># The - says to drop this column
+select(cropYield, -Field)</pre>
+
+<pre >##       Till    Fert Yield
+## 1   Chisel   Broad   119
+## 2   Chisel    Deep   130
+## 3   Chisel Surface   123
+## 4   Chisel   Broad   135
+## 5   Chisel    Deep   148
+## 6   Chisel Surface   134
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 93 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The rename function</h2></hgroup><article  id="the-rename-function">
+
+<p>You can use the <code>rename</code> function if you want to change any column names without removing any columns.</p>
+
+<pre class = 'prettyprint lang-r'># Existing column name on the right of the =, new name on the left 
+rename(cropYield, fieldID = Field)</pre>
+
+<pre >##    fieldID    Till    Fert Yield
+## 1        1  Chisel   Broad   119
+## 2        1  Chisel    Deep   130
+## 3        1  Chisel Surface   123
+## 4        2  Chisel   Broad   135
+## 5        2  Chisel    Deep   148
+## 6        2  Chisel Surface   134
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 93 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The distinct function</h2></hgroup><article  id="the-distinct-function">
+
+<p>The <code>distinct</code> function is similar to the <code>unique</code> function, but instead of returning the unique values in a vector, <code>distinct</code> returns only the unique rows of a data frame.</p>
+
+<p>Lets use it to discover all the unique combinations of <code>Till</code> and <code>Fert</code> contained in this dataset.</p>
+
+<pre class = 'prettyprint lang-r'>distinct(select(cropYield, Till, Fert))</pre>
+
+<pre >##      Till    Fert
+## 1  Chisel   Broad
+## 2  Chisel    Deep
+## 3  Chisel Surface
+## 4 Moldbrd   Broad
+## 5 Moldbrd    Deep
+## 6 Moldbrd Surface
+## 7   Ridge   Broad
+## 8   Ridge    Deep
+## 9   Ridge Surface</pre>
+
+</article></slide><slide class=''><hgroup><h2>The mutate function</h2></hgroup><article  id="the-mutate-function">
+
+<p>You can use the mutate function to create new variables in your data frame.</p>
+
+<p>Its especially useful for creating new variables based on existing ones, and changing/adding multiple columns at the same time.</p>
+
+<pre class = 'prettyprint lang-r'>mutate(cropYield, Field = factor(Field), yeildSq = Yield^2)</pre>
+
+<pre >##    Field    Till    Fert Yield yeildSq
+## 1      1  Chisel   Broad   119   14161
+## 2      1  Chisel    Deep   130   16900
+## 3      1  Chisel Surface   123   15129
+## 4      2  Chisel   Broad   135   18225
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 95 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The mutate function</h2></hgroup><article  id="the-mutate-function-1">
+
+<p>A cool feature of the <code>mutate</code> function is that you can use new variables immediately after you create them, within the same call to mutate!!</p>
+
+<pre class = 'prettyprint lang-r'># We create  yieldRoot, and then use it in the same function call
+mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)</pre>
+
+<pre >##    Field    Till    Fert Yield yeildRoot bigYield
+## 1      1  Chisel   Broad   119      59.5    178.5
+## 2      1  Chisel    Deep   130      65.0    195.0
+## 3      1  Chisel Surface   123      61.5    184.5
+## 4      2  Chisel   Broad   135      67.5    202.5
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 95 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>The summarise function</h2></hgroup><article  id="the-summarise-function">
+
+<p>The <code>summarise</code> function is useful for applying functions that reduce your variables down to a single value, similar to the idea of aggregation functions in the <code>dcast</code> function from <code>reshape</code>.</p>
+
+<pre class = 'prettyprint lang-r'>summarise(cropYield, avgYield = mean(Yield))</pre>
+
+<pre >##   avgYield
+## 1 139.9394</pre>
+
+<p>This may not seem incredibly useful on its own, but allows us to segue into what is perhaps the biggest reason to use <code>dplyr</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>The Killer Feature of dplyr</h2></hgroup><article  id="the-killer-feature-of-dplyr">
+
+<p>Unless you are struggling to work with a remote MySQL server, or waiting hours for your code to run on data frames with millions of observations, it might not seem worth to &quot;relearn&quot; how to do everything you know how to do.</p>
+
+<p>But <code>dplyr</code> has one feature that makes it worth every minute of learning: The ability to define persistent groups in your data frame, and apply functions to <em>each individual group at the same time</em>.</p>
+
+</article></slide><slide class=''><hgroup><h2>Group-wise operations, the hard way</h2></hgroup><article  id="group-wise-operations-the-hard-way">
+
+<p>Consider this method of finding the average crop yield for each of the unique tilling and fertilizer groups in our dataset.</p>
+
+<pre class = 'prettyprint lang-r'>ChiselBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+                              &amp; cropYield$Fert == &#39;Broad&#39;])
+ChiselDeep &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+                             &amp; cropYield$Fert == &#39;Deep&#39;])
+ChiselSurface &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+                                &amp; cropYield$Fert == &#39;Surface&#39;])
+MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
+                               &amp; cropYield$Fert == &#39;Broad&#39;])
+# And so on, and so forth into infinity...</pre>
+
+<p>This is verbose, tedious, prone to typos, and doesn&#39;t scale to large datasets with many groups. A <code>for</code> loop would help, but there&#39;s an even better way&#8230;</p>
+
+</article></slide><slide class=''><hgroup><h2>The group_by function</h2></hgroup><article  id="the-group_by-function">
+
+<p><code>dplyr</code> provides a function called <code>group_by</code> you can use to specify variables in your data frame whose values (or combinations of values) define groups of observations.</p>
+
+<p>For example, we can use <code>group_by</code> to group the larger <code>cropYield</code> data frame into 9 smaller groups, one for each of the tilling and fertilizer method combinations.</p>
+
+<pre class = 'prettyprint lang-r'>cropsGrouped &lt;- group_by(cropYield, Till, Fert) # create the grouped dataset</pre>
+
+</article></slide><slide class=''><hgroup><h2>The group_by function</h2></hgroup><article  id="the-group_by-function-1">
+
+<p>The <code>group_by</code> function doesn&#39;t change the external appearance of the data frame; the only noticeable change is the addition of the line <code>Groups: Till, Fert [9]</code> when the data frame is printed.</p>
+
+<pre class = 'prettyprint lang-r'>cropsGrouped # Inspect the grouped dataset</pre>
+
+<pre >## Source: local data frame [99 x 4]
+## Groups: Till, Fert [9]
+## 
+##    Field   Till    Fert Yield
+##    &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+## 1      1 Chisel   Broad   119
+## 2      1 Chisel    Deep   130
+## 3      1 Chisel Surface   123
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 rows ]
+## # ... with 89 more rows</pre>
+
+<p>This line tells you which columns the groups are based on, and how many individual groups they form.</p>
+
+</article></slide><slide class=''><hgroup><h2>Group-wise operations, the easy way</h2></hgroup><article  id="group-wise-operations-the-easy-way">
+
+<p>When you apply the <code>mutate</code> and <code>summarise</code> functions to a grouped data frame, the operations you perform inside the functions are no longer applied to the entire data frame.</p>
+
+<p>Instead, they are applied to each group of observations individually, <strong>without any change to the function call</strong>.</p>
+
+<p>This technique makes finding the mean of each individual tilling/fertilizer group incredibly simple instead of complicated and tedious.</p>
+
+<pre class = 'prettyprint lang-r'>cropsGrouped &lt;- group_by(cropYield, Till, Fert) # easy peasy
+grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group-wise operations, the easy way</h2></hgroup><article  id="group-wise-operations-the-easy-way-1">
+
+<p>Viola!</p>
+
+<pre class = 'prettyprint lang-r'>grpMeans</pre>
+
+<pre >## Source: local data frame [9 x 3]
+## Groups: Till [?]
+## 
+##      Till    Fert avgYeild
+##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+## 1  Chisel   Broad 124.2500
+## 2  Chisel    Deep 133.7500
+## 3  Chisel Surface 131.4167
+## 4 Moldbrd   Broad 140.8000
+## 5 Moldbrd    Deep 151.0000
+## 6 Moldbrd Surface 146.0000
+## 7   Ridge   Broad 128.0000
+## 8   Ridge    Deep 155.4545
+## 9   Ridge Surface 153.1818</pre>
+
+</article></slide><slide class=''><hgroup><h2>Group-wise operations</h2></hgroup><article  id="group-wise-operations">
+
+<p>Lets take a closer look at meta-data about our summary data frame.</p>
+
+<pre >## Source: local data frame [9 x 3]
+## Groups: Till [?]
+## 
+##      Till    Fert avgYeild
+##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+## 1  Chisel   Broad 124.2500
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]</pre>
+
+<p>The <code>Groups</code> line at the top has changed: now our data frame is only grouped by <code>Till</code>, and the group size is now <code>[?]</code>.</p>
+
+<p>This is because <code>summarize</code> always &quot;peels off&quot; the final grouping variable, because it doesn&#39;t make sense to continue grouping by the same columns. If you did, each group size would be one, because you just summarized each group down to one value.</p>
+
+</article></slide><slide class=''><hgroup><h2>Group-wise operations</h2></hgroup><article  id="group-wise-operations-1">
+
+<p>You can use the <code>n</code> function, with no arguments, inside calls to <code>summarise</code> and <code>mutate</code> to count the number of observations in a group.</p>
+
+<pre class = 'prettyprint lang-r'>summarise(cropsGrouped, grpSize = n())</pre>
+
+<pre >## Source: local data frame [9 x 3]
+## Groups: Till [?]
+## 
+##      Till    Fert grpSize
+##     &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;
+## 1  Chisel   Broad      12
+## 2  Chisel    Deep      12
+## 3  Chisel Surface      12
+## 4 Moldbrd   Broad      10
+## 5 Moldbrd    Deep      10
+## 6 Moldbrd Surface      10
+## 7   Ridge   Broad      11
+## 8   Ridge    Deep      11
+## 9   Ridge Surface      11</pre>
+
+</article></slide><slide class=''><hgroup><h2>Ungrouping</h2></hgroup><article  id="ungrouping">
+
+<p>If you want to remove the grouping you&#39;ve applied to a data frame, just use the <code>ungroup</code> function to reset it back to a &quot;normal&quot; data frame.</p>
+
+<pre class = 'prettyprint lang-r'>ungroup(cropsGrouped) # no more &quot;Groups&quot; line</pre>
+
+<pre >## # A tibble: 99 × 4
+##    Field   Till    Fert Yield
+##    &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+## 1      1 Chisel   Broad   119
+## 2      1 Chisel    Deep   130
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]
+## # ... with 89 more rows</pre>
+
+<p>You can check a data frames grouped/ungrouped status with the <code>is.grouped</code> function.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Use the <code>group_by</code> and <code>summarize</code> functions to find the mean and standard error of the crop yields recorded for:</p>
+
+<ul>
+<li>Each field</li>
+<li>Each tilling method</li>
+<li>Each fertilizing method</li>
+<li>Each combination of tilling and fertilizing method</li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

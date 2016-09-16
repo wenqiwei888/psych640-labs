@@ -1,0 +1,11 @@
+table, table.rmdtable {
+  width: 55%;
+  margin: 25px auto;
+}
+
+table.rmdtable td, table.rmdtable th {
+  font-size: 22px;
+}
+caption {
+  font-size: 18px;
+}

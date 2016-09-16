@@ -1,0 +1,382 @@
+---
+title: "Control-Flow Statements"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+library(DiagrammeR)
+```
+ 
+ 
+```{r diagrams, include=F}
+linear_flow <- grViz("
+digraph linear {
+
+graph [rankdir = LR]
+
+node [shape = circle,
+      fixedsize = true,
+      width = 0.9]
+
+A; B; C; D;
+A ->B; B -> C; C->D; 
+}",height = 150)
+
+loop_flow <- grViz("
+digraph linear {
+
+graph [rankdir = LR]
+
+node [shape = circle,
+      fixedsize = true,
+      width = 1,
+      fontsize = 18]
+
+A; B; C; D; E;
+A ->B; B -> C; C->D; D->E;
+C->C [label='repeat step C x times' tailport='e' headport = 'w' fontsize = 18];
+}", height = 200)
+
+branch_flow <- grViz("
+digraph linear {
+
+graph [rankdir = LR]
+
+node [shape = circle,
+      fixedsize = true,
+      width = 1,
+      fontsize = 18]
+
+A; B; C; D; E;
+A->B
+B->C [label='x > y' fontsize = 18]
+B->D [label='x < y' fontsize = 18]
+D->E
+C->E
+}", height = 225)
+
+```
+
+## Go with the "Flow"
+- Any program will be designed to perform some set of computational operations, for example:
+    - Calculate summary statistics
+    - Plot raw data
+    - Do a t-test
+- "Control Flow" describes the order in which specific operations take place
+- A key objective when writing your code is to make your program's control flow as simple as possible while minimizing redundancy.
+
+## Linear Program Flow 
+- So far, the control flow of your code has been solely determined by the line number of each expression
+    - "Code rolls downhill"
+```{r linear_example, prompt=FALSE}
+group1 <- sleep[sleep$group==1,] # Separate group 1 
+group2 <- sleep[sleep$group==2,] # Separate group 2
+x1 <- mean(group1$extra) # Calculate group 1 mean
+x2 <- mean(group2$extra) # Calculate group 2 means
+sem <- sqrt(.5*(var(group1$extra) + var(group2$extra)))*sqrt(2/10) # Calculate SEM
+t <- (x1-x2)/sem # Find the t score
+```
+
+## Linear Program Flow 
+- The control flow diagram for this script is shown below
+    - A. Separate groups
+    - B. Calculate the mean
+    - C. Calculate SEM
+    - D. Find the t score
+    
+```{r linear,echo=F}
+linear_flow
+```
+
+## Altering the Flow
+- R has expressions which can alter this linear flow. Specifically, we can:
+    - Execute a set of statements *only if* some condition is met
+        - `if else` statements
+    - Execute a set of statements *zero or more times, until some condition is met*
+        - `for` and `while` statements
+    - Stop the program, preventing any further execution
+        - `stop` statements
+
+## if else syntax
+An `if else` statement allows us to conditionally evaluate specific statements. The general syntax is: 
+
+```{r ifelse_template, prompt = F, eval=F}
+if (condition) {
+  expressionA
+} else {
+  expressionB  
+}
+```
+- `condition` is an R expression that evaulates to a single logical value (i.e. a single `TRUE` or `FALSE` value)
+    - This expression **must** be in parenthesis
+- `expressionA` and `expressionB` are two different blocks of R code 
+    - These expressions should be contained in curly brackets
+
+## if else control flow
+```{r printBranching,echo=FALSE}
+branch_flow
+```
+
+- if x < y, take the path through C
+- if y > x, take the path through D
+    
+## if else
+Lets take a look at some simple examples of conditional branching. Here we'll use an `if else` statement to print out which of two random intergers is larger. 
+```{r  ifelse_ex1,prompt=FALSE,eval=TRUE}
+x <- sample(1:50000,1) # random value from 1 to 50,000
+y <- sample(1:50000,1)
+if (x < y) {
+  print("Y Wins!")
+} else {
+  print("X Wins!")
+}
+```
+
+## if else
+But we forgot a corner case - what if y equals x? We can add on additional if into this same statement like so:
+```{r  ifelse_ex2,prompt=FALSE,eval=TRUE}
+x <- sample(1:50000,1) # random value from 1 to 50,000
+y <- sample(1:50000,1)
+if (x < y) {
+  print("Y Wins!")
+} else if (y < x) {
+  print("X Wins!")
+} else {
+  print("zomg X equals Y!!")
+}
+```
+
+We can have as many `else if` statements chained together as we want, but only one `else`.
+
+## if else
+We can also use just the `if` part of the statement.
+
+Here, we sample a random integer for `x`, and if it comes out negative, we flip the sign with the `abs()` function.
+```{r ifelse_ex3,prompt=FALSE,eval=TRUE}
+x <- sample(-10:10,1)
+if (x < 0) { 
+  x <- abs(x)
+}
+```
+
+## Activity
+
+Sample 2 random values from a standard normal distribution, using `rnorm()`. Call them x and y.
+
+Then, write an if-else that does the following: 
+
+- If they are both greater than the mean of that normal distribution, print "x and y are above the mean".
+- If they are both less than the mean of that normal distribution, print "x and y are below the mean".
+- If x and y fall on either side of the mean, print "x and y straddle the mean"
+
+```{r activity_solution, include=FALSE}
+rv <- rnorm(2)
+if (rv[1] && rv[2] > 0) {
+  print("x and y are above the mean")
+} else if (rv[1] && rv[2] < 0) {
+  print("x and y are below the mean")
+} else {
+  print("x and y straddle the mean")
+}
+```
+
+## Loops 
+Loops are a class of control flow that allow you to repeat the same operations over and over again, without explicitly writing out those operations over and over again in the code. 
+
+- `for` loops repeat your operations for an explicit number of repetitions
+- `while` loops repeat your operations an indeterminite number of times, stopping only when a prespecified condition occurs (whenever that might be)
+```{r looping,echo=F}
+loop_flow
+```
+
+## for loops 
+At the heart of a `for` loop is the R object which serves as a counter. This counter variable determines the number of iterations your `for` loop should have. 
+
+It is common to refer to the counter variable as the variable you "loop over".
+
+In this example, we use a for loop to print out the integers 1 through 3, one at a time.
+```{r basicForloop, prompt=FALSE}
+for (i in 1:3) {
+  print(i)
+}
+```
+
+## for loops 
+But the counter variable doesn't have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and i will sequentially take on each value in the vector.
+```{r basicForloop2, prompt=FALSE}
+for (i in c("A","B","C",1,2,3)) {
+  print(i)
+}
+```
+
+## for loops 
+```{r prompt=FALSE,eval=FALSE,ref.label='basicForloop'}
+```
+
+- Note 2 important things that happened:
+    1. The `print()` statement was executed exactly 6 times, the same number of times as the length of `c("A","B","C",1,2,3)`
+    2. The value of `i` changed on every iteration of the loop, as evidenced by the fact that `print(i)` spit out a different value every time
+    
+## for loops s
+- For loops are most often used for their "side effects"
+    - This means you loop over one object (eg. `i = 1:10`), but use the value of `i` inside the loop as a subscript to index into other data structures
+    - This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame
+    
+## for loops
+To demonstrate this indexing, here we: 
+
+1. Create 4 element character vector
+2. Create another 4 element vector of numeric indices
+3. Loop over those indices, and use the iterator to index into the character vector and print it's value. 
+```{r easyforindexing}
+letters <- c("A","B","C","D")
+indices <- 1:4
+for (x in indices) { print(letters[x])}
+```
+ 
+## Group Means Example
+A common problem to solve in R is calculating summary statistics for each group in some data set. We're going to tackle this problem in the `InsectSprays` data set. 
+```{r headInsectSprays}
+head(InsectSprays,5)
+```
+
+First we'll walk through how we would accomplish this process with a purely linear control flow, and then we'll see how to approach the problem with a loop. 
+
+## Group means: the hard way
+First we need find the unique sprays used, and create a "placeholder" data frame which will end up storing the mean for each spray.
+```{r hardway1}
+sprays <- unique(InsectSprays$spray)
+sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+sprayMeans
+```
+
+## Group means: the hard way
+Then we select the first spray, and use `$` and `==` to extract the observed counts for that spray group from the `InsectSprays` data frame.
+```{r hardway2}
+sprays <- unique(InsectSprays$spray)
+sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+counts <- InsectSprays$count==i 
+```
+
+## Group means: the hard way
+Then we average those extacted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.
+```{r hardway3}
+sprays <- unique(InsectSprays$spray)
+sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+counts <- InsectSprays$count[InsectSprays$spray==i]
+m <- mean(counts)
+sprayMeans[sprayMeans$spray==i,'meanCount'] <- m
+sprayMeans
+```
+
+## Group means: the hard way
+```{r spraymean,echo=FALSE}
+sprayMeans
+```
+OK, one group down, 5 to go! We will repeat the same thing over and over and over again for each group. If only there was a way to get R to repeat the same operations over and over and over again....
+
+Oh wait, `for` loops do just that!
+
+## Group means: `for` loop
+We start the same way as before, finding the unique sprays used, and creating a "placeholder" data frame to store results.
+```{r sideeffects_step1, eval=F,prompt=FALSE}
+sprays <- unique(InsectSprays$spray)
+sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+```
+
+## Group means: `for` loop   
+But this time we use a for loop, looping over each unique spray. Inside the loop, we:
+
+1. Subset out the observed counts for a particular spray
+2. Find the mean of those counts, and fill that mean into the placeholder data frame
+```{r sideeffects_step2,prompt=FALSE,eval=TRUE}
+sprays <- unique(InsectSprays$spray)
+sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+
+for (i in sprays) {
+  counts <- InsectSprays$count[InsectSprays$spray==i]
+  sprayMeans[sprayMeans$spray==i,'meanCount'] <- mean(counts)
+}
+```
+
+## Group means: `for` loop
+The result is a data frame the holds the mean insect count for each unique spray used, with no code duplication
+```{r sideeffects_step3, eval=TRUE,prompt=FALSE}
+sprayMeans
+```
+
+## Activity
+Write a for loop that calculates the cumulative sum of the vector `c(7,2,22,5,33,8)`. 
+
+If you don't know, the cumulative sum is a sequence of the partial sums of a given sequence. For example, the cumulative sum of the vector `c(1,2,3)` is (1,3,6).
+
+```{r cumsum_solution,include=FALSE}
+v <- c(7,2,22,5,33,8)
+cumulative <- vector(mode = "numeric",length=length(v))
+for (i in 1:length(v)) {
+  cumulative[i] <- sum(v[1:i])
+}
+identical(cumulative,cumsum(v))
+```
+
+## `while` loops
+- `while` loops are like a hybrid of an `if else` and `for` loops
+    - They repeat the same code block over and over again like `for` loop
+    - But they only repeat the block `if` some condition is met
+```{r_simple while}
+k <- 1
+while(k < 5) {
+  print(k)
+  k <- k + 1
+}
+```
+
+## `while` loops
+- `while` loops are approriate to write when you don't know *a priori* how many iterations you will need
+    - e.g. How many samples from the normal must you take before getting a value more than 3 SD's away?
+```{r normaldeviates}
+r <- rnorm(1)
+samples <- 1
+while(r < 3 && r > -3) {
+    samples <- samples+1
+    r <- rnorm(1)
+}
+print(paste("Success only took",samples,"samples"))
+```
+
+## `while` loops
+A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to acheive a specific level of experimental power
+
+```{r powerWhileLoop,prompt=F}
+power <- 0; alt_p <- .75; null_p <- .5; n <- 1;
+while (power < .8) {
+  crit_n <- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE)
+  power <- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
+  n <- n+1
+}
+n-1 # Number of trials needed
+```
+
+## loop pro-tips
+- Loops are slow, and as a consequence, you should avoid large loops. 
+- If you must use one (and sometimes you must), **ALWAYS PREALLOCATE THE FINAL DATA STRUCTURES YOU WANT**
+  - Remember in our InsectSprays means example, we made a place holder data frame the exact size and shape we wanted, and then filled it in
+  
+```{r ref.label="sideeffects_step2", eval=F,prompt=FALSE}
+```
+
+## `stop`
+- You can halt the execution of your program using a `stop` statement
+    - You probably don't need this just yet in your programming lives, but its good to know it exists
+- One good use for this is in combination with `if` statements, to detect states that are indicative of serious problems, and throw an error 
+
+```{r stopinthenameoflove,eval=F,prompt=FALSE}
+x <- somenumbers
+if (sd(x) < 0) {
+  stop("Standard Deviation cannot be negative!")
+}
+```

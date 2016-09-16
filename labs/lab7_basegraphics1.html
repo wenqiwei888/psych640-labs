@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Visualization with Base Graphics: Part 1</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Data Visualization with Base Graphics: Part 1',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Base R Graphics</h2></hgroup><article  id="base-r-graphics">
+
+<ul>
+<li>R includes highly flexible and powerful tools for visualizing many kinds of data
+
+<ul>
+<li>One tool for analysis and visualizing == win-win!</li>
+</ul></li>
+<li>However, using these tools can seem trying to hike through the Amazonian jungle, so its good to have a guide</li>
+<li>We will try to balance the two approaches to learning plotting in R
+
+<ul>
+<li>The &quot;cookbook&quot; approach: When you have data like <em>w</em>, plot them with function <em>x</em> and use arguments <em>y</em> and <em>z</em></li>
+<li>The &quot;microscope&quot; approach: Study the behavior of function <em>x</em> in depth, learning every in and out of how it works, every quirk, etc.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot" class="img-centered">
+
+<ul>
+<li>Lets start with the most commonly used graphing function: <code>plot()</code></li>
+<li>Using the <code>pressure</code> data set, lets plot the <a href='https://en.wikipedia.org/wiki/Vapor_pressure' title=''>vapor pressure</a> exerted by mercury as a function of its temperature.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/pressure-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot-1" class="img-centered">
+
+<p><img src="lab7_basegraphics1_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
+
+<ul>
+<li>We can gather that as temperature goes up, vapor pressure goes up as well, but this isn&#39;t the world&#39;s prettiest graph. Lets go to the help page and see if we can tweak it to looks a little nicer
+
+<ul>
+<li><code>?plot</code></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot-2" class="helppage">
+
+<p>Wait, plot only takes 2 arguments???</p>
+
+<p>But look, theres that <code>...</code></p>
+
+<p><img src='/images/plot.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Global Graphical Parameters</h2></hgroup><article  id="global-graphical-parameters">
+
+<p>Deep down, inside <del>the depths of the earth</del> the <strong>graphics</strong> namespace, R maintains default settings that govern the appearance of every figure you generate.</p>
+
+<ul>
+<li>Sometimes, you can change these settings through the function interface itself
+
+<ul>
+<li>e.g., through the <code>plot()</code> function &amp; the <code>...</code></li>
+<li>This will change the settings for the current figure <em>only</em></li>
+</ul></li>
+<li>You can change these setting on a global level (i.e. every subsequent plot) using the <code>par()</code> function
+
+<ul>
+<li>Mortals beware of the help page for <code>par()</code></li>
+<li>We&#39;ll use par soon enough =)</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters" class="helppage">
+
+<p>For now, we&#39;re going to look at which aspects of our figure we can change <em>just</em> through the <code>plot()</code> function interface.</p>
+
+<p>The second paragraph of the description gives a clue as to where we can find out our options: &quot;For simple scatter plots, <code>plot.default</code> will be used&quot;.</p>
+
+<p>If we navigate to the <code>plot.default</code> help page, we see this:</p>
+
+<p><img src='/images/plotdefault.png' title=''/><br></p>
+
+</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-1" class="img-centered">
+
+<ul>
+<li>Start by changing the 3 things you always change:
+
+<ol>
+<li>The x-axis label, set with the <code>xlab</code> argument</li>
+<li>The y-axis label, set with the <code>ylab</code> argument</li>
+<li>The plot title, set with the <code>main</code> argument</li>
+</ol></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
+... +       ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/changelabels-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-2" class="img-centered">
+
+<ul>
+<li>We can also change way the data points are displayed, with the <code>type</code> argument.
+
+<ul>
+<li>Points plus a line connecting them can be done by setting <code>type = &quot;o&quot;</code></li>
+</ul></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
+... +       ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;,type=&quot;o&quot;)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/overplotting-1.png" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot">
+
+<ul>
+<li>You can manipulate other aspects of your plot&#39;s appearance in the function call to <code>plot()</code>, even though they are not listed in the <strong>Usage</strong> section
+
+<ul>
+<li>This is because <code>plot()</code> passes named arguments that don&#39;t match its own list of arugments onto the common graphics settings function, via that <code>...</code></li>
+<li>This way, the settings will only affect the current plotting command</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot-1">
+
+<table class = 'rmdtable'>
+<col width="12%" />
+<col width="12%" />
+<col width="9%" />
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Behavior</th>
+<th align="left">Values</th>
+</tr>
+<tr class="odd">
+<td align="left">col</td>
+<td align="left">Point and line color</td>
+<td align="left"><a href='http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf' title=''>color name string</a> or <a href='http://www.color-hex.com/' title=''>RGB hex value</a></td>
+</tr>
+<tr class="even">
+<td align="left">pch</td>
+<td align="left">The symbols used for points</td>
+<td align="left">Numeric vector (see <code>?points</code>) <a href='http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/' title=''>Cheat Sheet</a></td>
+</tr>
+<tr class="odd">
+<td align="left">bg</td>
+<td align="left">The fill color of points</td>
+<td align="left">Same as <code>col</code></td>
+</tr>
+<tr class="even">
+<td align="left">lty</td>
+<td align="left">line type (dotted, dashed, etc.)</td>
+<td align="left">Type name or numeric vector <a href='http://www.statisticstoproveanything.com/2010/10/chart-of-different-lty-values-in-r.html' title=''>Cheat Sheet</a></td>
+</tr>
+<tr class="odd">
+<td align="left">lwd</td>
+<td align="left">Line thickness (including point perimeters)</td>
+<td align="left">Numeric Vector</td>
+</tr>
+<tr class="even">
+<td align="left">cex.*</td>
+<td align="left">Magnification (2x, 3x bigger, etc.)</td>
+<td align="left">Numeric Vector</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Change all the things!</h2></hgroup><article  id="change-all-the-things">
+
+<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab = &quot;Temperature (C)&quot;,
+... +       ylab = &quot;Pressure (mm of Hg)&quot;, main = &quot;Vapor Pressure of Mercury&quot;,
+... +       type=&quot;o&quot;, lwd = 3, lty = 2, pch = 24, col =&quot;darkmagenta&quot;,
+... +       bg = &quot;cyan&quot;, cex = 2, cex.main=2, cex.lab = 1.5, xlim = c(-100,500),
+... +       ylim = c(0,1000))</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/allthingsmustchange-1.png" width="720" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Using the <code>mtcars</code> dataset, plot each cars miles per gallon against its weight in a scatter plot (miles per gallon is in the <code>mpg</code> column, and its weight is in the <code>wt</code> column).</p>
+
+<p>Plots the points in fillable diamonds, and set the fill color (aka background color) of those points to something pretty (see <code>colors()</code> for a list). Also add a title and informative axis labels.</p>
+
+<p>What kind of relationship do weight and mpg have?</p>
+
+</article></slide><slide class=''><hgroup><h2>Adding to an existing figure</h2></hgroup><article  id="adding-to-an-existing-figure">
+
+<ul>
+<li>We rarely plot one set of points or one line and call it a day. Having two sets of data on a figure that makes comparison easy is often the entire point of a figure!</li>
+<li>R includes functions for modifying existing figures. We&#39;ll now look at functions that:
+
+<ul>
+<li>Add new points</li>
+<li>Add new lines</li>
+<li>Add text annotations</li>
+<li>Add legends</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points">
+
+<ul>
+<li>Not suprisingly, the R function which can draw new points is called <code>points</code></li>
+<li>Just like <code>plot()</code>, <code>points()</code> only has a few explicit arguments, but passes on arguments to the underlying graphics settings in R.
+
+<ul>
+<li><code>col</code>, <code>pch</code>, <code>lwd</code>, <code>bg</code>, and <code>cex</code> are all commonly used with <code>points()</code></li>
+</ul></li>
+<li>But unlike plot, <code>points()</code> does not have a way to change things on the &quot;outsides&quot; of the plots
+
+<ul>
+<li>Can&#39;t change the axis title, axis limits, main title, etc.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points-1" class="img-centered">
+
+<p>Lets plot the exponential and logarthimic functions of base 2 against each other, at a few small integers.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; plot(x=0:4,y=2^(0:4),col=&quot;blue&quot;,xlim = c(0,8),ylim=c(0,16),
+... +       main = &quot;Log and Exponential, Base 2&quot;,ylab= &quot;y&quot;,xlab=&quot;x&quot;)
+&gt; points(x=0:8, y = log2(0:8),col = &quot;red&quot;)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/logandexp-1.png" width="384" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding lines</h2></hgroup><article  id="adding-lines" class="img-centered">
+
+<p>Next we&#39;ll visualize this relationship with a line graph via the <code>lines()</code> function. If we want a smooth line, we&#39;ll need to use <em>a lot</em> of points.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; x1 &lt;- seq(0.01,4,.01) # 400 points, .01 apart
+&gt; x2 &lt;- seq(0.01,8,.01) # 800 points, .01 apart
+&gt; plot(x=x1,y=2^(x1), col=&quot;blue&quot;, xlim = c(0,8),ylim=c(0,16),ylab= &quot;y&quot;,
+... +       xlab=&quot;x&quot;, main = &quot;Log and Exponential, Base 2&quot;, type=&#39;l&#39;,lwd=2)
+&gt; lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/logandexp_line-1.png" width="336" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding text</h2></hgroup><article  id="adding-text" class="img-centered">
+
+<p>Next we&#39;ll add the identity line, and label it with the <code>text()</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; lines(x=seq(0,8,.01),y=seq(0,8,.01), lty=2)
+&gt; text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/logandexp_identity-1.png" width="384" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Adding a legend</h2></hgroup><article  id="adding-a-legend" class="img-centered">
+
+<p>We&#39;ll include legend that associates each function with its line color so others can tell which function is which.</p>
+
+<p>In <code>legend()</code>, we need to tell the function to draw lines, color them, label them, and skip the bounding box on the legend.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; legend(&quot;topright&quot;, legend = c(&quot;Exponenital&quot;,&quot;Logarithmic&quot;),
+... +         col=c(&quot;blue&quot;,&quot;red&quot;),lty=1, bty=&quot;n&quot;)</pre>
+
+<p><img src="lab7_basegraphics1_files/figure-html/logandexp_legend-1.png" width="384" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+
+<p>Show the standard normal PDF and the Student&#39;s t PDF with 15 degrees of freedom on the same plot, across a reasonable range on the x-axis.</p>
+
+<p>Plot the distributions in 2 different colors, and add a legend telling the viewer which color corrresponds to which distribution.</p>
+
+<p>Remember that you can calculate the normal density at any point on the x axis using <code>dnorm</code> and the t density using <code>dt</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>Next Time</h2></hgroup><article  id="next-time">
+
+<p>Next Up: bar plot, box plots, histograms, and <code>par()</code></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

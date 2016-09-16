@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Functional programming in R: The apply functions</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Functional programming in R: The apply functions',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>What is functional programming?</h2></hgroup><article  id="what-is-functional-programming">
+
+<p>Functional programming means (at least) 2 things:</p>
+
+<ol>
+<li>Evaluating expressions do <em>not</em> have side effects (i.e., don&#39;t create or change any variables)</li>
+<li>Functions are &quot;first-class&quot;
+
+<ul>
+<li>Can be manipulated like any other R object</li>
+<li>Can be passed as arguments to other functions</li>
+<li>Can be returned as a result of a function</li>
+</ul></li>
+</ol>
+
+<p>Don&#39;t be scared though: You&#39;ve been doing functional programming all along without knowing it, because at it&#39;s core, R is a functional programming language!</p>
+
+<p>We&#39;re going to focus on the second tenant today, as &quot;first class&quot; functions are the underpinning of the <code>*apply</code> family of functions in R.</p>
+
+</article></slide><slide class=''><hgroup><h2>First-Class Functions</h2></hgroup><article  id="first-class-functions">
+
+<p>Being &quot;First Class&quot; simply means that functions can be treated as &quot;just another object&quot;. They can be created, removed, passed to other environments and functions, and even have their names changed at will.</p>
+
+<p>To illustrate how flexible functions are, let&#39;s write a new function which has two inputs: a numeric vector, and a function that will operate on that numeric vector. We&#39;ll assign this function to the name <code>f</code>.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(x, fun) {
+  fun(x) 
+}</pre>
+
+<p>Yes, this is a function that takes a function as input!</p>
+
+</article></slide><slide class=''><hgroup><h2>First-Class Functions</h2></hgroup><article  id="first-class-functions-1">
+
+<p>Lets use <code>f</code> to take the mean of some random binomial draws, and compare our results with &quot;standard&quot; syntax.</p>
+
+<p>Note that we supply only the <strong>name</strong> of the <code>mean</code> function only, without any parenthesis following it.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(x, fun) {
+  fun(x)
+}
+a &lt;- rbinom(10, 50, .35) # How many &quot;heads&quot; occur in 50 &quot;flips&quot;, 10 times.
+x &lt;- f(x = a, fun = mean) # mean, not mean()!
+y &lt;- mean(a)
+identical(x, y)</pre>
+
+<pre >## [1] TRUE</pre>
+
+</article></slide><slide class=''><hgroup><h2>Your first apply function!</h2></hgroup><article  id="your-first-apply-function">
+
+<p>Congratulations, you just wrote an <code>apply</code> function! In other words, your function takes a data structure and a function as inputs, <strong>applies</strong> that function to the data structure, and returns the result. Functions which pattern after this basic archetype are called <code>apply</code> functions.</p>
+
+<p>If you&#39;re thinking &quot;Why would anyone go through this contortionist act to take the mean?&quot;, you wouldn&#39;t be off base.</p>
+
+<p>The <code>mean</code> function, like the majority of the functions in base R, is vector-oriented, meaning it is designed to operate on a vector of values. So if we want the mean of our random values, we can call <code>mean(a)</code> and that&#39;s it!</p>
+
+<p>But consider for a moment, how often do you have real data just lying around just as a vector?</p>
+
+</article></slide><slide class=''><hgroup><h2>Escape from Flatland</h2></hgroup><article  id="escape-from-flatland">
+
+<p>99% of the time, your data structure is more complex than a vector. Most often, you&#39;ll have a list or data frame composed of many vectors.</p>
+
+<p>But even though your data structure is more complex, you&#39;ll still find yourself needing to use base R functions which take a vector as input.</p>
+
+<p>And often, you&#39;ll find yourself wanting to use <strong>the same</strong> function on each of the vectors in your data structure.</p>
+
+<p>It&#39;s in these cases that the <code>*apply</code> family of functions is most useful.</p>
+
+</article></slide><slide class=''><hgroup><h2>Use an apply to keep it DRY</h2></hgroup><article  id="use-an-apply-to-keep-it-dry">
+
+<p>For example, needing to have factor variables instead of numeric or character variables before using <code>aov</code> to perform an ANOVA often leads to the following style of code:</p>
+
+<pre class = 'prettyprint lang-r'>data$Var1 &lt;- as.factor(data$Var1)
+data$Var2 &lt;- as.factor(data$Var2)
+data$Var3 &lt;- as.factor(data$Var3)
+data$Var4 &lt;- as.factor(data$Var4)</pre>
+
+<p>Code like this is &quot;brittle&quot;, in that it is repetitive and error prone (likely from copy-pasta).</p>
+
+<p>With the right <code>*apply</code> function, we can replace these 4 expressions with a single, more flexible expression.</p>
+
+</article></slide><slide class=''><hgroup><h2>The *apply functions</h2></hgroup><article  id="the-apply-functions">
+
+<p>We&#39;ll be looking the 4 most frequently used <code>*apply</code> functions, listed below:</p>
+
+<ul>
+<li><code>lapply</code>: The &quot;Apply and List&quot; function
+
+<ul>
+<li><code>lapply(X, FUN, ...)</code></li>
+</ul></li>
+<li><code>sapply</code>: The &quot;Apply and Simplify&quot; function
+
+<ul>
+<li><code>sapply(X, FUN, ..., simplify = TRUE)</code></li>
+</ul></li>
+<li><code>vapply</code>: The &quot;Apply and Match to Template&quot; function
+
+<ul>
+<li><code>vapply(X, FUN, FUN.VALUE, ..., )</code></li>
+</ul></li>
+<li><code>apply</code>: The &quot;Apply to Array Dimension&quot; function
+
+<ul>
+<li><code>apply(X, MARGIN, FUN, ...)</code></li>
+</ul></li>
+</ul>
+
+<p>NB: The help pages for these functions are obtuse, even for R help pages. Hopefully these slides suffice as an intuitive guide, until you reach a high enough plane of enlightenment to read the documentation.</p>
+
+</article></slide><slide class=''><hgroup><h2>The X <del>Files</del> FUNS</h2></hgroup><article  id="the-x-files-funs">
+
+<p>The formal argument lists for these functions have an unmistakable pattern: Each one has arguments named <code>X</code> and <code>FUN</code>.</p>
+
+<p><code>FUN</code>, as you might imagine, must be the function you wish to apply. And <code>X</code> must be the data structure whose individual elements will have that function applied to them.</p>
+
+<p>Amazingly enough, <code>X</code> can be any object that has elements (which is pretty much any R object)! So, the keys to understanding the behavior of <code>*apply</code> functions are:</p>
+
+<ol>
+<li>Understanding what things are considered to be &quot;the elements&quot; for any given data structure <code>X</code></li>
+<li>Knowing the sizes of input that <code>FUN</code> consumes (e.g., scalar value, vector, data frame, etc.)</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Elemental Heirarchy of Data Structures</h2></hgroup><article  id="elemental-heirarchy-of-data-structures">
+
+<p>This table describes what the elements of the 4 most common data structures are, in order of flexibility.</p>
+
+<table class = 'rmdtable'>
+<col width="23%" />
+<col width="15%" />
+<col width="18%" />
+<tr class="header">
+<th align="center">Data Structure</th>
+<th align="center">Elements</th>
+<th align="center">Notes</th>
+</tr>
+<tr class="odd">
+<td align="center">Atomic Vector</td>
+<td align="center">Identically typed &quot;Primitives&quot; (e.g, individual integers or characters )</td>
+<td align="center">Called &quot;Atomic&quot; because it&#39;s elements are the smallest possible units in the R language</td>
+</tr>
+<tr class="even">
+<td align="center">Matrix/Array</td>
+<td align="center">Identically typed &quot;Primitives&quot;</td>
+<td align="center">Matrices/Arrays are just Vectors with a &quot;dim&quot; attribute (e.g, <code>dim = c(2,4,2)</code> means 2 rows, 3 columns, 2 pages)</td>
+</tr>
+<tr class="odd">
+<td align="center">Data Frame</td>
+<td align="center">Atomic vectors</td>
+<td align="center">Data Frames are special cases of lists, where each element has the same length</td>
+</tr>
+<tr class="even">
+<td align="center">List</td>
+<td align="center">Any R object</td>
+<td align="center">Lists are still vectors, but their elements are allowed to be anything!</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>lapply: The &quot;Apply and List&quot; Function</h2></hgroup><article  id="lapply-the-apply-and-list-function">
+
+<p>The <code>lapply</code> function applies the given function to each element of the given data structure, and always returns its results as a list.</p>
+
+<p>The length of the resulting list (i.e., the number of elements it holds) is equal to the number of elements in the input data structure <code>X</code>.</p>
+
+<p>Here, we supply a two-element numeric vector as the input data structure <code>X</code>, and apply the <code>seq</code> function to each of its elements.</p>
+
+<pre class = 'prettyprint lang-r'>lapply(c(8, 6), seq)</pre>
+
+<pre >## [[1]]
+## [1] 1 2 3 4 5 6 7 8
+## 
+## [[2]]
+## [1] 1 2 3 4 5 6</pre>
+
+</article></slide><slide class=''><hgroup><h2>lapply: The &quot;Apply and List&quot; Function</h2></hgroup><article  id="lapply-the-apply-and-list-function-1">
+
+<p>Under the hood, <code>lapply</code> splits two-element vector into individual values, and provides each of these values as the first argument to <code>seq</code>.</p>
+
+<p>In other words, it calls <code>seq(8)</code> and <code>seq(6)</code> and assembles the results of each function call as a list.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- lapply(c(8, 6), seq)
+y &lt;- list(seq(8), seq(6))
+identical(x,y)</pre>
+
+<pre >## [1] TRUE</pre>
+
+<p>The advantage of the <code>lapply</code> approach is that you don&#39;t have to manually call the function <em>n</em> times when you have a vector with <em>n</em> elements.</p>
+
+</article></slide><slide class=''><hgroup><h2>lapply: The for-loop alternative</h2></hgroup><article  id="lapply-the-for-loop-alternative">
+
+<p>You may be thinking to yourself &quot;Hmm, <code>lapply</code> acts a lot like a for-loop&#8230;&quot;.</p>
+
+<p>Well, you&#39;re right! In both situations, you&#39;re iterating over a series of specified values, and those values serve to control the input to other functions.</p>
+
+<p>So naturally, the question of which style should be preferred? An apply function, or a for loop?</p>
+
+<p>In reality, the question has no definitively right or wrong answer, and a careful consideration of the task at hand should determine which you should use.</p>
+
+</article></slide><slide class=''><hgroup><h2>lapply: The for-loop killer</h2></hgroup><article  id="lapply-the-for-loop-killer">
+
+<p>My personal preference is to use one of the apply functions whenever possible.</p>
+
+<p>I find them to be more semantic than for loops: to me, <code>lapply(c(8, 6), seq)</code> more clearly conveys the intent to use the <code>seq</code> function on each element of the input than the code below.</p>
+
+<pre class = 'prettyprint lang-r'>for (x in c(8,6)) {
+  seq(x)
+}</pre>
+
+<p>Or even worse, you often see the following.</p>
+
+<pre class = 'prettyprint lang-r'>v &lt;- c(8,6)
+for (x in 1:length(v)) {
+  seq(v[1])
+}</pre>
+
+<p>Shudder.</p>
+
+</article></slide><slide class=''><hgroup><h2>lapply: The for-loop killer</h2></hgroup><article  id="lapply-the-for-loop-killer-1">
+
+<p>The apply functions also automatically create the data structure holding the results. With a for loop, you have to handle the output yourself, leaving you with two choices of how to do so:</p>
+
+<ol>
+<li>Manually create an empty data structure of <em>exactly the right size</em>, and progressively fill in it&#39;s elements with on each loop iteration</li>
+<li>&quot;Grow&quot; a data structure &quot;on the fly&quot; inside the loop (e.g., add a new row to a matrix on each loop iteration)</li>
+</ol>
+
+<p>The second option is easier, but has the nasty downside of making your loop incredibly slow. The first option is preferred, but creating the right size empty data structure can be tricky in practice, and fills your scripts with verbose boiler-plate code.</p>
+
+</article></slide><slide class=''><hgroup><h2>lapply and flexibility</h2></hgroup><article  id="lapply-and-flexibility">
+
+<p>One reason users often prefer loops over using apply statements is that the function call in apply statements feels &quot;rigid&quot;.</p>
+
+<p>By default, each element of the data structure is used as the first argument for the specified function (not unlike <a href='lab14_dplyr2.html#8' title=''>pipes</a>). On the other hand, you as the user are always in complete control of any function calls inside a for loop.</p>
+
+<p>However, this is a false dichotomy, and there are several simple methods available that give you complete control over the arguments to the function call inside any of the <code>*apply</code> functions.</p>
+
+</article></slide><slide class=''><hgroup><h2>Using the &#8230; elipsis</h2></hgroup><article  id="using-the-...-elipsis">
+
+<p>Each <code>*apply</code> functions includes the ellipsis (the <code>...</code>) in their formal argument list.</p>
+
+<p>The ellipsis is used to pass any named arguments in the call to the <code>*apply</code> function not matching its native named arguments (e.g., any arguments not named <code>X</code> or <code>FUN</code>) to the function you&#39;ve specified to be applied to the data structure&#39;s elements.</p>
+
+<p>To demonstrate, we&#39;ll include an argument named <code>to</code> in our call to <code>lapply(c(8,6), seq)</code>. The value of the <code>to</code> argument will be passed to <code>seq</code> and change the final value of the sequence.</p>
+
+<pre class = 'prettyprint lang-r'>lapply(c(8,6), seq, to = 15) # from 8 to 15, and from 6 to 15</pre>
+
+<pre >## [[1]]
+## [1]  8  9 10 11 12 13 14 15
+## 
+## [[2]]
+##  [1]  6  7  8  9 10 11 12 13 14 15</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using the &#8230; elipsis</h2></hgroup><article  id="using-the-...-elipsis-1">
+
+<p>Alternatively, if we wanted to use the elements in our data structure as the final values in each sequence instead of the starting value, we can include the named argument <code>from</code> in our call to <code>lapply</code>.</p>
+
+<p>This forces the elements of our input vector to be used as the values for the <code>to</code> argument to <code>seq</code> , instead of as the values for <code>from</code>.</p>
+
+<pre class = 'prettyprint lang-r'>lapply(c(8,6), seq, from = 15) # from 15 to 8, and from 15 to 6</pre>
+
+<pre >## [[1]]
+## [1] 15 14 13 12 11 10  9  8
+## 
+## [[2]]
+##  [1] 15 14 13 12 11 10  9  8  7  6</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using an anonymous function</h2></hgroup><article  id="using-an-anonymous-function">
+
+<p>Another useful way to control the arguments to your function are to supply anonymous functions as the <code>FUN</code> argument.</p>
+
+<p>Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared &quot;in-line&quot; (i.e., inside another function call), and used as &quot;one-off&quot; tools when you need to supply a function as a argument, but have no other use for that specific function.</p>
+
+<p>Here we&#39;ll use an anonymous function to get the same results as <code>lapply(c(8,6), seq, from = 15)</code>.</p>
+
+<pre class = 'prettyprint lang-r'>lapply(c(8,6), function(x) seq(from = 15, to = x)) # 6 and 8 become &quot;x&quot;</pre>
+
+<pre >## [[1]]
+## [1] 15 14 13 12 11 10  9  8
+## 
+## [[2]]
+##  [1] 15 14 13 12 11 10  9  8  7  6</pre>
+
+</article></slide><slide class=''><hgroup><h2>Practical lapply</h2></hgroup><article  id="practical-lapply">
+
+<p>Remember the example of using <code>data$X &lt;- as.factor(data$X)</code> over and over again to make each column in a data frame a factor?</p>
+
+<p>Because a data frame is actually a simplified &quot;special case&quot; of a list, we can add or overwrite columns with elements from a list, provided that list has equal-length vectors as its elements. This is going to allow use to replace that brittle code with a single expression!</p>
+
+<p>To see how, lets start by reading in the <code>marathon</code> dataset.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/marathon.csv&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Practical lapply</h2></hgroup><article  id="practical-lapply-1">
+
+<p>As you may recall, the marathon dataset has the race results and demographic information about the runners in the 2009 Credit Union Cherry Blossom Ten Mile Run in Washington D.C. If we were analyzing these data, it might be useful to have our demographic variables as factors.</p>
+
+<p>We can convert the 8 ID variables by l-applying <code>factor</code> to each column (because the columns are the &quot;elements&quot; of a data frame), and overwriting those columns in the <code>marathon</code> data frame with the resulting list (which works because a data frame is secretly a list!).</p>
+
+<pre class = 'prettyprint lang-r'>marathon[,4:11] &lt;- lapply(marathon[,4:11], factor) # &quot;factor&quot; columns 4:11
+class(marathon[,6]) # Lets check on one</pre>
+
+<pre >## [1] &quot;factor&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>sapply: The &quot;Apply and Simplify&quot; function</h2></hgroup><article  id="sapply-the-apply-and-simplify-function">
+
+<p>The syntax and behavior of the <code>sapply</code> function is identical to the <code>lapply</code> function, except in one regard.</p>
+
+<p>By default, <code>sapply</code> will try to &quot;simplify&quot; its output, meaning that if possible, it will return its results as a vector, matrix, or array. <code>lapply</code> on the other hand, <strong>always</strong> returns a list.</p>
+
+<p>You can control how <code>sapply</code> tries to perform its simplification with the <code>SIMPLIFY</code> argument. The default is <code>TRUE</code>, to perform simplification, and it can be set to <code>FALSE</code> to disable it, or <code>&quot;array&quot;</code> if you want to force it the output to <strong>not</strong> be a vector.</p>
+
+</article></slide><slide class=''><hgroup><h2>sapply: The &quot;Apply and Simplify&quot; function</h2></hgroup><article  id="sapply-the-apply-and-simplify-function-1">
+
+<p>To see this simplification in action, contrast the following examples. We can find out what the unique values in the &quot;city&quot;, &quot;state&quot;, and &quot;country&quot; variables are, by using <code>sapply</code> to call the <code>unique</code> function on each of those columns.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- sapply(marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)], unique)
+str(x) # not printing it because it&#39;s too big for a slide</pre>
+
+<pre >## List of 3
+##  $ city   : Factor w/ 1259 levels &quot;Aberdeen&quot;,&quot;Abingdon&quot;,..: 1027 743 48 375 1172 705 1073 437 1071 30 ...
+##  $ state  : Factor w/ 51 levels &quot;AE&quot;,&quot;AK&quot;,&quot;AL&quot;,..: 21 46 9 34 20 35 38 27 30 1 ...
+##  $ country: Factor w/ 13 levels &quot;AUS&quot;,&quot;CAN&quot;,&quot;ETH&quot;,..: 13 2 7 3 12 4 9 5 10 6 ...</pre>
+
+<p>These results have to be represented in a list because each column has a different number of unique values (1259 unique cities, 51 unique states, and 13 unique countries).</p>
+
+</article></slide><slide class=''><hgroup><h2>sapply: The &quot;Apply and Simplify&quot; function</h2></hgroup><article  id="sapply-the-apply-and-simplify-function-2">
+
+<p>If all we were interesting in was finding out <em>how many</em> unique values there were in each variable, we could do the following:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- sapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
+            FUN = function(x) length(unique(x)))
+x</pre>
+
+<pre >##    city   state country 
+##    1259      51      13</pre>
+
+<p>This time, our output is a vector.</p>
+
+<p>This is because calling <code>length(unique(x))</code> on each column <code>x</code> produces the same type of result each time: a single numeric value. <code>sapply</code> then assembles the results using the simplest data structure possible for combining lots of numeric values: an atomic vector!</p>
+
+</article></slide><slide class=''><hgroup><h2>vapply: The &quot;Apply and Match to Template&quot; function</h2></hgroup><article  id="vapply-the-apply-and-match-to-template-function">
+
+<p>The <code>vapply</code> function is a &quot;safe&quot; version of <code>sapply</code> that is preferable in situations when your results <strong>MUST</strong> be in a specific data structure (e.g., you need to feed them into another function which only operates on vectors, or a result of more than one value can&#39;t logically occur, etc.)</p>
+
+<p>The <code>FUN.VALUE</code> argument to <code>vapply</code> allows you to define a &quot;template&quot; result, and each individual result must conform to the template or <code>vapply</code> throws an error.</p>
+
+<p>This may seem like an odd features, but in many cases you can&#39;t know the results of a running function without running that function! For instance, imagine if the <code>marathon</code> dataset only had runners from one city in one state from one country. Then the results of calling <code>unique</code> on each column would have been a vector, not a list!</p>
+
+</article></slide><slide class=''><hgroup><h2>vapply: The &quot;Apply and Match to Template&quot; function</h2></hgroup><article  id="vapply-the-apply-and-match-to-template-function-1">
+
+<p>If we wanted to enforce that the results of calling <code>length(unique(x))</code> on each element of the input <strong>must</strong> return a single numeric value, you would do the following:</p>
+
+<p>The <code>numeric(1)</code> expression is our template, and <code>vapply</code> checks to make sure each result is a numeric of length 1.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- vapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
+            FUN = function(x) length(unique(x)),
+            FUN.VALUE = numeric(1))
+print(x)</pre>
+
+<pre >##    city   state country 
+##    1259      51      13</pre>
+
+</article></slide><slide class=''><hgroup><h2>When template matching fails</h2></hgroup><article  id="when-template-matching-fails">
+
+<p>If the result of calling <code>FUN</code> on an element of our data structure doesn&#39;t pass validation (i.e., it is not the same size and type as the template), you get an error:</p>
+
+<p>Here, our data structure is a list of vectors with 2 elements each, and our template specifies that the given function must return a numeric of length 1. Because our given function just returns its input (the vectors with 2 elements), this call will fail.</p>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>x &lt;- vapply(X = list(c(10, 25), c(3, 11)),
+            FUN = function(x) return(x), # just returns its input!
+            FUN.VALUE = numeric(1))</pre>
+
+<pre >## Error in vapply(X = list(c(10, 25), c(3, 11)), FUN = function(x) return(x), : values must be length 1,
+##  but FUN(X[[1]]) result is length 2</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>apply: &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-apply-to-array-dimension-function">
+
+<p>As was mentioned in the &quot;notes&quot; columns in the table about data structure elements, matrices and arrays are just vectors with a special <code>dim</code> attribute that says hows the elements should be arranged into rows, columns, pages, etc.</p>
+
+<p>So, we can use <code>lapply</code>/<code>sapply</code>/<code>vapply</code> to operate on each individual &quot;cell&quot; in matrices and arrays, just as though it were a vector without dimensionality.</p>
+
+<p>But in practice, we never use a matrix or array in place of a vector, but instead give the different rows and columns semantic significance (e.g., each row might represent a different subject, and the columns might be different variables measured from each subject).</p>
+
+</article></slide><slide class=''><hgroup><h2>apply: &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-apply-to-array-dimension-function-1">
+
+<p>The <code>apply</code> function (no prefix!) allows you to treat one of the dimensions in a matrix/array as defining the &quot;elements&quot; of the matrix or array, and apply the specified function to each unit along that dimension.</p>
+
+<p>You control which dimension is treated as an &quot;element&quot; with the <code>MARGIN</code> argument. <code>MARGIN = 1</code> means treat the rows as distinct elements, <code>MARGIN = 2</code> means treat the columns as distinct elements, and so on through more dimensions.</p>
+
+<p>In other words, it allows you say &quot;Treat each row of the matrix as a different vector element, and apply this specific function to each of the rows&quot; or &quot;Treat each column of the matrix as a different vector element, and apply this specific function to each of the columns&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function">
+
+<p>For example, we could use <code>apply</code> to find the standard error of the mean for each column in a numeric matrix.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- matrix(rnorm(15), nrow = 5, dimnames = list(NULL, c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;)))
+apply(x, MARGIN = 2, FUN = function(x) sd(x)/sqrt(length(x)))</pre>
+
+<pre >##         A         B         C 
+## 0.7556598 0.5334545 0.4726037</pre>
+
+</article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function-1">
+
+<p>Or, we could use it to sort each column of the matrix from smallest to largest value.</p>
+
+<pre class = 'prettyprint lang-r'>sorted_x &lt;- apply(x, MARGIN = 2, FUN = sort)
+sorted_x</pre>
+
+<pre >##               A          B           C
+## [1,] -1.7687403 -1.3541292 -1.17055799
+## [2,] -1.3416417 -0.5100518 -0.55310462
+## [3,] -1.1725133  0.8217545 -0.23986711
+## [4,] -0.6033956  1.2300164 -0.07727019
+## [5,]  2.4393826  1.3783585  1.66024438</pre>
+
+</article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function-2">
+
+<p>However, when you apply a function to the rows of a matrix, <code>apply</code> transposes the resulting matrix.</p>
+
+<pre class = 'prettyprint lang-r'>sorted_x &lt;- apply(x, MARGIN = 1, FUN = sort)
+sorted_x</pre>
+
+<pre >##            [,1]      [,2]       [,3]       [,4]        [,5]
+## [1,] -1.3541292 -1.341642 -1.1725133 -1.7687403 -0.07727019
+## [2,] -1.1705580  1.230016 -0.5100518 -0.5531046  1.37835852
+## [3,] -0.6033956  1.660244 -0.2398671  0.8217545  2.43938258</pre>
+
+<p>Though we started out with a 5 by 3 matrix, we end up with a 3 by 5 matrix after applying <code>sort</code> to each row!</p>
+
+</article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function-3">
+
+<p>Since this is probably not what you want, you&#39;ll have to transpose the output of <code>apply</code> when you treat the rows as the &quot;elements&quot;.</p>
+
+<pre class = 'prettyprint lang-r'>t(sorted_x)</pre>
+
+<pre >##             [,1]       [,2]       [,3]
+## [1,] -1.35412925 -1.1705580 -0.6033956
+## [2,] -1.34164167  1.2300164  1.6602444
+## [3,] -1.17251331 -0.5100518 -0.2398671
+## [4,] -1.76874032 -0.5531046  0.8217545
+## [5,] -0.07727019  1.3783585  2.4393826</pre>
+
+</article></slide><slide class=''><hgroup><h2>Summary</h2></hgroup><article  id="summary">
+
+<p><code>lapply</code> applies the given function to each element in a data structure, and returns a list.</p>
+
+<pre class = 'prettyprint lang-r'>data &lt;- list(A = c(5,1,10), B = c(11,8,3))
+lapply(X = data, FUN = mean)</pre>
+
+<pre >## $A
+## [1] 5.333333
+## 
+## $B
+## [1] 7.333333</pre>
+
+<p><code>sapply</code> applies the given function to each element in a data structure, and returns the simplest possible data structure.</p>
+
+<pre class = 'prettyprint lang-r'>sapply(X = data, FUN = mean) # same input, but vector output</pre>
+
+<pre >##        A        B 
+## 5.333333 7.333333</pre>
+
+</article></slide><slide class=''><hgroup><h2>Summary</h2></hgroup><article  id="summary-1">
+
+<p><code>vapply</code> applies the given function to each element in a data structure, and returns the simplest possible data structure. Additionally, each individual result must match a given output template.</p>
+
+<pre class = 'prettyprint lang-r'>data &lt;- list(A = c(5,1,10), B = c(11,8,3))
+vapply(X = data, FUN = mean, FUN.VALUE = numeric(1))</pre>
+
+<pre >##        A        B 
+## 5.333333 7.333333</pre>
+
+<p><code>apply</code> applies the given function along a specific dimension (e.g., rows or columns) of a matrix, array, or data frame, and returns the simplest possible data structure.</p>
+
+<pre class = 'prettyprint lang-r'>data &lt;- matrix(c(5,1,10,11,8,3), ncol = 2)
+apply(data, MARGIN = 2, FUN = mean)</pre>
+
+<pre >## [1] 5.333333 7.333333</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+
+<ol>
+<li>Using <code>sapply</code>, find the median value of the <code>time</code> and <code>netTime</code> variables in the <code>marathon</code> data frame, as both a list, and a vector.</li>
+<li>Find the minimum and maximum value value in each column of the matrix <code>x</code>.</li>
+<li>Execute the following expressions, which will write several .csv&#39;s to a temp folder.</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>tmp &lt;- tempdir()
+sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
+                file = file.path(tmp, paste0(&quot;FakeSubject&quot;, x, &quot;.csv&quot;)),
+                row.names = FALSE))
+filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
+                        full.names = TRUE)</pre>
+
+<p>Given the vector <code>filenames</code>, read each csv into R and take the mean of each variable <code>A</code> and <code>B</code> using only <code>read.csv</code>, <code>*apply</code> functions, and any anonymous functions you write.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
+
+</article></slide><slide class=''><hgroup><h2>Evaluating Expressions</h2></hgroup><article  id="evaluating-expressions">
+
+<p>What does it mean to say our programs evaluating expressions that do <em>not</em> have side effects or change global state?</p>
+
+<p>Well, lets run the following code and describe what happens:</p>
+
+<pre class = 'prettyprint lang-r'>1</pre>
+
+<pre >## [1] 1</pre>
+
+<pre class = 'prettyprint lang-r'>x &lt;- 1
+x + 1</pre>
+
+<pre >## [1] 2</pre>
+
+<pre class = 'prettyprint lang-r'>x + 1</pre>
+
+<pre >## [1] 2</pre>
+
+</article></slide><slide class=''><hgroup><h2>No Side Effects</h2></hgroup><article  id="no-side-effects">
+
+<pre class = 'prettyprint lang-r'>1</pre>
+
+<pre >## [1] 1</pre>
+
+<p>When we run the expression <code>1</code>, we the number <code>1</code> gets printed to the console. And nothing else.</p>
+
+<p>Nothing about our global environment changes; we have to explicitly ask for an variable assignment with <code>&lt;-</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>No Side Effects</h2></hgroup><article  id="no-side-effects-1">
+
+<pre class = 'prettyprint lang-r'>x &lt;- 1
+x + 1</pre>
+
+<pre >## [1] 2</pre>
+
+<pre class = 'prettyprint lang-r'>x + 1</pre>
+
+<pre >## [1] 2</pre>
+
+<p>When we assign <code>x</code> to be <code>1</code>, and then add <code>1</code> to <code>x</code>, we get the same thing both times we do the addition; the value of <code>x</code> is unchanged by adding 1.</p>
+
+<p>In other words, executing the expression <code>x + 1</code> has no effect on our environment. We have to <strong>explicitly</strong> ask to make a new variable, or change the value of <code>x</code>.</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

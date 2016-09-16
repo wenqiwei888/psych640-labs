@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dplyr, Part 2: Advanced Verbs and Pipes</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'dplyr, Part 2: Advanced Verbs and Pipes',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>More dplyr</h2></hgroup><article  id="more-dplyr">
+
+<ul>
+<li>In the last lab we introduced some of dplyr&#39;s &quot;Basic Verbs&quot;, i.e., functions for performing some of the most common tasks in data manipulation and analysis.
+
+<ul>
+<li>Removing rows &#8211;&gt; <code>filter()</code></li>
+<li>Removing &amp; renaming columns &#8211;&gt; <code>select()</code> and <code>rename()</code></li>
+<li>Creating new columns &#8211;&gt; <code>mutate()</code></li>
+<li>Summarizing measured variables &#8211;&gt; <code>summarise()</code></li>
+</ul></li>
+<li>Today we&#39;re going to look at how to combine these operations together to simplify your workflow, and some more &#39;advanced&#39; features of the <code>dplyr</code> package.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Our Dataset</h2></hgroup><article  id="our-dataset">
+
+<p>Before we start, load <code>dplyr</code> and download the data. The <code>marathon</code> dataset holds the results of the 2009 <a href='http://www.cherryblossom.org/' title=''>Credit Union Cherry Blossom Ten Mile Run</a>.</p>
+
+<pre class = 'prettyprint lang-r'>library(dplyr)
+marathon &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/marathon.csv&quot;)
+str(marathon)</pre>
+
+<pre >## &#39;data.frame&#39;:    14969 obs. of  11 variables:
+##  $ place  : int  4554 3757 7625 7822 4355 2350 1404 672 5900 7483 ...
+##  $ time   : num  108.4 95.8 130.9 133.9 100.5 ...
+##  $ netTime: num  94.8 89.9 118.6 121.4 93.5 ...
+##  $ age    : int  28 32 22 28 28 44 29 29 30 37 ...
+##  $ gender : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; ...
+##  $ first  : chr  &quot;Jeremy&quot; &quot;Nicodemo&quot; &quot;Heather&quot; &quot;Carissa&quot; ...
+##  $ last   : chr  &quot;Aaronson&quot; &quot;Abagon&quot; &quot;Abbey&quot; &quot;Abbott&quot; ...
+##  $ city   : chr  &quot;Silver Spring&quot; &quot;Mongomery Village&quot; &quot;Arlington&quot; &quot;Arlington&quot; ...
+##  $ state  : chr  &quot;MD&quot; &quot;MD&quot; &quot;VA&quot; &quot;VA&quot; ...
+##  $ country: chr  &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; ...
+##  $ div    : chr  &quot;25-29&quot; &quot;30-34&quot; &quot;20-24&quot; &quot;25-29&quot; ...</pre>
+
+</article></slide><slide class=''><hgroup><h2>The prelude to analysis</h2></hgroup><article  id="the-prelude-to-analysis">
+
+<p>Many serial steps of &quot;tidying&quot; our data are often necessary to perform any analysis of interest (e.g., first reshaping the data, then removing observations, etc.)</p>
+
+<p>This &quot;grunt work&quot; is usually implemented using coding styles that make your scripts fragile and difficult to read, which is especially dangerous considering that these operations are dependent on the order in which they are performed.</p>
+
+<p>We&#39;ll examine the drawbacks of these style by doing some prep work on the <code>marathon</code> dataset. Our job will be to: move the ID variables to the left hand side, make a variable showing the difference between <code>time</code> and <code>netTime</code>, and to sort the data from first place to last place.</p>
+
+<p>The goal of these examples is convince you that doing things &quot;the dplyr way&quot; is a better solution in most cases.</p>
+
+</article></slide><slide class=''><hgroup><h2>The &quot;Objects Everywhere&quot; method</h2></hgroup><article  id="the-objects-everywhere-method">
+
+<p>One way to make the results from each task feed into the next is to make a new variable after we finish each task, and use that variable as the input to the next function</p>
+
+<pre class = 'prettyprint lang-r'>marathon1 &lt;- select(marathon, age:div, place:netTime)
+marathon2 &lt;- mutate(marathon1, waitTime = time - netTime)
+marathon_sorted &lt;- arrange(marathon2, place)</pre>
+
+<p>One drawback to this approach is that it promotes using uninformative variable names, like <code>marathon1</code>, because there aren&#39;t good single words to describe what has changed and most results are just intermediate, &quot;one-off&quot; data frames.</p>
+
+<p>Additionally, it is prone to simple typos (missing the <code>1</code> on the end of <code>marathon</code>) and can make your script slow due to making copies of approximately identical data sets.</p>
+
+</article></slide><slide class=''><hgroup><h2>The &quot;Identity Crisis&quot; method</h2></hgroup><article  id="the-identity-crisis-method">
+
+<p>An alternative style is to re-assign the variable after each step: If you use <code>marathon</code> as the input to a function, overwrite the <code>marathon</code> variable with the output of that function.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- select(marathon, age:div, place:netTime)
+marathon &lt;- mutate(marathon, waitTime = time - netTime)
+marathon &lt;- arrange(marathon, place)</pre>
+
+<p>This is better, but it also makes your script fragile because the lines become too tightly coupled.</p>
+
+<p>For example, your operations on the <code>marathon</code> data frame in line 5 of your script likely depend on what you did on lines 1:4.</p>
+
+<p>But if you make a mistake in line 5, and overwrite the variable with bad output, you need to run lines 1:4 again after fixing the error (instead of just fixing line 5). This is problematic when there are long-distance dependencies (e.g. line 100 depends on line 10) and when previous lines perform long-running operations.</p>
+
+</article></slide><slide class=''><hgroup><h2>The &quot;One Line or Bust&quot; Method</h2></hgroup><article  id="the-one-line-or-bust-method">
+
+<p>The intrepid coder who realizes the perils of constant object creation and overwriting variables may attempt to have it all. They want a single variable, assigned a single time, and they will get it by writing a single line of code!</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- arrange(mutate(select(marathon, age:div, place:netTime),
+                           waitTime = time - netTime),
+                    place)</pre>
+
+<p>However the &quot;one variable, assigned once&quot; goal is achieved by sacrificing the readability of the function code.</p>
+
+<p>Nesting many functions obscures which arguments belong to which functions, even when the arguments are broken down on different lines, and requires to write your functions &quot;inside out&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>The Solution: Pipes!</h2></hgroup><article  id="the-solution-pipes">
+
+<p>Installing <code>dplyr</code> also installs another R package called <code>magrittr</code>, which provides an operator called a <strong>pipe</strong>.</p>
+
+<p>A pipe sends the output of one function to another function as input. This allows you to chain functions together without nesting them, or assigning intermediate &quot;one-off&quot; variables.</p>
+
+<p>The pipe operator is written <code>%&gt;%</code>, and is loaded when <code>dplyr</code> is loaded. To get a feel for how it works, try these simple examples.</p>
+
+<pre class = 'prettyprint lang-r'>5 %&gt;% sqrt() # Same as sqrt(5)</pre>
+
+<pre >## [1] 2.236068</pre>
+
+<pre class = 'prettyprint lang-r'>c(10,8,22) %&gt;% mean() # Same as mean(c(10,8,22))</pre>
+
+<pre >## [1] 13.33333</pre>
+
+</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes">
+
+<p>The output of the left-hand side function always becomes the value of the <strong>first unnamed argument</strong> to the right-hand side function. Let&#39;s look at this by changing the data from the <code>mean</code> example to include an <code>NA</code>. The <code>mean</code> function has 3 arguments: <code>x</code> (data), <code>trim</code> (percent to remove) and <code>na.rm</code> (include or remove missings).</p>
+
+<pre class = 'prettyprint lang-r'>c(10,NA,22) %&gt;% mean(na.rm = TRUE) </pre>
+
+<pre >## [1] 16</pre>
+
+<p>Omitting the <code>x</code> argument would normally cause an error, but not here because its value is supplied via the <code>%&gt;%</code> operator.</p>
+
+<p>The vector <code>c(10,NA,22)</code> gets used as the value of the <code>x</code> argument (instead of<code>trim</code>) because <code>x</code> is the first argument <strong>not</strong> supplied in the argument list.</p>
+
+</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-1">
+
+<p>The first unnamed argument will receive its value through the pipe, regardless of serial position in the formal argument list.</p>
+
+<p>Here <code>TRUE</code> gets piped to the <code>na.rm</code> argument because <code>x</code> and <code>trim</code> are supplied by name.</p>
+
+<pre class = 'prettyprint lang-r'>TRUE %&gt;% mean(x=c(10,NA,22), trim=0)</pre>
+
+<pre >## [1] 16</pre>
+
+<p>Here, <code>TRUE</code> gets piped to the <code>x</code> argument, since the numeric vector is not <em>named</em>. The piped value takes precedence, and the numeric vector gets used as the <code>na.rm</code> argument.</p>
+
+<pre class = 'prettyprint lang-r'>TRUE %&gt;% mean(c(10,NA,22), trim=0)</pre>
+
+<pre >## [1] 1</pre>
+
+</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-2">
+
+<p>If you want to use the piped-in data as the value for several arguments, or reference it explicitly for clarities sake, you can use <code>.</code> inside the function call.</p>
+
+<pre class = 'prettyprint lang-r'># cov (covariance) requires two args, x and y
+c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
+
+<pre >## [1] 110.25</pre>
+
+<pre class = 'prettyprint lang-r'>c(19,38,14,20) %&gt;% cov(c(100,184,112,75), .) # piped data becomes y</pre>
+
+<pre >## [1] 414.9167</pre>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>c(19,38,14,20) %&gt;% cov(y=.) # piped data becomes y, leaving no data for x</pre>
+
+<pre >## Error in is.data.frame(x): argument &quot;x&quot; is missing, with no default</pre></div>
+
+</article></slide><slide class=''><hgroup><h2>Pipes with <code>dplyr</code> functions</h2></hgroup><article  id="pipes-with-dplyr-functions">
+
+<p>Pipes can simplify the flow of multi-step tasks that spans multiple functions by allowing you to write code that can be read left to right, top to bottom.</p>
+
+<p>To see, lets write our <code>marathon</code> data tidying code using pipes. You can read the <code>%&gt;%</code> operator as saying &quot;then&quot;.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;../data/marathon.csv&quot;) %&gt;%
+  select(age:div, place:netTime) %&gt;%
+  mutate(waitTime = time - netTime) %&gt;%
+  arrange(place)</pre>
+
+<p>We omit the data frame argument to <code>select</code>, <code>mutate</code>, and <code>arrange</code> because it is supplied from the previous functions output, via the pipe operator.</p>
+
+</article></slide><slide class=''><hgroup><h2>Window Functions</h2></hgroup><article  id="window-functions">
+
+<ul>
+<li>A window function is a function that takes an input containing <em>n</em> elements and returns an output containing <em>n</em> elements</li>
+<li>The output of a window function depends on all the values in its input.</li>
+<li>Window functions which are particularly useful in conjunction with the <code>mutate</code> function.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>The <code>ntile()</code> function</h2></hgroup><article  id="the-ntile-function">
+
+<p>The <code>ntile()</code> function ranks the data from each group into <code>n</code> clusters. This allows you to easily divide your data into as many bins as you like.</p>
+
+<p>Here we&#39;ll create a variable identifying which <code>netTime</code> quintile each runner falls into, for males and females separately.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% group_by(gender) %&gt;%
+  mutate(quintile = ntile(netTime, 5))
+select(marathon, gender:last, netTime, quintile)</pre>
+
+<pre >## Source: local data frame [14,969 x 5]
+## Groups: gender [2]
+## 
+##    gender           first        last netTime quintile
+##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;int&gt;
+## 1       F          Lineth   Chepkurui  53.533        1
+## 2       M        Ridouane    Harroufi  45.933        1
+## 3       F Belianesh Zemed       Gebre  53.917        1
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 rows ]
+## # ... with 14,959 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>The <code>percent_rank()</code> function</h2></hgroup><article  id="the-percent_rank-function">
+
+<p>The <code>percent_rank()</code> function ranks each observation in your data according to what proportion of other observations in the group have a lower value.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;%
+  mutate(pBelow = percent_rank(netTime))
+select(marathon, gender:last, netTime, pBelow)</pre>
+
+<pre >## Source: local data frame [14,969 x 5]
+## Groups: gender [2]
+## 
+##    gender           first        last netTime       pBelow
+##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;        &lt;dbl&gt;
+## 1       F          Lineth   Chepkurui  53.533 0.0000000000
+## 2       M        Ridouane    Harroufi  45.933 0.0000000000
+## 3       F Belianesh Zemed       Gebre  53.917 0.0001201779
+## 4       M          Feyisa       Liesa  45.967 0.0001504664
+## 5       F           Teyba       Naser  53.967 0.0002403557
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 5 rows ]
+## # ... with 14,959 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>The <code>lead()</code> function</h2></hgroup><article  id="the-lead-function">
+
+<p>The <code>lead()</code> function takes a vector as input, and returns a vector where the elements have been moved to the left one position.</p>
+
+<p>In other words, the first element in the output vector is second element of the input vector, the second element in the output vector is third element of the input vector, and so on.</p>
+
+<pre class = 'prettyprint lang-r'>lead(c(6,8,14,19,22))</pre>
+
+<pre >## [1]  8 14 19 22 NA</pre>
+
+<p>The output vector is padded with an <code>NA</code> in the final position to make the input and output have the same number of elements.</p>
+
+<p>You can think of <code>lead</code> as answering the question &quot;What is the value of the element to my right?&quot; for each element in a vector.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function">
+
+<p>The <code>lag()</code> function is similar to the <code>lead</code> function, but returns a vector where the elements have been moved to the right by one position.</p>
+
+<p>The first element in the output vector is <code>NA</code> (since there is no zero-th element to move into the first position), the second element of the output vector is the first element in the input vector and so on.</p>
+
+<pre class = 'prettyprint lang-r'>lag(c(6,8,14,19,22))</pre>
+
+<pre >## [1] NA  6  8 14 19</pre>
+
+<p>You can think of <code>lag</code> as answering the question &quot;What is the value of the element to my left?&quot; for each element in a vector.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function-1">
+
+<p>Let&#39;s use the lag function to find how far apart in time successive runners finished the race.</p>
+
+<p>We&#39;ll first need to ungroup the data and sort the data by <code>netTime</code>. Then we&#39;ll subtract each finishing time from the time just before it, and replace the leading <code>NA</code> with a 0.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% ungroup() %&gt;% arrange(netTime) %&gt;%
+  mutate(lag_time = netTime - lag(netTime),
+         lag_time = replace(lag_time, is.na(lag_time), 0))
+select(marathon, gender:last, netTime, lag_time)</pre>
+
+<pre >## # A tibble: 14,969 × 5
+##    gender        first        last netTime lag_time
+##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1       M     Ridouane    Harroufi  45.933    0.000
+## 2       M       Feyisa       Liesa  45.967    0.034
+## 3       M        Silas        Sang  45.983    0.016
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 rows ]
+## # ... with 14,959 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates">
+
+<p>Cumulative aggregates functions calculate a summary value for each element in a vector, based on all values up to and including that element. Consider the cumulative sum function <code>cumsum</code>:</p>
+
+<pre class = 'prettyprint lang-r'>cumsum(c(5, 8, 1, 44))</pre>
+
+<pre >## [1]  5 13 14 58</pre>
+
+<ul>
+<li>The first element in the output is the same as the first element in the input</li>
+<li>The second element in the output is the sum of the first and second elements of the input</li>
+<li>The third element in the output is the sum of the first, second and third elements of the input</li>
+<li>etc., etc., etc.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-1">
+
+<p>In addition to <code>cumsum()</code>, Base R has the <code>cummin()</code>, <code>cummax()</code> and <code>cumprod()</code> functions. <code>dplyr</code> provides an additional function, <code>cummean</code>.</p>
+
+<p>Let&#39;s use the <code>cummean</code> function to examine how the average net time changes as each runner finishes the race.</p>
+
+<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% mutate(cumAvgNetTime = cummean(netTime))
+select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
+
+<pre >## # A tibble: 14,969 × 5
+##    gender        first        last netTime cumAvgNetTime
+##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;         &lt;dbl&gt;
+## 1       M     Ridouane    Harroufi  45.933      45.93300
+## 2       M       Feyisa       Liesa  45.967      45.95000
+## 3       M        Silas        Sang  45.983      45.96100
+## 4       M        Karim El Mabchour  46.000      45.97075
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 6 rows ]
+## # ... with 14,959 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-2" class="img-centered">
+
+<p>The cumulative average net time as a function of overall finishing place is a very interesting curve!</p>
+
+<pre class = 'prettyprint lang-r'>par(mar =  c(10,3,0,2))
+plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
+     type=&quot;l&quot;)</pre>
+
+<p><img src="lab14_dplyr2_files/figure-html/plot_cummean-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do">
+
+<p>If you thought that summarizing groups of values and creating complex new variables effortlessly was a powerful set of features, allow me to introduce the <code>do</code> function.</p>
+
+<p>The <code>do</code> function allows you to apply arbitrary functions to the groups of values you have defined.</p>
+
+<p>And by arbitrary, I mean arbitrary. You are not limited to applying functions that return a single values, or exactly <code>n</code> values. You can apply functions that return literally any type of objects.</p>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-1">
+
+<p>Allow me to demonstrate by running a linear regression, predicting a runner&#39;s net time from their age, on the male and female runners separately.</p>
+
+<pre class = 'prettyprint lang-r'>marathon_lm &lt;- marathon %&gt;% group_by(gender) %&gt;%
+  do(time_by_age = lm(netTime~age, data = .))
+marathon_lm</pre>
+
+<pre >## Source: local data frame [2 x 2]
+## Groups: &lt;by row&gt;
+## 
+## # A tibble: 2 × 2
+##   gender time_by_age
+## *  &lt;chr&gt;      &lt;list&gt;
+## 1      F    &lt;S3: lm&gt;
+## 2      M    &lt;S3: lm&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-2" class="smaller">
+
+<p>The <code>time_by_age</code> column is a list of individual <code>lm</code> objects!</p>
+
+<pre class = 'prettyprint lang-r'>marathon_lm$time_by_age[[1]] # Model for Females</pre>
+
+<pre >## 
+## Call:
+## lm(formula = netTime ~ age, data = .)
+## 
+## Coefficients:
+## (Intercept)          age  
+##     91.8895       0.2091</pre>
+
+<pre class = 'prettyprint lang-r'>marathon_lm$time_by_age[[2]] # Model for Males</pre>
+
+<pre >## 
+## Call:
+## lm(formula = netTime ~ age, data = .)
+## 
+## Coefficients:
+## (Intercept)          age  
+##     79.9273       0.2311</pre>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-3">
+
+<p>This is possible because <code>dplyr</code> creates a new kind of data frame called a <code>tbl_df</code> or table data frame, which can use a list as a column.</p>
+
+<pre class = 'prettyprint lang-r'>class(marathon_lm)</pre>
+
+<pre >## [1] &quot;rowwise_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>class(marathon_lm$time_by_age)</pre>
+
+<pre >## [1] &quot;list&quot;</pre>
+
+<p>While <code>do</code> is to <code>summarise</code> as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of lists, as well as the class of objects you&#39;ve stored in the list.</p>
+
+<p>So, don&#39;t use <code>do</code> when you don&#39;t neccesarily need its power.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+
+<ol>
+<li>Make a new column called <code>division_place</code> that gives a runners place within their own age division (given by the <code>div</code> variable)
+
+<ul>
+<li>Hint: Be sure the data is sorted properly, and the <code>n()</code> function can be used inside <code>mutate</code> to tell you the size of the group you&#39;re operating on.</li>
+</ul></li>
+<li>Use the data in the <code>lag_time</code> column to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner&#39;s finish (e.g., it should tell you how much time passed between the first place finisher and the 100th place finisher).
+
+<ul>
+<li>Hint: Use one of the cummulative agggregation functions we talked about.</li>
+</ul></li>
+</ol>
+
+<p>Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with <code>%&gt;%</code>).</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Extra Slides</h2></hgroup><article  id="extra-slides">
+
+</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests">
+
+<p><code>dplyr</code> provides the <code>cumany</code> and <code>cumall</code> functions, which perform element-wise <code>&amp;&amp;</code> and <code>||</code> operations on vectors.</p>
+
+<p><code>cumall</code> traverses the vector and returns <code>TRUE</code> for each element, until it encounters an element that <em>does not</em> meet the specified criteria. All remaining elements in its output will be <code>FALSE</code>.</p>
+
+<p>Here, <code>cumall</code> searches the vector for &quot;G&quot;, and returns <code>TRUE</code> in the first 3 positions, because they are all &quot;G&quot;. But after it hits &quot;A&quot; in the fourth position, it returns <code>FALSE</code> for each remaining element.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
+cumall(x == &quot;G&quot;) # Same as x[1]==&quot;G&quot;, x[1]==&quot;G&quot; &amp;&amp; x[2]==&quot;G&quot;, etc.</pre>
+
+<pre >## [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</pre>
+
+<p>You can think of the <code>cumall</code> function as answering the question &quot;Have <strong>all</strong> the elements in the vector up to this point met the criteria?&quot;</p>
+
+</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-1">
+
+<p>The <code>cumany</code> function traverses the vector and returns <code>FALSE</code> for each element until it encounters an element that meets the specified criteria. All remaining elements in its output will be <code>TRUE</code>.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
+cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || x[3]==&quot;A&quot;, etc.</pre>
+
+<pre >## [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</pre>
+
+<p>You can think of the <code>cumall</code> function as answering the question &quot;Have <strong>any</strong> of the elements in the vector up to this point met the criteria?&quot;</p>
+
+</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-2">
+
+<p>These cumulative logical tests can be especially useful for filtering entire groups of observations.</p>
+
+<p>Here we&#39;ll use the <code>cumany</code> function to filter the rows of runners who finished after the fastest female runner.</p>
+
+<p>The <code>slice</code> function is used to remove the first row after filtering, so the results don&#39;t include the row for the fastest female runner.</p>
+
+<pre class = 'prettyprint lang-r'>marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
+
+<pre >## # A tibble: 14,929 × 16
+##      age gender           first      last       city state country   div
+##    &lt;int&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
+## 1     29      M             Sam   Blasiak  N Potomac    MD     USA 25-29
+## 2     21      F Belianesh Zemed     Gebre   Ethiopia    NR     ETH 20-24
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]
+## # ... with 14,919 more rows, and 8 more variables: place &lt;int&gt;,
+## #   time &lt;dbl&gt;, netTime &lt;dbl&gt;, waitTime &lt;dbl&gt;, quintile &lt;int&gt;,
+## #   pBelow &lt;dbl&gt;, lag_time &lt;dbl&gt;, cumAvgNetTime &lt;dbl&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-4">
+
+<p>This is possible because <code>dplyr</code> extends the standard data frame functionality, and creates a new kind of data frame called a <code>tbl_df</code> or table data frame.</p>
+
+<pre class = 'prettyprint lang-r'>class(marathon_lm)</pre>
+
+<pre >## [1] &quot;rowwise_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
+
+<p>A <code>tbl_df</code> can use a list as a column, instead of requiring a column to be an atomic vector (atomic just means a vector where each element is required to have a length of 1).</p>
+
+<pre class = 'prettyprint lang-r'>class(marathon_lm$time_by_age)</pre>
+
+<pre >## [1] &quot;list&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-5">
+
+<p>While <code>do</code> is to <code>summarise</code> as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of how to work with lists, and of the class of objects you&#39;ve stored in the list.</p>
+
+<p>Here, to make a column for the \(R^2\) value of each model, you must group by gender, extract the <code>lm</code> object from the <code>time_by_age</code> list with <code>[[1]]</code>, apply the <code>summary</code> function to it, and access the <code>r.squared</code> element from the summary.</p>
+
+<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
+  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-6">
+
+<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
+  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
+
+<pre >## Source: local data frame [2 x 3]
+## Groups: gender [2]
+## 
+##   gender time_by_age   Rsquared
+##    &lt;chr&gt;      &lt;list&gt;      &lt;dbl&gt;
+## 1      F    &lt;S3: lm&gt; 0.01764281
+## 2      M    &lt;S3: lm&gt; 0.02734674</pre>
+
+<p>Lots of work to find out that age is an awful predictor of net time!!</p>
+
+<p>The <code>do</code> function is an awesome tool, but don&#39;t use it when you don&#39;t necesarily need its power, as it might create more work for you in the long run.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
+
+<ol>
+<li>Make a new column called <code>division_place</code> that gives a runners place within their own age division (given by the <code>div</code> variable)
+
+<ul>
+<li>Hint: Be sure the data is sorted properly, and the <code>n()</code> function can be used inside <code>mutate</code> to tell you the size of the group you&#39;re operating on.</li>
+</ul></li>
+<li>Which age division had the longest streak of Kenyan (<code>KEN</code>) runners finish before a runner from another country finished?
+
+<ul>
+<li>Hint: Try filtering with the <code>cumall</code> function, and inspecting the <code>division_place</code> variable you created.</li>
+</ul></li>
+</ol>
+
+<p>Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with <code>%&gt;%</code>).</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

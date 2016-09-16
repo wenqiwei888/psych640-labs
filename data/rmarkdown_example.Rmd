@@ -1,0 +1,143 @@
+---
+title: "R Markdown Tutorial"
+subtitle: "Psych 640 Lab"
+author: "Andrew Cohen and Wlliam Hopper"
+date: "November 29, 2015"
+output: html_document
+---
+
+--------------------------------
+
+### 1) Text
+
+This is an R Markdown document. 
+
+Hit the **Knit HTML** button and watch the magic happen.
+
+Plain text is written like this. You can also make text *italic* or **bold**.
+
+You can include urls like this <http://rmarkdown.rstudio.com> or like this [click here](http://rmarkdown.rstudio.com).
+
+Headers are included by prefixing text with # (large header), ## (medium), or ### (small), as in the "Text" header above.
+
+You can also make unordered lists...
+
+- Item 1 (must be separated from text by a blank line)
+- Item 2
+- Item 3
+    - Item 3a (needs to be indented 4 spaces)
+    - Item 3b
+
+...or ordered lists...
+
+1. Item 1 (must be separated from text by a blank line)
+2. Item 2
+3. Item 3
+    a. Item 3a (needs to be indented 4 spaces)
+    b. Item 3b
+
+If you want to include a manual line break,   
+end the line with 2 spaces.  
+
+> Blockquotes are a useful way to present information when you want something to stand out from the rest of the text like quotes. -Andrew Cohen
+
+If you want to make text look like R code you can surround it with backticks like this: `R code looking stuff`.
+
+```
+You can also make code blocks with 3 backticks.
+This code is pre-formatted.
+This font is fixed width.
+```
+
+Here is a superscript 2^2^.   
+Here is a subscript H~0~.
+
+You can separate regions with horizontal lines made of dashes or equal signs.
+
+--------------------------------
+
+### 2) Extenal Images
+
+Here is how you include an image from the web.  
+![puppy](http://greatinspire.com/wp-content/uploads/2012/11/Cute-puppy-photos-582.jpg)
+
+Here is how you include an image from a file on your computer.  
+<!-- ![kitten]('filepath/kitten.jpeg') -->
+filepath would need to be updated to the location of the file.   
+Because we don't know the right path on your computer, this line is commented out using \<!-- -->.
+
+--------------------------------
+
+### 3) Equations
+
+Here is how to create an inline equation: $1 + 1 = 2$. Don't include whitespace next to the $ and the equation.
+
+You can have R compute inline equations like this: `r 1 + 1`. Notice that it prints `2` not `1 + 1`. You need to put the lowercase r there.
+
+Use two dollar signs and LaTex syntax for equations you want to show in their own "paragraph".
+$$SEM=\frac{s}{\sqrt{n}}$$ 
+
+LaTex allows you to produce any mathematical symbol for formula you can think of.
+LaTex syntax can be found [here](ftp://ftp.ams.org/pub/tex/doc/amsmath/short-math-guide.pdf).
+
+--------------------------------
+
+### 4) Tables
+
+Header 1 | Header 2 
+---------|---------
+info 11 | info 21
+info 12 | info 22
+info 13 | info 23
+info 14 | info 24
+
+--------------------------------
+
+### 5) Chunks
+
+You can include R code chunks like the one below. This R code will be evaluated like in a normal R session and the results will be printed out in the final document. 
+
+```{r Car summary}
+summary(cars)
+```
+
+I named this chunk 'Car summary' (optional).
+
+If you want to prevent printing the code that generated the output, add `echo = FALSE`. Notice that the `summary(cars)` bit went away.
+
+```{r Car summary no echo, echo=FALSE}
+summary(cars)
+```
+
+You can also prevent R from evaluating the code.
+
+```{r Car summary no evaluation, eval=FALSE}
+summary(cars)
+```
+
+We can convert R data structures into Markdown tables for prettier formatting. 
+Here we use the `kable` function from the knitr package.
+
+```{r Car summary with knitr, echo=FALSE}
+library(knitr)
+kable(summary(cars), row.names=FALSE, caption="With Knitr")
+```
+
+You can also embed plots:
+
+```{r Car plot, echo=FALSE, fig.height=6, fig.width=6, fig.align='left'}
+par(pty='s')
+plot(cars)
+```
+
+Notice the fig.height, fig.width, and fig.align options. There are lots of other chunk options.
+
+--------------------------------
+
+### 6) Other
+
+RStudio allows you to run chunks of code as normal R code. Put the cursor in the previous code chunk. From the upper right 'Chunks' menu select `Run Current Chunk`.
+
+You can also jump to a chunk by selecting `Jump To...`
+
+Notice the little arrows to the left of some lines of code (e.g., headers, code blocks, chunks, etc). You can click on them to collapse or expand a region.

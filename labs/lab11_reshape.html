@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reshaping Datasets</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Reshaping Datasets',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/cellHighlighting.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Why shape matters</h2></hgroup><article  id="why-shape-matters">
+
+<ul>
+<li><p>Reshaping refers to the act of changing the physical layout of a data set</p></li>
+<li>Reshaping is useful and important for two main reasons:
+
+<ol>
+<li>A proper physical layout eases the readability and interpretation of the data</li>
+<li>Different analysis tools expect data to be laid out in different physical formats</li>
+</ol></li>
+<li><p>You <em>could</em> put all your data on a single 1 million character line, but that would impede working with it and understanding it</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics">
+
+<p>To prepare for learning a reshaping tool set, it is useful to define a vocabulary we can use to describe the content of our datasets, independent of their physical form.</p>
+
+<ul>
+<li><p>A data set is a collection of <strong>values</strong>, which can be grouped in two different ways: according to the <strong>variable</strong> a value belongs to, and according the the <strong>observation</strong> a value belongs to.</p></li>
+<li>A <strong>variable</strong> contains all the values that measure the same underlying attribute
+
+<ul>
+<li>A variable could be all the values measuring reaction time, or all the values recording levels of an experimental factor, etc.</li>
+</ul></li>
+<li>An <strong>observation</strong> contains all values measured from the same observational unit
+
+<ul>
+<li>An observational unit may be a person, an experimental trial, a day, etc.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics-1">
+
+<p>Lets make these terms more concrete with an example dataset.</p>
+
+<p>The fictional dataset below shows the results of a study comparing two treatments for migraine headaches. It holds 18 total values, from 6 observations of 3 variables.</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Values</h2></hgroup><article  id="values">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>The <span style="color: #288E26">
+values</span> are everything that is not a row or column label. They are represented physically by each cell of the table.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="variables">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>The <span style="color: #D5252D">
+variables</span> are represented physically by the columns in the data set. Here we have 3 variables:</p>
+
+<ol>
+<li><code>person</code>, with three possible values (John Smith, Mary Johnson, and Jane Doe).</li>
+<li><code>treatment</code>, with two possible values (a and b).</li>
+<li><code>headache</code>, with five values (or six,depending on how you think of the missing value (NA, 16, 3, 2, 11, 1).</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="VarTypes">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Variables can be naturally divided into two classes:</p>
+
+<ol>
+<li><span style="color: #D5252D">
+Identifier (ID) variables</span> define the unit of observation that measurements take place on.
+
+<ul>
+<li>ID variables are the subscripts that identify what condition an observation is from (e.g., \(Y_{ij}\)). Here, the observation in row two could be written \(Y_{person = John Smith, treatment = b}\)</li>
+</ul></li>
+<li><span style="color: #E4B500">
+Measured variables</span> represent what is measured from that observational unit.
+
+<ul>
+<li>Measure variables are the \(Y\) in \(Y_{ij}\). For example, \(Y_{person = John Smith, treatment = b} = 2\)</li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Observations</h2></hgroup><article  id="observations">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Each <span style="color: #B825D5">
+observation</span> made is represented physically by a row in the data frame.</p>
+
+<p>This makes it easy to see that the single unit of observation in this dataset is a person within a treatment condition.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Normal Form</h2></hgroup><article  id="data-semantics-normal-form">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>When each variable forms a column, each observation forms a row, and the table holds measurements from a single observational unit, the dataset is said to be <a href='https://en.wikipedia.org/wiki/Third_normal_form' title=''>normalized</a>. This is the optimal format for your data in most cases.</p>
+
+<p>But normalized is far from the only format datasets may come in, and we will now examine two broader classes of data forms, &quot;long&quot; and &quot;wide&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Long Data</h2></hgroup><article  id="long" class="table-column">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">John Smith</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">John Smith</td>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">Jane Doe</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">Jane Doe</td>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">Mary Johnson</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">Mary Johnson</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Long datasets have a column whose values identify which variable the values in <em>other</em> columns are associated with.</p>
+
+<p>This format differs from normalized data in that it does not preserve the &quot;variables-as-columns&quot; and &quot;observations-as-rows relationship&quot;.</p>
+
+<p>All the variables are stuffed into one column and single observations are now spread over multiple rows.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Wide Data</h2></hgroup><article  id="wide">
+
+<p>Wide datasets are defined by having a column for each variable, so the normalized data set we looked at earlier was also a wide data set.</p>
+
+<p>But, not all wide data sets are normalized. Below is another version of the same data, but this version contains less information about the data.</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">a</th>
+<th align="center">b</th>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">16</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">NA</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Here, the <code>headaches</code> label is gone, and single observations are now combined into one row. Additionally, <code>a</code> and <code>b</code> are now used as distinct variables, instead of as different values of the &quot;condition&quot; variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>Trouble defining &#39;Wide&#39; and &#39;Long&#39;</h2></hgroup><article  id="trouble-defining-wide-and-long">
+
+<p>While wide data and long data <em>do</em> have concrete definitions, these terms are often used imprecisely.</p>
+
+<p>They are often used in a relative sense, meaning to make a set of data longer or wider than it originally was, which may or may not correspond to making the data fit the actual definition of wide or long.</p>
+
+<p>These labels can also be confusing because when you change data from one layout to another, the absolute size of the table may shrink, but the new shape may still be referred to as wide or long form.</p>
+
+<p>Additionally, a dataset may have many different layouts that each can be called wide or long form.</p>
+
+<p>So, read carefully whenever you see these terms, and take care when using them yourself.</p>
+
+</article></slide><slide class=''><hgroup><h2>Reshaping your data</h2></hgroup><article  id="reshaping-your-data">
+
+<p>Let get into reshaping some data with using the <code>reshape2</code> package. Install that package now with <code>install.packages(&quot;reshape2&quot;)</code> and load it with <code>library(reshape2)</code>.</p>
+
+<p>A word of caution: don&#39;t confuse the <code>reshape2</code> package with the <code>reshape</code> function in base R - they are unrelated.</p>
+
+<p>Next, download and import the two datasets we will be practicing with: the <a href='/data/hare_lynx.csv' title=''>hare-lynx trapping data set</a> and the familiar <a href='/data/memorydata.csv' title=''>loci/image/rhyme memory experiment data</a>.</p>
+
+<pre class = 'prettyprint lang-r'>hares &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/hare_lynx.csv&quot;)
+memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.csv&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Melting and casting</h2></hgroup><article  id="melting-and-casting">
+
+<p>Changing a dataset&#39;s layout with tools from <code>reshape2</code> revolves around two operations, melting and casting.</p>
+
+<p>Melting is the process of transforming data into long format by moving variables from column headers into cells of the table. This is also called stacking, or gathering, and <code>reshape2</code> provides the <code>melt</code> function to perform this task.</p>
+
+<p>Casting is the process of transforming data into into wide(er) format, also called spreading. <code>reshape2</code> provides the <code>dcast</code> and <code>acast</code> function to create reshaped data frames and arrays/matrices, respectively.</p>
+
+<p>Reshaping often begins by melting data into long format, so we will begin by using the <code>melt</code> function with the hares-lynx data.</p>
+
+</article></slide><slide class=''><hgroup><h2>The hare-lynx dataset</h2></hgroup><article  id="haresData">
+
+<p>This dataset records the number of hares and lynx trapped in North Canada from 1900 to 1920.</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Hares</th>
+<th align="center">Lynx</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">30</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">47.2</td>
+<td align="center">6.1</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">70.2</td>
+<td align="center">9.8</td>
+</tr>
+<tr class="even">
+<td align="center">1903</td>
+<td align="center">77.4</td>
+<td align="center">35.2</td>
+</tr>
+<tr class="odd">
+<td align="center">1904</td>
+<td align="center">36.3</td>
+<td align="center">59.4</td>
+</tr>
+<tr class="even">
+<td align="center">1905</td>
+<td align="center">20.6</td>
+<td align="center">41.7</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>There are 3 variables here: <strong>Year</strong>, <strong>Animal Type</strong>, and <strong>Number Trapped</strong>.</p>
+
+<p>This is a wide dataset, because it has a column for each variable. But it is non-normalized, because <strong>hare</strong> and <strong>lynx</strong> are used as variables, when they should be used in the cells of the table as the values the variable <strong>Animal</strong> can take.</p>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt">
+
+<p>The <code>melt</code> function takes values that are stored in column headers and moves them into rows in the data set, while preserving their relationships to other values. It has 4 key arguments:</p>
+
+<ol>
+<li><code>id.vars</code>: A vector defining which columns of the data should be used as ID variables. This can be a numeric vector of column numbers, or character vector of column names.</li>
+<li><code>measure.vars</code>: A vector defining which columns of the data hold measured variables. This can also be a numeric vector of column numbers, or character vector of column names.</li>
+<li><code>variable.name</code>: A character vector used to name the new column in the reshaped data that holds the values shifted from the column headers down into the rows.</li>
+<li><code>value.name</code>: A character vector used to name the new column in the reshaped data that holds the measured values.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-1">
+
+<p>To normalize our data, we need to shift <code>Hare</code> and <code>Lynx</code> from measured variables into values, so we set <code>measure.vars = c(&quot;Hares&quot;,&quot;Lynx&quot;)</code>. We also need to preserve the <code>Year</code> column as an ID variable, so we set <code>id.vars = &quot;Year&quot;</code>.</p>
+
+<p>Since &quot;Hare&quot; and &quot;Lynx&quot; are values the <strong>Animal Type</strong> variable takes on, we&#39;ll call the new column holding these values &quot;Animal&quot; by setting <code>variable.name = &quot;Animal&quot;</code>.</p>
+
+<p>The numeric values from the <code>Hare</code> and <code>Lynx</code> columns measure the &quot;Number Trapped&quot; variable, so we&#39;ll name the new column holding them &quot;Trapped&quot; by setting <code>value.name = &quot;Trapped&quot;</code>.</p>
+
+<pre class = 'prettyprint lang-r'>hareMelted &lt;- melt(hares, id.vars=&quot;Year&quot;,
+                 measure.vars=c(&quot;Hares&quot;,&quot;Lynx&quot;),
+                 variable.name=&quot;Animal&quot;, value.name=&quot;Trapped&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-2">
+
+<p>Lets compare the structure of the data before and after melting.</p>
+
+<pre class = 'prettyprint lang-r'>hareMelted &lt;- melt(hares, id.vars=&quot;Year&quot;,
+                 measure.vars=c(&quot;Hares&quot;,&quot;Lynx&quot;),
+                 variable.name=&quot;Animal&quot;, value.name=&quot;Trapped&quot;)</pre>
+
+<div class="columns-2">
+<table class = 'rmdtable'>
+<caption>Original data</caption>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Hares</th>
+<th align="center">Lynx</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">30</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">47.2</td>
+<td align="center">6.1</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">70.2</td>
+<td align="center">9.8</td>
+</tr>
+<tr class="even">
+<td align="center">1903</td>
+<td align="center">77.4</td>
+<td align="center">35.2</td>
+</tr>
+<tr class="odd">
+<td align="center">1904</td>
+<td align="center">36.3</td>
+<td align="center">59.4</td>
+</tr>
+<tr class="even">
+<td align="center">1905</td>
+<td align="center">20.6</td>
+<td align="center">41.7</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<table class = 'rmdtable'>
+<caption>Reshaped normalized data</caption>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Animal</th>
+<th align="center">Trapped</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">Hares</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">1900</td>
+<td align="center">Lynx</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">1901</td>
+<td align="center">Hares</td>
+<td align="center">47.2</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">Lynx</td>
+<td align="center">6.1</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">Hares</td>
+<td align="center">70.2</td>
+</tr>
+<tr class="even">
+<td align="center">1902</td>
+<td align="center">Lynx</td>
+<td align="center">9.8</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table></div>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-3">
+
+<p>If you omit either the <code>id.vars</code> or the <code>measure.vars</code> arguments, <code>melt</code> assumes all columns that were not specified as ID variables or measure variable belong to the other set.</p>
+
+<p>Here, we only specify the value of <code>id.vars</code>, and <code>melt</code> assumes all other columns (<code>Hares</code> and <code>Lynx</code>) hold measure variables.</p>
+
+<pre class = 'prettyprint lang-r'>omitMeasure &lt;- melt(hares, id.vars = &quot;Year&quot;, variable.name=&quot;Animal&quot;,
+                    value.name=&quot;Trapped&quot;)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Animal</th>
+<th align="center">Trapped</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">Hares</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">Hares</td>
+<td align="center">47.2</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">Hares</td>
+<td align="center">70.2</td>
+</tr>
+<tr class="even">
+<td align="center">1903</td>
+<td align="center">Hares</td>
+<td align="center">77.4</td>
+</tr>
+<tr class="odd">
+<td align="center">1904</td>
+<td align="center">Hares</td>
+<td align="center">36.3</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-4">
+
+<p>Here, we only specify the value of <code>measure.vars</code>, and <code>melt</code> assumes all other columns (<code>Year</code>) should be used as ID variables. Thus, we get the same result as the previous slide.</p>
+
+<pre class = 'prettyprint lang-r'>omitID &lt;- melt(hares, measure.vars = c(&quot;Hares&quot;,&quot;Lynx&quot;))</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">Hares</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">Hares</td>
+<td align="center">47.2</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">Hares</td>
+<td align="center">70.2</td>
+</tr>
+<tr class="even">
+<td align="center">1903</td>
+<td align="center">Hares</td>
+<td align="center">77.4</td>
+</tr>
+<tr class="odd">
+<td align="center">1904</td>
+<td align="center">Hares</td>
+<td align="center">36.3</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>We can also see that when we omit values for the <code>variable.name</code> and <code>value.name</code> arguments, <code>melt</code> defaults to using the generic terms &quot;variable&quot; and &quot;value&quot; for those column names.</p>
+
+</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-5">
+
+<p>If you omit both <code>id.vars</code> and <code>measure.vars</code>, <code>melt</code> assumes all columns holding character data or factors are ID variables, and any other columns are measure variables.</p>
+
+<pre class = 'prettyprint lang-r'>omitID &lt;- melt(hares)</pre>
+
+<p>No id variables; using all as measure variables</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">Year</td>
+<td align="center">1900</td>
+</tr>
+<tr class="even">
+<td align="center">Year</td>
+<td align="center">1901</td>
+</tr>
+<tr class="odd">
+<td align="center">Year</td>
+<td align="center">1902</td>
+</tr>
+<tr class="even">
+<td align="center">Year</td>
+<td align="center">1903</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>Since all columns in <code>hares</code> hold numeric data which get treated as measure variables, melt gives the warning seen above about having no ID variables.</p>
+
+</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast">
+
+<p>The <code>dcast</code> function is the inverse of the <code>melt</code> function: it takes a variable&#39;s values stored in rows of a dataset and making a new column for each one.</p>
+
+<p>Using <code>dcast</code> can be tricky, since the form of the reshaped data is controlled with a grouping formula (like those used for <code>aov</code>). To cast your data correctly, remember these two rules:</p>
+
+<ul>
+<li><p>On the left side of the <code>~</code> operator, list out the columns in the data frame which you want to remain as ID variables, each one separated with a <code>+</code>.</p></li>
+<li><p>On the right side of the <code>~</code> operator, list the column in the data frame whose values should be &quot;spread out&quot; to form new variables.</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-1">
+
+<p>Lets use <code>dcast</code> to reshape our new normalized data set <code>hareMelted</code> back into its original shape.</p>
+
+<p>Since the original data set had the <code>Year</code> variable as an ID variable, we&#39;ll put <code>Year</code> on the left side of the <code>~</code>.</p>
+
+<p>The original also used <code>Hare</code> and <code>Lynx</code> as separate measured variables instead of values. To recover this layout, we&#39;ll put the name of the column holding the <code>Hare</code> and <code>Lynx</code> values, in this case <code>Animal</code>, on the right side of the formula.</p>
+
+<p>We also need to specify the name of the column holding our measured variable, so we&#39;ll set <code>value.var = &quot;Trapped&quot;</code>. Here&#39;s the full call we&#39;ll use:</p>
+
+<pre class = 'prettyprint lang-r'>hareOrig &lt;- dcast(hareMelted, formula = Year ~ Animal,
+                  value.var=&quot;Trapped&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-2">
+
+<p>Lets look at the resulting data frame - we got our original layout back!</p>
+
+<pre class = 'prettyprint lang-r'>hareOrig &lt;- dcast(hareMelted, formula = Year ~ Animal,
+                  value.var=&quot;Trapped&quot;)</pre>
+
+<div class="columns-2">
+<table class = 'rmdtable'>
+<caption>hareMelted data frame</caption>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Animal</th>
+<th align="center">Trapped</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">Hares</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">1900</td>
+<td align="center">Lynx</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">1901</td>
+<td align="center">Hares</td>
+<td align="center">47.2</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">Lynx</td>
+<td align="center">6.1</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">Hares</td>
+<td align="center">70.2</td>
+</tr>
+<tr class="even">
+<td align="center">1902</td>
+<td align="center">Lynx</td>
+<td align="center">9.8</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<table class = 'rmdtable'>
+<caption>Cast to original form</caption>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">Hares</th>
+<th align="center">Lynx</th>
+</tr>
+<tr class="odd">
+<td align="center">1900</td>
+<td align="center">30</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">1901</td>
+<td align="center">47.2</td>
+<td align="center">6.1</td>
+</tr>
+<tr class="odd">
+<td align="center">1902</td>
+<td align="center">70.2</td>
+<td align="center">9.8</td>
+</tr>
+<tr class="even">
+<td align="center">1903</td>
+<td align="center">77.4</td>
+<td align="center">35.2</td>
+</tr>
+<tr class="odd">
+<td align="center">1904</td>
+<td align="center">36.3</td>
+<td align="center">59.4</td>
+</tr>
+<tr class="even">
+<td align="center">1905</td>
+<td align="center">20.6</td>
+<td align="center">41.7</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table></div>
+
+</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-3">
+
+<p>The <code>value.var</code> argument is optional and if omitted, <code>dcast</code> will use some heuristics to guess which column holds the measured variable in your data.</p>
+
+<ol>
+<li>If there is a column named &quot;value&quot; or &quot;(all)&quot; in your data frame, use that column as the measure variable.</li>
+<li>Otherwise, guess that the final column is the measure variable.</li>
+</ol>
+
+<p>Usually your measure variable <em>should</em> be the last column, but if you have multiple measure variables in the same data frame, these heuristics will not necessarily give you the desired result.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+
+<ol>
+<li>Using <code>dcast</code>, reshape the data frame <code>hareMelted</code> to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.</li>
+<li>Download <a href='/data/JJ.csv' title=''>this dataset</a>, which measures the quarterly earnings per Johnson &amp; Johnson share from 1960 to 1980.</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>JJ &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/JJ.csv&quot;)</pre>
+
+<p>Reshape it to use fiscal quarter as an ID variable instead of using Qtr1, Qtr2, Qtr3, and Qtr4 as measure variables.</p>
+
+<ol>
+<li>Add an observation ID to the <code>InsectSprays</code> data frame:</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>InsectSprays$obsID &lt;- rep(1:12,nrow(InsectSprays)/12)</pre>
+
+<p>Then reshape the <code>InsectSprays</code> data frame to use the values from the <code>spray</code> column as individual measure variables.</p>
+
+<p>NB: Be specific about which column is the measured variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping" class="memory">
+
+<p>Now we&#39;ll work with the loci/image/rhyme memory data set, which I&#39;ve modified to include a second between-subject factor, presentation duration.</p>
+
+<pre class = 'prettyprint lang-r'>memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.csv&quot;)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Method</th>
+<th align="center">Duration</th>
+<th align="center">Score</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">2</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">2</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">2</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Rhyme</td>
+<td align="center">2</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Control</td>
+<td align="center">6</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Image</td>
+<td align="center">6</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>This data set is normalized, and holds 128 values across 40 unique observations from 3 ID variables (<code>Subject</code>, <code>Method</code>, and <code>Duration</code>) and 1 measure variable (<code>Score</code>). The observational unit is a subject in a condition of method and condition of duration.</p>
+
+</article></slide><slide class=''><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping-1" class="memory">
+
+<p>Lets say we wanted to de-normalize this dataset to only use subject and method as ID variables. This layout would use more rows to hold the data, so we need the <code>melt</code> function to &quot;lengthen&quot; or &quot;stack&quot; the data.</p>
+
+<pre class = 'prettyprint lang-r'>memLong &lt;- melt(memory, id.vars=c(&quot;Subject&quot;,&quot;Method&quot;),
+                measure.vars=c(&quot;Duration&quot;,&quot;Score&quot;))</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Method</th>
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Rhyme</td>
+<td align="center">Score</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Rhyme</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Melting missing values</h2></hgroup><article  id="melting-missing-values" class="memory">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Method</th>
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p><code>melt</code> also preserves any missing values in the measure variables by default. You should <em>always</em> keep <code>NA</code>&#39;s when reshaping your data if they are <strong>explicitly</strong> missing values, meaning a value should have been sampled but was not (e.g., a survey question was not answered).</p>
+
+<p>If a value is <strong>implictly</strong> missing, like an <code>NA</code> from a male respondent in a survey that asked about pregnancy history, then set the <code>na.rm</code> argument to <code>TRUE</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>When and when <em>not</em> to melt</h2></hgroup><article  id="when-and-when-not-to-melt" class="memory">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Method</th>
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Loci</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>The usefulness of different layouts is contextual, but having the dataset in this form is not useful here because it mixes values from different variables in the same column (i.e., mixing accuracy scores and presentation durations in the <code>values</code> column).</p>
+
+<p>Instead, the values of the presentation duration variable better aid analysis and interpretation when used as values in an ID variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation" class="memory">
+
+<p>Lets use <code>dcast</code> to reshape our long form data into a form that uses each of the four practice methods as measure variables. Using the grouping formula <code>Subject ~ Method</code> to reshape the data gives an unexpected result:</p>
+
+<pre class = 'prettyprint lang-r'>memWide &lt;- dcast(memLong, Subject ~ Method, value.var=&quot;value&quot;)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>We see the number 2 instead of scores and durations because our formula defined groups of more than one observation. <code>dcast</code> handles this situation by applying a function to summarize the observations with a single value (the default aggregation function is <code>length</code>).</p>
+
+</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="agg">
+
+<p>To better understand why this happens, lets take a closer look at our formula. <code>Subject ~ Method</code> defines <code>Subject</code> as the only ID variable, and <code>Method</code> as the only measured variable.</p>
+
+<p>Thus, we can read the formula as saying &quot;For each subject, make a group of values from the <code>value</code> column for each unique value in <code>Method</code> column&quot;.</p>
+
+<div class="columns-2">
+<table class = 'rmdtable'>
+<caption>Outlining the groups our forumla defines</caption>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Method</th>
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Control</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Image</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<table class = 'rmdtable'>
+<caption>Groups of observations aggregated by length()</caption>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table></div>
+
+<p>These groups form the values for the new measure variables, but since the groups are too large they are first summarized with <code>length</code>, yielding our result of all twos.</p>
+
+</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation-1" class="memory">
+
+<p>If you really <em>did</em> want to layout your this way, but aren&#39;t interested in reporting the number of observation in each group, you have two options:</p>
+
+<ol>
+<li>Supply the aggregation function you wish to use to summarize the groups of values by setting the <code>fun.aggregate</code> argument (e.g. <code>fun.aggregate = mean</code>).
+
+<ul>
+<li>Only do this when it makes sense to combine values across variables. We should not do this, as combining duration and accuracy values doesn&#39;t make sense.</li>
+</ul></li>
+<li>Subset the data to remove values from variables you&#39;re not interested in
+
+<ul>
+<li>e.g.. <code>memLong[memLong$variable != &quot;Duration&quot;,]</code></li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely">
+
+<p>It would be useful to know the average number of items recalled in each condition. We can use <code>dcast</code> with the appropriate grouping formula and aggregation function to find this out!</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memory, Method ~ Duration, fun.aggregate = mean) #mean not in quotes!</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Method</th>
+<th align="center">2</th>
+<th align="center">6</th>
+</tr>
+<tr class="odd">
+<td align="center">Control</td>
+<td align="center">6.5</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">Image</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">Loci</td>
+<td align="center">NA</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="center">Rhyme</td>
+<td align="center">10.5</td>
+<td align="center">10.5</td>
+</tr>
+</table>
+
+<p>Our formula says &quot;Take the scores at each unique value of <code>Method</code> and group them by their <code>Duration</code>&quot;. This makes 8 groups of 4 observations, and we set <code>fun.aggregate = mean</code> to summarize these four values with a single value, the mean.</p>
+
+</article></slide><slide class=''><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely-1">
+
+<p>If we would like to see the mean of each condition, ignoring the fact that some observations were not made when they should have been, we can include <code>na.rm = TRUE</code>.</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memory, Method ~ Duration, fun.aggregate = mean, na.rm =TRUE)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Method</th>
+<th align="center">2</th>
+<th align="center">6</th>
+</tr>
+<tr class="odd">
+<td align="center">Control</td>
+<td align="center">6.5</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">Image</td>
+<td align="center">8.333</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">Loci</td>
+<td align="center">14.67</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="center">Rhyme</td>
+<td align="center">10.5</td>
+<td align="center">10.5</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables">
+
+<p>Alternatively, you may not have meant to aggregate the data at all and instead misspecified the grouping formula.</p>
+
+<ul>
+<li><p>To avoid aggregating, you must include either all the columns, or all but 1 of the columns, in the grouping formula (making 3 the minimum number to include for this dataset).</p></li>
+<li>Exactly where variables are used in the formula will affect the resulting layout
+
+<ul>
+<li>All variables before the <code>~</code> will simply be used as ID variables.</li>
+<li>When multiple variables are used after the <code>~</code>, the values from each variable are concatenated with each value from all other variables to form the column headers.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-1">
+
+<p>Subject &amp; Duration as ID vars</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memLong, Subject + variable ~ Method)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">variable</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Duration</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">Score</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">9</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">Score</td>
+<td align="center">4</td>
+<td align="center">16</td>
+<td align="center">18</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">Duration</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">Score</td>
+<td align="center">2</td>
+<td align="center">13</td>
+<td align="center">8</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-2">
+
+<p>Method and Duration values get combined in the column headers</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memLong, Subject ~ Method + variable)</pre>
+
+<table class = 'rmdtable'>
+<caption>Table continues below</caption>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">Control_Duration</th>
+<th align="center">Control_Score</th>
+<th align="center">Image_Duration</th>
+<th align="center">Image_Score</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">11</td>
+<td align="center">2</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">6</td>
+<td align="center">NA</td>
+<td align="center">6</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">6</td>
+<td align="center">13</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Loci_Duration</th>
+<th align="center">Loci_Score</th>
+<th align="center">Rhyme_Duration</th>
+<th align="center">Rhyme_Score</th>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">NA</td>
+<td align="center">2</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">9</td>
+<td align="center">6</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">18</td>
+<td align="center">2</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Special forumula terms</h2></hgroup><article  id="special-forumula-terms">
+
+<p>There are two special terms you can include in your grouping formulas in place of column names: <code>...</code> and <code>.</code></p>
+
+<ol>
+<li>The <code>...</code> term is shorthand for &quot;all other variables&quot;, so using it makes your formula mean &quot;group by everything else&quot;</li>
+<li>The <code>.</code> term means &quot;no variables&quot;, so using it makes your formula mean &quot;group by nothing&quot;</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Using &#8230;</h2></hgroup><article  id="using-...">
+
+<p>Casting the <code>memLong</code> data frame using <code>Subject + variable ~ Method</code> and <code>... ~ Method</code> give the same results because <code>Subject</code> and <code>variable</code> are the only remaining columns after specifying <code>value.var</code> as <code>value</code>.</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memLong, ... ~ Method, value.var = &#39;value&#39;)</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">variable</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Duration</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<pre class = 'prettyprint lang-r'>dcast(memLong, Subject + variable ~ Method )</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Subject</th>
+<th align="center">variable</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">Duration</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">Score</td>
+<td align="center">11</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">Duration</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Using .</h2></hgroup><article  id="using-.">
+
+<p>Here we use the special term <code>.</code> to write a formula telling <code>dcast</code> to group all the the measured values for method of practice by nothing else!</p>
+
+<pre class = 'prettyprint lang-r'>dcast(memLong, . ~ Method )</pre>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">.</th>
+<th align="center">Control</th>
+<th align="center">Image</th>
+<th align="center">Loci</th>
+<th align="center">Rhyme</th>
+</tr>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">16</td>
+<td align="center">16</td>
+<td align="center">16</td>
+<td align="center">16</td>
+</tr>
+</table>
+
+<p>Since there are multiple measurements for each methods, <code>dcast</code> applies the defaults aggregation function <code>length</code> to boil the observations down to a single value. The value 16 means 16 measurements were taken for each practice method.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
+
+<ol>
+<li>Reshape the <code>airquality</code> dataset to only use month and day as ID variables. Should missing values be dropped or preserved?</li>
+<li>Using the results for #1, layout the <code>airquality</code> dataset using the Months as measure variables, and use all other variables as ID variables.</li>
+<li>Use <code>dcast</code> on the built in <code>ToothGrowth</code> data frame, find the standard deviation of the recorded tooth lengths at every combination of supplement type and dose level.</li>
+<li>Using <code>melt</code> and then <code>dcast</code> on the built in <code>DNase</code> dataset, find the average protein concentration and optical density on each run of the DNA assay. The final data frame should have <code>Run</code> as an ID variable, and <code>conc</code> and <code>density</code> as measure variables.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>More Resources</h2></hgroup><article  id="more-resources">
+
+<ul>
+<li><a href='http://seananderson.ca/2013/10/19/reshape.html' title=''>A brief intro but good intro to reshape2</a></li>
+<li><a href='http://had.co.nz/reshape/introduction.pdf' title=''>The reshape2 package authors intro to reshape2</a></li>
+<li>A general, modern framework for tidy data
+
+<ul>
+<li><a href='https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html' title=''>Short intro</a></li>
+<li><a href='http://vita.had.co.nz/papers/tidy-data.html' title=''>Full Paper</a></li>
+</ul></li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+_site/
+*.pdf
+.Rhistory
+.Rproj.user
+\#*#
+*~
+*.odg
+*_cache/
+Gemfile.lock

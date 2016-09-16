@@ -1,0 +1,111 @@
+article ul, article ol, article li{
+  margin-bottom: .5em;
+}
+
+article.smaller p {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 40px;
+  line-height: 40px;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+
+ol, ul { 
+  margin-bottom: 10px;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+  padding: 5px 0;
+}
+
+.img-centered img {
+  margin: auto;
+  display: block;
+  padding: 15px;
+}
+
+table {
+  margin: 10px;
+}
+
+table td, table th, table.rmdtable td, table.rmdtable th {
+  padding: .5em;
+}
+
+slides > slide > hgroup + article {
+  margin-top: 10px;
+}
+
+slides > slide > hgroup + article p{
+  margin-bottom: .75em;
+  margin-top: .5em;
+}
+
+
+pre {
+  margin-bottom: 10px;
+  color: #00F; /*blue*/
+  background-color: #E6E6E6;
+  white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  width: 200%;
+}
+
+.errormsg pre {
+  color: red;
+}
+
+.lang-r {
+  font-family: "Lucida Console", monospace;
+}
+
+.prettyprint.lang-r {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: "Lucida Console", monospace;
+}
+
+.columns-2 {
+  -moz-column-rule: solid 4px;
+  -webkit-column-rule: solid 4px;
+  -ms-column-rule: solid 4px;
+  column-rule: solid 4px;  
+}
+
+.table-column .rmdtable{
+  float: right;
+  max-width: 45%;
+  margin-left: 100px;
+}
+
+.helppage img { 
+  border: 1px solid #021a40;
+  margin: auto;
+  display: block;
+}
+
+.image-column img{
+  float: right;
+  margin-left: 100px;
+  margin-bottom: 100px;
+}
+
+.MathJax {
+  color: black;
+}
+
+kbd { 
+  color: black;
+  background: #E6E6E6;
+}
+

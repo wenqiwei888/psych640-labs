@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Merging Datasets with Joins</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2016-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Merging Datasets with Joins',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+          </hgroup>
+  </slide>
+
+<style>
+img {
+  margin-top: -50px;
+  float: left;
+}
+</style>
+
+<slide class=''><hgroup><h2>Merging Data Sets</h2></hgroup><article  id="merging-data-sets">
+
+<p>Intentionally or unintentionally, its common to find yourself needing to merge two data sets into a single one.</p>
+
+<ul>
+<li>To make plotting simpler</li>
+<li>To make a table</li>
+<li>More easily subtract variables</li>
+<li>Cross check for errors/missing values</li>
+</ul>
+
+<p>If these two data sets have exactly the same variables (i.e., the same column names measuring the same things) this is a simple task.</p>
+
+</article></slide><slide class=''><hgroup><h2>Identical Variables</h2></hgroup><article  id="identical-variables">
+
+<p>When the variables in the data frames you wish to merge are identical, you can use the <code>rbind</code> function (short for row bind) to combine them. For example, if the data for two different subjects are in separate data frames, we can merge them like so:</p>
+
+<pre class = 'prettyprint lang-r'>sub1 &lt;- data.frame(sub = 1, treatment = c(&quot;A&quot;, &quot;B&quot;), score = c(6,1000))
+sub2 &lt;- data.frame(sub = 2, treatment = c(&quot;A&quot;, &quot;B&quot;), score = c(4,9999))
+rbind(sub1, sub2) # Can bind any number of data frames, not just 2</pre>
+
+<pre >##   sub treatment score
+## 1   1         A     6
+## 2   1         B  1000
+## 3   2         A     4
+## 4   2         B  9999</pre>
+
+<p>But if the datasets only have some variables in common, the task is more complex than <code>rbind</code> can handle. This is where join functions come into play.</p>
+
+</article></slide><slide class=''><hgroup><h2>What are joins?</h2></hgroup><article  id="what-are-joins">
+
+<p>Joins are functions that merge two datasets based on common values from variables shared across the datasets.</p>
+
+<p>To give you an idea about what joins are designed to accomplish, consider the two data frames below. The first, <code>pre</code>, has the pre-test scores for treatment conditions A and B. The second, <code>post</code>, has the post-test scores for the two treatments.</p>
+
+<pre class = 'prettyprint lang-r'>pre &lt;- data.frame(treatment = c(&quot;A&quot;,&quot;B&quot;), score = c(9, 11))</pre>
+
+<pre >##   treatment score
+## 1         A     9
+## 2         B    11</pre>
+
+<pre class = 'prettyprint lang-r'>post &lt;- data.frame(treatment = c(&quot;B&quot;,&quot;A&quot;), score = c(21, 8))</pre>
+
+<pre >##   treatment score
+## 1         B    21
+## 2         A     8</pre>
+
+</article></slide><slide class=''><hgroup><h2>What are joins</h2></hgroup><article  id="what-are-joins-1">
+
+<p>It may be useful to have the pre and post-test scores in the same data frame . But we can&#39;t just move a column from one data frame to another, because treatment A and B are in different orders in each one.</p>
+
+<p>One way we could match the scores up with the right treatment row would be with logical indexing and subsetting.</p>
+
+<pre class = 'prettyprint lang-r'>pre$score_post &lt;- c(NA, NA)
+pre$score_post[pre$treatment==&quot;A&quot;] &lt;- post$score[post$treatment == &quot;A&quot;]
+pre$score_post[pre$treatment==&quot;B&quot;] &lt;- post$score[post$treatment == &quot;B&quot;]
+pre</pre>
+
+<pre >##   treatment score score_post
+## 1         A     9          8
+## 2         B    11         21</pre>
+
+</article></slide><slide class=''><hgroup><h2>What are joins</h2></hgroup><article  id="what-are-joins-2">
+
+<pre class = 'prettyprint lang-r'>pre$score_post &lt;- c(NA, NA)
+pre$score_post[pre$treatment==&quot;A&quot;] &lt;- post$score[post$treatment == &quot;A&quot;]
+pre$score_post[pre$treatment==&quot;B&quot;] &lt;- post$score[post$treatment == &quot;B&quot;]</pre>
+
+<p>This implements the basic functionality of a join:</p>
+
+<ol>
+<li>Find the rows in one data set that have a matching value in another dataset</li>
+<li>Add in corresponding values from other variables they don&#39;t have in common.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Why use joins then?</h2></hgroup><article  id="why-use-joins-then">
+
+<p>This approach works fine for this toy example, and you could even scale it up to handle many different treatments (e.g., A, B, C, D, E, etc.) with a <code>for</code> loop.</p>
+
+<p>But more complicated situations make this approach tedious and verbose.</p>
+
+<ul>
+<li>Combining data frames based on combinations of many variables?</li>
+<li>Variables with the same name, but sets of values that do not perfectly intersect?</li>
+<li>Data frames don&#39;t match in length?</li>
+<li>Removing common rows instead of adding new columns?</li>
+</ul>
+
+<p>Join functions are preferable because they are faster than indexing and assigning inside of loops, and will have reliable, consistent behavior.</p>
+
+</article></slide><slide class=''><hgroup><h2>Getting Started</h2></hgroup><article  id="getting-started">
+
+<p>Lets start by loading dplyr and downloading the two datasets we&#39;ll be practicing our joins with.</p>
+
+<pre class = 'prettyprint lang-r'>library(dplyr)
+heroes &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/heroes.csv&quot;)
+companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies.csv&quot;)</pre>
+
+<p>Thanks to the instructors of UBC&#39;s <a href='https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html' title=''>Statistics 545</a> course for these useful data sets and for inspiring this tutorial.</p>
+
+</article></slide><slide class=''><hgroup><h2>Heroes</h2></hgroup><article  id="heroes">
+
+<p>The <code>heroes</code> dataset has some basic info about a few comic book heroes. For each superhero, it tells us whether they are &quot;good&quot; or &quot;bad&quot;, their gender, and what company published their comics.</p>
+
+<pre >##       name   alignment  gender         publisher
+## 1  Magneto         bad    male            Marvel
+## 2    Storm        good  female            Marvel
+## 3 Mystique         bad  female            Marvel
+## 4   Batman        good    male                DC
+## 5    Joker         bad    male                DC
+## 6 Catwoman         bad  female                DC
+## 7 Catwoman        good  female                DC
+## 8  Hellboy        good    male Dark Horse Comics</pre>
+
+</article></slide><slide class=''><hgroup><h2>Companies</h2></hgroup><article  id="companies">
+
+<p>The <code>companies</code> dataset just tells us the year these 3 comic book publishing companies were founded.</p>
+
+<pre >##   publisher yr_founded
+## 1        DC       1934
+## 2    Marvel       1939
+## 3     Image       1992</pre>
+
+<p>The important thing to note about these two data sets is that they have one variable in common: <code>publisher</code>.</p>
+
+<p>This is the variable which will be doing all the &#39;work&#39; in the join examples to follow.</p>
+
+</article></slide><slide class=''><hgroup><h2>Types of joins</h2></hgroup><article  id="types-of-joins">
+
+<p>There are six different types of joins, each with its own function:</p>
+
+<ul>
+<li>Inner Join &#8211;&gt; <code>inner_join(x, y, by = NULL)</code></li>
+<li>Left Join &#8211;&gt; <code>left_join(x, y, by = NULL)</code></li>
+<li>Right Join &#8211;&gt; <code>right_join(x, y, by = NULL)</code></li>
+<li>Full Join &#8211;&gt; <code>full_join(x, y, by = NULL)</code></li>
+<li>Semi Join &#8211;&gt; <code>semi_join(x, y, by = NULL)</code></li>
+<li>Anti Join &#8211;&gt; <code>anti_join(x, y, by = NULL)</code></li>
+</ul>
+
+<p><code>x</code> and <code>y</code> are the two data frames to join together and <code>by</code> is an optional character vector of column names to base the join on (like the <code>treatment</code> column in the first example).</p>
+
+<p>If the <code>by</code> argument is omitted, the join will be based on all shared columns.</p>
+
+</article></slide><slide class=''><hgroup><h2>How to think of joins</h2></hgroup><article  id="how-to-think-of-joins">
+
+<p>Learning joins can be tricky because different joins often appear to give equivalent results, but are different in subtle and important ways. In fact, its possible to get <em>exactly</em> equivalent results from two different joins by re-ordering arguments or joining on different columns (e.g., a left join can be rewritten as right join).</p>
+
+<p>To see how each join is different, it helps to realize that one of the data sets is treated as the &quot;master&quot; that already has most of the information you are most interested in, and the other is treated as a &quot;helper&quot; which can add or remove variables and observations to the &quot;master&quot; set.</p>
+
+</article></slide><slide class=''><hgroup><h2>Inner Join</h2></hgroup><article  id="inner-join">
+
+<p>An inner join returns all rows from <code>x</code> that have matching rows in <code>y</code>, and all columns from <code>x</code> and <code>y</code>.</p>
+
+<p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which adds new variables, but thins out the number of observations <img src="lab15_joins_files/figure-html/inner_join_venn-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/inner_join_venn-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Inner Join: All rows in x with a match in y</h2></hgroup><article  id="inner-join-all-rows-in-x-with-a-match-in-y">
+
+<pre class = 'prettyprint lang-r'>inner_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender publisher yr_founded
+## 1  Magneto         bad    male    Marvel       1939
+## 2    Storm        good  female    Marvel       1939
+## 3 Mystique         bad  female    Marvel       1939
+## 4   Batman        good    male        DC       1934
+## 5    Joker         bad    male        DC       1934
+## 6 Catwoman         bad  female        DC       1934
+## 7 Catwoman        good  female        DC       1934</pre>
+
+<p>We kept all the rows in <code>heroes</code> that had a value in the <code>publisher</code> variable that also appeared in the <code>publisher</code> variable in the <code>companies</code> dataset.</p>
+
+<p>Since Hellboy was character published by Dark Horse Comics, and Dark Horse Comics was not in our list of publishers, the row for Hellboy is not included in the results from the inner join.</p>
+
+</article></slide><slide class=''><hgroup><h2>Inner Join: All columns from x and y</h2></hgroup><article  id="inner-join-all-columns-from-x-and-y">
+
+<pre class = 'prettyprint lang-r'>inner_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender publisher yr_founded
+## 1  Magneto         bad    male    Marvel       1939
+## 2    Storm        good  female    Marvel       1939
+## 3 Mystique         bad  female    Marvel       1939
+## 4   Batman        good    male        DC       1934
+## 5    Joker         bad    male        DC       1934
+## 6 Catwoman         bad  female        DC       1934
+## 7 Catwoman        good  female        DC       1934</pre>
+
+<p>The results have all the columns originally in <code>heroes</code> (<code>name</code>, <code>alignment</code>, <code>gender</code> and <code>publisher</code>) and all the columns originally in <code>companies</code> (<code>publisher</code> and <code>yr_founded</code>).</p>
+
+<p>The value of the <code>yr_founded</code> variable for each publisher in <code>companies</code> was added to the row for each superhero with that publishing company (e.g., Magneto, Storm and Mystique all have &quot;1939&quot; for their <code>yr_founded</code> variable).</p>
+
+</article></slide><slide class=''><hgroup><h2>Left Join</h2></hgroup><article  id="left-join">
+
+<p>A left join will return all rows from <code>x</code>, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns.</p>
+
+<p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which adds new variables and observations.</p>
+
+<p><img src="lab15_joins_files/figure-html/left_join_venn-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/left_join_venn-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Left Join: All rows from x</h2></hgroup><article  id="left-join-all-rows-from-x">
+
+<pre class = 'prettyprint lang-r'>left_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender         publisher yr_founded
+## 1  Magneto         bad    male            Marvel       1939
+## 2    Storm        good  female            Marvel       1939
+## 3 Mystique         bad  female            Marvel       1939
+## 4   Batman        good    male                DC       1934
+## 5    Joker         bad    male                DC       1934
+## 6 Catwoman         bad  female                DC       1934
+## 7 Catwoman        good  female                DC       1934
+## 8  Hellboy        good    male Dark Horse Comics         NA</pre>
+
+<p>All the rows from <code>heroes</code> are included in the output, as well as all columns from both data sets.</p>
+
+</article></slide><slide class=''><hgroup><h2>Left Join: Missing Values</h2></hgroup><article  id="left-join-missing-values">
+
+<pre class = 'prettyprint lang-r'>left_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender         publisher yr_founded
+## 1  Magneto         bad    male            Marvel       1939
+## 2    Storm        good  female            Marvel       1939
+## 3 Mystique         bad  female            Marvel       1939
+## 4   Batman        good    male                DC       1934
+## 5    Joker         bad    male                DC       1934
+## 6 Catwoman         bad  female                DC       1934
+## 7 Catwoman        good  female                DC       1934
+## 8  Hellboy        good    male Dark Horse Comics         NA</pre>
+
+<p>Since there is no record for &quot;Dark Horse Comics&quot;&quot; in the <code>publishers</code> variable from <code>companies</code>, the row for Hellboy in the <code>yr_founded</code> is column is filled with <code>NA</code> in the results from the join (instead of dropping the row entirely, as with an inner join).</p>
+
+</article></slide><slide class=''><hgroup><h2>Right Join</h2></hgroup><article  id="right-join">
+
+<p>A right join returns all rows from y, and all columns from x and y. Rows in y with no match in x will have NA values in the new columns.</p>
+
+<p>The <code>y</code> data frame is considered the &quot;master&quot; set and <code>x</code> is the &quot;helper&quot; set which adds new variables.</p>
+
+<p><img src="lab15_joins_files/figure-html/right_join_plot-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/right_join_plot-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Right Join: All rows from y</h2></hgroup><article  id="right-join-all-rows-from-y">
+
+<pre class = 'prettyprint lang-r'>right_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender publisher yr_founded
+## 1   Batman        good    male        DC       1934
+## 2    Joker         bad    male        DC       1934
+## 3 Catwoman         bad  female        DC       1934
+## 4 Catwoman        good  female        DC       1934
+## 5  Magneto         bad    male    Marvel       1939
+## 6    Storm        good  female    Marvel       1939
+## 7 Mystique         bad  female    Marvel       1939
+## 8     &lt;NA&gt;        &lt;NA&gt;    &lt;NA&gt;     Image       1992</pre>
+
+<p>The results from the right join preserves each publisher from the <code>companies</code> dataset, and adds in all the variables from the <code>heroes</code> data frame.</p>
+
+<p>All the DC and Marvel heroes are included in the output, since their publishers appeared in the <code>companies</code> data set.</p>
+
+</article></slide><slide class=''><hgroup><h2>Right Join: Only matches from x</h2></hgroup><article  id="right-join-only-matches-from-x">
+
+<pre class = 'prettyprint lang-r'>right_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender publisher yr_founded
+## 1   Batman        good    male        DC       1934
+## 2    Joker         bad    male        DC       1934
+## 3 Catwoman         bad  female        DC       1934
+## 4 Catwoman        good  female        DC       1934
+## 5  Magneto         bad    male    Marvel       1939
+## 6    Storm        good  female    Marvel       1939
+## 7 Mystique         bad  female    Marvel       1939
+## 8     &lt;NA&gt;        &lt;NA&gt;    &lt;NA&gt;     Image       1992</pre>
+
+<p>The row for Hellboy is again not included because it&#39;s publisher is not in the <code>companies</code> dataset.</p>
+
+<p>Since no characters from &quot;Image&quot; publishers are in the <code>heroes</code> dataset, the <code>name</code>, <code>alignment</code> and <code>gender</code> columns for that publisher are filled with <code>NA</code>&#39;s.</p>
+
+</article></slide><slide class=''><hgroup><h2>Full Join</h2></hgroup><article  id="full-join">
+
+<p>A full join returns all rows and columns from both x and y. Any values not present in one table, but present in the other, will have NA values in the variables found <em>only</em> in the other table.</p>
+
+<p>There is no clear &quot;master&quot; or &quot;helper&quot; set in a full join; both data sets act in both capacities. A full join is more like shuffling two decks of cards together, if each row the datasets were a card.</p>
+
+<p><img src="lab15_joins_files/figure-html/full_join_plot-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/full_join_plot-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Full Join: All the rows!</h2></hgroup><article  id="full-join-all-the-rows">
+
+<pre class = 'prettyprint lang-r'>full_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender         publisher yr_founded
+## 1  Magneto         bad    male            Marvel       1939
+## 2    Storm        good  female            Marvel       1939
+## 3 Mystique         bad  female            Marvel       1939
+## 4   Batman        good    male                DC       1934
+## 5    Joker         bad    male                DC       1934
+## 6 Catwoman         bad  female                DC       1934
+## 7 Catwoman        good  female                DC       1934
+## 8  Hellboy        good    male Dark Horse Comics         NA
+## 9     &lt;NA&gt;        &lt;NA&gt;    &lt;NA&gt;             Image       1992</pre>
+
+<p>The results from the full join results include each super hero, as well as each publisher.</p>
+
+</article></slide><slide class=''><hgroup><h2>Full Join: All the rows!</h2></hgroup><article  id="full-join-all-the-rows-1">
+
+<pre class = 'prettyprint lang-r'>full_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender         publisher yr_founded
+## 1  Magneto         bad    male            Marvel       1939
+## 2    Storm        good  female            Marvel       1939
+## 3 Mystique         bad  female            Marvel       1939
+## 4   Batman        good    male                DC       1934
+## 5    Joker         bad    male                DC       1934
+## 6 Catwoman         bad  female                DC       1934
+## 7 Catwoman        good  female                DC       1934
+## 8  Hellboy        good    male Dark Horse Comics         NA
+## 9     &lt;NA&gt;        &lt;NA&gt;    &lt;NA&gt;             Image       1992</pre>
+
+<p>For super heroes without a publisher in the <code>companies</code> dataset, the <code>yr_founded</code> variable has an <code>NA</code> value.</p>
+
+<p>For publishers without a super hero in the <code>heroes</code> dataset, the <code>name</code>, <code>alignment</code> and <code>gender</code> variables have an <code>NA</code> value.</p>
+
+</article></slide><slide class=''><hgroup><h2>Semi Join</h2></hgroup><article  id="semi-join">
+
+<p>A Semi Join returns all rows from x where there are matching values in y, keeping just columns from x. Thus, a semi join is really a concise filtering operation, not a &quot;join&quot;.</p>
+
+<p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which thins out the number of observations.</p>
+
+<p><img src="lab15_joins_files/figure-html/semi_join_plot-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/semi_join_plot-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Semi Join</h2></hgroup><article  id="semi-join-1">
+
+<pre class = 'prettyprint lang-r'>semi_join(x = heroes, y = companies)</pre>
+
+<pre >##       name   alignment  gender publisher
+## 1   Batman        good    male        DC
+## 2    Joker         bad    male        DC
+## 3 Catwoman         bad  female        DC
+## 4 Catwoman        good  female        DC
+## 5  Magneto         bad    male    Marvel
+## 6    Storm        good  female    Marvel
+## 7 Mystique         bad  female    Marvel</pre>
+
+<p>Rows for super heroes with a publisher not listed in the <code>companies</code> dataset are dropped (like an inner join) but no new columns are added (unlike an inner join, which includes the columns from y in the results).</p>
+
+</article></slide><slide class=''><hgroup><h2>Anti Join</h2></hgroup><article  id="anti-join">
+
+<p>An anti join returns all rows from x where there are <strong>not</strong> matching values in y, keeping just columns from x. Thus an anti join is the inverse of a semi join.</p>
+
+<p><img src="lab15_joins_files/figure-html/anti_join_plot-1.png" width="385px" height="385px" style="display: block; margin: auto;" /><img src="lab15_joins_files/figure-html/anti_join_plot-2.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Anti Join</h2></hgroup><article  id="anti-join-1">
+
+<pre class = 'prettyprint lang-r'>anti_join(x = heroes, y = companies)</pre>
+
+<pre >##       name  alignment  gender         publisher
+## 1  Hellboy       good    male Dark Horse Comics</pre>
+
+<p>Finally, its Hellboy&#39;s time to shine!! Since Hellboy is the only character in <code>heroes</code> whose publisher isn&#39;t listed in <code>companies</code>, the row for Hellboy is the only one included in the results.</p>
+
+</article></slide><slide class=''><hgroup><h2>Anti Join</h2></hgroup><article  id="anti-join-2">
+
+<pre class = 'prettyprint lang-r'>anti_join(x = companies, y = heroes)</pre>
+
+<pre >##   publisher yr_founded
+## 1     Image       1992</pre>
+
+<p>If we reverse the arguments (<code>x</code> is now <code>companies</code> and <code>y</code> is now <code>heroes</code>), then the row for &quot;Image&quot; publishers is the only observation returned.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Experimenters administering a double-blind study comparing different drug treatments record their participant&#39;s measurement at each timepoint in a spreadsheet that only has each subjects random ID number. You have the &quot;key&quot; that identifies what treatments each participant received.</p>
+
+<pre class = 'prettyprint lang-r'>data &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/drugdata.csv&quot;)
+key &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/drugkey.csv&quot;)</pre>
+
+<p>After the study ends, the administrators give you the data to analyze, and you have to match each subject&#39;s observations with the correct treatment condition.</p>
+
+<p>Make a combined data set that reports each subject&#39;s observations from each treatment condition. Which drugs were tested on all subjects?</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

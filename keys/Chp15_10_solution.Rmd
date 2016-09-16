@@ -1,0 +1,103 @@
+---
+title: "Chapter 15, Problem 10"
+author: "William Hopper"
+date: "February 21, 2016"
+header-includes:
+   - \usepackage{units}
+output: pdf_document
+---
+
+## 15.10
+The experimental design in Problem 10 is a tedious but straightforward extension of the designs in this chapter; The tricky part is mapping the word problem onto the experimental design in terms of factors and sources of variance.
+
+## Part A
+Part A of the problem asks you to assume the experiment has 120 total subject, half of which are male and half of which are females. These subjects also belong to three different age groups (infants 0-1 years old, toddlers 2-4 years old, and young children 5-7 years old, lets say). Since a given participant can only have one gender and one age, we have two between-subject factors: Gender (*X*, 2 Levels) and Age (*A*, 3 Levels). Thus, any variability due to subject will always be nested inside the combination of the *X* and *A* factors.
+
+There are two other factors manipulated in the experiment. All the subjects view 6 television scenes: 3 of the scenes depict violence involving animal cartoons, and the other 3 depict violence involving human characters. Each type of character, human or cartoon, is depicted in a scene with low, medium, and high levels of violence. This means we have two within subject factors: Character (*C*, 2 Levels) and Violence Level (*V*, 3 Levels). This means each subject will experience all combinations of character type and violence levels.
+
+This means we have a 2 x 3 x 2 x 3 mixed-factor design in terms of the four manipulated factors of the experiment (*A*, *X*, *C*, and *V*). Listing all the sources of variance is somewhat exhausting and it can be hard to be sure you've got them all. A good strategy is to use what you know about the experimental design to count how many sources there should be in the final list, before starting to list them all out.
+
+For a 4 factor design, the full non-additive model will have $\tbinom 41$ main effects, $\tbinom 42$ two-way interactions, $\tbinom 43$ three-way interactions, and $\tbinom 44$ four-way interactions[^1]. Thus, there we will have 4 main effects, 6 two-way interactions, 4 three-way interactions, and 1 four-way interactions (15 sources of variance in total). We can use the `combinations` function from the `gtools` package to help us enumerate all the sources of variance from the *A*, *X*, *C*, and *V* factors in this experiment.
+
+[^1]: The $()$ notation is shorthand for the binomial coefficient $\frac{k!}{(n-k)!k!}$. The binomial coefficient describes the number of unique combinations of *n* elements that can be constructed from a larger set of *k* elements. It is often read as "N Choose K" to make direct reference to its functionality outside the context of the binomial distribution.
+
+```{r manipulated_SVs}
+library(gtools)
+library(magrittr) # for the %>% operator
+# All the sources of variance from manipulted factors!
+lapply(1:4, combinations, n = 4, v = c("C","V","A", "X")) %>%
+  lapply(function(x) apply(x, MARGIN = 1, FUN=paste0, collapse='')) %>%
+  unlist()
+```
+
+If this were a fully between subject design, our work would be finished after listing out the sources of variability for each main effect and interaction involving the manipulated  factors. But because we measure each subject more than once, we can measure an additional source of variability, the variability due to subjects themselves.
+
+We can measure a "main effect" of subject variability, which will be nested in the combination of *A* and *X*, our two between subject factors. We will also have a subject-by-condition interaction term for all combinations of the within subject factors. In our case, the *C*, *V* main effects and the *CV* interaction terms are the only fully within subject sources of variance, so we can measure the subject-by-character interaction nested in the combination of *A* and *X* (*SC/AX*), the subject-by-violence interaction nested in the combination of *A* and *X* (*SV/AX*), and the subject-by-character-and-violence interaction nested in the combination of *A* and *X* (*SVC/AX*).
+
+Now we have fully enumerated all the sources of variance (the 4 terms involving subject variance, and 15 terms involving the manipulated factors; see the Table A below for the full list). Next, we need to determine which of these sources of variance should be considered to represent error variance, and which error variance term (if any) can be used for performing an F test on the remaining sources of variability. This task is simplfied by assuming that each manipulated factor is a fixed factor (the text of the problem does not say to assume the 4 manipulated factors are fixed or random, so in the abscence of any explcit instructions, we will continue the problem assuming the simplest case of *A, X, C, and V* being fixed factors, and *S* being a random factor).
+
+We should consider the four sources of variability involving variability due to subjects (*S/AX*, *SV/AX*, *SC/AX* and *SVC/AX*) as contributing error variance because individual differences are not of interest in this study. Now, we must determine which of these (if any) should be used as the error term in the F test for each of the 15 remaining sources of variability from the manipulated factors. We can do this by matching each source of variance from the manipulated factors up with the error term that has the same within subject factors in it. 
+
+For example, the *V*, *AV*, *XV*, and *XAV* sources of variance involve the within subject factor *V*, and not the within subject factor *C*, so they should be tested against the error variance term that involves the effects of *V*, and not *C*, which is *SV/AX*. And the *A*, *X* and *AX* terms involve *no* within subject factors, so they should be tested against the error variance term that also has no within subject factors, which is the *S/AX* term. To see why this strategy is possible, consider the Expected Mean Squares for each source of variance (in Table A below).
+
+After doing this for each source of variability, all that remains is to determine the corresponding degrees of freedom with the standard formulas (for example, see Table 15.9 in your book). The final solution is shown in the table below.
+
+### Table A
+
+| Source of Variance | DF | EMS | Error Term |
+|:------:|:-------------------:|:---------------------:|:----------:|
+|$X$ | $x-1 = 1$ | $\sigma_{e}^{2}+vc\sigma_{\nicefrac{S}{XA}}^{2}+navc\theta_{X}^{2}$ | $\nicefrac{S}{XA}$ |
+|$A$ | $a-1 = 2$ | $\sigma_{e}^{2}+vc\sigma_{\nicefrac{S}{XA}}^{2}+nxvc\theta_{A}^{2}$ | $\nicefrac{S}{XA}$ |
+|$XA$ | $(x-1)(a-1) = 2$ | $\sigma_{e}^{2}+vc\sigma_{\nicefrac{S}{XA}}^{2}$ | $\nicefrac{S}{XA}$|
+|$\nicefrac{S}{XA}$ | $(n-1)xa = 114$ | $\sigma_{e}^{2}+vc\sigma_{\nicefrac{S}{XA}}^{2}$ | |
+|$V$ | $v-1 = 2$ | $\sigma_{e}^{2}+c\sigma_{\nicefrac{SV}{XA}}^{2}+naxc\theta_{V}^{2}$ | $\nicefrac{SV}{XA}$
+|$VA$ | $(v-1)(a-1) = 4$ | $\sigma_{e}^{2}+c\sigma_{\nicefrac{SV}{XA}}^{2}+nxc\theta_{VA}^{2}$ | $\nicefrac{SV}{XA}$|
+|$VX$ | $(v-1)(x-1) = 2$ | $\sigma_{e}^{2}+c\sigma_{\nicefrac{SV}{XA}}^{2}+nac\theta_{VX}^{2}$ | $\nicefrac{SV}{XA}$|
+|$XAV$ | $(v-1)(a-1)(X-1) = 4$ | $\sigma_{e}^{2}+c\sigma_{\nicefrac{SV}{XA}}^{2}+nc\theta_{XAV}^{2}$ | $\nicefrac{SV}{XA}$|
+|$\nicefrac{SV}{AX}$ | $(n-1)(v-1)xa = 228$ | $\sigma_{e}^{2}+c\sigma_{\nicefrac{SV}{XA}}^{2}$ | | 
+|$C$ |$c-1 =1$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SC}{XA}}^{2}+navx\theta_{C}^{2}$ | $\nicefrac{SC}{XA}$|
+|$XC$ | $(x-1)(c-1) = 1$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SC}{XA}}^{2}+nav\theta_{XC}^{2}$ | $\nicefrac{SC}{XA}$|
+|$AC$ | $(a-1)(c-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SC}{XA}}^{2}+ncv\theta_{AC}^{2}$ | $\nicefrac{SC}{XA}$|
+|$XAC$ | $(x-1)(a-1)(c-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SC}{XA}}^{2}+nv\theta_{XAC}^{2}$ | $\nicefrac{SC}{XA}$|
+|$\nicefrac{SC}{XA}$ | $(n-1)(c-1)xa = 114$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SC}{XA}}^{2}$ | |
+|$VC$ | $(v-1)(c-1) = 2$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SVC}{XA}}^{2}+nax\theta_{VC}^{2}$ | $\nicefrac{SVC}{XA}$|
+|$AVC$ | $(a-1)(v-1)(c-1) = 4$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SVC}{XA}}^{2}+nx\theta_{AVC}^{2}$ | $\nicefrac{SVC}{XA}$|
+|$XVC$ | $(x-1)(v-1)(c-1) = 2$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SVC}{XA}}^{2}+na\theta_{XVC}^{2}$ | $\nicefrac{SVC}{XA}$|
+|$XAVC$ | $(x-1)(a-1)(v-1)(c-1) = 4$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SVC}{XA}}^{2}+n\theta_{AXVC}^{2}$ | $\nicefrac{SVC}{XA}$|
+|$\nicefrac{SVC}{XA}$ | $(n-1)(v-1)(c-1)xa = 228$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SVC}{XA}}^{2}$ | |
+
+
+A good way to double check that you have the right sources of variance and the right degrees of freedom is to see if your degrees of freedom sum up to the total degrees of freedom. The total degrees of freedom are N-1, where N equals the total number of values measured in the data set. Since we have 120 subjects that are measured in 6 different conditions (all combinations of *C* and *V*), we have (120*6)-1 degrees of freedom, which equal 719. If we add up the degrees of freedom in our table, we also get 719, which is a good indication our solution is correct.
+
+## Part B
+Part b changes the design slightly, and now each subject is still only one gender and one age, but now also only sees scenes involving one type of character: either they see only humans, or only see cartoon animals. Our design is still a 2 x 3 x 2 x 3 mixed-factor design, but only one factor (Violence Level) is a within subject factor. This means we have the same 15 sources of variance from our manipulated factors as in part a, but now we have fewer error terms from subject variance. We only have the "main effect" of subject *S*, and the subject-by-violence interaction *SV* (both these terms are nested inside the levels of Age, Gender, and Character).
+
+Again, we can determine the correct error term for each source of variance from manipulated factors by matching it up with the error term that has the exact same combination of within subject factors in it. The solution is shown in the table below.
+
+
+### Table B
+
+| Source of Variance | DF | EMS |  Error Term |
+|:------:|:-------------------:|:---------------------:|:----------:|
+| Between-Ss S.V. | | |
+|$X$ | $x-1 = 1$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+navc\theta_{X}^{2}$ | $\nicefrac{S}{XAC}$ |
+|$A$ | $a-1 = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+nxvc\theta_{A}^{2}$ | $\nicefrac{S}{XAC}$ |
+|$C$ | $c-1 = 1$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XCA}}^{2}+nxva\theta_{C}^{2}$ | $\nicefrac{S}{XAC}$|
+|$XA$ | $(x-1)(a-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+cnv\theta_{XA}^{2}$ | $\nicefrac{S}{XAC}$|
+|$XC$ | $(x-1)(c-1) = 1$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+avn\theta_{XC}^{2}$ | $\nicefrac{S}{XAC}$|
+|$AC$ | $(a-1)(c-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+xvn\theta_{AC}^{2}$ | $\nicefrac{S}{XAC}$|
+|$XAC$ | $(x-1)(a-1)(c-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+xvn\theta_{XAC}^{2}$ | $\nicefrac{S}{XAC}$|
+|$\nicefrac{S}{XAC}$ | $108$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}$| |
+| Within-Ss S.V. | | |
+|$V$ | $v-1 = 2$ | $\sigma_{e}^{2}+\sigma_{v:\nicefrac{SV}{XAC}}^{2}+nxa\theta_{V}^{2}$ | $\nicefrac{SV}{XAC}$
+|$XV$ | $(x-1)(v-1) = 2$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}+an\theta_{XV}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$VA$ | $(v-1)(a-1) = 4$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}+n\theta_{AV}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$VC$ | $(v-1)(c-1) = 2$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}+xvn\theta_{VC}^{2}$ | $\nicefrac{SVC}{XAC}$|
+|$XAV$ | $(v-1)(a-1)(X-1) = 4$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}+cn\theta_{XAV}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$AVC$ | $(a-1)(v-1)(c-1) = 4$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{SV}{XAC}}^{2}+vn\theta_{AVC}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$XVC$ | $(x-1)(v-1)(c-1) = 2$ | $\sigma_{e}^{2}+v\sigma_{\nicefrac{S}{XAC}}^{2}+vn\theta_{XAC}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$XAVC$ | $(x-1)(a-1)(v-1)(c-1) = 4$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}+n\theta_{XAVC}^{2}$ | $\nicefrac{SV}{XAC}$|
+|$\nicefrac{Sv}{XAC}$ | $(n-1)(v-1)xac = 216$ | $\sigma_{e}^{2}+\sigma_{\nicefrac{SV}{XAC}}^{2}$ | | 
+
+Note that our overall degrees of freedom have changed; Since there are still 120 subjects in the experiment, but now only 1 within-subject condition (Violence Level, 3 levels), we have only $120 x 3 = 360$ observations contributing to the total variability, and thus $360 - 1 = 359$ total degrees of freedom. This is an example of how using a within subject design gives you more degrees of freedom, and thus more power,  so it ought to be preferred whenever possible.
+

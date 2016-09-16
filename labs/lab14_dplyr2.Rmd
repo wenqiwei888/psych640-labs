@@ -1,0 +1,397 @@
+---
+title: 'dplyr, Part 2: Advanced Verbs and Pipes'
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    mathjax: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+```
+
+## More dplyr
+- In the last lab we introduced some of dplyr's "Basic Verbs", i.e., functions for performing some of the most common tasks in data manipulation and analysis.
+    - Removing rows --> `filter()`
+    - Removing & renaming columns --> `select()` and `rename()`
+    - Creating new columns --> `mutate()`
+    - Summarizing measured variables --> `summarise()`
+- Today we're going to look at how to combine these operations together to simplify your workflow, and some more 'advanced' features of the `dplyr` package.
+
+## Our Dataset
+Before we start, load `dplyr` and download the data. The `marathon` dataset holds the results of the 2009 [Credit Union Cherry Blossom Ten Mile Run](http://www.cherryblossom.org/).
+
+```{r forshow, eval=FALSE}
+library(dplyr)
+marathon <- read.csv("http://wjhopper.github.io//psych640/data/marathon.csv")
+str(marathon)
+```
+
+```{r forreal, echo=FALSE, message = FALSE, warning=FALSE}
+library(dplyr)
+marathon <- read.csv("../data/marathon.csv")
+str(marathon)
+```
+
+## The prelude to analysis
+Many serial steps of "tidying" our data are often necessary to perform any analysis of interest (e.g., first reshaping the data, then removing observations, etc.)
+
+This "grunt work" is usually implemented using coding styles that make your scripts fragile and difficult to read, which is especially dangerous considering that these operations are dependent on the order in which they are performed.
+
+We'll examine the drawbacks of these style by doing some prep work on the `marathon` dataset. Our job will be to: move the ID variables to the left hand side, make a variable showing the difference between `time` and `netTime`, and to sort the data from first place to last place.
+
+The goal of these examples is convince you that doing things "the dplyr way" is a better solution in most cases.
+
+## The "Objects Everywhere" method
+One way to make the results from each task feed into the next is to make a new variable after we finish each task, and use that variable as the input to the next function
+
+```{r objectsEverywhere, eval = FALSE}
+marathon1 <- select(marathon, age:div, place:netTime)
+marathon2 <- mutate(marathon1, waitTime = time - netTime)
+marathon_sorted <- arrange(marathon2, place)
+```
+
+One drawback to this approach is that it promotes using uninformative variable names, like `marathon1`, because there aren't good single words to describe what has changed and most results are just intermediate, "one-off" data frames.
+
+Additionally, it is prone to simple typos (missing the `1` on the end of `marathon`) and can make your script slow due to making copies of approximately identical data sets.
+
+## The "Identity Crisis" method
+An alternative style is to re-assign the variable after each step: If you use `marathon` as the input to a function, overwrite the `marathon` variable with the output of that function.
+
+```{r identityCrisis, eval = FALSE}
+marathon <- select(marathon, age:div, place:netTime)
+marathon <- mutate(marathon, waitTime = time - netTime)
+marathon <- arrange(marathon, place)
+```
+
+This is better, but it also makes your script fragile because the lines become too tightly coupled. 
+
+For example, your operations on the `marathon` data frame in line 5 of your script likely depend on what you did on lines 1:4.
+
+But if you make a mistake in line 5, and overwrite the variable with bad output, you need to run lines 1:4 again after fixing the error (instead of just fixing line 5). This is problematic when there are long-distance dependencies (e.g. line 100 depends on line 10) and when previous lines perform long-running operations.
+
+## The "One Line or Bust" Method
+The intrepid coder who realizes the perils of constant object creation and overwriting variables may attempt to have it all. They want a single variable, assigned a single time, and they will get it by writing a single line of code!
+
+```{r oneLine, eval = FALSE}
+marathon <- arrange(mutate(select(marathon, age:div, place:netTime),
+                           waitTime = time - netTime),
+                    place)
+```
+
+However the "one variable, assigned once" goal is achieved by sacrificing the readability of the function code. 
+
+Nesting many functions obscures which arguments belong to which functions, even when the arguments are broken down on different lines, and requires to write your functions "inside out".
+
+## The Solution: Pipes!
+Installing `dplyr` also installs another R package called `magrittr`, which provides an operator called a **pipe**. 
+
+A pipe sends the output of one function to another function as input. This allows you to chain functions together without nesting them, or assigning intermediate "one-off" variables.
+
+The pipe operator is written `%>%`, and is loaded when `dplyr` is loaded. To get a feel for how it works, try these simple examples.
+
+```{r simple_pipes}
+5 %>% sqrt() # Same as sqrt(5)
+c(10,8,22) %>% mean() # Same as mean(c(10,8,22))
+```
+
+## Pipes
+The output of the left-hand side function always becomes the value of the **first unnamed argument** to the right-hand side function. Let's look at this by changing the data from the `mean` example to include an `NA`. The `mean` function has 3 arguments: `x` (data), `trim` (percent to remove) and `na.rm` (include or remove missings).
+
+```{r firstArg}
+c(10,NA,22) %>% mean(na.rm = TRUE) 
+```
+
+Omitting the `x` argument would normally cause an error, but not here because its value is supplied via the `%>%` operator. 
+
+The vector `c(10,NA,22)` gets used as the value of the `x`  argument (instead of`trim`) because `x` is the first argument **not** supplied in the argument list.
+
+## Pipes
+The first unnamed argument will receive its value through the pipe, regardless of serial position in the formal argument list.
+
+Here `TRUE` gets piped to the `na.rm` argument because `x` and `trim` are supplied by name.
+```{r firstNamedArg1}
+TRUE %>% mean(x=c(10,NA,22), trim=0)
+```
+
+Here, `TRUE` gets piped to the `x` argument, since the numeric vector is not *named*. The piped value takes precedence, and the numeric vector gets used as the `na.rm` argument.
+```{r firstNamedArg2, warning=FALSE}
+TRUE %>% mean(c(10,NA,22), trim=0)
+```
+
+## Pipes 
+If you want to use the piped-in data as the value for several arguments, or reference it explicitly for clarities sake, you can use `.` inside the function call.
+
+```{r dot}
+# cov (covariance) requires two args, x and y
+c(19,38,14,20) %>% cov(x=., y=.) # piped data becomes x and y
+c(19,38,14,20) %>% cov(c(100,184,112,75), .) # piped data becomes y
+```
+
+<div class = errormsg>
+```{r dot_bad, error = TRUE}
+c(19,38,14,20) %>% cov(y=.) # piped data becomes y, leaving no data for x
+```
+</div>
+
+## Pipes with `dplyr` functions
+Pipes can simplify the flow of multi-step tasks that spans multiple functions by allowing you to  write code that can be read left to right, top to bottom.
+
+To see, lets write our `marathon` data tidying code using pipes. You can read the `%>%` operator as saying "then".
+
+```{r dplyr_chains_for_show, eval=FALSE,echo=FALSE}
+marathon <- read.csv("http://wjhopper.github.io//psych640/data/marathon.csv") %>%
+  select(marathon, age:div, place:netTime) %>%
+  mutate(waitTime = time - netTime) %>%
+  arrange(place)
+```
+
+```{r dplyr_chains_for_real}
+marathon <- read.csv("../data/marathon.csv") %>%
+  select(age:div, place:netTime) %>%
+  mutate(waitTime = time - netTime) %>%
+  arrange(place)
+```
+
+We omit the data frame argument to `select`, `mutate`, and `arrange` because it is supplied from the previous functions output, via the pipe operator.
+
+## Window Functions
+- A window function is a function that takes an input containing *n* elements and returns an output containing *n* elements
+- The output of a window function depends on all the values in its input. 
+- Window functions which are particularly useful in conjunction with the `mutate` function.
+
+## The `ntile()` function
+The `ntile()` function ranks the data from each group into `n` clusters. This allows you to easily divide your data into as many bins as you like.
+
+Here we'll create a variable identifying which `netTime` quintile each runner falls into, for males and females separately.
+```{r ntile, R.options = list(max.print = 20)}
+marathon <- marathon %>% group_by(gender) %>%
+  mutate(quintile = ntile(netTime, 5))
+select(marathon, gender:last, netTime, quintile)
+```
+
+## The `percent_rank()` function
+The `percent_rank()` function ranks each observation in your data according to what proportion of other observations in the group have a lower value.
+```{r percent_rank, R.options = list(max.print = 30)}
+marathon <- marathon %>%
+  mutate(pBelow = percent_rank(netTime))
+select(marathon, gender:last, netTime, pBelow)
+```
+
+## The `lead()` function
+The `lead()` function takes a vector as input, and returns a vector where the elements have been moved to the left one position. 
+
+In other words, the first element in the output vector is second element of the input vector, the second element in the output vector is third element of the input vector, and so on.
+
+```{r simple_lead}
+lead(c(6,8,14,19,22))
+```
+
+The output vector is padded with an `NA` in the final position to make the input and output have the same number of elements.
+
+You can think of `lead` as answering the question "What is the value of the element to my right?" for each element in a vector.
+
+## The `lag()` function
+The `lag()` function is similar to the `lead` function, but returns a vector where the elements have been moved to the right by one position. 
+
+The first element in the output vector is `NA` (since there is no zero-th element to move into the first position), the second element of the output vector is the first element in the input vector and so on.
+
+```{r simple_lag}
+lag(c(6,8,14,19,22))
+```
+
+You can think of `lag` as answering the question "What is the value of the element to my left?" for each element in a vector.
+
+## The `lag()` function
+Let's use the lag function to find how far apart in time successive runners finished the race.
+
+We'll first need to ungroup the data and sort the data by `netTime`. Then we'll subtract each finishing time from the time just before it, and replace the leading `NA` with a 0.
+
+```{r lag_marathon, R.options = list(max.print = 20)}
+marathon <- marathon %>% ungroup() %>% arrange(netTime) %>%
+  mutate(lag_time = netTime - lag(netTime),
+         lag_time = replace(lag_time, is.na(lag_time), 0))
+select(marathon, gender:last, netTime, lag_time)
+```
+
+## Cummulative Aggregates
+Cumulative aggregates functions calculate a summary value for each element in a vector, based on all values up to and including that element. Consider the cumulative sum function `cumsum`:
+
+```{r cumsum}
+cumsum(c(5, 8, 1, 44))
+```
+
+- The first element in the output is the same as the first element in the input
+- The second element in the output is the sum of the first and second elements of the input
+- The third element in the output is the sum of the first, second and third elements of the input
+- etc., etc., etc.
+
+## Cummulative Aggregates
+In addition to `cumsum()`, Base R has the `cummin()`, `cummax()` and `cumprod()` functions. `dplyr` provides an additional function, `cummean`.
+
+Let's use the `cummean` function to examine how the average net time changes as each runner finishes the race.
+
+```{r cummean, R.options = list(max.print = 25)}
+marathon <- marathon %>% mutate(cumAvgNetTime = cummean(netTime))
+select(marathon, gender:last, netTime, cumAvgNetTime)
+```
+
+## Cummulative Aggregates  { .img-centered }
+The cumulative average net time as a function of overall finishing place is a very interesting curve!
+
+```{r plot_cummean}
+par(mar =  c(10,3,0,2))
+plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
+     type="l")
+```
+
+## Do anything with do
+If you thought that summarizing groups of values and creating complex new variables effortlessly was a powerful set of features, allow me to introduce the `do` function.
+
+The `do` function allows you to apply arbitrary functions to the groups of values you have defined. 
+
+And by arbitrary, I mean arbitrary. You are not limited to applying functions that return a single values, or exactly `n` values. You can apply functions that return literally any type of objects.
+
+## Do anything with do
+Allow me to demonstrate by running a linear regression, predicting a runner's net time from their age, on the male and female runners separately.
+
+```{r do, R.options=list(max.print = 12)}
+marathon_lm <- marathon %>% group_by(gender) %>%
+  do(time_by_age = lm(netTime~age, data = .))
+marathon_lm
+```
+
+## Do anything with do {.smaller}
+The `time_by_age` column is a list of individual `lm` objects!
+```{r look_ma_lm}
+marathon_lm$time_by_age[[1]] # Model for Females
+marathon_lm$time_by_age[[2]] # Model for Males
+```
+
+## Do anything with `do`
+This is possible because `dplyr` creates a new kind of data frame called a `tbl_df` or table data frame, which can use a list as a column.
+
+```{r tbl_df_1}
+class(marathon_lm)
+class(marathon_lm$time_by_age)
+```
+
+While `do` is to `summarise` as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of lists, as well as the class of objects you've stored in the list.
+
+So, don't use `do` when you don't neccesarily need its power.
+
+## Activities
+
+1. Make a new column called `division_place` that gives a runners place within their own age division (given by the `div` variable)
+    - Hint: Be sure the data is sorted properly, and the `n()` function can be used inside `mutate` to tell you the size of the group you're operating on.
+2. Use the data in the `lag_time` column to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner's finish (e.g., it should tell you how much time passed between the first place finisher and the 100th place finisher).
+    - Hint: Use one of the cummulative agggregation functions we talked about.
+    
+Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with `%>%`).
+
+```{r solutions, include=FALSE}
+marathon %>% arrange(netTime) %>%
+  group_by(div) %>%
+  mutate(division_place = 1:n()) %>%
+  ungroup() %>%
+  mutate(elapsed = cumsum(lag_time))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Extra Slides
+
+##Cumulative Logical Tests
+`dplyr` provides the `cumany` and `cumall` functions, which perform element-wise `&&` and `||` operations on vectors.
+
+`cumall` traverses the vector and returns `TRUE` for each element, until it encounters an element that *does not* meet the specified criteria. All remaining elements in its output will be `FALSE`.
+
+Here, `cumall` searches the vector for "G", and returns `TRUE` in the first 3 positions, because they are all "G". But after it hits "A" in the fourth position, it returns `FALSE` for each remaining element.
+```{r cumall}
+x <- c("G","G","G","A","G","T","T","C")
+cumall(x == "G") # Same as x[1]=="G", x[1]=="G" && x[2]=="G", etc.
+```
+
+You can think of the `cumall` function as answering the question "Have **all** the elements in the vector up to this point met the criteria?"
+
+## Cumulative Logical Tests
+The `cumany` function traverses the vector and returns `FALSE` for each element until it encounters an element that meets the specified criteria. All remaining elements in its output will be `TRUE`.
+
+```{r cumany}
+x <- c("G","G","G","A","G","T","T","C")
+cumany(x == "A")# Same as x[1]=="A", x[1]=="A" || x[3]=="A", etc.
+```
+
+You can think of the `cumall` function as answering the question "Have **any** of the elements in the vector up to this point met the criteria?"
+
+## Cumulative Logical Tests
+These cumulative logical tests can be especially useful for filtering entire groups of observations. 
+
+Here we'll use the `cumany` function to filter the rows of runners who finished after the fastest female runner.
+
+The `slice` function is used to remove the first row after filtering, so the results don't include the row for the fastest female runner.
+```{r cumany_filter,R.options=list(max.print = 25)}
+marathon %>% filter(cumany(gender == "F")) %>% slice(-1)
+```
+
+## Do anything with `do`
+This is possible because `dplyr` extends the standard data frame functionality, and creates a new kind of data frame called a `tbl_df` or table data frame.
+
+```{r tbl_df_1_extra}
+class(marathon_lm)
+```
+A `tbl_df` can use a list as a column, instead of requiring a column to be an atomic vector (atomic just means a vector where each element is required to have a length of 1).
+```{r tb_df_2_extra}
+class(marathon_lm$time_by_age)
+```
+
+## Do anything with `do`
+While `do` is to `summarise` as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of how to work with lists, and of the class of objects you've stored in the list.
+
+Here, to make a column for the $R^2$ value of each model, you must group by gender, extract the `lm` object from the `time_by_age` list with `[[1]]`, apply the `summary` function to it, and access the `r.squared` element from the summary.
+
+```{r extracting_extra,eval=FALSE}
+marathon_lm %>% group_by(gender) %>%
+  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)
+```
+
+## Do anything with `do`
+```{r ref.label="extracting_extra",  warning=FALSE}
+```
+
+Lots of work to find out that age is an awful predictor of net time!!
+
+The `do` function is an awesome tool, but don't use it when you don't necesarily need its power, as it might create more work for you in the long run.
+
+## Activities
+
+1. Make a new column called `division_place` that gives a runners place within their own age division (given by the `div` variable)
+    - Hint: Be sure the data is sorted properly, and the `n()` function can be used inside `mutate` to tell you the size of the group you're operating on.
+2. Which age division had the longest streak of Kenyan (`KEN`) runners finish before a runner from another country finished?
+    - Hint: Try filtering with the `cumall` function, and inspecting the `division_place` variable you created.
+    
+Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with `%>%`).
+
+```{r solutions_extra, include=FALSE}
+marathon %>% arrange(netTime) %>%
+  group_by(div) %>%
+  mutate(division_place = 1:n()) %>%
+  filter(cumall(country== "KEN")) %>%
+  ungroup() %>%
+  filter(division_place == max(division_place)) %>%
+  select(age:netTime, division_place)
+```

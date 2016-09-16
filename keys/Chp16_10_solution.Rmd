@@ -1,0 +1,143 @@
+---
+title: "Chapter 16, Problem 10"
+author: "William Hopper"
+date: "February 25, 2016"
+output: pdf_document
+---
+
+```{r setup, echo = FALSE, warning=FALSE,message=FALSE}
+options(xtable.comment = FALSE)
+library(dplyr)
+```
+
+Chapter 16 Problem 10 is an extension of the replicated latin squares example given in section 16.4 of the chapter. In working through the problem, it helps to keep in mind the duality of the blocking factor in a replicated latin squares design: on one hand, it allows you to measure order effects in a repeated measures design, but on the other hand, the blocking factor can be confounded with other sources of variance in your design and thus prevent you from examining important interactions.
+
+The data given in the problem are shown below, unwound from the compact table presented in the book and presented in normal form.
+
+```{r data, results='asis', echo = FALSE}
+library(xtable)
+data <- data.frame(subject = factor(rep(1:4,each = 4)),
+                   block = factor(rep(1:4, times = 4)),
+                   exp = factor(c(1,2,1,2,1,1,2,2,2,2,1,1,2,1,2,1), labels = c("None", "Some")),
+                   info = factor(c(1,2,2,1,2,1,1,2,2,1,1,2,1,2,2,1), labels = c("Low", "High")),
+                   RT = c(1.4,2.2,1.5,1.5,2.1,1.5,2,2.4,2.8,2.1,1.4,1.8,2.3,2.1,2.7,1.6))
+print(xtable(data), include.rownames = FALSE)
+```
+
+Lets dig in with the design of the experiment. This experiment has 4 subjects, each of whom are tested in 4 experimental conditions. The 4 experimental conditions are formed from the pairwise combinations of levels from 2 within subject factors: Problem Experience (*E*, 2 Levels), and Information Quantity(*I*, 2 Levels). 
+
+Additionally, each subject experiences the 4 conditions defined the by combinations of *E* and *I* levels (i.e., $E_1I_1$, $E_1I_2$, $E_2I_1$, $E_1I_2$) in a different order. The order in which the *EI* conditions are experienced is the blocking factor, denoted *P* in this problem. Since 4 unique *EI* conditions, the blocking factor *P* has 4 levels.
+
+Thus in terms of manipulated factors, our design is a 2 x 2 x 4 design (2 Problem Experiences by 2 Information Quantities by 4 Blocks). Because this is a repeated measures design, we can also measure within-subject variability, which allows us to treat the subjects who participated as an additional factor (i.e., source of variance) *S* with 4 levels (one for each subject).
+
+However, we cannot proceed with a standard ANOVA analysis, despite the fact that our 3 manipulated factors are fully crossed (i.e. the experiment collected RT's from every combination of Experience, Information, and Block). This is because having each subject experience the 4 *EI* combinations in a unique order, and treating this order as a source of variance, confounds the variance due to condition order with the variance due to sampling different subjects.
+
+This is difficult to see at first (or second, or third...) glance. To help see why this is the case, let's try to find the mean RT for each combination of subject and block.
+
+```{r confounded, echo = TRUE, results='hide'}
+data %>% group_by(subject, block) %>% summarise(mean(RT))
+```
+
+```{r confounded_pretty, echo = FALSE, results = 'asis'}
+data %>% group_by(subject, block) %>% summarise(mean(RT)) %>% xtable() %>% print(include.rownames = FALSE)
+```
+
+The data are unchanged! This is because there is only a single RT observation for each combination of subject and block, so grouping by subject and block results in 16 groups of size 1 and thus there is only a single RT value to "summarize".
+
+This means that any time we try to calculate the sums of squares for an interaction involving either the subject or block factors, we cannot uniquely attribute the variability in that cell to subject or block, since they are confounded in this design. Let's visualize the data using a different layout to see how the subject/block confound affects the Block by Experience interaction specifically. Here, we shift the `exp` variable from being an ID variable with two possible values into two measure variables.
+
+```{r exp_reshaping, results='hide'}
+data %>% select(-info) %>% tidyr::spread(exp, RT)
+```
+
+```{r exp_reshaping_pretty, echo = FALSE, results='asis'}
+data %>% select(-info) %>% tidyr::spread(exp, RT) %>% xtable() %>% print(include.rownames = FALSE)
+```
+
+The missing values in the columns holding the RT's help us see how the subject variable confounds the Block by Experience interaction. Consider the case of the RT's from the Block = 1 and Experience = "None" condition. Subjects 1 and 2 have observations in this condition (values 1.4 and 1.5 in rows 1 and 5 of the "None" column), but subjects 3 and 4 do not (missing values in rows 9 and 13 of the "none" column). Conversely, subjects 2 and 4 have observations in the Block = 2 and Experience = "None" condition (values 1.5 and 2.1 in rows 6 and 14 of the "None" column) while subjects 1 and 3 do not (missing values in rows 2 and 6 of the "none" column).
+
+The practical consequence of this is that the difference between the mean of any particular Block by Experience condition and the grand mean (after taking into account the main effects of each condition) cannot be uniquely contributed to the effect of having a particular experience level in a particular block. Because each combination of Block and Experience involves a different set of subjects, some some of the variability found in these combinations can be attributed to the subjects that participated! This means the variability for the Block by Experience interaction term will be inflated due to incorporating between subject variability.
+
+The only interaction in the experiment that is *not* tainted by the subject/block confound is the Experience by Information interaction. Thus, the simplest correct model is the one which partitions the total variance into components attributable to the 4 main effects, and the Experience by Information interaction.
+
+```{r answer, results='hide'}
+summary(aov(RT ~ subject + exp + info + block + info:exp, data=data))
+```
+
+```{r answer_pretty, echo = FALSE, results='asis'}
+summary(aov(RT ~ subject + exp + info + block + info:exp, data=data)) %>%
+  xtable(digits = c(NA, 0, 3,3,3, 3))
+```
+
+
+\newpage
+
+## Addendum
+
+It *is* possible to further partition the residual error variance in the 4 main effects and 1 interaction model into other interaction terms. But because all the remaining interaction terms involve the subject and block factors, those interactions must appropriately account for the subject/block confounding.
+
+The example in section 16.4 covers how to do this when they calculate the "Between-Cells Residual" term. The general procedure for dealing with this "double counting" of variance from confounded factors is to subtract the sums of squares (or a portion of them) belonging to the main effect of the confounded variable from the interactions involving the other confounded variable. In other words, if Subject and Block are confounded, then you must subtract the sums of squares for the main effect of subject from interactions involving the effects of block.
+
+The `aov` command is "smart" enough to deal with this for you, if you specify the appropriate model formula. Here we'll include the Block by Experience and Subject by Experience interaction terms in our model.
+
+```{r twoWay, results='hide'}
+summary(aov(RT ~ subject + exp + info + block + info:exp + block:exp + subject:exp,
+            data=data))
+```
+```{r twoWay_pretty, echo = FALSE, results='asis'}
+summary(aov(RT ~ subject + exp + info + block + info:exp + block:exp + subject:exp,
+            data=data)) %>%
+  xtable(digits = c(NA,0,3,3))
+```
+
+Lets contrast the sums of squares from that model with the sums of squares when we omit the main effect of Subject from our model
+
+```{r badmodel, results='hide'}
+summary(aov(RT ~ exp + info + block + info:exp + block:exp + subject:exp,
+            data=data))
+```
+
+```{r badmodel_pretty, echo = FALSE, results='asis'}
+summary(aov(RT ~ exp + info + block + info:exp + block:exp + subject:exp,
+            data=data)) %>%
+  xtable(digits = c(NA,0,3,3))
+```
+
+In the later model, the sums of squares for the missing subject term have been subsumed by the block by experience and subject by experience terms. Because of the subject/block confound, the block by experience interaction gets half the variability from the main effects of subjects, even though it does not explicitly involve the subjects term!!
+
+Also note that `aov` does not perform any F tests in either of the models containing the Block by Experience and Subject by Experience interactions. This is because by including these terms, we have fully partitioned all the variance in the entire dataset, and there is not residual error variance left over to use as the denominator in an F ratio. 
+
+You can force `aov` to do an F test by adding a call to the `Error` function to your model, but use extreme caution doing this in the case of replicated latin squares design. You must be absolutely sure the error term you specify is appropriate for the effects you wish to test (i.e., the particular source of variance you want to test must *not* have any terms in its EMS that are not present in the EMS of the source of variance considered as error variance).
+
+```{r huh, include=FALSE}
+library(magrittr)
+twoWay <- aov(RT ~ subject + exp + info + block + 
+              info:exp + block:exp + subject:exp +
+              info:block + info:subject + block:subject, data=data) %>% 
+  summary() %>% extract2(1) %>% extract(1:nrow(.), c(2,3,1))
+main <- aov(RT ~ subject + exp + info + block, data=data) %>% 
+  summary() %>% extract2(1) %>% extract(1:nrow(.), c(2,1,3))
+info_exp <- data %>% group_by(info,exp) %>% summarise(x = mean(RT)) %>% ungroup() %>%
+  summarise(ss = 4*sum((x-mean(data$RT))^2)) %>%  use_series(ss) - 
+  main["info",'Sum Sq'] - main["exp",'Sum Sq']
+
+## Block x Experience interaction: Confounded with Subject!!
+block_exp <- data %>% group_by(block,exp) %>%
+  summarise(x = mean(RT)) %>%
+  ungroup() %>%
+  summarise(ss = (nrow(data)/n())*sum((x-mean(data$RT))^2)) %>%
+  use_series(ss) -
+  main["block",'Sum Sq'] - main["exp",'Sum Sq']
+
+## Subject x Experience interaction: Confounded with block!!!
+sub_exp <- data %>% group_by(subject,exp) %>%
+  summarise(x = mean(RT)) %>%
+  ungroup() %>%
+  summarise(ss = (nrow(data)/n())*sum((x-mean(data$RT))^2)) %>%
+  use_series(ss) -
+  main["subject",'Sum Sq'] - main["exp",'Sum Sq']
+
+aov(RT ~ exp + info + block + info:exp + block:exp, data=data) %>% 
+  summary() %>% extract2(1) %>% extract(1:nrow(.), c(2,1,3))
+
+```
