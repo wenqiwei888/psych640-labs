@@ -32,7 +32,7 @@ matData <- readMat("../data/matfile.mat")
 ## Absolute Paths
 - On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window's installation is "C:\\\\"
     - Directories are separated  with **backward** slashes
-    - E.g. "`C:\\\\Users\\will`" is an absolute path
+    - E.g. "`C:\Users\will`" is an absolute path
 - On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is /
     - Read as "root"
     - Directories are separated  with **forward** slashes
@@ -90,7 +90,7 @@ In a csv file, the columns in each row are separated by commas, naturally.
 ```{r showCommas,echo=FALSE, prompt=FALSE}
 write.csv(commas,file="",quote=FALSE, row.names=FALSE)
 ```
-[Download this file](/data/commas.csv)
+[Download this file](../data/commas.csv)
 
 We can import this file into a data frame in R with the `read.csv()` function
 
@@ -173,7 +173,7 @@ a1xxxxx3
 b2xxxxx1 
 c3xxxxx11
 </pre>
-<a href="/data/fixed.txt" download> Download this file </a>
+<a href="../data/fixed.txt" download> Download this file </a>
 
 We can see that the first column takes of 1 space, the second column takes up 1 space, and that the third colun takes up 2 spaces.
 
@@ -221,7 +221,7 @@ skip| Number of rows to skip before starting import |`0`
 na| Value to use for missing data | `" "`
 
 ## Reading data from Excel: Examples
-First, [download this xlsx file](/data/datasets.xlsx) containing 4 "famous" R data sets (iris, mtcars, chickwts and quakes).
+First, [download this xlsx file](../data/datasets.xlsx) containing 4 "famous" R data sets (iris, mtcars, chickwts and quakes).
 
 We can read in the `chickwts` data set (the 3rd page of the excel file) by number
 
@@ -287,7 +287,7 @@ mySASData <- read.sas7bdat("data/randomSASfile.sas7bdat")
 ## Reading in MATLAB files
 MATLAB supports saving variables in a proprietary format, called .mat files. We can read them into R using the R.matlab package's `readmat()` file. 
 
-Using the example .mat file [here](/data/matfile.mat)
+Using the example .mat file [here](../data/matfile.mat)
 ```{r mfiles, message=FALSE, warning=FALSE, eval=FALSE}
 install.packages("R.matlab")
 library(R.matlab)

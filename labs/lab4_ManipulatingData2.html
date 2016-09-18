@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -132,18 +131,18 @@
 
 <p>Create a small matrix &amp; index it [row,column] style</p>
 
-<pre class = 'prettyprint lang-r'>dummy &lt;- matrix(6:1, nrow = 2)
-dummy</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy &lt;- matrix(6:1, nrow = 2)
+&gt; dummy</pre>
 
 <pre >##      [,1] [,2] [,3]
 ## [1,]    6    4    2
 ## [2,]    5    3    1</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[1,2:3] # Row 1, Column 2 and 3. Output is a vector! </pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[1,2:3] # Row 1, Column 2 and 3. Output is a vector! </pre>
 
 <pre >## [1] 4 2</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[1:2,2:3] # Row 1 and 2, Column 2 and 3. Output is a matrix.</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[1:2,2:3] # Row 1 and 2, Column 2 and 3. Output is a matrix.</pre>
 
 <pre >##      [,1] [,2]
 ## [1,]    4    2
@@ -153,19 +152,19 @@ dummy</pre>
 
 <p>If you want to select <strong>all</strong> of one dimension, (e.g., keep all rows or all columns) but selectively index the other dimension, provide the separating comma as usual, but don&#39;t give any indexing vector for the dimension you want to stay 100% intact.</p>
 
-<pre class = 'prettyprint lang-r'>dummy[1,] # First Row, all columns</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[1,] # First Row, all columns</pre>
 
 <pre >## [1] 6 4 2</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[1,1:3] # Same as previous</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[1,1:3] # Same as previous</pre>
 
 <pre >## [1] 6 4 2</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[,2] # All rows, second columns</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,2] # All rows, second columns</pre>
 
 <pre >## [1] 4 3</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[1:2,2] # Same as previous</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[1:2,2] # Same as previous</pre>
 
 <pre >## [1] 4 3</pre>
 
@@ -173,13 +172,13 @@ dummy</pre>
 
 <p>We can apply our relational operators to entire matrices in the same manner as vectors. The resulting logical matrix has the same dimensions as the one we apply the test to.</p>
 
-<pre class = 'prettyprint lang-r'>dummy &lt; 4 # 2 x 3</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy &lt; 4 # 2 x 3</pre>
 
 <pre >##       [,1]  [,2] [,3]
 ## [1,] FALSE FALSE TRUE
 ## [2,] FALSE  TRUE TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>dummy &gt;=3 &amp; dummy &lt;= 5 # also 2 x 3</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy &gt;=3 &amp; dummy &lt;= 5 # also 2 x 3</pre>
 
 <pre >##       [,1] [,2]  [,3]
 ## [1,] FALSE TRUE FALSE
@@ -191,15 +190,15 @@ dummy</pre>
 
 <p>This example here keeps all the columns of the matrix with a sum less than 8.</p>
 
-<pre class = 'prettyprint lang-r'>colSums(dummy) # colSumns() adds up each column</pre>
+<pre class = 'prettyprint lang-r'>&gt; colSums(dummy) # colSumns() adds up each column</pre>
 
 <pre >## [1] 11  7  3</pre>
 
-<pre class = 'prettyprint lang-r'>colSums(dummy) &lt; 8 # Does each column sum to less than 8?</pre>
+<pre class = 'prettyprint lang-r'>&gt; colSums(dummy) &lt; 8 # Does each column sum to less than 8?</pre>
 
 <pre >## [1] FALSE  TRUE  TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[,colSums(dummy) &lt; 8] # Keep columns with sum less than 8</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,colSums(dummy) &lt; 8] # Keep columns with sum less than 8</pre>
 
 <pre >##      [,1] [,2]
 ## [1,]    4    2
@@ -209,19 +208,19 @@ dummy</pre>
 
 <p>This example keeps all the rows of the matrix where the value in the first column is more than 5</p>
 
-<pre class = 'prettyprint lang-r'>dummy[,1]</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,1]</pre>
 
 <pre >## [1] 6 5</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[,1] &gt; 5</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,1] &gt; 5</pre>
 
 <pre >## [1]  TRUE FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[dummy[,1] &gt; 5,] # R drops dimensions by default!</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[dummy[,1] &gt; 5,] # R drops dimensions by default!</pre>
 
 <pre >## [1] 6 4 2</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[dummy[,1] &gt; 5, ,drop=FALSE] # R preserves dimensions!</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[dummy[,1] &gt; 5, ,drop=FALSE] # R preserves dimensions!</pre>
 
 <pre >##      [,1] [,2] [,3]
 ## [1,]    6    4    2</pre>
@@ -256,7 +255,7 @@ dummy</pre>
 
 <p>We have previously seen examples of subsetting a <em>single</em> column from a data frame using that columns name, and the <code>$</code> operator.</p>
 
-<pre class = 'prettyprint lang-r'>mtcars$mpg</pre>
+<pre class = 'prettyprint lang-r'>&gt; mtcars$mpg</pre>
 
 <pre >##  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2
 ## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
@@ -268,7 +267,7 @@ dummy</pre>
 
 <p>We can still use names to get what we want by using a character vector containing names of our desired columns.</p>
 
-<pre class = 'prettyprint lang-r'>mtcars[,c(&quot;mpg&quot;,&quot;disp&quot;,&quot;gear&quot;)] # need  as well as the quotes here</pre>
+<pre class = 'prettyprint lang-r'>&gt; mtcars[,c(&quot;mpg&quot;,&quot;disp&quot;,&quot;gear&quot;)] # need  as well as the quotes here</pre>
 
 <pre >##                      mpg  disp gear
 ## Mazda RX4           21.0 160.0    4
@@ -298,13 +297,13 @@ dummy</pre>
 <li>First, we will build up a logical vector to index the correct rows by testing where the spray column has value &#39;A&#39;</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>InsectSprays$spray</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$spray</pre>
 
 <pre >##  [1] A A A A A A A A A A A A B B B B B B B B B B B B C C C C C C
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 42 entries ]
 ## Levels: A B C D E F</pre>
 
-<pre class = 'prettyprint lang-r'>InsectSprays$spray==&quot;A&quot;</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$spray==&quot;A&quot;</pre>
 
 <pre >##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 ## [12]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
@@ -317,7 +316,7 @@ dummy</pre>
 <li>Next, we combine this with a character vector of the column names we&#39;re interested in, and put it inside our <code>[]</code> brackets</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>InsectSprays[InsectSprays$spray==&quot;A&quot;,&#39;count&#39;]</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays[InsectSprays$spray==&quot;A&quot;,&#39;count&#39;]</pre>
 
 <pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
@@ -332,11 +331,11 @@ dummy</pre>
 <li>Then, index this vector with the logical vector resulting from a relational test</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>InsectSprays$count[InsectSprays$spray==&quot;A&quot;] # Same result as before</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$count[InsectSprays$spray==&quot;A&quot;] # Same result as before</pre>
 
 <pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
-<pre class = 'prettyprint lang-r'>InsectSprays[InsectSprays$spray==&quot;A&quot;,]$count # Still the same. Can you figure out why ?</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays[InsectSprays$spray==&quot;A&quot;,]$count # Still the same. Can you figure out why ?</pre>
 
 <pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
@@ -360,14 +359,14 @@ dummy</pre>
 
 <p>If you try to subset a column of a data frame using the <code>$</code> operator, but the name of the column doesn&#39;t exist, <code>R</code> will return `NULL``</p>
 
-<pre class = 'prettyprint lang-r'>InsectSprays$neeeeeeighhhhh</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$neeeeeeighhhhh</pre>
 
 <pre >## NULL</pre>
 
 <p>But, if you use the <code>[row,column]</code> style of indexing and ask for a column that doesn&#39;t exist, you get a right proper error.</p>
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>InsectSprays[, &#39;neeeeeeighhhhh&#39;]</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays[, &#39;neeeeeeighhhhh&#39;]</pre>
 
 <pre >## Error in `[.data.frame`(InsectSprays, , &quot;neeeeeeighhhhh&quot;): undefined columns selected</pre></div>
 
@@ -376,7 +375,7 @@ dummy</pre>
 Its also a common mistake to forget the quotes around names inside the <code>[]</code> brackets, which will throw an unfound object error.
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>InsectSprays[, count]</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays[, count]</pre>
 
 <pre >## Error in .subset(x, j): invalid subscript type &#39;closure&#39;</pre></div>
 
@@ -410,13 +409,13 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 </article></slide><slide class=''><hgroup><h2>List example</h2></hgroup><article  id="list-example">
 
-<pre class = 'prettyprint lang-r'>biglist &lt;- list(training = c(1,3,2,4),
-                data = data.frame(trial = 1:4,
-                          average = c(.4,.71,.64,.1)),
-                times = matrix(c(2.74,3.44,2.91,.65)),
-                name = &quot;Herp McDerpsen&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist &lt;- list(training = c(1,3,2,4),
++                data = data.frame(trial = 1:4,
++                          average = c(.4,.71,.64,.1)),
++                times = matrix(c(2.74,3.44,2.91,.65)),
++                name = &quot;Herp McDerpsen&quot;)</pre>
 
-<pre class = 'prettyprint lang-r'>biglist</pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist</pre>
 
 <div class="columns-2">
 <pre >## $training
@@ -451,7 +450,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 </article></slide><slide class=''><hgroup><h2>Indexing lists by name</h2></hgroup><article  id="indexing-lists-by-name">
 
-<pre class = 'prettyprint lang-r'>biglist$data # Returns a matrix</pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist$data # Returns a matrix</pre>
 
 <pre >##   trial average
 ## 1     1    0.40
@@ -459,7 +458,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## 3     3    0.64
 ## 4     4    0.10</pre>
 
-<pre class = 'prettyprint lang-r'>biglist[c(&quot;training&quot;,&quot;name&quot;)] # Returns a list of 2 </pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist[c(&quot;training&quot;,&quot;name&quot;)] # Returns a list of 2 </pre>
 
 <pre >## $training
 ## [1] 1 3 2 4
@@ -471,7 +470,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <p>Indexing a list with a single <code>[]</code> will return a list. But indexing with <code>[[]]</code> returns the actual object <strong>stored in</strong> that position</p>
 
-<pre class = 'prettyprint lang-r'>biglist[2] # Normal indexing: returns list with 1 element</pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist[2] # Normal indexing: returns list with 1 element</pre>
 
 <pre >## $data
 ##   trial average
@@ -480,7 +479,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## 3     3    0.64
 ## 4     4    0.10</pre>
 
-<pre class = 'prettyprint lang-r'>biglist[[2]] # Recursive indexing: returns a data frame</pre>
+<pre class = 'prettyprint lang-r'>&gt; biglist[[2]] # Recursive indexing: returns a data frame</pre>
 
 <pre >##   trial average
 ## 1     1    0.40
@@ -514,10 +513,10 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <p>Lets say wanted to change the some of the names of the pesticides stored in the <code>spray</code> column in the <code>InsectSprays</code> data frame to be more informative than just A, B C, etc.</p>
 
-<pre class = 'prettyprint lang-r'>InsectSprays$spray &lt;- as.character(InsectSprays$spray)
-InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
-InsectSprays[InsectSprays$spray==&#39;B&#39;,&#39;spray&#39;] &lt;- &quot;fairy_dust&quot;
-InsectSprays[c(1,21),]</pre>
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$spray &lt;- as.character(InsectSprays$spray)
+&gt; InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
+&gt; InsectSprays[InsectSprays$spray==&#39;B&#39;,&#39;spray&#39;] &lt;- &quot;fairy_dust&quot;
+&gt; InsectSprays[c(1,21),]</pre>
 
 <pre >##    count           spray
 ## 1     10 SPRAY_OF_DOOOOM
@@ -527,13 +526,13 @@ InsectSprays[c(1,21),]</pre>
 
 <p>You can remove single columns from a data frame column or single elements from a list by setting their values to be the <code>NULL</code> object.</p>
 
-<pre class = 'prettyprint lang-r'>backup_iris &lt;- iris
-ncol(iris)</pre>
+<pre class = 'prettyprint lang-r'>&gt; backup_iris &lt;- iris
+&gt; ncol(iris)</pre>
 
 <pre >## [1] 5</pre>
 
-<pre class = 'prettyprint lang-r'>iris$Sepal.Length &lt;- NULL
-str(iris)</pre>
+<pre class = 'prettyprint lang-r'>&gt; iris$Sepal.Length &lt;- NULL
+&gt; str(iris)</pre>
 
 <pre >## &#39;data.frame&#39;:    150 obs. of  4 variables:
 ##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
@@ -553,15 +552,15 @@ str(iris)</pre>
 
 <p>For instance, if you think the first 5 rows of a matrix or data frame are useless to you, don&#39;t try to delete them in place. Instead, reassign the name of that matrix or data frame to be the result of a subsetting operation that selects only the elements you wish to keep.</p>
 
-<pre class = 'prettyprint lang-r'>iris</pre>
+<pre class = 'prettyprint lang-r'>&gt; iris</pre>
 
 <pre >##     Sepal.Width Petal.Length Petal.Width    Species
 ## 1           3.5          1.4         0.2     setosa
 ## 2           3.0          1.4         0.2     setosa
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 148 rows ]</pre>
 
-<pre class = 'prettyprint lang-r'>iris &lt;- iris[6:nrow(iris),]
-iris</pre>
+<pre class = 'prettyprint lang-r'>&gt; iris &lt;- iris[6:nrow(iris),]
+&gt; iris</pre>
 
 <pre >##     Sepal.Width Petal.Length Petal.Width    Species
 ## 6           3.9          1.7         0.4     setosa
@@ -582,23 +581,23 @@ iris</pre>
 
 </article></slide><slide class=''><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing" class="img-centered">
 
-<p>Matrices can also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the &#39;linear indices&#39;. <img src='/images/linear_index.gif' title=''/></p>
+<p>Matrices can also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the &#39;linear indices&#39;. <img src='../images/linear_index.gif' title=''/></p>
 
 <p>The linear indices start at row 1 of column 1, and travel down the rows of column 1, then continue on in row 1 of column 2, then travel down the rows of column 2, etc&#8230;</p>
 
 </article></slide><slide class=''><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing-1">
 
-<pre class = 'prettyprint lang-r'>dummy</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy</pre>
 
 <pre >##      [,1] [,2] [,3]
 ## [1,]    6    4    2
 ## [2,]    5    3    1</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[2] # Second element</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[2] # Second element</pre>
 
 <pre >## [1] 5</pre>
 
-<pre class = 'prettyprint lang-r'>dummy[5] # Fifth element</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[5] # Fifth element</pre>
 
 <pre >## [1] 2</pre>
 
@@ -606,7 +605,7 @@ iris</pre>
 
 <p>This example runs without an error, but the output makes no sense because we are trying to index columns based on the sum of the rows!</p>
 
-<pre class = 'prettyprint lang-r'>dummy[,rowSums(dummy) &gt; 10]</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,rowSums(dummy) &gt; 10]</pre>
 
 <pre >##      [,1] [,2]
 ## [1,]    6    2
@@ -618,7 +617,7 @@ iris</pre>
 
 <p>Try to reason about what R &quot;is doing&quot; in the previous example. Why do we get the ouput we get?</p>
 
-<pre class = 'prettyprint lang-r'>dummy[,rowSums(dummy) &gt; 10]</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy[,rowSums(dummy) &gt; 10]</pre>
 
 <pre >##      [,1] [,2]
 ## [1,]    6    2

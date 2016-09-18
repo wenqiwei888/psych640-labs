@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -114,7 +113,7 @@
 
 <p>You can create a new function object in R with the <code>function</code> keyword and the following syntax:</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(arguments) { body }</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arguments) { body }</pre>
 
 <p>This expression is called a <em>function declaration</em> or a <em>function definition</em>.</p>
 
@@ -128,10 +127,10 @@
 
 <p>The function definition below creates a new function object <code>f</code>, which takes two arguments, <code>arg1</code> and <code>arg2</code>, and prints out a report of their values to the console.</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2) { 
-  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
-}
-f(&quot;eleventeen&quot;, -Inf)</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2) { 
+... +    print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+... +  }
+&gt; f(&quot;eleventeen&quot;, -Inf)</pre>
 
 <pre >## [1] &quot;arg1 is eleventeen and arg2 is -Inf&quot;</pre>
 
@@ -141,10 +140,10 @@ f(&quot;eleventeen&quot;, -Inf)</pre>
 
 <p>If you assign a default value, the argument is optional and may be omitted in the function call.</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
-  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
-}
-f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+... +    print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+... +  }
+&gt; f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <pre >## [1] &quot;arg1 is squidily diddly and arg2 is not supplied!&quot;</pre>
 
@@ -153,23 +152,23 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 Omitting arguments <em>without</em> a default value must always be specified on the function call. Omitting them will always result in a fatal error.
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>f(arg2=pi) # I always forget pi is a built in constant!!</pre>
+<pre class = 'prettyprint lang-r'>&gt; f(arg2=pi) # I always forget pi is a built in constant!!</pre>
 
 <pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre>
 
-<pre class = 'prettyprint lang-r'># Sorry for the formatting, errors don&#39;t line wrap</pre></div>
+<pre class = 'prettyprint lang-r'>&gt; # Sorry for the formatting, errors don&#39;t line wrap</pre></div>
 
 </article></slide><slide class=''><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
 
 <p>when you call a function without using argument name, the values you supply are matched with the functions arguments <strong>by position</strong> (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)</p>
 
-<pre class = 'prettyprint lang-r'>f(&quot;sir nose d&#39;voidoffunk&quot;, &quot;starchild&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; f(&quot;sir nose d&#39;voidoffunk&quot;, &quot;starchild&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is sir nose d&#39;voidoffunk and arg2 is starchild&quot;</pre>
 
 <p>But, when you pair the values with argument names, they may be specified in any order.</p>
 
-<pre class = 'prettyprint lang-r'>f(arg2 = &quot;sir nose d&#39;voidoffunk&quot;, arg1 = &quot;starchild&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; f(arg2 = &quot;sir nose d&#39;voidoffunk&quot;, arg1 = &quot;starchild&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is starchild and arg2 is sir nose d&#39;voidoffunk&quot;</pre>
 
@@ -177,7 +176,7 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>The function body should just contain normal R code! Easy!</p>
 
-<p>Here&#39;s a picture of <a href='https://www.youtube.com/watch?v=YNXkw96HC7k' title=''>Sir Nose D’Voidoffunk</a> to take up the slide. <img src='/images/sirNose.jpg' title=''/></p>
+<p>Here&#39;s a picture of <a href='https://www.youtube.com/watch?v=YNXkw96HC7k' title=''>Sir Nose D’Voidoffunk</a> to take up the slide. <img src='../images/sirNose.jpg' title=''/></p>
 
 <p>His nose is long because he&#39;s been fakin&#39; the funk.</p>
 
@@ -187,11 +186,11 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>Lets try assigning the output from our function to a variable:</p>
 
-<pre class = 'prettyprint lang-r'>report &lt;- f(-1.05)</pre>
+<pre class = 'prettyprint lang-r'>&gt; report &lt;- f(-1.05)</pre>
 
 <pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>report</pre>
+<pre class = 'prettyprint lang-r'>&gt; report</pre>
 
 <pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
 
@@ -211,11 +210,11 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>For these reasons, R has a reserved keyword <code>return</code> which halts a functions execution and returns the value specified to <code>return</code>.</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
-  x &lt;- paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2)
-  return(x)  # Same behavior, but more explicit
-}
-f(&quot;autumn leaves&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+... +    x &lt;- paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2)
+... +    return(x)  # Same behavior, but more explicit
+... +  }
+&gt; f(&quot;autumn leaves&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is autumn leaves and arg2 is not supplied!&quot;</pre>
 
@@ -233,15 +232,15 @@ f(&quot;autumn leaves&quot;)</pre>
 
 <p>For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
 
-<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
-  x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
-            sem = sd(x)/sqrt(length(x)))
-  return(x)
-}
-statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
-statList$sem</pre>
+<pre class = 'prettyprint lang-r'>&gt; summaryStats &lt;- function(x) {
+... +    x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
+... +              sem = sd(x)/sqrt(length(x)))
+... +    return(x)
+... +  }
+&gt; statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
+&gt; statList$sem</pre>
 
-<pre >## [1] 6.463863</pre>
+<pre >## [1] 5.795566</pre>
 
 </article></slide><slide class=''><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
 
@@ -257,7 +256,7 @@ statList$sem</pre>
 
 <p>A better solution is to have one .R file where you define a single function (or several of related functions), and use the <code>source</code> keyword to execute the file and define the function whenever you want use it.</p>
 
-<pre class = 'prettyprint lang-r'>source(&#39;/path/to/file/with/function/definitions.R&#39;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; source(&#39;/path/to/file/with/function/definitions.R&#39;)</pre>
 
 <p><code>source</code> executes any R expressions found in the specified file in the environment where <code>source</code> was called. For example, executing the expression <code>x &lt;- 10</code> in the console and writing <code>x &lt;- 10</code> in a separate file and sourcing that file have the same effect.</p>
 
@@ -283,15 +282,15 @@ statList$sem</pre>
 
 <p>We can use it together with an <code>if</code> statements to enforce our requirement that the input to <code>summaryStats</code> be numerals of some kind.</p>
 
-<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
-  if (is.numeric(x) || is.logical(x)) {
-    x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
-              sem = sd(x)/sqrt(length(x)))
-    return(x)
-  } else {
-    stop(&quot;Input to summaryStats must be a numeric or logical vector!&quot;)
-  }
-}</pre>
+<pre class = 'prettyprint lang-r'>&gt; summaryStats &lt;- function(x) {
+... +    if (is.numeric(x) || is.logical(x)) {
+... +      x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
+... +                sem = sd(x)/sqrt(length(x)))
+... +      return(x)
+... +    } else {
+... +      stop(&quot;Input to summaryStats must be a numeric or logical vector!&quot;)
+... +    }
+... +  }</pre>
 
 </article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-3">
 
@@ -299,15 +298,15 @@ statList$sem</pre>
 
 <p>First, a numeric vector which should be fine.</p>
 
-<pre class = 'prettyprint lang-r'>statList &lt;- summaryStats(runif(25,0,100))
-statList$mean # good!</pre>
+<pre class = 'prettyprint lang-r'>&gt; statList &lt;- summaryStats(runif(25,0,100))
+&gt; statList$mean # good!</pre>
 
-<pre >## [1] 50.56683</pre>
+<pre >## [1] 56.62911</pre>
 
 Now, a character vector which should fail.
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>statList &lt;- summaryStats(as.character(runif(25,0,100)))</pre>
+<pre class = 'prettyprint lang-r'>&gt; statList &lt;- summaryStats(as.character(runif(25,0,100)))</pre>
 
 <pre >## Error in summaryStats(as.character(runif(25, 0, 100))): Input to summaryStats must be a numeric or logical vector!</pre></div>
 
@@ -325,7 +324,7 @@ Now, a character vector which should fail.
 
 <p>When you want to interactively debug a function, provide the function object as an argument to the <code>debug</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>debug(summaryStats)</pre>
+<pre class = 'prettyprint lang-r'>&gt; debug(summaryStats)</pre>
 
 <p>This appears to have no effect, but it tells R that whenever <code>summaryStats</code> is called, to pause before the first line of the function body is executed, and open an interactive console inside the function&#39;s environment.</p>
 
@@ -335,7 +334,7 @@ Now, a character vector which should fail.
 
 </article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging" class="img-centered">
 
-<p><img src='/images/debugControls.png' title=''/> The navigation controls &amp; corresponding keyboard shortcuts are shown above, and explained below:</p>
+<p><img src='../images/debugControls.png' title=''/> The navigation controls &amp; corresponding keyboard shortcuts are shown above, and explained below:</p>
 
 <ol>
 <li>Executes the very next line of code in the function</li>
@@ -353,7 +352,7 @@ Now, a character vector which should fail.
 
 <p>When you decide that you want <code>summaryStats</code> to execute normally and no longer run under debugging mode, use the <code>undebug</code> function:</p>
 
-<pre class = 'prettyprint lang-r'>undebug(summaryStats)</pre>
+<pre class = 'prettyprint lang-r'>&gt; undebug(summaryStats)</pre>
 
 <p>Any subsequent calls to <code>summaryStats</code> will proceed as normal.</p>
 
@@ -367,7 +366,7 @@ Now, a character vector which should fail.
 
 <p>To set a breakpoint, use the mouse to click in the blank space between the line number of the expression you wish to pause execution prior to and the left edge of the editor pane.</p>
 
-<p>This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints. <img src='/images/setBreakpoint.png' title=''/></p>
+<p>This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints. <img src='../images/setBreakpoint.png' title=''/></p>
 
 <p>You can set as many breakpoints as you wish, but you need to source the file each time you add new ones to activate them.</p>
 
@@ -402,13 +401,13 @@ Now, a character vector which should fail.
 
 <p>Here is a more a concrete example of what your function should behave like. When you think you are done, test your function to make sure your function can reproduce the results.</p>
 
-<pre class = 'prettyprint lang-r'>v &lt;- c(2,4,10,33,2,8,19,3, 20, 3, 4, 45) # vector to search
-x &lt;- find(v, 2) # search for 2, reporting all positions where it is found
-all(v[x] == 2) # Indexing the vector with the results should produce all 2&#39;s</pre>
+<pre class = 'prettyprint lang-r'>&gt; v &lt;- c(2,4,10,33,2,8,19,3, 20, 3, 4, 45) # vector to search
+&gt; x &lt;- find(v, 2) # search for 2, reporting all positions where it is found
+&gt; all(v[x] == 2) # Indexing the vector with the results should produce all 2&#39;s</pre>
 
 <pre >## [1] TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>find(v, 2, 2) # Should produce 5 since the 5th element is the second 2</pre>
+<pre class = 'prettyprint lang-r'>&gt; find(v, 2, 2) # Should produce 5 since the 5th element is the second 2</pre>
 
 <pre >## [1] 5</pre></article></slide>
 

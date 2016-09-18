@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -78,7 +78,6 @@
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
   <link rel="stylesheet" href="../theme/css/cellHighlighting.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -91,7 +90,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -544,7 +543,7 @@ observation</span> made is represented physically by a row in the data frame.</p
 
 <p>A word of caution: don&#39;t confuse the <code>reshape2</code> package with the <code>reshape</code> function in base R - they are unrelated.</p>
 
-<p>Next, download and import the two datasets we will be practicing with: the <a href='/data/hare_lynx.csv' title=''>hare-lynx trapping data set</a> and the familiar <a href='/data/memorydata.csv' title=''>loci/image/rhyme memory experiment data</a>.</p>
+<p>Next, download and import the two datasets we will be practicing with: the <a href='../data/hare_lynx.csv' title=''>hare-lynx trapping data set</a> and the familiar <a href='../data/memorydata.csv' title=''>loci/image/rhyme memory experiment data</a>.</p>
 
 <pre class = 'prettyprint lang-r'>hares &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/hare_lynx.csv&quot;)
 memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.csv&quot;)</pre>
@@ -995,7 +994,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <ol>
 <li>Using <code>dcast</code>, reshape the data frame <code>hareMelted</code> to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.</li>
-<li>Download <a href='/data/JJ.csv' title=''>this dataset</a>, which measures the quarterly earnings per Johnson &amp; Johnson share from 1960 to 1980.</li>
+<li>Download <a href='../data/JJ.csv' title=''>this dataset</a>, which measures the quarterly earnings per Johnson &amp; Johnson share from 1960 to 1980.</li>
 </ol>
 
 <pre class = 'prettyprint lang-r'>JJ &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/JJ.csv&quot;)</pre>

@@ -44,19 +44,19 @@ Lets start by going to the help page for the mean. You can access it two easy wa
 1. Type `?mean` into the console
 2. Go to the 'Help' tab in the miscellaneous pane of Rstudio and in the search box type 'mean'. 
 
-![mean_page1_short](/images/mean_page1_short.png)
+![mean_page1_short](../images/mean_page1_short.png)
 <br>
 
 ## ?mean {.image-column .helppage}
 
-![mean_description](/images/mean_usage.png)
+![mean_description](../images/mean_usage.png)
 In the top left corner, you are shown the name of the help page you are on, as well as the package/namespace the function lives in.
 
 Under that is the title of the help page, and a basic description of what the functions listed on this page are used to accomplish
 
 ## ?mean: usage {.image-column .helppage}
 
-![mean_usage](/images/mean_usage.png)
+![mean_usage](../images/mean_usage.png)
 The usage section tells you:
 
   - The syntax for invoking the function
@@ -68,7 +68,7 @@ The usage section tells you:
 
 ## ?mean: Usage {.image-column .helppage}
 
-![mean_usage](/images/mean_usage.png)
+![mean_usage](../images/mean_usage.png)
 But the usage section is also cryptic!
  
   - What is x?
@@ -79,7 +79,7 @@ For clarification, we must go the the arguments sections.
 
 ## ?mean: Arguments {.image-column .helppage}
 
-![mean_arguments](/images/mean_arguments.png)
+![mean_arguments](../images/mean_arguments.png)
 The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.
 
 It also tell us what particular behavior that specific argument controls.
@@ -129,7 +129,7 @@ So, when you call `mean(x=data)` (or `mean(data)`), the values you had stored in
 - The only way for objects in **your** environment to get into the function environment, where the cool calculations take place, is through the function interface.
 
 ## Scoping
-![scoping](/images/scoping.svg)<br>
+![scoping](../images/scoping.svg)<br>
 
 ## Scoping
 ```{r scoping_demo}
@@ -153,7 +153,7 @@ mean()
 
 ## ?mean: Value {.image-column .helppage}
 
-![mean_value](/images/mean_value.png)
+![mean_value](../images/mean_value.png)
 The value section tells you about what the function returns to you when it finishes its calculations.
 
   - The type of data structure (e.g. list, matrix, etc.)
@@ -163,7 +163,7 @@ The return value often differs depending on what arguments were used
 
 ## ?mean: Examples {.image-column .helppage}
 
-![mean_examples](/images/mean_examples.png)
+![mean_examples](../images/mean_examples.png)
 Help pages generally end with a section showing toy examples of using the function.
 
 These examples can demonstrate common use cases for the function.
@@ -175,10 +175,10 @@ Lets take a look at the help page for the `var()` function now.
 
 The first thing you might notice is that the information about the `var()` function is on the help page for the `cor()` function!
 
-![var_page](/images/var_top.png)<br>
+![var_page](../images/var_top.png)<br>
 
 ## ?var {.image-column .helppage}
-![var_arguments](/images/var_arguments.png)
+![var_arguments](../images/var_arguments.png)
 While there are 4 different functions defined here, they all have similar syntax
 
 In fact, looking at the `Arugments` section we see that between the 4 functions there are only 6 unique arguments between all 4 of these functions!
@@ -190,21 +190,21 @@ Your activity is to simulate dealing a hand of 5 playing cards from a standard d
 
 The cards have face values of 2 through 10, as well as the Ace, King, Queen, and Jack. Each of those cards comes in all 4 suites (Clubs, Diamonds, Hearts and Spades).
 
-![cards](/images/cards.png)<br>
+![cards](../images/cards.png)<br>
 
 ## Creating the deck {.img-centered}
 1. Use the `rep()` function to help you figure out how to create a vector representing all the face values in the deck. Abbreviate Ace as "A", King as "K", etc. 
     - Hint: The face value vector should have as many "Kings" as the real deck (4)
     - Hint: Have the order of the face values match the order in the image
     
-![cards](/images/cards.png)<br>
+![cards](../images/cards.png)<br>
 
 ## Creating the deck {.img-centered}
 2. Use `rep()` again to  create a vector representing all the suite in the deck. Abbreviate Hearts as "H", Clubs as "C", etc. 
     - Hint: The suites vector should have as many "Hearts" as the real deck (13)
     - Hint: Have the order of the suites values match the order in the image
     
-![cards](/images/cards.png)<br>
+![cards](../images/cards.png)<br>
 
 ## Creating the deck
 3. Use the help page for the `paste()` function to figure out how to combine these 2 vectors into a single vector that defines each unique combination of face value and suite

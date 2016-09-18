@@ -321,7 +321,7 @@ Use the `airquality` data frame and do the following:
 
 ## Linear Indexing {.img-centered}
 Matrices can  also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the 'linear indices'. 
-![linear_index](/images/linear_index.gif)
+![linear_index](../images/linear_index.gif)
 
 The linear indices start at row 1 of column 1, and travel down the rows of column 1, then continue on in row 1 of column 2, then travel down the rows of column 2, etc...
 

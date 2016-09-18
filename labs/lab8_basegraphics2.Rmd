@@ -326,7 +326,7 @@ To fix this, we often want to change the:
 - The graphical parameter `mar` controls the inner margins, shown as the distance between the green and blue boxes below
 - The  graphical parameter `oma` controls the outer margins, shown as the distance between the blue and red boxes below (default distance is 0)
 
-![](/images/margins.png)<br>
+![](../images/margins.png)<br>
 
 ## mar and oma {.helppage}
 You change these distances with the `par` function, passing in a 4-element vector. The 4 elements of the vector correspond to the distances along the bottom, left, top, and right sides, respectively.

@@ -37,7 +37,7 @@ Wait, plot only takes 2 arguments???
 
 But look, theres that `...`
 
-![plothelp](/images/plot.png)<br>
+![plothelp](../images/plot.png)<br>
 
 ## Global Graphical Parameters
 Deep down, inside ~~the depths of the earth~~ the **graphics** namespace, R maintains default settings that govern the appearance of every figure you generate.
@@ -56,7 +56,7 @@ The second paragraph of the description gives a clue as to where we can find out
 
 If we navigate to the `plot.default` help page, we see this:
 
-![plotdefault](/images/plotdefault.png)<br>
+![plotdefault](../images/plotdefault.png)<br>
 
 ## Plot-Specific Parameters {.img-centered}
 - Start by changing the 3 things you always change:

@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -119,9 +118,9 @@
 
 <p>To illustrate how flexible functions are, let&#39;s write a new function which has two inputs: a numeric vector, and a function that will operate on that numeric vector. We&#39;ll assign this function to the name <code>f</code>.</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(x, fun) {
-  fun(x) 
-}</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(x, fun) {
+... +    fun(x) 
+... +  }</pre>
 
 <p>Yes, this is a function that takes a function as input!</p>
 
@@ -131,13 +130,13 @@
 
 <p>Note that we supply only the <strong>name</strong> of the <code>mean</code> function only, without any parenthesis following it.</p>
 
-<pre class = 'prettyprint lang-r'>f &lt;- function(x, fun) {
-  fun(x)
-}
-a &lt;- rbinom(10, 50, .35) # How many &quot;heads&quot; occur in 50 &quot;flips&quot;, 10 times.
-x &lt;- f(x = a, fun = mean) # mean, not mean()!
-y &lt;- mean(a)
-identical(x, y)</pre>
+<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(x, fun) {
+... +    fun(x)
+... +  }
+&gt; a &lt;- rbinom(10, 50, .35) # How many &quot;heads&quot; occur in 50 &quot;flips&quot;, 10 times.
+&gt; x &lt;- f(x = a, fun = mean) # mean, not mean()!
+&gt; y &lt;- mean(a)
+&gt; identical(x, y)</pre>
 
 <pre >## [1] TRUE</pre>
 
@@ -165,10 +164,10 @@ identical(x, y)</pre>
 
 <p>For example, needing to have factor variables instead of numeric or character variables before using <code>aov</code> to perform an ANOVA often leads to the following style of code:</p>
 
-<pre class = 'prettyprint lang-r'>data$Var1 &lt;- as.factor(data$Var1)
-data$Var2 &lt;- as.factor(data$Var2)
-data$Var3 &lt;- as.factor(data$Var3)
-data$Var4 &lt;- as.factor(data$Var4)</pre>
+<pre class = 'prettyprint lang-r'>&gt; data$Var1 &lt;- as.factor(data$Var1)
+&gt; data$Var2 &lt;- as.factor(data$Var2)
+&gt; data$Var3 &lt;- as.factor(data$Var3)
+&gt; data$Var4 &lt;- as.factor(data$Var4)</pre>
 
 <p>Code like this is &quot;brittle&quot;, in that it is repetitive and error prone (likely from copy-pasta).</p>
 
@@ -259,7 +258,7 @@ data$Var4 &lt;- as.factor(data$Var4)</pre>
 
 <p>Here, we supply a two-element numeric vector as the input data structure <code>X</code>, and apply the <code>seq</code> function to each of its elements.</p>
 
-<pre class = 'prettyprint lang-r'>lapply(c(8, 6), seq)</pre>
+<pre class = 'prettyprint lang-r'>&gt; lapply(c(8, 6), seq)</pre>
 
 <pre >## [[1]]
 ## [1] 1 2 3 4 5 6 7 8
@@ -273,9 +272,9 @@ data$Var4 &lt;- as.factor(data$Var4)</pre>
 
 <p>In other words, it calls <code>seq(8)</code> and <code>seq(6)</code> and assembles the results of each function call as a list.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- lapply(c(8, 6), seq)
-y &lt;- list(seq(8), seq(6))
-identical(x,y)</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- lapply(c(8, 6), seq)
+&gt; y &lt;- list(seq(8), seq(6))
+&gt; identical(x,y)</pre>
 
 <pre >## [1] TRUE</pre>
 
@@ -297,16 +296,16 @@ identical(x,y)</pre>
 
 <p>I find them to be more semantic than for loops: to me, <code>lapply(c(8, 6), seq)</code> more clearly conveys the intent to use the <code>seq</code> function on each element of the input than the code below.</p>
 
-<pre class = 'prettyprint lang-r'>for (x in c(8,6)) {
-  seq(x)
-}</pre>
+<pre class = 'prettyprint lang-r'>&gt; for (x in c(8,6)) {
+... +    seq(x)
+... +  }</pre>
 
 <p>Or even worse, you often see the following.</p>
 
-<pre class = 'prettyprint lang-r'>v &lt;- c(8,6)
-for (x in 1:length(v)) {
-  seq(v[1])
-}</pre>
+<pre class = 'prettyprint lang-r'>&gt; v &lt;- c(8,6)
+&gt; for (x in 1:length(v)) {
+... +    seq(v[1])
+... +  }</pre>
 
 <p>Shudder.</p>
 
@@ -337,7 +336,7 @@ for (x in 1:length(v)) {
 
 <p>To demonstrate, we&#39;ll include an argument named <code>to</code> in our call to <code>lapply(c(8,6), seq)</code>. The value of the <code>to</code> argument will be passed to <code>seq</code> and change the final value of the sequence.</p>
 
-<pre class = 'prettyprint lang-r'>lapply(c(8,6), seq, to = 15) # from 8 to 15, and from 6 to 15</pre>
+<pre class = 'prettyprint lang-r'>&gt; lapply(c(8,6), seq, to = 15) # from 8 to 15, and from 6 to 15</pre>
 
 <pre >## [[1]]
 ## [1]  8  9 10 11 12 13 14 15
@@ -351,7 +350,7 @@ for (x in 1:length(v)) {
 
 <p>This forces the elements of our input vector to be used as the values for the <code>to</code> argument to <code>seq</code> , instead of as the values for <code>from</code>.</p>
 
-<pre class = 'prettyprint lang-r'>lapply(c(8,6), seq, from = 15) # from 15 to 8, and from 15 to 6</pre>
+<pre class = 'prettyprint lang-r'>&gt; lapply(c(8,6), seq, from = 15) # from 15 to 8, and from 15 to 6</pre>
 
 <pre >## [[1]]
 ## [1] 15 14 13 12 11 10  9  8
@@ -367,7 +366,7 @@ for (x in 1:length(v)) {
 
 <p>Here we&#39;ll use an anonymous function to get the same results as <code>lapply(c(8,6), seq, from = 15)</code>.</p>
 
-<pre class = 'prettyprint lang-r'>lapply(c(8,6), function(x) seq(from = 15, to = x)) # 6 and 8 become &quot;x&quot;</pre>
+<pre class = 'prettyprint lang-r'>&gt; lapply(c(8,6), function(x) seq(from = 15, to = x)) # 6 and 8 become &quot;x&quot;</pre>
 
 <pre >## [[1]]
 ## [1] 15 14 13 12 11 10  9  8
@@ -383,7 +382,7 @@ for (x in 1:length(v)) {
 
 <p>To see how, lets start by reading in the <code>marathon</code> dataset.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/marathon.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/marathon.csv&quot;)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Practical lapply</h2></hgroup><article  id="practical-lapply-1">
 
@@ -391,8 +390,8 @@ for (x in 1:length(v)) {
 
 <p>We can convert the 8 ID variables by l-applying <code>factor</code> to each column (because the columns are the &quot;elements&quot; of a data frame), and overwriting those columns in the <code>marathon</code> data frame with the resulting list (which works because a data frame is secretly a list!).</p>
 
-<pre class = 'prettyprint lang-r'>marathon[,4:11] &lt;- lapply(marathon[,4:11], factor) # &quot;factor&quot; columns 4:11
-class(marathon[,6]) # Lets check on one</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon[,4:11] &lt;- lapply(marathon[,4:11], factor) # &quot;factor&quot; columns 4:11
+&gt; class(marathon[,6]) # Lets check on one</pre>
 
 <pre >## [1] &quot;factor&quot;</pre>
 
@@ -408,8 +407,8 @@ class(marathon[,6]) # Lets check on one</pre>
 
 <p>To see this simplification in action, contrast the following examples. We can find out what the unique values in the &quot;city&quot;, &quot;state&quot;, and &quot;country&quot; variables are, by using <code>sapply</code> to call the <code>unique</code> function on each of those columns.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- sapply(marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)], unique)
-str(x) # not printing it because it&#39;s too big for a slide</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- sapply(marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)], unique)
+&gt; str(x) # not printing it because it&#39;s too big for a slide</pre>
 
 <pre >## List of 3
 ##  $ city   : Factor w/ 1259 levels &quot;Aberdeen&quot;,&quot;Abingdon&quot;,..: 1027 743 48 375 1172 705 1073 437 1071 30 ...
@@ -422,9 +421,9 @@ str(x) # not printing it because it&#39;s too big for a slide</pre>
 
 <p>If all we were interesting in was finding out <em>how many</em> unique values there were in each variable, we could do the following:</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- sapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
-            FUN = function(x) length(unique(x)))
-x</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- sapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
+... +              FUN = function(x) length(unique(x)))
+&gt; x</pre>
 
 <pre >##    city   state country 
 ##    1259      51      13</pre>
@@ -447,10 +446,10 @@ x</pre>
 
 <p>The <code>numeric(1)</code> expression is our template, and <code>vapply</code> checks to make sure each result is a numeric of length 1.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- vapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
-            FUN = function(x) length(unique(x)),
-            FUN.VALUE = numeric(1))
-print(x)</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- vapply(X = marathon[,c(&quot;city&quot;,&quot;state&quot;,&quot;country&quot;)],
+... +              FUN = function(x) length(unique(x)),
+... +              FUN.VALUE = numeric(1))
+&gt; print(x)</pre>
 
 <pre >##    city   state country 
 ##    1259      51      13</pre>
@@ -462,9 +461,9 @@ print(x)</pre>
 <p>Here, our data structure is a list of vectors with 2 elements each, and our template specifies that the given function must return a numeric of length 1. Because our given function just returns its input (the vectors with 2 elements), this call will fail.</p>
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>x &lt;- vapply(X = list(c(10, 25), c(3, 11)),
-            FUN = function(x) return(x), # just returns its input!
-            FUN.VALUE = numeric(1))</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- vapply(X = list(c(10, 25), c(3, 11)),
+... +              FUN = function(x) return(x), # just returns its input!
+... +              FUN.VALUE = numeric(1))</pre>
 
 <pre >## Error in vapply(X = list(c(10, 25), c(3, 11)), FUN = function(x) return(x), : values must be length 1,
 ##  but FUN(X[[1]]) result is length 2</pre></div>
@@ -489,37 +488,37 @@ print(x)</pre>
 
 <p>For example, we could use <code>apply</code> to find the standard error of the mean for each column in a numeric matrix.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- matrix(rnorm(15), nrow = 5, dimnames = list(NULL, c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;)))
-apply(x, MARGIN = 2, FUN = function(x) sd(x)/sqrt(length(x)))</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- matrix(rnorm(15), nrow = 5, dimnames = list(NULL, c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;)))
+&gt; apply(x, MARGIN = 2, FUN = function(x) sd(x)/sqrt(length(x)))</pre>
 
 <pre >##         A         B         C 
-## 0.7556598 0.5334545 0.4726037</pre>
+## 0.2378413 0.3802819 0.2213130</pre>
 
 </article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function-1">
 
 <p>Or, we could use it to sort each column of the matrix from smallest to largest value.</p>
 
-<pre class = 'prettyprint lang-r'>sorted_x &lt;- apply(x, MARGIN = 2, FUN = sort)
-sorted_x</pre>
+<pre class = 'prettyprint lang-r'>&gt; sorted_x &lt;- apply(x, MARGIN = 2, FUN = sort)
+&gt; sorted_x</pre>
 
-<pre >##               A          B           C
-## [1,] -1.7687403 -1.3541292 -1.17055799
-## [2,] -1.3416417 -0.5100518 -0.55310462
-## [3,] -1.1725133  0.8217545 -0.23986711
-## [4,] -0.6033956  1.2300164 -0.07727019
-## [5,]  2.4393826  1.3783585  1.66024438</pre>
+<pre >##                A           B          C
+## [1,] -0.62304460 -1.32614607 -0.4483385
+## [2,] -0.53353357 -0.08076247 -0.3941615
+## [3,] -0.07273421  0.17792218 -0.3806570
+## [4,]  0.08111105  0.22831148  0.2055037
+## [5,]  0.69799370  1.02147194  0.6776484</pre>
 
 </article></slide><slide class=''><hgroup><h2>apply: The &quot;Apply to Array Dimension&quot; function</h2></hgroup><article  id="apply-the-apply-to-array-dimension-function-2">
 
 <p>However, when you apply a function to the rows of a matrix, <code>apply</code> transposes the resulting matrix.</p>
 
-<pre class = 'prettyprint lang-r'>sorted_x &lt;- apply(x, MARGIN = 1, FUN = sort)
-sorted_x</pre>
+<pre class = 'prettyprint lang-r'>&gt; sorted_x &lt;- apply(x, MARGIN = 1, FUN = sort)
+&gt; sorted_x</pre>
 
-<pre >##            [,1]      [,2]       [,3]       [,4]        [,5]
-## [1,] -1.3541292 -1.341642 -1.1725133 -1.7687403 -0.07727019
-## [2,] -1.1705580  1.230016 -0.5100518 -0.5531046  1.37835852
-## [3,] -0.6033956  1.660244 -0.2398671  0.8217545  2.43938258</pre>
+<pre >##            [,1]       [,2]        [,3]        [,4]       [,5]
+## [1,] 0.08111105 -0.6230446 -0.53353357 -1.32614607 -0.4483385
+## [2,] 0.17792218 -0.3941615 -0.38065703 -0.07273421  0.6979937
+## [3,] 0.67764838  0.2283115 -0.08076247  0.20550365  1.0214719</pre>
 
 <p>Though we started out with a 5 by 3 matrix, we end up with a 3 by 5 matrix after applying <code>sort</code> to each row!</p>
 
@@ -527,21 +526,21 @@ sorted_x</pre>
 
 <p>Since this is probably not what you want, you&#39;ll have to transpose the output of <code>apply</code> when you treat the rows as the &quot;elements&quot;.</p>
 
-<pre class = 'prettyprint lang-r'>t(sorted_x)</pre>
+<pre class = 'prettyprint lang-r'>&gt; t(sorted_x)</pre>
 
-<pre >##             [,1]       [,2]       [,3]
-## [1,] -1.35412925 -1.1705580 -0.6033956
-## [2,] -1.34164167  1.2300164  1.6602444
-## [3,] -1.17251331 -0.5100518 -0.2398671
-## [4,] -1.76874032 -0.5531046  0.8217545
-## [5,] -0.07727019  1.3783585  2.4393826</pre>
+<pre >##             [,1]        [,2]        [,3]
+## [1,]  0.08111105  0.17792218  0.67764838
+## [2,] -0.62304460 -0.39416155  0.22831148
+## [3,] -0.53353357 -0.38065703 -0.08076247
+## [4,] -1.32614607 -0.07273421  0.20550365
+## [5,] -0.44833851  0.69799370  1.02147194</pre>
 
 </article></slide><slide class=''><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <p><code>lapply</code> applies the given function to each element in a data structure, and returns a list.</p>
 
-<pre class = 'prettyprint lang-r'>data &lt;- list(A = c(5,1,10), B = c(11,8,3))
-lapply(X = data, FUN = mean)</pre>
+<pre class = 'prettyprint lang-r'>&gt; data &lt;- list(A = c(5,1,10), B = c(11,8,3))
+&gt; lapply(X = data, FUN = mean)</pre>
 
 <pre >## $A
 ## [1] 5.333333
@@ -551,7 +550,7 @@ lapply(X = data, FUN = mean)</pre>
 
 <p><code>sapply</code> applies the given function to each element in a data structure, and returns the simplest possible data structure.</p>
 
-<pre class = 'prettyprint lang-r'>sapply(X = data, FUN = mean) # same input, but vector output</pre>
+<pre class = 'prettyprint lang-r'>&gt; sapply(X = data, FUN = mean) # same input, but vector output</pre>
 
 <pre >##        A        B 
 ## 5.333333 7.333333</pre>
@@ -560,16 +559,16 @@ lapply(X = data, FUN = mean)</pre>
 
 <p><code>vapply</code> applies the given function to each element in a data structure, and returns the simplest possible data structure. Additionally, each individual result must match a given output template.</p>
 
-<pre class = 'prettyprint lang-r'>data &lt;- list(A = c(5,1,10), B = c(11,8,3))
-vapply(X = data, FUN = mean, FUN.VALUE = numeric(1))</pre>
+<pre class = 'prettyprint lang-r'>&gt; data &lt;- list(A = c(5,1,10), B = c(11,8,3))
+&gt; vapply(X = data, FUN = mean, FUN.VALUE = numeric(1))</pre>
 
 <pre >##        A        B 
 ## 5.333333 7.333333</pre>
 
 <p><code>apply</code> applies the given function along a specific dimension (e.g., rows or columns) of a matrix, array, or data frame, and returns the simplest possible data structure.</p>
 
-<pre class = 'prettyprint lang-r'>data &lt;- matrix(c(5,1,10,11,8,3), ncol = 2)
-apply(data, MARGIN = 2, FUN = mean)</pre>
+<pre class = 'prettyprint lang-r'>&gt; data &lt;- matrix(c(5,1,10,11,8,3), ncol = 2)
+&gt; apply(data, MARGIN = 2, FUN = mean)</pre>
 
 <pre >## [1] 5.333333 7.333333</pre>
 
@@ -581,12 +580,12 @@ apply(data, MARGIN = 2, FUN = mean)</pre>
 <li>Execute the following expressions, which will write several .csv&#39;s to a temp folder.</li>
 </ol>
 
-<pre class = 'prettyprint lang-r'>tmp &lt;- tempdir()
-sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
-                file = file.path(tmp, paste0(&quot;FakeSubject&quot;, x, &quot;.csv&quot;)),
-                row.names = FALSE))
-filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
-                        full.names = TRUE)</pre>
+<pre class = 'prettyprint lang-r'>&gt; tmp &lt;- tempdir()
+&gt; sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
+... +                  file = file.path(tmp, paste0(&quot;FakeSubject&quot;, x, &quot;.csv&quot;)),
+... +                  row.names = FALSE))
+&gt; filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
+... +                          full.names = TRUE)</pre>
 
 <p>Given the vector <code>filenames</code>, read each csv into R and take the mean of each variable <code>A</code> and <code>B</code> using only <code>read.csv</code>, <code>*apply</code> functions, and any anonymous functions you write.</p>
 
@@ -598,22 +597,22 @@ filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quo
 
 <p>Well, lets run the following code and describe what happens:</p>
 
-<pre class = 'prettyprint lang-r'>1</pre>
+<pre class = 'prettyprint lang-r'>&gt; 1</pre>
 
 <pre >## [1] 1</pre>
 
-<pre class = 'prettyprint lang-r'>x &lt;- 1
-x + 1</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- 1
+&gt; x + 1</pre>
 
 <pre >## [1] 2</pre>
 
-<pre class = 'prettyprint lang-r'>x + 1</pre>
+<pre class = 'prettyprint lang-r'>&gt; x + 1</pre>
 
 <pre >## [1] 2</pre>
 
 </article></slide><slide class=''><hgroup><h2>No Side Effects</h2></hgroup><article  id="no-side-effects">
 
-<pre class = 'prettyprint lang-r'>1</pre>
+<pre class = 'prettyprint lang-r'>&gt; 1</pre>
 
 <pre >## [1] 1</pre>
 
@@ -623,12 +622,12 @@ x + 1</pre>
 
 </article></slide><slide class=''><hgroup><h2>No Side Effects</h2></hgroup><article  id="no-side-effects-1">
 
-<pre class = 'prettyprint lang-r'>x &lt;- 1
-x + 1</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- 1
+&gt; x + 1</pre>
 
 <pre >## [1] 2</pre>
 
-<pre class = 'prettyprint lang-r'>x + 1</pre>
+<pre class = 'prettyprint lang-r'>&gt; x + 1</pre>
 
 <pre >## [1] 2</pre>
 

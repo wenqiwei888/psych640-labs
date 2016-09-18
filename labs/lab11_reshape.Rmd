@@ -137,7 +137,7 @@ Let get into reshaping some data with using the `reshape2` package. Install that
 
 A word of caution: don't confuse the `reshape2` package with the `reshape` function in base R - they are unrelated.
 
-Next, download and import the two datasets we will be practicing with: the [hare-lynx trapping data set](/data/hare_lynx.csv) and the familiar [loci/image/rhyme memory experiment data](/data/memorydata.csv).
+Next, download and import the two datasets we will be practicing with: the [hare-lynx trapping data set](../data/hare_lynx.csv) and the familiar [loci/image/rhyme memory experiment data](../data/memorydata.csv).
 
 ```{r importdata,echo=TRUE,eval = FALSE}
 hares <- read.csv("http://wjhopper.github.io/psych640/data/hare_lynx.csv")
@@ -290,7 +290,7 @@ Usually your measure  variable *should* be the last column, but if you have mult
 
 ## Activities
 1. Using `dcast`, reshape the data frame `hareMelted` to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.
-2. Download [this dataset](/data/JJ.csv), which measures the quarterly earnings per Johnson & Johnson share from 1960 to 1980.
+2. Download [this dataset](../data/JJ.csv), which measures the quarterly earnings per Johnson & Johnson share from 1960 to 1980.
 ```{r getJJ,eval=FALSE}
 JJ <- read.csv("http://wjhopper.github.io/psych640/data/JJ.csv")
 ```

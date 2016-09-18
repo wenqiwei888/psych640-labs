@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -277,7 +276,7 @@ ggplot(data = Orange,
 <pre class = 'prettyprint lang-r'>ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/frist_two-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/frist_two-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 <p>Where&#39;s the <del>beef</del> data? Our plot is blank because we didn&#39;t add any geometric objects to represent the data!</p>
 
@@ -303,7 +302,7 @@ ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree)) + 
   geom_point()</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/points-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/points-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Scales are free!</h2></hgroup><article  id="scales-are-free">
 
@@ -313,7 +312,7 @@ ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree)) + 
   geom_point()</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/unnamed-chunk-1-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>ggplots are first-class</h2></hgroup><article  id="ggplots-are-first-class">
 
@@ -323,7 +322,7 @@ ggplot(data = Orange,
                mapping = aes(x = age, y = circumference, color = Tree))
 plot_obj + geom_point() # now we see our plot</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/firstclass-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/firstclass-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Changing geoms</h2></hgroup><article  id="changing-geoms">
 
@@ -334,7 +333,7 @@ plot_obj + geom_point() # now we see our plot</pre>
   geom_point() + 
   geom_line()</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/lines-1.png" width="385px" height="385px" style="display: block; margin: auto;" /> Notice how the color scale automatically shows both lines and points now!</p>
+<p><img src="lab17_ggplot_files/figure-html/lines-1.png" width="576" style="display: block; margin: auto;" /> Notice how the color scale automatically shows both lines and points now!</p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale">
 
@@ -359,7 +358,7 @@ plot_obj + geom_point() # now we see our plot</pre>
                      color = factor(Tree, levels = 1:5))) + 
   geom_point() +  geom_line()</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/unordered-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/unordered-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-2">
 
@@ -378,7 +377,7 @@ plot_obj + geom_point() # now we see our plot</pre>
   geom_point() +geom_line() + 
   scale_color_discrete(limits = as.character(1:5))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/unordered_easy-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/unordered_easy-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-4">
 
@@ -389,7 +388,7 @@ plot_obj + geom_point() # now we see our plot</pre>
   geom_point() +geom_line() + 
   scale_color_discrete(limits = as.character(2:3))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/unordered_subset-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/unordered_subset-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors">
 
@@ -402,7 +401,7 @@ plot_obj + geom_point() # now we see our plot</pre>
                                 &quot;darkgreen&quot;, &quot;deeppink&quot;),
                      limits = as.character(1:5))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/manual-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/manual-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-1">
 
@@ -410,7 +409,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <pre class = 'prettyprint lang-r'>RColorBrewer::display.brewer.all()</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/palletes-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/palletes-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-2">
 
@@ -421,13 +420,13 @@ plot_obj + geom_point() # now we see our plot</pre>
   geom_point() + geom_line() + 
   scale_color_brewer(palette = &quot;Set1&quot;, limits = as.character(1:5))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/set1-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/set1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-3" class="img-centered">
 
 <p>There are many custom-made pallets to choose from, if you&#39;re willing to go looking for them. For example, one of my favorite sets of palletes are the <a href='https://github.com/karthik/wesanderson' title=''>Wes Anderson Color Palletes</a>, which I encourage you to check out.</p>
 
-<p><img src='/images/rushmore.jpg' title=''/><br/></p>
+<p><img src='../images/rushmore.jpg' title=''/><br/></p>
 
 </article></slide><slide class=''><hgroup><h2>Setting an aesthetic</h2></hgroup><article  id="setting-an-aesthetic">
 
@@ -440,7 +439,7 @@ plot_obj + geom_point() # now we see our plot</pre>
   geom_point() + geom_line(linetype = &quot;longdash&quot;) + 
   scale_color_brewer(palette = &quot;Set1&quot;, limits = as.character(1:5))</pre>
 
-<p><img src="lab17_ggplot_files/figure-html/unnamed-chunk-2-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab17_ggplot_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 

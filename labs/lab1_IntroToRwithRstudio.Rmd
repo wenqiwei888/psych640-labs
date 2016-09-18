@@ -26,7 +26,7 @@ knitr::opts_chunk$set(prompt=TRUE, cache = TRUE)
 
 ## The Rstudio IDE*
 
-![Rstudio IDE layout](/images/rstudio.png)
+![Rstudio IDE layout](../images/rstudio.png)
 *Integrated Development Environment
 
 ## 1: The Console

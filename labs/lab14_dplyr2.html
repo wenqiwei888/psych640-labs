@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -112,9 +111,9 @@
 
 <p>Before we start, load <code>dplyr</code> and download the data. The <code>marathon</code> dataset holds the results of the 2009 <a href='http://www.cherryblossom.org/' title=''>Credit Union Cherry Blossom Ten Mile Run</a>.</p>
 
-<pre class = 'prettyprint lang-r'>library(dplyr)
-marathon &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/marathon.csv&quot;)
-str(marathon)</pre>
+<pre class = 'prettyprint lang-r'>&gt; library(dplyr)
+&gt; marathon &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/marathon.csv&quot;)
+&gt; str(marathon)</pre>
 
 <pre >## &#39;data.frame&#39;:    14969 obs. of  11 variables:
 ##  $ place  : int  4554 3757 7625 7822 4355 2350 1404 672 5900 7483 ...
@@ -143,9 +142,9 @@ str(marathon)</pre>
 
 <p>One way to make the results from each task feed into the next is to make a new variable after we finish each task, and use that variable as the input to the next function</p>
 
-<pre class = 'prettyprint lang-r'>marathon1 &lt;- select(marathon, age:div, place:netTime)
-marathon2 &lt;- mutate(marathon1, waitTime = time - netTime)
-marathon_sorted &lt;- arrange(marathon2, place)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon1 &lt;- select(marathon, age:div, place:netTime)
+&gt; marathon2 &lt;- mutate(marathon1, waitTime = time - netTime)
+&gt; marathon_sorted &lt;- arrange(marathon2, place)</pre>
 
 <p>One drawback to this approach is that it promotes using uninformative variable names, like <code>marathon1</code>, because there aren&#39;t good single words to describe what has changed and most results are just intermediate, &quot;one-off&quot; data frames.</p>
 
@@ -155,9 +154,9 @@ marathon_sorted &lt;- arrange(marathon2, place)</pre>
 
 <p>An alternative style is to re-assign the variable after each step: If you use <code>marathon</code> as the input to a function, overwrite the <code>marathon</code> variable with the output of that function.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- select(marathon, age:div, place:netTime)
-marathon &lt;- mutate(marathon, waitTime = time - netTime)
-marathon &lt;- arrange(marathon, place)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- select(marathon, age:div, place:netTime)
+&gt; marathon &lt;- mutate(marathon, waitTime = time - netTime)
+&gt; marathon &lt;- arrange(marathon, place)</pre>
 
 <p>This is better, but it also makes your script fragile because the lines become too tightly coupled.</p>
 
@@ -169,9 +168,9 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>The intrepid coder who realizes the perils of constant object creation and overwriting variables may attempt to have it all. They want a single variable, assigned a single time, and they will get it by writing a single line of code!</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- arrange(mutate(select(marathon, age:div, place:netTime),
-                           waitTime = time - netTime),
-                    place)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- arrange(mutate(select(marathon, age:div, place:netTime),
+... +                             waitTime = time - netTime),
+... +                      place)</pre>
 
 <p>However the &quot;one variable, assigned once&quot; goal is achieved by sacrificing the readability of the function code.</p>
 
@@ -185,11 +184,11 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>The pipe operator is written <code>%&gt;%</code>, and is loaded when <code>dplyr</code> is loaded. To get a feel for how it works, try these simple examples.</p>
 
-<pre class = 'prettyprint lang-r'>5 %&gt;% sqrt() # Same as sqrt(5)</pre>
+<pre class = 'prettyprint lang-r'>&gt; 5 %&gt;% sqrt() # Same as sqrt(5)</pre>
 
 <pre >## [1] 2.236068</pre>
 
-<pre class = 'prettyprint lang-r'>c(10,8,22) %&gt;% mean() # Same as mean(c(10,8,22))</pre>
+<pre class = 'prettyprint lang-r'>&gt; c(10,8,22) %&gt;% mean() # Same as mean(c(10,8,22))</pre>
 
 <pre >## [1] 13.33333</pre>
 
@@ -197,7 +196,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>The output of the left-hand side function always becomes the value of the <strong>first unnamed argument</strong> to the right-hand side function. Let&#39;s look at this by changing the data from the <code>mean</code> example to include an <code>NA</code>. The <code>mean</code> function has 3 arguments: <code>x</code> (data), <code>trim</code> (percent to remove) and <code>na.rm</code> (include or remove missings).</p>
 
-<pre class = 'prettyprint lang-r'>c(10,NA,22) %&gt;% mean(na.rm = TRUE) </pre>
+<pre class = 'prettyprint lang-r'>&gt; c(10,NA,22) %&gt;% mean(na.rm = TRUE) </pre>
 
 <pre >## [1] 16</pre>
 
@@ -211,13 +210,13 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>Here <code>TRUE</code> gets piped to the <code>na.rm</code> argument because <code>x</code> and <code>trim</code> are supplied by name.</p>
 
-<pre class = 'prettyprint lang-r'>TRUE %&gt;% mean(x=c(10,NA,22), trim=0)</pre>
+<pre class = 'prettyprint lang-r'>&gt; TRUE %&gt;% mean(x=c(10,NA,22), trim=0)</pre>
 
 <pre >## [1] 16</pre>
 
 <p>Here, <code>TRUE</code> gets piped to the <code>x</code> argument, since the numeric vector is not <em>named</em>. The piped value takes precedence, and the numeric vector gets used as the <code>na.rm</code> argument.</p>
 
-<pre class = 'prettyprint lang-r'>TRUE %&gt;% mean(c(10,NA,22), trim=0)</pre>
+<pre class = 'prettyprint lang-r'>&gt; TRUE %&gt;% mean(c(10,NA,22), trim=0)</pre>
 
 <pre >## [1] 1</pre>
 
@@ -225,17 +224,17 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>If you want to use the piped-in data as the value for several arguments, or reference it explicitly for clarities sake, you can use <code>.</code> inside the function call.</p>
 
-<pre class = 'prettyprint lang-r'># cov (covariance) requires two args, x and y
-c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
+<pre class = 'prettyprint lang-r'>&gt; # cov (covariance) requires two args, x and y
+&gt; c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
 
 <pre >## [1] 110.25</pre>
 
-<pre class = 'prettyprint lang-r'>c(19,38,14,20) %&gt;% cov(c(100,184,112,75), .) # piped data becomes y</pre>
+<pre class = 'prettyprint lang-r'>&gt; c(19,38,14,20) %&gt;% cov(c(100,184,112,75), .) # piped data becomes y</pre>
 
 <pre >## [1] 414.9167</pre>
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>c(19,38,14,20) %&gt;% cov(y=.) # piped data becomes y, leaving no data for x</pre>
+<pre class = 'prettyprint lang-r'>&gt; c(19,38,14,20) %&gt;% cov(y=.) # piped data becomes y, leaving no data for x</pre>
 
 <pre >## Error in is.data.frame(x): argument &quot;x&quot; is missing, with no default</pre></div>
 
@@ -245,10 +244,10 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
 
 <p>To see, lets write our <code>marathon</code> data tidying code using pipes. You can read the <code>%&gt;%</code> operator as saying &quot;then&quot;.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;../data/marathon.csv&quot;) %&gt;%
-  select(age:div, place:netTime) %&gt;%
-  mutate(waitTime = time - netTime) %&gt;%
-  arrange(place)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- read.csv(&quot;../data/marathon.csv&quot;) %&gt;%
+... +    select(age:div, place:netTime) %&gt;%
+... +    mutate(waitTime = time - netTime) %&gt;%
+... +    arrange(place)</pre>
 
 <p>We omit the data frame argument to <code>select</code>, <code>mutate</code>, and <code>arrange</code> because it is supplied from the previous functions output, via the pipe operator.</p>
 
@@ -266,9 +265,9 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
 
 <p>Here we&#39;ll create a variable identifying which <code>netTime</code> quintile each runner falls into, for males and females separately.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% group_by(gender) %&gt;%
-  mutate(quintile = ntile(netTime, 5))
-select(marathon, gender:last, netTime, quintile)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- marathon %&gt;% group_by(gender) %&gt;%
+... +    mutate(quintile = ntile(netTime, 5))
+&gt; select(marathon, gender:last, netTime, quintile)</pre>
 
 <pre >## Source: local data frame [14,969 x 5]
 ## Groups: gender [2]
@@ -285,9 +284,9 @@ select(marathon, gender:last, netTime, quintile)</pre>
 
 <p>The <code>percent_rank()</code> function ranks each observation in your data according to what proportion of other observations in the group have a lower value.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;%
-  mutate(pBelow = percent_rank(netTime))
-select(marathon, gender:last, netTime, pBelow)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- marathon %&gt;%
+... +    mutate(pBelow = percent_rank(netTime))
+&gt; select(marathon, gender:last, netTime, pBelow)</pre>
 
 <pre >## Source: local data frame [14,969 x 5]
 ## Groups: gender [2]
@@ -308,7 +307,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <p>In other words, the first element in the output vector is second element of the input vector, the second element in the output vector is third element of the input vector, and so on.</p>
 
-<pre class = 'prettyprint lang-r'>lead(c(6,8,14,19,22))</pre>
+<pre class = 'prettyprint lang-r'>&gt; lead(c(6,8,14,19,22))</pre>
 
 <pre >## [1]  8 14 19 22 NA</pre>
 
@@ -322,7 +321,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <p>The first element in the output vector is <code>NA</code> (since there is no zero-th element to move into the first position), the second element of the output vector is the first element in the input vector and so on.</p>
 
-<pre class = 'prettyprint lang-r'>lag(c(6,8,14,19,22))</pre>
+<pre class = 'prettyprint lang-r'>&gt; lag(c(6,8,14,19,22))</pre>
 
 <pre >## [1] NA  6  8 14 19</pre>
 
@@ -334,10 +333,10 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <p>We&#39;ll first need to ungroup the data and sort the data by <code>netTime</code>. Then we&#39;ll subtract each finishing time from the time just before it, and replace the leading <code>NA</code> with a 0.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% ungroup() %&gt;% arrange(netTime) %&gt;%
-  mutate(lag_time = netTime - lag(netTime),
-         lag_time = replace(lag_time, is.na(lag_time), 0))
-select(marathon, gender:last, netTime, lag_time)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- marathon %&gt;% ungroup() %&gt;% arrange(netTime) %&gt;%
+... +    mutate(lag_time = netTime - lag(netTime),
+... +           lag_time = replace(lag_time, is.na(lag_time), 0))
+&gt; select(marathon, gender:last, netTime, lag_time)</pre>
 
 <pre >## # A tibble: 14,969 × 5
 ##    gender        first        last netTime lag_time
@@ -352,7 +351,7 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 
 <p>Cumulative aggregates functions calculate a summary value for each element in a vector, based on all values up to and including that element. Consider the cumulative sum function <code>cumsum</code>:</p>
 
-<pre class = 'prettyprint lang-r'>cumsum(c(5, 8, 1, 44))</pre>
+<pre class = 'prettyprint lang-r'>&gt; cumsum(c(5, 8, 1, 44))</pre>
 
 <pre >## [1]  5 13 14 58</pre>
 
@@ -369,8 +368,8 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 
 <p>Let&#39;s use the <code>cummean</code> function to examine how the average net time changes as each runner finishes the race.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% mutate(cumAvgNetTime = cummean(netTime))
-select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon &lt;- marathon %&gt;% mutate(cumAvgNetTime = cummean(netTime))
+&gt; select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 
 <pre >## # A tibble: 14,969 × 5
 ##    gender        first        last netTime cumAvgNetTime
@@ -386,11 +385,11 @@ select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 
 <p>The cumulative average net time as a function of overall finishing place is a very interesting curve!</p>
 
-<pre class = 'prettyprint lang-r'>par(mar =  c(10,3,0,2))
-plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
-     type=&quot;l&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; par(mar =  c(10,3,0,2))
+&gt; plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
+... +       type=&quot;l&quot;)</pre>
 
-<p><img src="lab14_dplyr2_files/figure-html/plot_cummean-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab14_dplyr2_files/figure-html/plot_cummean-1.png" width="720" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do">
 
@@ -404,9 +403,9 @@ plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
 
 <p>Allow me to demonstrate by running a linear regression, predicting a runner&#39;s net time from their age, on the male and female runners separately.</p>
 
-<pre class = 'prettyprint lang-r'>marathon_lm &lt;- marathon %&gt;% group_by(gender) %&gt;%
-  do(time_by_age = lm(netTime~age, data = .))
-marathon_lm</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon_lm &lt;- marathon %&gt;% group_by(gender) %&gt;%
+... +    do(time_by_age = lm(netTime~age, data = .))
+&gt; marathon_lm</pre>
 
 <pre >## Source: local data frame [2 x 2]
 ## Groups: &lt;by row&gt;
@@ -421,7 +420,7 @@ marathon_lm</pre>
 
 <p>The <code>time_by_age</code> column is a list of individual <code>lm</code> objects!</p>
 
-<pre class = 'prettyprint lang-r'>marathon_lm$time_by_age[[1]] # Model for Females</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon_lm$time_by_age[[1]] # Model for Females</pre>
 
 <pre >## 
 ## Call:
@@ -431,7 +430,7 @@ marathon_lm</pre>
 ## (Intercept)          age  
 ##     91.8895       0.2091</pre>
 
-<pre class = 'prettyprint lang-r'>marathon_lm$time_by_age[[2]] # Model for Males</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon_lm$time_by_age[[2]] # Model for Males</pre>
 
 <pre >## 
 ## Call:
@@ -445,11 +444,11 @@ marathon_lm</pre>
 
 <p>This is possible because <code>dplyr</code> creates a new kind of data frame called a <code>tbl_df</code> or table data frame, which can use a list as a column.</p>
 
-<pre class = 'prettyprint lang-r'>class(marathon_lm)</pre>
+<pre class = 'prettyprint lang-r'>&gt; class(marathon_lm)</pre>
 
 <pre >## [1] &quot;rowwise_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>class(marathon_lm$time_by_age)</pre>
+<pre class = 'prettyprint lang-r'>&gt; class(marathon_lm$time_by_age)</pre>
 
 <pre >## [1] &quot;list&quot;</pre>
 
@@ -484,8 +483,8 @@ marathon_lm</pre>
 
 <p>Here, <code>cumall</code> searches the vector for &quot;G&quot;, and returns <code>TRUE</code> in the first 3 positions, because they are all &quot;G&quot;. But after it hits &quot;A&quot; in the fourth position, it returns <code>FALSE</code> for each remaining element.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
-cumall(x == &quot;G&quot;) # Same as x[1]==&quot;G&quot;, x[1]==&quot;G&quot; &amp;&amp; x[2]==&quot;G&quot;, etc.</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
+&gt; cumall(x == &quot;G&quot;) # Same as x[1]==&quot;G&quot;, x[1]==&quot;G&quot; &amp;&amp; x[2]==&quot;G&quot;, etc.</pre>
 
 <pre >## [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</pre>
 
@@ -495,8 +494,8 @@ cumall(x == &quot;G&quot;) # Same as x[1]==&quot;G&quot;, x[1]==&quot;G&quot; &a
 
 <p>The <code>cumany</code> function traverses the vector and returns <code>FALSE</code> for each element until it encounters an element that meets the specified criteria. All remaining elements in its output will be <code>TRUE</code>.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
-cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || x[3]==&quot;A&quot;, etc.</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- c(&quot;G&quot;,&quot;G&quot;,&quot;G&quot;,&quot;A&quot;,&quot;G&quot;,&quot;T&quot;,&quot;T&quot;,&quot;C&quot;)
+&gt; cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || x[3]==&quot;A&quot;, etc.</pre>
 
 <pre >## [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</pre>
 
@@ -510,7 +509,7 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <p>The <code>slice</code> function is used to remove the first row after filtering, so the results don&#39;t include the row for the fastest female runner.</p>
 
-<pre class = 'prettyprint lang-r'>marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
 
 <pre >## # A tibble: 14,929 × 16
 ##      age gender           first      last       city state country   div
@@ -526,13 +525,13 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <p>This is possible because <code>dplyr</code> extends the standard data frame functionality, and creates a new kind of data frame called a <code>tbl_df</code> or table data frame.</p>
 
-<pre class = 'prettyprint lang-r'>class(marathon_lm)</pre>
+<pre class = 'prettyprint lang-r'>&gt; class(marathon_lm)</pre>
 
 <pre >## [1] &quot;rowwise_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
 
 <p>A <code>tbl_df</code> can use a list as a column, instead of requiring a column to be an atomic vector (atomic just means a vector where each element is required to have a length of 1).</p>
 
-<pre class = 'prettyprint lang-r'>class(marathon_lm$time_by_age)</pre>
+<pre class = 'prettyprint lang-r'>&gt; class(marathon_lm$time_by_age)</pre>
 
 <pre >## [1] &quot;list&quot;</pre>
 
@@ -542,13 +541,13 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <p>Here, to make a column for the \(R^2\) value of each model, you must group by gender, extract the <code>lm</code> object from the <code>time_by_age</code> list with <code>[[1]]</code>, apply the <code>summary</code> function to it, and access the <code>r.squared</code> element from the summary.</p>
 
-<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
-  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon_lm %&gt;% group_by(gender) %&gt;%
+... +    mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-6">
 
-<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
-  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
+<pre class = 'prettyprint lang-r'>&gt; marathon_lm %&gt;% group_by(gender) %&gt;%
+... +    mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
 
 <pre >## Source: local data frame [2 x 3]
 ## Groups: gender [2]

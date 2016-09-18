@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -102,7 +101,7 @@
 
 </article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset" class="img-centered">
 
-<p>We&#39;ll begin our examples with the <code>iris</code> dataset, which gives measurements of the length and width (in cm.) of the sepals and petals from 3 species of irises (<em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>). <img src='/images/sepal.png' title=''/></p>
+<p>We&#39;ll begin our examples with the <code>iris</code> dataset, which gives measurements of the length and width (in cm.) of the sepals and petals from 3 species of irises (<em>setosa</em>, <em>versicolor</em>, and <em>virginica</em>). <img src='../images/sepal.png' title=''/></p>
 
 </article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset-1">
 
@@ -182,7 +181,7 @@ p &lt;- ggplot(data = iris,
   geom_point()
 print(p)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/iris_scatter-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/iris_scatter-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding smooths</h2></hgroup><article  id="adding-smooths">
 
@@ -192,7 +191,7 @@ print(p)</pre>
 
 <pre class = 'prettyprint lang-r'>p + geom_smooth(method = &quot;lm&quot;, fullrange = TRUE)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/iris_smooth-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/iris_smooth-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Layer-specific data and mappings</h2></hgroup><article  id="layer-specific-data-and-mappings">
 
@@ -214,7 +213,7 @@ print(p)</pre>
 <pre class = 'prettyprint lang-r'>p + geom_smooth(method = &quot;lm&quot;, fullrange = TRUE,
                 mapping = aes(color = NULL))</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/bad_idea-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/bad_idea-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Layer-specific mappings</h2></hgroup><article  id="layer-specific-mappings-1">
 
@@ -222,7 +221,7 @@ print(p)</pre>
 
 <p>Ignoring species is a Bad Idea™, because our model violates the assumption of normally distributed residual error around the regression line.</p>
 
-<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Layer-specific data</h2></hgroup><article  id="layer-specific-data">
 
@@ -275,7 +274,7 @@ iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_each(&quot;mean&
 
 <pre class = 'prettyprint lang-r'>p + geom_point(data = iris_means, size = 5, shape = 4)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/means-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/means-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding Petal Width and Length</h2></hgroup><article  id="adding-petal-width-and-length">
 
@@ -444,7 +443,7 @@ iris_long &lt;- spread(iris_normal, dimension, size)</pre>
   geom_point() + 
   facet_grid( ~ Structure)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Plots with error bars</h2></hgroup><article  id="plots-with-error-bars">
 
@@ -626,7 +625,7 @@ iris_long &lt;- spread(iris_normal, dimension, size)</pre>
   geom_point() + facet_grid(~Structure)
 print(p)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/plot_averages-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/plot_averages-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding the confidence intervals</h2></hgroup><article  id="adding-the-confidence-intervals">
 
@@ -636,7 +635,7 @@ print(p)</pre>
 
 <pre class = 'prettyprint lang-r'>p + geom_errorbar(aes(ymin = lower, ymax = upper), width = .15)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/error_bars-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/error_bars-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages">
 
@@ -657,7 +656,7 @@ print(p)</pre>
   facet_grid(~Structure)
 print(p)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>A barplot with errror bars</h2></hgroup><article  id="a-barplot-with-errror-bars">
 
@@ -667,7 +666,7 @@ print(p)</pre>
                 position = position_dodge(width = 1),
                 width = .15)</pre>
 
-<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="385px" height="385px" style="display: block; margin: auto;" /></p>
+<p><img src="lab18_ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Miscellaneous</h2></hgroup><article  id="miscellaneous">
 

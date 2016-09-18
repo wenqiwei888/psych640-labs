@@ -51,7 +51,7 @@ Since we can't exhaustively learn Rmarkdown in one class, you'll need to know wh
 2. In the a dialogue box, select HTML as our output format. 
 3. Choose your title and set yourself as author.
 4. Hit the "Knit HTML" button just above the editor window and you shoud something like:
-![Rmarkdown Template](/images/Rmarkdownsample.png)
+![Rmarkdown Template](../images/Rmarkdownsample.png)
 
 ## Success! Now, more work!
 We've created our first dynamic document, huzzah!
@@ -64,33 +64,33 @@ We'll work through the sections of this document together, and as we go through 
 The section at the very top, separated by `---`, is called the YAML header (YAML stands for **Y**AML **A**int **M**arkup **L**anguage). 
 
 The YAML header stores info about your document *in* your document (i.e. **metadata**), and tells the interpreter about how to render the final document.
-![YAML](/images/YAML.png)
+![YAML](../images/YAML.png)
 
 For example, the <kbd> `output: html_document` </kbd> option tells interpreter to construct an HTML document (as opposed to a PDF)
 
 ## Markdown & Plain Text Basics
 
-![Textshot1](/images/Text1.png)\
+![Textshot1](../images/Text1.png)\
 
 
 ## Markdown & Plain Text Basics
 
-![Textshot2](/images/Text2.png)\
+![Textshot2](../images/Text2.png)\
 
 
 ## Images
 
-![imagesshot](/images/images.png)\
+![imagesshot](../images/images.png)\
 
 
 ## Embedding Equations with LaTeX syntax
 - For inline equations, enclose your equations in single `$` like so: <kbd> `$equation$` </kbd>
 - To give your equation its own centered "paragraph", use double `$` with spaces, like so: <kbd>`$$ equation $$`</kbd>
-![equationsshot1](/images/latex.png)
+![equationsshot1](../images/latex.png)
 
 ## Tables
 
-![tablessshot1](/images/Tables.png)\
+![tablessshot1](../images/Tables.png)\
 
 <br>
 
@@ -103,12 +103,12 @@ info 14 | info 24
 
 ## R code chunks
 
-![chunkshot1](/images/chunks.png)\
+![chunkshot1](../images/chunks.png)\
 
 
 ## Converting R data structures to Markdown
 
-![kableshot1](/images/kable.png)\
+![kableshot1](../images/kable.png)\
 
 
 ```{r kablingReal,results="asis",echo=FALSE}
@@ -118,7 +118,7 @@ kable(summary(cars),row.names = FALSE, caption = "With Knitr")
 
 ## Chunks with Plots
 
-![plotChunkShot1](/images/plotchunk.png)
+![plotChunkShot1](../images/plotchunk.png)
 ```{r Car plot, echo=FALSE, fig.height=4, fig.width=4.5, fig.align='center'}
 par(pty='s', mar=c(6,2,2,4))
 plot(cars)
@@ -130,9 +130,9 @@ RStudio also allows you to evaluate the code inside you code chunks without knit
 
 - You can run code line-by-line with the `Run` button
 - You can run the entire code chunk by pressing the small green "play" button on the right side of the chunk 
-    - Looks like ![run_chunk](/images/run_chunk_button.png)
+    - Looks like ![run_chunk](../images/run_chunk_button.png)
 - You can run all *preceeding* chunks by pressing the small grey arrow next to the green play buttton
-    - Looks like ![run_prior](/images/run_previous_button.png)
+    - Looks like ![run_prior](../images/run_previous_button.png)
 
 
 ## Activity: Writing a Report on `InsectSprays`
@@ -154,7 +154,7 @@ When you have written a style sheet you want applied to your HTML document, you 
 
 ## Producing HTML slideshows with Rmarkdown
 You can take an existing Rmd file, change the output type in the YAML header to `ioslides_presentaion`, and then add slide separators everywhere you want to divide content up into discrete slides. 
-![slideshot](/images/slides.png)
+![slideshot](../images/slides.png)
 
 Or if you want to start a new Rmd file set up to compile to a slide show, go to File --> New File --> R Markdown, select "Presentation" from the menu on the left, and pick your format (I prefer ioslides)
 

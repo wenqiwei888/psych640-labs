@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -139,17 +138,17 @@
 <li>Go to the &#39;Help&#39; tab in the miscellaneous pane of Rstudio and in the search box type &#39;mean&#39;.</li>
 </ol>
 
-<p><img src='/images/mean_page1_short.png' title=''/> <br></p>
+<p><img src='../images/mean_page1_short.png' title=''/> <br></p>
 
 </article></slide><slide class=''><hgroup><h2>?mean</h2></hgroup><article  id="mean-1" class="image-column helppage">
 
-<p><img src='/images/mean_usage.png' title=''/> In the top left corner, you are shown the name of the help page you are on, as well as the package/namespace the function lives in.</p>
+<p><img src='../images/mean_usage.png' title=''/> In the top left corner, you are shown the name of the help page you are on, as well as the package/namespace the function lives in.</p>
 
 <p>Under that is the title of the help page, and a basic description of what the functions listed on this page are used to accomplish</p>
 
 </article></slide><slide class=''><hgroup><h2>?mean: usage</h2></hgroup><article  id="mean-usage" class="image-column helppage">
 
-<p><img src='/images/mean_usage.png' title=''/> The usage section tells you:</p>
+<p><img src='../images/mean_usage.png' title=''/> The usage section tells you:</p>
 
 <ul>
 <li>The syntax for invoking the function</li>
@@ -165,7 +164,7 @@
 
 </article></slide><slide class=''><hgroup><h2>?mean: Usage</h2></hgroup><article  id="mean-usage-1" class="image-column helppage">
 
-<p><img src='/images/mean_usage.png' title=''/> But the usage section is also cryptic!</p>
+<p><img src='../images/mean_usage.png' title=''/> But the usage section is also cryptic!</p>
 
 <ul>
 <li>What is x?</li>
@@ -177,7 +176,7 @@
 
 </article></slide><slide class=''><hgroup><h2>?mean: Arguments</h2></hgroup><article  id="mean-arguments" class="image-column helppage">
 
-<p><img src='/images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.</p>
+<p><img src='../images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.</p>
 
 <p>It also tell us what particular behavior that specific argument controls.</p>
 
@@ -195,23 +194,23 @@
 
 </article></slide><slide class=''><hgroup><h2>Named vs. Unnamed Examples</h2></hgroup><article  id="named-vs.-unnamed-examples">
 
-<pre class = 'prettyprint lang-r'>data &lt;- c(4,10,3,33,2,NA,43,22,31,95)
-mean(x=data) # named key/value style</pre>
+<pre class = 'prettyprint lang-r'>&gt; data &lt;- c(4,10,3,33,2,NA,43,22,31,95)
+&gt; mean(x=data) # named key/value style</pre>
 
 <pre >## [1] NA</pre>
 
-<pre class = 'prettyprint lang-r'>mean(x=data,na.rm=TRUE) # removing na&#39;s changes output</pre>
+<pre class = 'prettyprint lang-r'>&gt; mean(x=data,na.rm=TRUE) # removing na&#39;s changes output</pre>
 
 <pre >## [1] 27</pre>
 
-<pre class = 'prettyprint lang-r'>mean(data) # unnamed style</pre>
+<pre class = 'prettyprint lang-r'>&gt; mean(data) # unnamed style</pre>
 
 <pre >## [1] NA</pre>
 
 <div class="errormsg">
 
 
-<pre class = 'prettyprint lang-r'>mean(data,TRUE) #TRUE gets matched up with trim, not na.rm!</pre>
+<pre class = 'prettyprint lang-r'>&gt; mean(data,TRUE) #TRUE gets matched up with trim, not na.rm!</pre>
 
 <pre >## Error in mean.default(data, TRUE): &#39;trim&#39; must be numeric of length one</pre>
 
@@ -244,28 +243,28 @@ mean(x=data) # named key/value style</pre>
 
 </article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-1">
 
-<p><img src='/images/scoping.svg' title=''/><br></p>
+<p><img src='../images/scoping.svg' title=''/><br></p>
 
 </article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-2">
 
-<pre class = 'prettyprint lang-r'>data &lt;- c(10, 11, 12)
-x &lt;- c(1, 2, 3)
-mean(x=data) # Takes the mean of data, not of x from global env</pre>
+<pre class = 'prettyprint lang-r'>&gt; data &lt;- c(10, 11, 12)
+&gt; x &lt;- c(1, 2, 3)
+&gt; mean(x=data) # Takes the mean of data, not of x from global env</pre>
 
 <pre >## [1] 11</pre>
 
-<pre class = 'prettyprint lang-r'>x # didn&#39;t re-assign in global env</pre>
+<pre class = 'prettyprint lang-r'>&gt; x # didn&#39;t re-assign in global env</pre>
 
 <pre >## [1] 1 2 3</pre>
 
-<pre class = 'prettyprint lang-r'>mean(x) #same as mean(x=x)</pre>
+<pre class = 'prettyprint lang-r'>&gt; mean(x) #same as mean(x=x)</pre>
 
 <pre >## [1] 2</pre>
 
 <div class="errormsg">
 
 
-<pre class = 'prettyprint lang-r'>mean()</pre>
+<pre class = 'prettyprint lang-r'>&gt; mean()</pre>
 
 <pre >## Error in mean.default(): argument &quot;x&quot; is missing, with no default</pre>
 
@@ -282,7 +281,7 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 
 </article></slide><slide class=''><hgroup><h2>?mean: Value</h2></hgroup><article  id="mean-value" class="image-column helppage">
 
-<p><img src='/images/mean_value.png' title=''/> The value section tells you about what the function returns to you when it finishes its calculations.</p>
+<p><img src='../images/mean_value.png' title=''/> The value section tells you about what the function returns to you when it finishes its calculations.</p>
 
 <ul>
 <li>The type of data structure (e.g. list, matrix, etc.)</li>
@@ -293,7 +292,7 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 
 </article></slide><slide class=''><hgroup><h2>?mean: Examples</h2></hgroup><article  id="mean-examples" class="image-column helppage">
 
-<p><img src='/images/mean_examples.png' title=''/> Help pages generally end with a section showing toy examples of using the function.</p>
+<p><img src='../images/mean_examples.png' title=''/> Help pages generally end with a section showing toy examples of using the function.</p>
 
 <p>These examples can demonstrate common use cases for the function.</p>
 
@@ -305,11 +304,11 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 
 <p>The first thing you might notice is that the information about the <code>var()</code> function is on the help page for the <code>cor()</code> function!</p>
 
-<p><img src='/images/var_top.png' title=''/><br></p>
+<p><img src='../images/var_top.png' title=''/><br></p>
 
 </article></slide><slide class=''><hgroup><h2>?var</h2></hgroup><article  id="var-1" class="image-column helppage">
 
-<p><img src='/images/var_arguments.png' title=''/> While there are 4 different functions defined here, they all have similar syntax</p>
+<p><img src='../images/var_arguments.png' title=''/> While there are 4 different functions defined here, they all have similar syntax</p>
 
 <p>In fact, looking at the <code>Arugments</code> section we see that between the 4 functions there are only 6 unique arguments between all 4 of these functions!</p>
 
@@ -319,7 +318,7 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 
 <p>The cards have face values of 2 through 10, as well as the Ace, King, Queen, and Jack. Each of those cards comes in all 4 suites (Clubs, Diamonds, Hearts and Spades).</p>
 
-<p><img src='/images/cards.png' title=''/><br></p>
+<p><img src='../images/cards.png' title=''/><br></p>
 
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck" class="img-centered">
 
@@ -332,7 +331,7 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 </ul></li>
 </ol>
 
-<p><img src='/images/cards.png' title=''/><br></p>
+<p><img src='../images/cards.png' title=''/><br></p>
 
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-1" class="img-centered">
 
@@ -345,7 +344,7 @@ mean(x=data) # Takes the mean of data, not of x from global env</pre>
 </ul></li>
 </ol>
 
-<p><img src='/images/cards.png' title=''/><br></p>
+<p><img src='../images/cards.png' title=''/><br></p>
 
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-2">
 

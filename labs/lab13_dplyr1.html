@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -126,10 +125,10 @@
 
 <p>We&#39;ll start our tour by installing the <code>dplyr</code> package and loading a dataset to use in our examples.</p>
 
-<pre class = 'prettyprint lang-r'>install.packages(&#39;dplyr&#39;)
-library(dplyr)
-cropYield &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/crops.csv&quot;)
-head(cropYield)</pre>
+<pre class = 'prettyprint lang-r'>&gt; install.packages(&#39;dplyr&#39;)
+&gt; library(dplyr)
+&gt; cropYield &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/crops.csv&quot;)
+&gt; head(cropYield)</pre>
 
 <pre >##   Field   Till    Fert Yield
 ## 1     1 Chisel   Broad   119
@@ -147,7 +146,7 @@ head(cropYield)</pre>
 
 <p><code>arrange</code> expects the first argument to be the data frame to sort, and uses any remaining arguments as the names of the variables to sort by.</p>
 
-<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert) # Column names are unquoted!!</pre>
+<pre class = 'prettyprint lang-r'>&gt; arrange(cropYield, Fert) # Column names are unquoted!!</pre>
 
 <pre >##    Field    Till    Fert Yield
 ## 1      1  Chisel   Broad   119
@@ -161,7 +160,7 @@ head(cropYield)</pre>
 
 <p>If you ask <code>arrange</code> to sort by multiple variables, the rows are sorted hierarchically according to the order of the variables listed in the function call.</p>
 
-<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert, Yield)</pre>
+<pre class = 'prettyprint lang-r'>&gt; arrange(cropYield, Fert, Yield)</pre>
 
 <pre >##    Field    Till    Fert Yield
 ## 1      7  Chisel   Broad   104
@@ -175,7 +174,7 @@ head(cropYield)</pre>
 
 <p>You can also sort by reverse alphabetical or numerically descending order by using the <code>desc</code> function inside the call to <code>arrange</code>.</p>
 
-<pre class = 'prettyprint lang-r'>arrange(cropYield, Fert, desc(Yield)) # desc only works inside arrange</pre>
+<pre class = 'prettyprint lang-r'>&gt; arrange(cropYield, Fert, desc(Yield)) # desc only works inside arrange</pre>
 
 <pre >##    Field    Till    Fert Yield
 ## 1     16 Moldbrd   Broad   160
@@ -191,8 +190,8 @@ head(cropYield)</pre>
 
 <p><code>filter</code> also expects the first argument to be a data frame. Any other arguments must be expressions that return logical vectors, and <code>filter</code> returns only the rows where the logical conditions are met.</p>
 
-<pre class = 'prettyprint lang-r'># Find the rows where the tilling method is ridge
-filter(cropYield, Till == &quot;Ridge&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # Find the rows where the tilling method is ridge
+&gt; filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <pre >##    Field  Till    Fert Yield
 ## 1     23 Ridge   Broad   115
@@ -207,7 +206,7 @@ filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <p>Here, a row must have it&#39;s <code>Till</code> value equal to <code>Ridge</code>, and it&#39;s <code>Fert</code> value equal to <code>Deep</code> to be part of the output.</p>
 
-<pre class = 'prettyprint lang-r'>filter(cropYield, Till == &quot;Ridge&quot;, Fert == &quot;Deep&quot;)</pre>
+<pre class = 'prettyprint lang-r'>&gt; filter(cropYield, Till == &quot;Ridge&quot;, Fert == &quot;Deep&quot;)</pre>
 
 <pre >##    Field  Till Fert Yield
 ## 1     23 Ridge Deep   142
@@ -222,7 +221,7 @@ filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <p>If you want to include a row if it meets <em>any</em> given condition (a logical <code>OR</code> statement), you must combine the conditions yourself with the <code>|</code> operator.</p>
 
-<pre class = 'prettyprint lang-r'>filter(cropYield, Till == &quot;Ridge&quot; | Fert == &quot;Deep&quot;) </pre>
+<pre class = 'prettyprint lang-r'>&gt; filter(cropYield, Till == &quot;Ridge&quot; | Fert == &quot;Deep&quot;) </pre>
 
 <pre >##    Field    Till    Fert Yield
 ## 1      1  Chisel    Deep   130
@@ -239,7 +238,7 @@ filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <p>Here we filter out the rows where the <code>Till</code> variable has a value in the set defined by the character vector <code>c(&quot;Ridge&quot;,&quot;Chisel&quot;)</code>.</p>
 
-<pre class = 'prettyprint lang-r'>filter(cropYield, Till %in% c(&quot;Ridge&quot;, &quot;Chisel&quot;))</pre>
+<pre class = 'prettyprint lang-r'>&gt; filter(cropYield, Till %in% c(&quot;Ridge&quot;, &quot;Chisel&quot;))</pre>
 
 <pre >##    Field   Till    Fert Yield
 ## 1      1 Chisel   Broad   119
@@ -257,7 +256,7 @@ filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <p>But if you use the <code>%in%</code> operator, the <code>NA</code> values will be judged &quot;not in the set&quot;, and not included in the results.</p>
 
-<pre class = 'prettyprint lang-r'>c(NA == 1, NA %in% 1) # Logical Weirdness, Exhibit A!</pre>
+<pre class = 'prettyprint lang-r'>&gt; c(NA == 1, NA %in% 1) # Logical Weirdness, Exhibit A!</pre>
 
 <pre >## [1]    NA FALSE</pre>
 
@@ -265,8 +264,8 @@ filter(cropYield, Till == &quot;Ridge&quot;)</pre>
 
 <p>The <code>select</code> function allows you to pare down your data set by only keeping the columns that you specify, and also allows you to rename and reorder the selected columns on the fly.</p>
 
-<pre class = 'prettyprint lang-r'># Existing column name on the right of the =, new name on the left 
-select(cropYield, fertilizer = Fert, bushels = Yield, Till)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # Existing column name on the right of the =, new name on the left 
+&gt; select(cropYield, fertilizer = Fert, bushels = Yield, Till)</pre>
 
 <pre >##    fertilizer bushels    Till
 ## 1       Broad     119  Chisel
@@ -283,8 +282,8 @@ select(cropYield, fertilizer = Fert, bushels = Yield, Till)</pre>
 
 <p>The <code>select</code> function even allows you to select a continuous range of columns using the start and end column names, separated with the <code>:</code> operator, just like a numeric vector!!!</p>
 
-<pre class = 'prettyprint lang-r'># So awesome! But, you can&#39;t rename at the same time with this syntax
-select(cropYield, Till:Yield)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # So awesome! But, you can&#39;t rename at the same time with this syntax
+&gt; select(cropYield, Till:Yield)</pre>
 
 <pre >##       Till    Fert Yield
 ## 1   Chisel   Broad   119
@@ -299,8 +298,8 @@ select(cropYield, Till:Yield)</pre>
 
 <p>You can even specify just the columns you <em>don&#39;t</em> want to keep, which is useful for very wide data frames where you want to discard just one or two columns</p>
 
-<pre class = 'prettyprint lang-r'># The - says to drop this column
-select(cropYield, -Field)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # The - says to drop this column
+&gt; select(cropYield, -Field)</pre>
 
 <pre >##       Till    Fert Yield
 ## 1   Chisel   Broad   119
@@ -315,8 +314,8 @@ select(cropYield, -Field)</pre>
 
 <p>You can use the <code>rename</code> function if you want to change any column names without removing any columns.</p>
 
-<pre class = 'prettyprint lang-r'># Existing column name on the right of the =, new name on the left 
-rename(cropYield, fieldID = Field)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # Existing column name on the right of the =, new name on the left 
+&gt; rename(cropYield, fieldID = Field)</pre>
 
 <pre >##    fieldID    Till    Fert Yield
 ## 1        1  Chisel   Broad   119
@@ -333,7 +332,7 @@ rename(cropYield, fieldID = Field)</pre>
 
 <p>Lets use it to discover all the unique combinations of <code>Till</code> and <code>Fert</code> contained in this dataset.</p>
 
-<pre class = 'prettyprint lang-r'>distinct(select(cropYield, Till, Fert))</pre>
+<pre class = 'prettyprint lang-r'>&gt; distinct(select(cropYield, Till, Fert))</pre>
 
 <pre >##      Till    Fert
 ## 1  Chisel   Broad
@@ -352,7 +351,7 @@ rename(cropYield, fieldID = Field)</pre>
 
 <p>Its especially useful for creating new variables based on existing ones, and changing/adding multiple columns at the same time.</p>
 
-<pre class = 'prettyprint lang-r'>mutate(cropYield, Field = factor(Field), yeildSq = Yield^2)</pre>
+<pre class = 'prettyprint lang-r'>&gt; mutate(cropYield, Field = factor(Field), yeildSq = Yield^2)</pre>
 
 <pre >##    Field    Till    Fert Yield yeildSq
 ## 1      1  Chisel   Broad   119   14161
@@ -365,8 +364,8 @@ rename(cropYield, fieldID = Field)</pre>
 
 <p>A cool feature of the <code>mutate</code> function is that you can use new variables immediately after you create them, within the same call to mutate!!</p>
 
-<pre class = 'prettyprint lang-r'># We create  yieldRoot, and then use it in the same function call
-mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)</pre>
+<pre class = 'prettyprint lang-r'>&gt; # We create  yieldRoot, and then use it in the same function call
+&gt; mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)</pre>
 
 <pre >##    Field    Till    Fert Yield yeildRoot bigYield
 ## 1      1  Chisel   Broad   119      59.5    178.5
@@ -379,7 +378,7 @@ mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)</pre>
 
 <p>The <code>summarise</code> function is useful for applying functions that reduce your variables down to a single value, similar to the idea of aggregation functions in the <code>dcast</code> function from <code>reshape</code>.</p>
 
-<pre class = 'prettyprint lang-r'>summarise(cropYield, avgYield = mean(Yield))</pre>
+<pre class = 'prettyprint lang-r'>&gt; summarise(cropYield, avgYield = mean(Yield))</pre>
 
 <pre >##   avgYield
 ## 1 139.9394</pre>
@@ -396,15 +395,15 @@ mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)</pre>
 
 <p>Consider this method of finding the average crop yield for each of the unique tilling and fertilizer groups in our dataset.</p>
 
-<pre class = 'prettyprint lang-r'>ChiselBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-                              &amp; cropYield$Fert == &#39;Broad&#39;])
-ChiselDeep &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-                             &amp; cropYield$Fert == &#39;Deep&#39;])
-ChiselSurface &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-                                &amp; cropYield$Fert == &#39;Surface&#39;])
-MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
-                               &amp; cropYield$Fert == &#39;Broad&#39;])
-# And so on, and so forth into infinity...</pre>
+<pre class = 'prettyprint lang-r'>&gt; ChiselBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+... +                                &amp; cropYield$Fert == &#39;Broad&#39;])
+&gt; ChiselDeep &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+... +                               &amp; cropYield$Fert == &#39;Deep&#39;])
+&gt; ChiselSurface &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
+... +                                  &amp; cropYield$Fert == &#39;Surface&#39;])
+&gt; MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
+... +                                 &amp; cropYield$Fert == &#39;Broad&#39;])
+&gt; # And so on, and so forth into infinity...</pre>
 
 <p>This is verbose, tedious, prone to typos, and doesn&#39;t scale to large datasets with many groups. A <code>for</code> loop would help, but there&#39;s an even better way&#8230;</p>
 
@@ -414,13 +413,13 @@ MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
 
 <p>For example, we can use <code>group_by</code> to group the larger <code>cropYield</code> data frame into 9 smaller groups, one for each of the tilling and fertilizer method combinations.</p>
 
-<pre class = 'prettyprint lang-r'>cropsGrouped &lt;- group_by(cropYield, Till, Fert) # create the grouped dataset</pre>
+<pre class = 'prettyprint lang-r'>&gt; cropsGrouped &lt;- group_by(cropYield, Till, Fert) # create the grouped dataset</pre>
 
 </article></slide><slide class=''><hgroup><h2>The group_by function</h2></hgroup><article  id="the-group_by-function-1">
 
 <p>The <code>group_by</code> function doesn&#39;t change the external appearance of the data frame; the only noticeable change is the addition of the line <code>Groups: Till, Fert [9]</code> when the data frame is printed.</p>
 
-<pre class = 'prettyprint lang-r'>cropsGrouped # Inspect the grouped dataset</pre>
+<pre class = 'prettyprint lang-r'>&gt; cropsGrouped # Inspect the grouped dataset</pre>
 
 <pre >## Source: local data frame [99 x 4]
 ## Groups: Till, Fert [9]
@@ -443,14 +442,14 @@ MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
 
 <p>This technique makes finding the mean of each individual tilling/fertilizer group incredibly simple instead of complicated and tedious.</p>
 
-<pre class = 'prettyprint lang-r'>cropsGrouped &lt;- group_by(cropYield, Till, Fert) # easy peasy
-grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</pre>
+<pre class = 'prettyprint lang-r'>&gt; cropsGrouped &lt;- group_by(cropYield, Till, Fert) # easy peasy
+&gt; grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</pre>
 
 </article></slide><slide class=''><hgroup><h2>Group-wise operations, the easy way</h2></hgroup><article  id="group-wise-operations-the-easy-way-1">
 
 <p>Viola!</p>
 
-<pre class = 'prettyprint lang-r'>grpMeans</pre>
+<pre class = 'prettyprint lang-r'>&gt; grpMeans</pre>
 
 <pre >## Source: local data frame [9 x 3]
 ## Groups: Till [?]
@@ -487,7 +486,7 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 
 <p>You can use the <code>n</code> function, with no arguments, inside calls to <code>summarise</code> and <code>mutate</code> to count the number of observations in a group.</p>
 
-<pre class = 'prettyprint lang-r'>summarise(cropsGrouped, grpSize = n())</pre>
+<pre class = 'prettyprint lang-r'>&gt; summarise(cropsGrouped, grpSize = n())</pre>
 
 <pre >## Source: local data frame [9 x 3]
 ## Groups: Till [?]
@@ -508,7 +507,7 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 
 <p>If you want to remove the grouping you&#39;ve applied to a data frame, just use the <code>ungroup</code> function to reset it back to a &quot;normal&quot; data frame.</p>
 
-<pre class = 'prettyprint lang-r'>ungroup(cropsGrouped) # no more &quot;Groups&quot; line</pre>
+<pre class = 'prettyprint lang-r'>&gt; ungroup(cropsGrouped) # no more &quot;Groups&quot; line</pre>
 
 <pre >## # A tibble: 99 × 4
 ##    Field   Till    Fert Yield

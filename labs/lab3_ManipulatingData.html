@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-16" />
+  <meta name="date" content="2016-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-16</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
           </hgroup>
   </slide>
 
@@ -144,17 +143,17 @@
 
 <p>Lets start with a large vector and break it down. The numeric vectors inside the brackets tell R the positions of the elements we wish to extract.</p>
 
-<pre class = 'prettyprint lang-r'>alphabet &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,
-              &quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;) 
-alphabet[c(1,26)] # Extract First and 26th element</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,
+... +                &quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;) 
+&gt; alphabet[c(1,26)] # Extract First and 26th element</pre>
 
 <pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>alphabet[10:20] # Extract tenth through 20th</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[10:20] # Extract tenth through 20th</pre>
 
 <pre >##  [1] &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot; &quot;t&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>alphabet[seq(from=1,to=26,by=2)] # Extract every other element</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[seq(from=1,to=26,by=2)] # Extract every other element</pre>
 
 <pre >##  [1] &quot;a&quot; &quot;c&quot; &quot;e&quot; &quot;g&quot; &quot;i&quot; &quot;k&quot; &quot;m&quot; &quot;o&quot; &quot;q&quot; &quot;s&quot; &quot;u&quot; &quot;w&quot; &quot;y&quot;</pre>
 
@@ -162,7 +161,7 @@ alphabet[c(1,26)] # Extract First and 26th element</pre>
 
 <p>The most common mistake is including a value in your indexing vector which is greater than the length of the vector you are subsetting</p>
 
-<pre class = 'prettyprint lang-r'>alphabet[100] # there are not 100 letters in the alphabet</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[100] # there are not 100 letters in the alphabet</pre>
 
 <pre >## [1] NA</pre>
 
@@ -171,7 +170,7 @@ alphabet[c(1,26)] # Extract First and 26th element</pre>
 Another common mistake is forgetting to concatenate the values you want to slice out into a vector (i.e. forgetting the <code>c()</code> function)
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>alphabet[1,5,10]</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[1,5,10]</pre>
 
 <pre >## Error in alphabet[1, 5, 10]: incorrect number of dimensions</pre></div>
 
@@ -179,12 +178,12 @@ Another common mistake is forgetting to concatenate the values you want to slice
 
 <p>Instead of creating a vector of values you <em>do</em> want to pick out, it may be easier to come up with a vector of ones you <em>don&#39;t</em> want. We can use negative number&#39;s to specify which vector elements we don&#39;t want.</p>
 
-<pre class = 'prettyprint lang-r'>alphabet[c(-1,-26)] # Same as alphabet[2:24]</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[c(-1,-26)] # Same as alphabet[2:24]</pre>
 
 <pre >##  [1] &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot;
 ## [18] &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>alphabet[-1:-10]</pre>
+<pre class = 'prettyprint lang-r'>&gt; alphabet[-1:-10]</pre>
 
 <pre >##  [1] &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</pre>
 
@@ -194,9 +193,9 @@ Another common mistake is forgetting to concatenate the values you want to slice
 
 <p>Execute the following code and look at the values in <code>months</code>:</p>
 
-<pre class = 'prettyprint lang-r'>months &lt;- c(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
-            &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)
-months</pre>
+<pre class = 'prettyprint lang-r'>&gt; months &lt;- c(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
+... +              &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)
+&gt; months</pre>
 
 <pre >##  [1] &quot;January&quot;   &quot;February&quot;  &quot;March&quot;     &quot;April&quot;     &quot;May&quot;      
 ##  [6] &quot;June&quot;      &quot;July&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;  
@@ -274,14 +273,14 @@ months</pre>
 
 <p>What makes relational operators useful is that they can be applied to all the elements of a data structure simultaneously.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- 2:11
-x &lt;= 5 # Apply the less than or equals test</pre>
+<pre class = 'prettyprint lang-r'>&gt; x &lt;- 2:11
+&gt; x &lt;= 5 # Apply the less than or equals test</pre>
 
 <pre >##  [1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</pre>
 
 <p>As you can see, values that meet the criteria (&lt;= 5) return as <code>TRUE</code>.</p>
 
-<pre class = 'prettyprint lang-r'>x[x &lt;= 5] # Index vector x with the results of the test. </pre>
+<pre class = 'prettyprint lang-r'>&gt; x[x &lt;= 5] # Index vector x with the results of the test. </pre>
 
 <pre >## [1] 2 3 4 5</pre>
 
@@ -291,16 +290,16 @@ x &lt;= 5 # Apply the less than or equals test</pre>
 
 <p>We index character vectors using the <code>==</code> and <code>!=</code> operators, but not the greater/less than operators. Quantity makes no sense for characters!</p>
 
-<pre class = 'prettyprint lang-r'>months == &quot;June&quot; # The sixth element is TRUE</pre>
+<pre class = 'prettyprint lang-r'>&gt; months == &quot;June&quot; # The sixth element is TRUE</pre>
 
 <pre >##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
 ## [12] FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>months[months == &quot;June&quot;]</pre>
+<pre class = 'prettyprint lang-r'>&gt; months[months == &quot;June&quot;]</pre>
 
 <pre >## [1] &quot;June&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>months[months != &quot;July&quot;]</pre>
+<pre class = 'prettyprint lang-r'>&gt; months[months != &quot;July&quot;]</pre>
 
 <pre >##  [1] &quot;January&quot;   &quot;February&quot;  &quot;March&quot;     &quot;April&quot;     &quot;May&quot;      
 ##  [6] &quot;June&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;   &quot;November&quot; 
@@ -310,12 +309,12 @@ x &lt;= 5 # Apply the less than or equals test</pre>
 
 <p>Unfortunately, we often have to deal with missing observations in real world data sets. R codes missing data as <code>NA</code> (or sometimes <code>NaN</code>). We can use the <code>is.na()</code> function to find any missing values in a vector.</p>
 
-<pre class = 'prettyprint lang-r'>missingno &lt;- c(10,NA,1,4,2,NA,NA,99,NaN, NA)
-is.na(missingno)</pre>
+<pre class = 'prettyprint lang-r'>&gt; missingno &lt;- c(10,NA,1,4,2,NA,NA,99,NaN, NA)
+&gt; is.na(missingno)</pre>
 
 <pre >##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>missingno[!is.na(missingno)] # Select things that are the opposite of missing</pre>
+<pre class = 'prettyprint lang-r'>&gt; missingno[!is.na(missingno)] # Select things that are the opposite of missing</pre>
 
 <pre >## [1] 10  1  4  2 99</pre>
 
@@ -323,12 +322,12 @@ is.na(missingno)</pre>
 
 <p>An important arithmetic operator that was not mentioned last week is the modulus operator <code>%%</code>, which gives us the remainder of division. For example: <code>5 %% 3</code> is <code>2</code>.</p>
 
-<pre class = 'prettyprint lang-r'>lisa &lt;- c(1,34,5,63,209,11,17,998,78,3330)
-lisa %% 17 == 0</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa &lt;- c(1,34,5,63,209,11,17,998,78,3330)
+&gt; lisa %% 17 == 0</pre>
 
 <pre >##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>lisa[lisa %% 17 == 0]</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa[lisa %% 17 == 0]</pre>
 
 <pre >## [1] 34 17</pre>
 
@@ -338,11 +337,11 @@ lisa %% 17 == 0</pre>
 
 <p>A useful function to know is <code>which()</code>. When used on a logical vector, it will return to your the position indices of the vector&#39;s <code>TRUE</code> element. It is useful when you want to know <strong>where</strong> in the vector your matches occur.</p>
 
-<pre class = 'prettyprint lang-r'>lisa %% 17 == 0</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa %% 17 == 0</pre>
 
 <pre >##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>which(lisa %% 17 == 0)</pre>
+<pre class = 'prettyprint lang-r'>&gt; which(lisa %% 17 == 0)</pre>
 
 <pre >## [1] 2 7</pre>
 
@@ -350,8 +349,8 @@ lisa %% 17 == 0</pre>
 
 <p>Write an expression using logical testing and indexing that, when applied to the vector <code>dummy</code>, returns the same output as the numeric indexing example shown below.</p>
 
-<pre class = 'prettyprint lang-r'>dummy &lt;- 17:23
-dummy[5:7]</pre>
+<pre class = 'prettyprint lang-r'>&gt; dummy &lt;- 17:23
+&gt; dummy[5:7]</pre>
 
 <pre >## [1] 21 22 23</pre>
 
@@ -412,7 +411,7 @@ dummy[5:7]</pre>
 
 <p>Lets bring back our old friend <code>lisa</code> to try out some examples of multiple conditionals.</p>
 
-<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 | lisa &gt; 1000]</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 | lisa &gt; 1000]</pre>
 
 <pre >## [1]    1   34    5   63  209   11   17   78 3330</pre>
 
@@ -424,7 +423,7 @@ dummy[5:7]</pre>
 
 </article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1">
 
-<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 100 &amp; lisa &gt;= 10]</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 100 &amp; lisa &gt;= 10]</pre>
 
 <pre >## [1] 34 63 11 17 78</pre>
 
@@ -432,7 +431,7 @@ dummy[5:7]</pre>
 
 </article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-2">
 
-<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
+<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
 
 <pre >## numeric(0)</pre>
 

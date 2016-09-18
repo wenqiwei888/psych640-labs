@@ -242,7 +242,7 @@ ggplot(data = Orange,
 ## Adjusting the colors {.img-centered}
 There are many custom-made pallets to choose from, if you're willing to go looking for them. For example, one of my favorite sets of palletes are the [Wes Anderson Color Palletes](https://github.com/karthik/wesanderson), which I encourage you to check out.
 
-![Rushmore](/images/rushmore.jpg)\
+![Rushmore](../images/rushmore.jpg)\
 
 
 ## Setting an aesthetic

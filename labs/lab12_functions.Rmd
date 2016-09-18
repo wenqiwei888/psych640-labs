@@ -78,7 +78,7 @@ f(arg2 = "sir nose d'voidoffunk", arg1 = "starchild")
 The function body should just contain normal R code! Easy!
 
 Here's a picture of [Sir Nose  D’Voidoffunk](https://www.youtube.com/watch?v=YNXkw96HC7k) to take up the slide.
-![Sir Nose  D’Voidoffunk](/images/sirNose.jpg)
+![Sir Nose  D’Voidoffunk](../images/sirNose.jpg)
 
 His nose is long because he's been fakin' the funk.
 
@@ -219,7 +219,7 @@ So, the next time `summaryStats` is called, debugging mode will activate!
 The console prompt `>` should change to read `Browse [x]>`, where x is some integer. In Rstudio, a new tab should open in the editor pane titled "Source Viewer", and a set of navigation controls should appear just above the console window.
 
 ## Interactive Debugging { .img-centered }
-![debugControls](/images/debugControls.png)
+![debugControls](../images/debugControls.png)
 The navigation controls & corresponding keyboard shortcuts are shown above, and explained below:
 
 1. Executes the very next line of code in the function 
@@ -245,7 +245,7 @@ This method can save you quite a bit of time versus using the `debug` function b
 To set a breakpoint, use the mouse to click in the blank space between the line number of the expression you wish to pause execution prior to and the left edge of the editor pane.
 
 This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints.
-![setBreakpoint](/images/setBreakpoint.png)
+![setBreakpoint](../images/setBreakpoint.png)
 
 You can set as many breakpoints as you wish, but you need to source the file each time you add new ones to activate them.
 
