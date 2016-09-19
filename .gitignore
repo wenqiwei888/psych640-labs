@@ -7,3 +7,4 @@ _site/
 *.odg
 *_cache/
 Gemfile.lock
+packrat/lib*/
