@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2016-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,6 +77,7 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
+
 </head>
 
 <body style="opacity: 0">
@@ -89,7 +90,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-26</p>
           </hgroup>
   </slide>
 
@@ -384,7 +385,7 @@ Another common mistake is forgetting to concatenate the values you want to slice
 <tr class="even">
 <td align="left">Scalar AND</td>
 <td align="left"><code>&amp;&amp;</code></td>
-<td align="left"><code>3 &gt; 0 &amp; 3 &lt;=2</code></td>
+<td align="left"><code>3 &gt; 0 &amp;&amp; 3 &lt;=2</code></td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
@@ -396,7 +397,7 @@ Another common mistake is forgetting to concatenate the values you want to slice
 <tr class="even">
 <td align="left">Scalar OR</td>
 <td align="left"><strong><code>||</code></strong></td>
-<td align="left"><code>3 &gt; 0 | 3 &lt;=2</code></td>
+<td align="left"><code>3 &gt; 0 || 3 &lt;=2</code></td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
