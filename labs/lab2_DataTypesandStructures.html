@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-19" />
+  <meta name="date" content="2016-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -90,7 +90,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-19</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-09-26</p>
           </hgroup>
   </slide>
 
@@ -199,9 +199,9 @@ a</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
 
-<p>Of course, it is helpful in a language focused on analysing large data sets to have data structures capable of holding more than a single value.</p>
+<p>Of course, it is helpful in a language focused on analyzing large data sets to have data structures capable of holding more than a single value.</p>
 
-<p>Think of data structures in R as big containers used for grouping together many values. After storing your data in these containers, you can reuse it multiple places (e.g. create an R object to store it) or access different subsets of it by postion or name.</p>
+<p>Think of data structures in R as big containers used for grouping together many values. After storing your data in these containers, you can reuse it multiple places (e.g. create an R object to store it) or access different subsets of it by position or name.</p>
 
 In this course, we will primarily be working with 4 different types of data structures:
 
@@ -261,7 +261,7 @@ char_vector &lt;- c(&quot;foo&quot;,&quot;bar&quot;,&quot;herp&quot;,&quot;derp&
 
 </article></slide><slide class=''><hgroup><h2>Element-wise Math operations</h2></hgroup><article  id="element-wise-math-operations">
 
-<p>You can apply the math opertators we used in the first class to vectors as well. When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by postition and applies the operation to each pair of elements.</p>
+<p>You can apply the math opertators we used in the first class to vectors as well. When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by position and applies the operation to each pair of elements.</p>
 
 <pre class = 'prettyprint lang-r'>vec1 &lt;- c(5,-1,100,75)
 vec2 &lt;- c(10,3,4,-4)
@@ -277,7 +277,7 @@ vec2 + vec1</pre>
 
 </article></slide><slide class=''><hgroup><h2>Summarizing Vectors</h2></hgroup><article  id="summarizing-vectors">
 
-<p>Often it is useful to summarise a vector with a single number, and many common statistical operations in R are implemented as function that take vector input.</p>
+<p>Often it is useful to summarize a vector with a single number, and many common statistical operations in R are implemented as function that take vector input.</p>
 
 <pre class = 'prettyprint lang-r'>mean(55:100) # can use : operator inline</pre>
 
@@ -428,11 +428,13 @@ long</pre>
 
 <p>Data Frames are similar to matrices, in that they are 2D rectangular structures, but are more flexible because they allow for mixed data types. A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables.</p>
 
-<p>Data frames also support a more powerful syntax for subsetting and combining data than matrices, making them a prefered data structure in many instances where explicit matrix algebra is not required.</p>
+<p>Data frames also support a more powerful syntax for subsetting and combining data than matrices, making them a preferred data structure in many instances where explicit matrix algebra is not required.</p>
 
 </article></slide><slide class=''><hgroup><h2>Creating Data Frames</h2></hgroup><article  id="creating-data-frames">
 
-<p>Data frames can be created by passing <code>name = value</code> pairs to the <code>data.frame()</code> function. The values should be vectors (of any type) and the names should be unquoted character strings, which will be used to name the columns of the data frame. Using numeric values to name the columns (e.g. 1) is possible, but discouraged.</p>
+<p>Data frames can be created by passing <code>name = value</code> pairs to the <code>data.frame()</code> function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column.</p>
+
+<p>Essentially, a data frame is a container that imposes a relational structure on any number of previously unrelated vectors. Importantly, all the vectors stored in the data frame must be of <em>identical length</em>.</p>
 
 <pre class = 'prettyprint lang-r'>df &lt;- data.frame(x=c(1,4,4,2), y=c(3,3,1,4),
                  month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Jan&quot;))
@@ -452,7 +454,27 @@ df</pre>
 
 <pre >## [1] &quot;Sep&quot; &quot;Oct&quot; &quot;Nov&quot; &quot;Jan&quot;</pre>
 
-<p>More than 1 name doesn&#39;t work here though. We&#39;ll see a way to get more than 1 column next wek</p>
+<p>Selecting more than 1 name with the <code>$</code> operator doesn&#39;t work though.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Frame Indexing</h2></hgroup><article  id="data-frame-indexing-1">
+
+<p>Data Frames can also be indexed with <code>[</code> like a matrix.</p>
+
+<pre class = 'prettyprint lang-r'>df[1,] # Still A data frame</pre>
+
+<pre >##   x y month
+## 1 1 3   Sep</pre>
+
+<pre class = 'prettyprint lang-r'>df[,3] # A vector, like when using $</pre>
+
+<pre >## [1] &quot;Sep&quot; &quot;Oct&quot; &quot;Nov&quot; &quot;Jan&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>df[1:3,2:3] # Selecting multiple columns and rows</pre>
+
+<pre >##   y month
+## 1 3   Sep
+## 2 3   Oct
+## 3 1   Nov</pre>
 
 </article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames">
 
@@ -479,11 +501,11 @@ df</pre>
 ## 3 4 1   Nov  31
 ## 4 2 4   Jan  40</pre>
 
-<p>But unlike with the <code>cbind</code> example, we did assigmnet here, so the column got added instead of jsut printed.</p>
+<p>But unlike with the <code>cbind</code> example, we did assignment here, so the column got added instead of just printed.</p>
 
 </article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames-2">
 
-<p>Rows can be added with rbind (guess what thats short for&#8230;)</p>
+<p>Rows can be added with rbind (guess what that&#39;s short for&#8230;)</p>
 
 <pre class = 'prettyprint lang-r'>rbind(df, c(5,1,&quot;Mar&quot;,10)) # Vector length equals number of columns in df</pre>
 
@@ -495,19 +517,6 @@ df</pre>
 ## 5 5 1   Mar  10</pre>
 
 <p>But be careful, this can change the type of data held in the data frame. Its safer to make a new data frame, and then <code>rbind</code> those together.</p>
-
-</article></slide><slide class=''><hgroup><h2>Data Frame Indexing</h2></hgroup><article  id="data-frame-indexing-1">
-
-<p>Data Frames can also be indexed with <code>[</code> like a matrix.</p>
-
-<pre class = 'prettyprint lang-r'>df[1,] # Still A data frame</pre>
-
-<pre >##   x y month age
-## 1 1 3   Sep  21</pre>
-
-<pre class = 'prettyprint lang-r'>df[,3] # A vector, like when using $</pre>
-
-<pre >## [1] &quot;Sep&quot; &quot;Oct&quot; &quot;Nov&quot; &quot;Jan&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps" class="smaller">
 
@@ -544,7 +553,9 @@ data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
 
 </article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
 
-<p>Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn&#39;t impose any relationship between them. You can have a list holding matrices, data frames, vectors, and even other lists!</p>
+<p>Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn&#39;t impose any relationship between them.</p>
+
+<p>You can have a list holding matrices, data frames, vectors, and even lists holding other lists!</p>
 
 </article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists-1">
 
@@ -554,7 +565,7 @@ data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
 
 </article></slide><slide class=''><hgroup><h2>Creating Lists</h2></hgroup><article  id="creating-lists">
 
-<p>As you might have guessed, you can create lists of your own with the <code>lists()</code> function. Like the <code>data.frame()</code> function, you pass in name=value pairs. But now, the values can be any R object, not just vectors.</p>
+<p>As you might have guessed, you can create lists of your own with the <code>list()</code> function. Like the <code>data.frame()</code> function, you pass in <code>name=value</code> pairs. But now, the values can be any R object, of any size, not just vectors with the same lengths.</p>
 
 <pre class = 'prettyprint lang-r'>biglist &lt;- list(first = new_vector, second = wide)
 biglist</pre>
@@ -594,7 +605,7 @@ biglist</pre>
 
 <ol>
 <li>Make a list of length 3, where each element is a data structure with more than one element. Each element of the list must be named.</li>
-<li>report the details of this lists struture, and the structure of the objects it holds, using an R function.</li>
+<li>report the details of this lists structure, and the structure of the objects it holds, using an R function.</li>
 </ol>
 
 <p>*Hint: reuse some of the data structures you&#39;ve created in the previous exercises as your list elements.</p>
