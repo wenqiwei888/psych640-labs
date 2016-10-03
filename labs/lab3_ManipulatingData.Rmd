@@ -2,6 +2,9 @@
 title: "Manipulating Data Part 1: The Data Awakens"
 author: "William Hopper"
 date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    css: ["../theme/css/custom.css", "../theme/css/ManipulatingData.css"]
 ---
 
 ```{r setup, include=FALSE}
@@ -23,7 +26,7 @@ Indexing a data structure in R requires 4 ingredients.
     + e.g. A data frame, matrix, vector or list
 2. An opening square bracket `[`
 3. 1 (or more) vectors which indicate which values from the larger data structure should be pulled out. 
-4. a closing squre bracket `]`
+4. a closing square bracket `]`
 
 Arrange the ingredients in an R expression like so:
 
@@ -74,7 +77,7 @@ Instead of creating a vector of values you *do* want to pick out, it may be easi
 alphabet[c(-1,-26)] # Same as alphabet[2:24]
 alphabet[-1:-10]
 ```
-Indexing with positive vectors is usually prefered, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)
+Indexing with positive vectors is usually preferred, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)
 
 ## Activity
 Execute the following code and look at the values in `months`:
@@ -91,7 +94,7 @@ Now, do the following:
 
 ## Logical Indexing
 
-When performing logical indexing, you supply a vector specifying whether to extract a specfic element (with a `TRUE`) or to *not* extract a specfic element (with a `FALSE`).
+When performing logical indexing, you supply a vector specifying whether to extract a specific element (with a `TRUE`) or to *not* extract a specific element (with a `FALSE`).
 
 Let's revisit the example of selecting the first and last elements of the alphabet vector: We make a vector of logicals and stick it in the square brackets after your vector.
 
@@ -160,14 +163,16 @@ missingno[!is.na(missingno)] # Select things that are the opposite of missing
 
 ## Other Useful Tests: modulus division
 An important arithmetic operator that was not mentioned last week
-is the modulus operator `%%`, which gives us the remainder of division.  For example:
-`5 %% 3` is `2`.
+is the modulus operator `%%`, which gives us the remainder of division.  
+
+For example: `5 %% 3` is `2`.
 
 ```{r lisa}
-lisa <- c(1,34,5,63,209,11,17,998,78,3330)
+lisa <- c(34, 509, 63, 187, 998, 78, 3330)
 lisa %% 17 == 0
 lisa[lisa %% 17 == 0]
 ```
+
 This returns all the values of the vector called `lisa` that are multiples of 17, since multiples of 17 will have a remainder of zero.
 
 ## Tips and Tricks
@@ -187,14 +192,20 @@ dummy[5:7]
 ```{r indexingActivity_answer,include=FALSE}
 dummy[dummy >= 21]
 ```
+
 ## Testing Multiple Conditions 
-Sometimes you need to test multiple conditions, for example, perhaps you need to pick only values within a certain range to exclude some outliers. This neccesitates that we combine multiple logical tests in order to pull out only values that meet at least one or all of our requirements.
+Sometimes you need to select elements based on multiple conditions. For example, you might want to select only those values that are less than 4 standard deviations above or below the mean. 
 
-Luckily, we have logical operators around to help use chain our comparisons together! The logical operations we have at our disposal are: 
 
-- AND: **Both** Conditions must be met to return TRUE
-- OR: **Either** condition can be met to return TRUE
-- negation: Reverse the current logical (TRUE becomes FALSE)
+
+In R, we can select elements based on multiple conditions by combining individual logical tests together using *logical operators*. The logical operations we have at our disposal are: 
+
+- AND
+    - Each element must meet **all**  conditions to return `TRUE`
+- OR
+    - Each element must meet **at least one** conditions to return `TRUE`
+- Negation
+    - Reverse the current logical (e.g., `TRUE` becomes `FALSE`)
 
 ## Logical Operators 
 Logic | Expression | Example | Result
@@ -205,22 +216,82 @@ Elementwise OR | **`|`** | `c(1,3) > 0 | c(1,3) <=2` | `r c(1,3) > 0 | c(1,3) <=
 Scalar OR | **`||`** |` 3 > 0 || 3 <=2` | `r 3 > 0 || 3 <=2`
 Negate | `!` | `!(3 > 0)` | `r !(3 > 0)`
 
+
+The elementwise operators test all their arguments (i.e., they test all the pairs elements of the logical vectors supplied) and return a vector the same length as the input.
+
+The scalar operators only test the *first pair* of elements from their input, regardless of length, and return a single `TRUE` or `FALSE`. Thus, scalar operators should only be used for comparing a single value to another single value.
+
 ## Indexing with Multiple Conditions 
-Lets bring back our old friend `lisa` to try out some examples of multiple conditionals.
+Let's say we wanted to select the elements in `lisa` which were less than 500 or greater than 1000.
+
+```{r show_lisa_again}
+lisa
+```
+
+To do this, we need to:
+
+1. Test each element of `lisa` to see if it is less then 500
+    - `lisa < 500`
+2. Test each element of `lisa` to see if it is greater than 1000
+    - `lisa > 1000`
+3. Combine the results of both tests together into a single test
+    - ???
+
+    
+## Indexing with Multiple Conditions {.conditionals}
+Our goal of the test is to have it return a `TRUE` for each element if it passed the "less than 500" test **OR** if it passed the "greater than 1000" test.
+
+Expression | Element 1 | Element 2 | Element 3 | Element 4 | Element 5 | Element 6 | Element 7
+------------- | --------- | --------- | --------- | --------- | --------- | --------- | ---------
+`lisa` |     34    |   509     |    63     |    187    |    998    |     78    |    3330
+`lisa < 500` | `TRUE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `FALSE`
+`lisa > 1000` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `TRUE`
+Pass Either Test? | <span style="color: Green">&#10003;</span> | 	 <span style="color: Red">&#10005; </span> | <span style="color: Green"> &#10003; </span> | <span style="color: Green"> &#10003; </span>| 	 <span style="color: Red"> &#10005; </span> | <span style="color: Green"> &#10003; </span>| <span style="color: Green"> &#10003; </span>
+
+
+## Indexing with Multiple Conditions 
+Our goal of the test is to have it return a `TRUE` for each element if it passed the "less than 500"" test **OR** if it passed the "greater than 1000"" test.
+
+We can do that by combining the two tests with the `|` logical operator
+
+Expression | Element 1 | Element 2 | Element 3 | Element 4 | Element 5 | Element 6 | Element 7
+------------- | --------- | --------- | --------- | --------- | --------- | --------- | ---------
+`lisa` |     34    |   509     |    63     |    187    |    998    |     78    |    3330
+`lisa < 500` | `TRUE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `FALSE`
+`lisa > 1000` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `TRUE`
+`lisa < 500 | lisa > 1000` | `TRUE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `TRUE` 
+
+<br>
 ```{r lisa_or}
 lisa[lisa < 500 | lisa > 1000]
 ```
-The logical tests inside the brackets test to see whether each number in `lisa` is less than 500 **OR** greater than or equal to 998.`lisa` has more than one element,so we use a single **`|`**. 
-
-This produces a logical vector with `TRUE` in the position of items that meet the test criteria, and a `FALSE` in the position of items that don't. 
-
-Then, the square brackets subset `lisa` using this logical vector, returning the values where it is `TRUE`.
 
 ## Indexing with Multiple Conditions 
+Now let's say we wanted to select the elements in `lisa` which were less than 100 and greater than or equal to 10.
+
+To do this, we need to:
+
+> - Test each element of `lisa` to see if it is less then 100
+  >     * `lisa < 500`
+> - Test each element of `lisa` to see if it is greater than 1000
+  >     * `lisa >= 50`
+> - Combine the results of both tests together into a single test
+  >     * `&`
+
+## Indexing with Multiple Conditions 
+Our goal of the test is to have it return a `TRUE` for each element if it passed the "less than 500" test **AND** if it passed the "greater than 50" test.
+
+Expression | Element 1 | Element 2 | Element 3 | Element 4 | Element 5 | Element 6 | Element 7
+------------- | --------- | --------- | --------- | --------- | --------- | --------- | ---------
+`lisa` |     34    |   509     |    63     |    187    |    998    |     78    |    3330
+`lisa < 500` | `TRUE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `FALSE`
+`lisa >= 50` | `FALSE` | `TRUE` | `TRUE` | `TRUE` | `TRUE` | `TRUE` | `TRUE`
+`lisa < 500 & lisa >= 50` | `FALSE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `FALSE`
+
+<br>
 ```{r lisa_and}
-lisa[lisa < 100 & lisa >= 10]
+lisa[lisa < 500 & lisa >= 50]
 ```
-This test selects for 2-digit numbers - those between 10 and 100. For the test to return `TRUE`, it must be both greater than or equal to 10, **AND** less than 100. 
 
 ## Indexing with Multiple Conditions 
 ```{r lisa_nothing}

@@ -1,0 +1,8 @@
+.conditionals td {
+  text-align: center;
+}
+
+.conditionals tr:last-child td:not(:first-child) {
+  font-size: 44px;
+  padding: 5px;
+}

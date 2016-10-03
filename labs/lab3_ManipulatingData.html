@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-10-03" />
+  <meta name="date" content="2016-10-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -76,6 +76,7 @@
   </style>
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/ManipulatingData.css" type="text/css" />
 
 
 </head>
@@ -90,7 +91,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-10-03</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-04</p>
           </hgroup>
   </slide>
 
@@ -112,7 +113,7 @@
 </ul></li>
 <li>An opening square bracket <code>[</code></li>
 <li>1 (or more) vectors which indicate which values from the larger data structure should be pulled out.</li>
-<li>a closing squre bracket <code>]</code></li>
+<li>a closing square bracket <code>]</code></li>
 </ol>
 
 <p>Arrange the ingredients in an R expression like so:</p>
@@ -188,7 +189,7 @@ Another common mistake is forgetting to concatenate the values you want to use f
 
 <pre >##  [1] &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</pre>
 
-<p>Indexing with positive vectors is usually prefered, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)</p>
+<p>Indexing with positive vectors is usually preferred, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)</p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
@@ -211,7 +212,7 @@ months</pre>
 
 </article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing">
 
-<p>When performing logical indexing, you supply a vector specifying whether to extract a specfic element (with a <code>TRUE</code>) or to <em>not</em> extract a specfic element (with a <code>FALSE</code>).</p>
+<p>When performing logical indexing, you supply a vector specifying whether to extract a specific element (with a <code>TRUE</code>) or to <em>not</em> extract a specific element (with a <code>FALSE</code>).</p>
 
 <p>Let&#39;s revisit the example of selecting the first and last elements of the alphabet vector: We make a vector of logicals and stick it in the square brackets after your vector.</p>
 
@@ -335,16 +336,18 @@ months</pre>
 
 </article></slide><slide class=''><hgroup><h2>Other Useful Tests: modulus division</h2></hgroup><article  id="other-useful-tests-modulus-division">
 
-<p>An important arithmetic operator that was not mentioned last week is the modulus operator <code>%%</code>, which gives us the remainder of division. For example: <code>5 %% 3</code> is <code>2</code>.</p>
+<p>An important arithmetic operator that was not mentioned last week is the modulus operator <code>%%</code>, which gives us the remainder of division.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa &lt;- c(1,34,5,63,209,11,17,998,78,3330)
+<p>For example: <code>5 %% 3</code> is <code>2</code>.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; lisa &lt;- c(34, 509, 63, 187, 998, 78, 3330)
 &gt; lisa %% 17 == 0</pre>
 
-<pre >##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
+<pre >## [1]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
 <pre class = 'prettyprint lang-r'>&gt; lisa[lisa %% 17 == 0]</pre>
 
-<pre >## [1] 34 17</pre>
+<pre >## [1]  34 187</pre>
 
 <p>This returns all the values of the vector called <code>lisa</code> that are multiples of 17, since multiples of 17 will have a remainder of zero.</p>
 
@@ -354,11 +357,11 @@ months</pre>
 
 <pre class = 'prettyprint lang-r'>&gt; lisa %% 17 == 0</pre>
 
-<pre >##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
+<pre >## [1]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
 <pre class = 'prettyprint lang-r'>&gt; which(lisa %% 17 == 0)</pre>
 
-<pre >## [1] 2 7</pre>
+<pre >## [1] 1 4</pre>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
@@ -371,14 +374,26 @@ months</pre>
 
 </article></slide><slide class=''><hgroup><h2>Testing Multiple Conditions</h2></hgroup><article  id="testing-multiple-conditions">
 
-<p>Sometimes you need to test multiple conditions, for example, perhaps you need to pick only values within a certain range to exclude some outliers. This neccesitates that we combine multiple logical tests in order to pull out only values that meet at least one or all of our requirements.</p>
+<p>Sometimes you need to select elements based on multiple conditions. For example, you might want to select only those values that are less than 4 standard deviations above or below the mean.</p>
 
-<p>Luckily, we have logical operators around to help use chain our comparisons together! The logical operations we have at our disposal are:</p>
+<p>In R, we can select elements based on multiple conditions by combining individual logical tests together using <em>logical operators</em>. The logical operations we have at our disposal are:</p>
 
 <ul>
-<li>AND: <strong>Both</strong> Conditions must be met to return TRUE</li>
-<li>OR: <strong>Either</strong> condition can be met to return TRUE</li>
-<li>negation: Reverse the current logical (TRUE becomes FALSE)</li>
+<li>AND
+
+<ul>
+<li>Each element must meet <strong>all</strong> conditions to return <code>TRUE</code></li>
+</ul></li>
+<li>OR
+
+<ul>
+<li>Each element must meet <strong>at least one</strong> conditions to return <code>TRUE</code></li>
+</ul></li>
+<li>Negation
+
+<ul>
+<li>Reverse the current logical (e.g., <code>TRUE</code> becomes <code>FALSE</code>)</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Logical Operators</h2></hgroup><article  id="logical-operators">
@@ -422,29 +437,279 @@ months</pre>
 </tr>
 </table>
 
+<p>The elementwise operators test all their arguments (i.e., they test all the pairs elements of the logical vectors supplied) and return a vector the same length as the input.</p>
+
+<p>The scalar operators only test the <em>first pair</em> of elements from their input, regardless of length, and return a single <code>TRUE</code> or <code>FALSE</code>. Thus, scalar operators should only be used for comparing a single value to another single value.</p>
+
 </article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions">
 
-<p>Lets bring back our old friend <code>lisa</code> to try out some examples of multiple conditionals.</p>
+<p>Let&#39;s say we wanted to select the elements in <code>lisa</code> which were less than 500 or greater than 1000.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; lisa</pre>
+
+<pre >## [1]   34  509   63  187  998   78 3330</pre>
+
+<p>To do this, we need to:</p>
+
+<ol>
+<li>Test each element of <code>lisa</code> to see if it is less then 500
+
+<ul>
+<li><code>lisa &lt; 500</code></li>
+</ul></li>
+<li>Test each element of <code>lisa</code> to see if it is greater than 1000
+
+<ul>
+<li><code>lisa &gt; 1000</code></li>
+</ul></li>
+<li>Combine the results of both tests together into a single test
+
+<ul>
+<li>???</li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1" class="conditionals">
+
+<p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot; test <strong>OR</strong> if it passed the &quot;greater than 1000&quot; test.</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<tr class="header">
+<th align="left">Expression</th>
+<th align="left">Element 1</th>
+<th align="left">Element 2</th>
+<th align="left">Element 3</th>
+<th align="left">Element 4</th>
+<th align="left">Element 5</th>
+<th align="left">Element 6</th>
+<th align="left">Element 7</th>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa</code></td>
+<td align="left">34</td>
+<td align="left">509</td>
+<td align="left">63</td>
+<td align="left">187</td>
+<td align="left">998</td>
+<td align="left">78</td>
+<td align="left">3330</td>
+</tr>
+<tr class="even">
+<td align="left"><code>lisa &lt; 500</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa &gt; 1000</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td align="left">Pass Either Test?</td>
+<td align="left"><span style="color: Green">
+✓</span></td>
+<td align="left"><span style="color: Red">
+✕ </span></td>
+<td align="left"><span style="color: Green">
+ ✓ </span></td>
+<td align="left"><span style="color: Green">
+ ✓ </span></td>
+<td align="left"><span style="color: Red">
+ ✕ </span></td>
+<td align="left"><span style="color: Green">
+ ✓ </span></td>
+<td align="left"><span style="color: Green">
+ ✓ </span></td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-2">
+
+<p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot;&quot; test <strong>OR</strong> if it passed the &quot;greater than 1000&quot;&quot; test.</p>
+
+<p>We can do that by combining the two tests with the <code>|</code> logical operator</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<tr class="header">
+<th align="left">Expression</th>
+<th align="left">Element 1</th>
+<th align="left">Element 2</th>
+<th align="left">Element 3</th>
+<th align="left">Element 4</th>
+<th align="left">Element 5</th>
+<th align="left">Element 6</th>
+<th align="left">Element 7</th>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa</code></td>
+<td align="left">34</td>
+<td align="left">509</td>
+<td align="left">63</td>
+<td align="left">187</td>
+<td align="left">998</td>
+<td align="left">78</td>
+<td align="left">3330</td>
+</tr>
+<tr class="even">
+<td align="left"><code>lisa &lt; 500</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa &gt; 1000</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>lisa &lt; 500 | lisa &gt; 1000</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+</tr>
+</table>
+
+<p><br></p>
 
 <pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 | lisa &gt; 1000]</pre>
 
-<pre >## [1]    1   34    5   63  209   11   17   78 3330</pre>
+<pre >## [1]   34   63  187   78 3330</pre>
 
-<p>The logical tests inside the brackets test to see whether each number in <code>lisa</code> is less than 500 <strong>OR</strong> greater than or equal to 998.<code>lisa</code> has more than one element,so we use a single <strong><code>|</code></strong>.</p>
+</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-3">
 
-<p>This produces a logical vector with <code>TRUE</code> in the position of items that meet the test criteria, and a <code>FALSE</code> in the position of items that don&#39;t.</p>
+<p>Now let&#39;s say we wanted to select the elements in <code>lisa</code> which were less than 100 and greater than or equal to 10.</p>
 
-<p>Then, the square brackets subset <code>lisa</code> using this logical vector, returning the values where it is <code>TRUE</code>.</p>
+<p>To do this, we need to:</p>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1">
+<ul class = 'build'>
+<li>Test each element of <code>lisa</code> to see if it is less then 100
 
-<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 100 &amp; lisa &gt;= 10]</pre>
+<ul>
+<li><code>lisa &lt; 500</code></li>
+</ul></li>
+<li>Test each element of <code>lisa</code> to see if it is greater than 1000
 
-<pre >## [1] 34 63 11 17 78</pre>
+<ul>
+<li><code>lisa &gt;= 50</code></li>
+</ul></li>
+<li>Combine the results of both tests together into a single test
 
-<p>This test selects for 2-digit numbers - those between 10 and 100. For the test to return <code>TRUE</code>, it must be both greater than or equal to 10, <strong>AND</strong> less than 100.</p>
+<ul>
+<li><code>&amp;</code></li>
+</ul></li>
+</ul>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-2">
+</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-4">
+
+<p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot; test <strong>AND</strong> if it passed the &quot;greater than 50&quot; test.</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<tr class="header">
+<th align="left">Expression</th>
+<th align="left">Element 1</th>
+<th align="left">Element 2</th>
+<th align="left">Element 3</th>
+<th align="left">Element 4</th>
+<th align="left">Element 5</th>
+<th align="left">Element 6</th>
+<th align="left">Element 7</th>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa</code></td>
+<td align="left">34</td>
+<td align="left">509</td>
+<td align="left">63</td>
+<td align="left">187</td>
+<td align="left">998</td>
+<td align="left">78</td>
+<td align="left">3330</td>
+</tr>
+<tr class="even">
+<td align="left"><code>lisa &lt; 500</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>lisa &gt;= 50</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>lisa &lt; 500 &amp; lisa &gt;= 50</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>FALSE</code></td>
+</tr>
+</table>
+
+<p><br></p>
+
+<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 &amp; lisa &gt;= 50]</pre>
+
+<pre >## [1]  63 187  78</pre>
+
+</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-5">
 
 <pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
 
