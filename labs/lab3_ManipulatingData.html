@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-26" />
+  <meta name="date" content="2016-10-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -90,7 +90,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-26</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-03</p>
           </hgroup>
   </slide>
 
@@ -123,7 +123,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Indexing Vectors</h2></hgroup><article  id="indexing-vectors">
 
-<p>Broadly, there are 2 types of indexing vectors that can be put inside the square brackets.</p>
+<p>Broadly, there are 2 types of indexing vectors that are useful inside the square brackets.</p>
 
 <ol>
 <li>Numeric Vectors
@@ -142,7 +142,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Numeric Index Vectors</h2></hgroup><article  id="numeric-index-vectors">
 
-<p>Lets start with a large vector and break it down. The numeric vectors inside the brackets tell R the positions of the elements we wish to extract.</p>
+<p>We&#39;ll start by slicing smaller chunks out of a larger vector. Here, the numeric vectors inside the brackets tell R the <em>positions</em> of the elements we wish to extract.</p>
 
 <pre class = 'prettyprint lang-r'>&gt; alphabet &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,
 ... +                &quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;) 
@@ -168,7 +168,7 @@
 
 <p>The <code>NA</code> means the value is missing. This is commonly referred to as an &quot;index out of bounds&quot; error.</p>
 
-Another common mistake is forgetting to concatenate the values you want to slice out into a vector (i.e. forgetting the <code>c()</code> function)
+Another common mistake is forgetting to concatenate the values you want to use for the indexing vector (i.e. forgetting the <code>c()</code> function).
 
 <div class="errormsg">
 <pre class = 'prettyprint lang-r'>&gt; alphabet[1,5,10]</pre>
@@ -194,9 +194,9 @@ Another common mistake is forgetting to concatenate the values you want to slice
 
 <p>Execute the following code and look at the values in <code>months</code>:</p>
 
-<pre class = 'prettyprint lang-r'>&gt; months &lt;- c(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
-... +              &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)
-&gt; months</pre>
+<pre class = 'prettyprint lang-r'>months &lt;- c(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
+            &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)
+months</pre>
 
 <pre >##  [1] &quot;January&quot;   &quot;February&quot;  &quot;March&quot;     &quot;April&quot;     &quot;May&quot;      
 ##  [6] &quot;June&quot;      &quot;July&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;  
@@ -206,14 +206,28 @@ Another common mistake is forgetting to concatenate the values you want to slice
 
 <ol>
 <li>Index <code>months</code> to pull out <code>&quot;February&quot;</code> and <code>&quot;March&quot;</code></li>
-<li>Index months to pull out third month</li>
+<li>Index <code>months</code> to pull out every third month</li>
 </ol>
 
 </article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing">
 
-<p>You can perform indexing with logical vectors in the same fashion as numeric indexing - just make a vector of logicals and stick it in the square brackets after your vector.</p>
+<p>When performing logical indexing, you supply a vector specifying whether to extract a specfic element (with a <code>TRUE</code>) or to <em>not</em> extract a specfic element (with a <code>FALSE</code>).</p>
 
-<p>But this is not a good use case for logical vectors. Why?</p>
+<p>Let&#39;s revisit the example of selecting the first and last elements of the alphabet vector: We make a vector of logicals and stick it in the square brackets after your vector.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; alphabet[c(1,26)]</pre>
+
+<pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; alphabet[c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+... +             FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+... +             FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)]</pre>
+
+<pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-1">
+
+<p>But this specific example is not a good use case for logical vectors. Why?</p>
 
 <ol>
 <li>Longer Code: length of the logical vector must match the length of the object its subsetting.</li>
@@ -222,7 +236,7 @@ Another common mistake is forgetting to concatenate the values you want to slice
 
 <p>The logical vector&#39;s utility comes into play when you <em>don&#39;t</em> know the numeric positions of the elements you are interested in.</p>
 
-</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-1">
+</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-2">
 
 <p>&quot;But wait&quot; you say: &quot;If we don&#39;t know where they are already, how are we going to find them?&quot;. This brings us to <strong>logical testing</strong> and <strong>relational operators</strong></p>
 

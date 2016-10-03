@@ -33,7 +33,7 @@ We will focus on learning what can go inside the square brackets for different t
 
 ## Indexing Vectors
 
-Broadly, there are 2 types of indexing vectors that can be put inside the square brackets. 
+Broadly, there are 2 types of indexing vectors that are useful inside the square brackets. 
 
 1. Numeric Vectors
     + e.g. `c(1,4,5,6,10)`
@@ -43,7 +43,7 @@ Broadly, there are 2 types of indexing vectors that can be put inside the square
 We'll start with numeric indexing vectors to get a feel for the general procedure, and move up to logical indexing.
 
 ## Numeric Index Vectors 
-Lets start with a large vector and break it down. The numeric vectors inside the brackets tell R the positions of the elements we wish to extract.
+We'll start by slicing smaller chunks out of a larger vector. Here, the numeric vectors inside the brackets tell R the *positions* of the elements we wish to extract.
 ```{r large_and_smaller}
 alphabet <- c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
               "p","q","r","s","t","u","v","w","x","y","z") 
@@ -59,7 +59,7 @@ alphabet[100] # there are not 100 letters in the alphabet
 ```
 The `NA` means the value is missing. This is commonly referred to as an "index out of bounds" error.
 
-Another common mistake is forgetting to concatenate the values you want to slice out into a vector (i.e. forgetting the `c()` function)
+Another common mistake is forgetting to concatenate the values you want to use for the indexing vector (i.e. forgetting the `c()` function).
 <div class = "errormsg">
 ```{r no-c, error=TRUE}
 alphabet[1,5,10]
@@ -78,7 +78,7 @@ Indexing with positive vectors is usually prefered, as the intent of the code is
 
 ## Activity
 Execute the following code and look at the values in `months`:
-```{r example1}
+```{r example1, prompt=FALSE}
 months <- c("January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December")
 months
@@ -87,13 +87,24 @@ months
 Now, do the following:
 
 1. Index `months` to pull out `"February"` and `"March"`
-2. Index months to pull out third month
+2. Index `months` to pull out every third month
 
 ## Logical Indexing
 
-You can perform indexing with logical vectors in the same fashion as numeric indexing - just make a vector of logicals and stick it in the square brackets after your vector. 
+When performing logical indexing, you supply a vector specifying whether to extract a specfic element (with a `TRUE`) or to *not* extract a specfic element (with a `FALSE`).
 
-But this is not a good use case for logical vectors. Why?
+Let's revisit the example of selecting the first and last elements of the alphabet vector: We make a vector of logicals and stick it in the square brackets after your vector.
+
+```{r bad_logical_indexing}
+alphabet[c(1,26)]
+alphabet[c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+           FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+           FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)]
+```
+
+## Logical Indexing
+
+But this specific example is not a good use case for logical vectors. Why?
 
 1. Longer Code: length of the logical vector must match the length of the object its subsetting.
 2. Duplicating work: If you already know the position of the elements you want, just put them into a vector and you're done!
