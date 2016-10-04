@@ -24,9 +24,8 @@ Now we'll learn how to index data structures with more than one dimension.
 - Recall that Matrices and Data Frames have both rows **and** columns, making them a 2D data structure
 - This means when we index them, we must specify which rows we would like to take out in our subset, as well as which columns
 
-* A list is also 1D data structure, but they have a few tricky differences from vectors, so we'll save them until the end.
+* A list is also considered a 1D data structure, but they have a few tricky differences from vectors, so we'll save them until the end.
 
-# Matrices 
 
 ## Indexing Matrices
 To index a matrix, all that is required is to have two vectors inside our square brackets, separated from each other by a comma.
@@ -35,7 +34,7 @@ The template is: `OurBigMatrix[rowIndex, columnIndex]`
 
 Like with vectors, the index vectors can be either:
 
-- numeric vectors specificying the position of the rows/columns we want to access
+- numeric vectors specifying the position of the rows/columns we want to access
 - logical vectors specifying for each column and row whether we want to access it (`TRUE`)  or ignore it (`FALSE`)
 
 ## Matrix Examples
@@ -68,18 +67,18 @@ We can also apply logical testing and logical indexing to specific dimensions of
 
 This example here keeps all the columns of the matrix with a sum less than 8.
 ```{r mat_examples4}
-colSums(dummy) # colSumns() adds up each column
+colSums(dummy) # colSums() adds up each column
 colSums(dummy) < 8 # Does each column sum to less than 8?
-dummy[,colSums(dummy) < 8] # Keep columns with sum less than 8
+dummy[,colSums(dummy) < 8] # Select columns with a sum less than 8
 ```
 
 ## Logicals & 2D structures
-This example keeps all the rows of the matrix where the value in the first column is more than 5
+This example keeps all the rows of the matrix where the value in the first column is greater than 5.
 ```{r mat_examples5}
 dummy[,1]
 dummy[,1] > 5
 dummy[dummy[,1] > 5,] # R drops dimensions by default!
-dummy[dummy[,1] > 5, ,drop=FALSE] # R preserves dimensions!
+dummy[dummy[,1] > 5, ,drop=FALSE] # drop=FALSE preserves dimensions!
 ```
 
 ## Activity
@@ -97,7 +96,6 @@ x[1:3,1:3]
 x[,colMeans(x) >4]
 ```
 
-# Data Frames 
 
 ## Data Frames 
 To learn about data frames, we're going to use several data frames that come built-in with R as part of the `datasets` package. Try typing `InsectSprays`, `iris`, `airquality` and `mtcars` into the console to be sure they are loaded and available to you. 
@@ -108,8 +106,8 @@ Since they are included as part of a package, you will *not* see them listed in 
 
 - The `[row,column]` indexing style used with matrices also applies to data frames
 - Data Frames also support a powerful name-based set of indexing operations
-- Indexing based on the name you've assigned to row or column is almost always better, because that name is unlikely to change, while the row or column number is **very** likely to get changed
-- It's also much easier to remember the name of something, than its position in a data frame
+- Indexing based on the name you've assigned to a row or column is almost always better, because that name is unlikely to change, while the row or column number is **very** likely to get changed
+- It's also much easier to remember the name of something than remember its position in a data frame
 
 ## Data Frames
 We have previously seen examples of subsetting a *single* column from a data frame using that columns name, and the `$` operator. 
@@ -161,7 +159,7 @@ InsectSprays$count[InsectSprays$spray=="A"] # Same result as before
 InsectSprays[InsectSprays$spray=="A",]$count # Still the same. Can you figure out why ?
 ```
 
-## Method 1 vs Method 2 | When to use which method?
+## Method 1 vs Method 2: When to use which method?
 
 - Use Method 1 when you want your final result to be a 2D structure
     + e.g., if you want to select multiple columns
@@ -183,10 +181,10 @@ InsectSprays[, 'neeeeeeighhhhh']
 </div>
 
 ## Errors when indexing by name
-Its also a common mistake to forget the quotes around names inside the `[]` brackets, which will throw an unfound object error.
+Its also a common mistake to forget the quotes around names inside the `[]` brackets, which will throw an "object not found" error.
 <div class = "errormsg">
 ```{r quoteless,error=TRUE}
-InsectSprays[, count]
+InsectSprays[, spray]
 ```
 </div>
 
@@ -202,10 +200,9 @@ iris[c(1:5,(nrow(iris)-5):nrow(iris)),]
 iris[iris$Species=='versicolor',]
 iris$Species[iris$Sepal.Width<2.1]
 ```
-# Lists 
 
 ## Lists
-As we learned previously in the Data Structures and Types lessons, lists are the most abstract data structure, capable of holding heterogenous data types as well as holding other data structures. 
+As we learned previously in the Data Structures and Types lessons, lists are the most abstract data structure, capable of holding heterogeneous data types as well as holding other data structures. 
 
 Remember, a list is like a directory on your hard drive:
 
@@ -314,7 +311,7 @@ iris
 Use the `airquality` data frame and do the following:
 
 1. Remove the `Wind` column.
-2. Find the `is.na()` fuction to find and remove rows that are missing observations in the `Ozone` column.
+2. Find the `is.na()` function to find and remove rows that are missing observations in the `Ozone` column.
 3. Replace the entries in the `Day` column that have value 1 with the character string 'Sunday'.
 
 # Advanced Extras
@@ -337,10 +334,10 @@ This example runs without an error, but the output makes no sense because we are
 ```{r mat_examples6}
 dummy[,rowSums(dummy) > 10]
 ```
-So it is quite easy to write code that succesfully executes, but which produces meaningless output! This is much more insidious than an outright error!
+So it is quite easy to write code that successfully executes, but which produces meaningless output! This is much more insidious than an outright error!
 
 ## Activity 
-Try to reason about what R "is doing" in the previous example. Why do we get the ouput we get?
+Try to reason about what R "is doing" in the previous example. Why do we get the output we get?
 ```{r mat_examples6_2, ref.label= 'mat_examples6'}
 ```
-As a hint, try runing the code "from the inside out", one logical step at a time.
+As a hint, try running the code "from the inside out", one logical step at a time.
