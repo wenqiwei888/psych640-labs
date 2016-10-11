@@ -267,13 +267,13 @@ lisa[lisa < 500 | lisa > 1000]
 ```
 
 ## Indexing with Multiple Conditions 
-Now let's say we wanted to select the elements in `lisa` which were less than 100 and greater than or equal to 10.
+Now let's say we wanted to select the elements in `lisa` which were less than 500 and greater than or equal to 50.
 
 To do this, we need to:
 
-> - Test each element of `lisa` to see if it is less then 100
+> - Test each element of `lisa` to see if it is less then 500
   >     * `lisa < 500`
-> - Test each element of `lisa` to see if it is greater than 1000
+> - Test each element of `lisa` to see if it is greater than or equal to 50
   >     * `lisa >= 50`
 > - Combine the results of both tests together into a single test
   >     * `&`
