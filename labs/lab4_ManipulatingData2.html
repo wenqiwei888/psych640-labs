@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-10-04" />
+  <meta name="date" content="2016-10-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-
 </head>
 
 <body style="opacity: 0">
@@ -90,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-10-04</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-17</p>
           </hgroup>
   </slide>
 
@@ -262,7 +261,7 @@
 
 <p>To subset <em>multiple</em> columns, we need to use <code>[row,column]</code> style indexing (not the <code>$</code>).</p>
 
-<p>We can still use names to get what we want by using a character vector containing names of our desired columns.</p>
+<p>But we&#39;re not forced to use numeric vectors just because we&#39;re using the <code>[</code> operator. We can select multiple columns by their names using a character vector that has the names of our desired columns as its elements.</p>
 
 <pre class = 'prettyprint lang-r'>&gt; mtcars[,c(&quot;mpg&quot;,&quot;disp&quot;,&quot;gear&quot;)] # need  as well as the quotes here</pre>
 
@@ -406,8 +405,8 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <pre class = 'prettyprint lang-r'>&gt; biglist &lt;- list(training = c(1,3,2,4),
 +                data = data.frame(trial = 1:4,
-+                          average = c(.4,.71,.64,.1)),
-+                times = matrix(c(2.74,3.44,2.91,.65)),
++                                  average = c(.4,.71,.64,.1)),
++                times = matrix(c(2.74,3.44,2.91,.65), nrow = 1),
 +                name = &quot;Herp McDerpsen&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'>&gt; biglist</pre>
@@ -424,24 +423,46 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## 4     4    0.10</pre>
 
 <pre >## $times
-##      [,1]
-## [1,] 2.74
-## [2,] 3.44
-## [3,] 2.91
-## [4,] 0.65
+##      [,1] [,2] [,3] [,4]
+## [1,] 2.74 3.44 2.91 0.65
 ## 
 ## $name
 ## [1] &quot;Herp McDerpsen&quot;</pre></div>
 
 </article></slide><slide class=''><hgroup><h2>Indexing Lists</h2></hgroup><article  id="indexing-lists">
 
-<p>Rules for indexing lists are like some other data structures, but also have a few of their own.</p>
+<ul>
+<li>Lists elements can have names, and can be accessed by name, just like the columns of a data frame</li>
+<li>Lists are a 1 dimensional structure, so you index into them like a vector
 
 <ul>
-<li>Lists elements can be named and accessed by name, like the columns of a data frame</li>
-<li>Lists are a 1D structure, meaning there is no use for comma-separated sets of vectors for the rows or columns. You can index them like a normal vector</li>
-<li>Possible to index using normal indexing, i.e., <code>[]</code> or recursive indexing i.e.,<code>[[]]</code>.</li>
+<li>i.e., no need for <code>[row, column]</code> style indexing</li>
+</ul></li>
+<li>Lists may be indexed &quot;normally&quot;, using single square brackets (i.e., <code>[]</code>), or &quot;recursively&quot;, using double square brackets (i.e., <code>[[]]</code>).</li>
 </ul>
+
+</article></slide><slide class=''><hgroup><h2>Double vs Single Square Brackets</h2></hgroup><article  id="double-vs-single-square-brackets">
+
+<p>Indexing a list with a single <code>[]</code> will return a list. But indexing with <code>[[]]</code> returns the actual object <strong>stored in</strong> that position</p>
+
+<pre class = 'prettyprint lang-r'>&gt; biglist[3] # Normal indexing: returns a list with the chosen element(s)</pre>
+
+<pre >## $times
+##      [,1] [,2] [,3] [,4]
+## [1,] 2.74 3.44 2.91 0.65</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; class(biglist[3])</pre>
+
+<pre >## [1] &quot;list&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; biglist[[3]] # Recursive indexing: returns the matrix held in element 3</pre>
+
+<pre >##      [,1] [,2] [,3] [,4]
+## [1,] 2.74 3.44 2.91 0.65</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; class(biglist[[3]])</pre>
+
+<pre >## [1] &quot;matrix&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Indexing lists by name</h2></hgroup><article  id="indexing-lists-by-name">
 
@@ -453,6 +474,10 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## 3     3    0.64
 ## 4     4    0.10</pre>
 
+<pre class = 'prettyprint lang-r'>&gt; identical(biglist$data, biglist[[&quot;data&quot;]]) # $ and [[]] both select single elements</pre>
+
+<pre >## [1] TRUE</pre>
+
 <pre class = 'prettyprint lang-r'>&gt; biglist[c(&quot;training&quot;,&quot;name&quot;)] # Returns a list of 2 </pre>
 
 <pre >## $training
@@ -461,33 +486,12 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## $name
 ## [1] &quot;Herp McDerpsen&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Indexing lists by position</h2></hgroup><article  id="indexing-lists-by-position">
-
-<p>Indexing a list with a single <code>[]</code> will return a list. But indexing with <code>[[]]</code> returns the actual object <strong>stored in</strong> that position</p>
-
-<pre class = 'prettyprint lang-r'>&gt; biglist[2] # Normal indexing: returns list with 1 element</pre>
-
-<pre >## $data
-##   trial average
-## 1     1    0.40
-## 2     2    0.71
-## 3     3    0.64
-## 4     4    0.10</pre>
-
-<pre class = 'prettyprint lang-r'>&gt; biglist[[2]] # Recursive indexing: returns a data frame</pre>
-
-<pre >##   trial average
-## 1     1    0.40
-## 2     2    0.71
-## 3     3    0.64
-## 4     4    0.10</pre>
-
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
 
 <ol>
 <li>Subset the first 3 elements of <code>biglist</code> by name</li>
-<li>Subset the last element of <code>biglist</code> by position, keeping the returned value as a list</li>
-<li>Extract character value stored in the <code>name</code> field of <code>biglist</code></li>
+<li>Subset the last element of <code>biglist</code> by position, with the returned value as a list</li>
+<li>Extract the character vector stored in the <code>name</code> field of <code>biglist</code></li>
 </ol>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Replacing and Removing Values</h2></hgroup><article  id="replacing-and-removing-values">
@@ -506,10 +510,15 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 </article></slide><slide class=''><hgroup><h2>Replacing Values</h2></hgroup><article  id="replacing-values">
 
-<p>Lets say wanted to change the some of the names of the pesticides stored in the <code>spray</code> column in the <code>InsectSprays</code> data frame to be more informative than just A, B C, etc.</p>
+<p>Lets change the some of pesticide names in the <code>spray</code> column of the <code>InsectSprays</code> data frame to be more informative than just &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, etc.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; InsectSprays$spray &lt;- as.character(InsectSprays$spray)
-&gt; InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
+<p>First, coerce the <code>spray</code> variable from a factor vector into a character vector, for reasons&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays$spray &lt;- as.character(InsectSprays$spray)</pre>
+
+<p>Then, subset the combination of rows and columns you wish to overwrite, and assign a replacement value to them.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
 &gt; InsectSprays[InsectSprays$spray==&#39;B&#39;,&#39;spray&#39;] &lt;- &quot;fairy_dust&quot;
 &gt; InsectSprays[c(1,21),]</pre>
 
@@ -576,7 +585,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 </article></slide><slide class=''><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing" class="img-centered">
 
-<p>Matrices can also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the &#39;linear indices&#39;. <img src='/home/will/source/Psych640/images/linear_index.gif' title=''/></p>
+<p>Matrices can also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the &#39;linear indices&#39;. <img src='../images/linear_index.gif' title=''/></p>
 
 <p>The linear indices start at row 1 of column 1, and travel down the rows of column 1, then continue on in row 1 of column 2, then travel down the rows of column 2, etc&#8230;</p>
 

@@ -118,7 +118,8 @@ mtcars$mpg
 ## Data Frames
 To subset *multiple* columns, we need to use `[row,column]` style indexing (not the `$`). 
 
-We can still use names to get what we want by using a character vector containing names of our desired columns.
+But we're not forced to use numeric vectors just because we're using the `[` operator. We can select multiple columns by their names using a character vector that has the names of our desired columns as its elements.
+
 ```{r multiple_cols,R.options=list(max.print=15)}
 mtcars[,c("mpg","disp","gear")] # need  as well as the quotes here
 ```
@@ -215,8 +216,8 @@ Remember, a list is like a directory on your hard drive:
 ```{r list_example_define, R.options=list(continue = '+')}
 biglist <- list(training = c(1,3,2,4),
                 data = data.frame(trial = 1:4,
-                          average = c(.4,.71,.64,.1)),
-                times = matrix(c(2.74,3.44,2.91,.65)),
+                                  average = c(.4,.71,.64,.1)),
+                times = matrix(c(2.74,3.44,2.91,.65), nrow = 1),
                 name = "Herp McDerpsen")
 ```
 ```{r list_example_print, eval=FALSE, echo=TRUE}
@@ -231,29 +232,33 @@ biglist[3:4]
 </div>
 
 ## Indexing Lists
-Rules for indexing lists are like some other data structures, but also have a few of their own. 
+- Lists elements can have names, and can be accessed by name, just like the columns of a data frame
+- Lists are a 1 dimensional structure, so you index into them like a vector
+    - i.e., no need for `[row, column]` style indexing
+- Lists may be indexed "normally", using single square brackets (i.e., `[]`), or "recursively", using double square brackets (i.e., `[[]]`).
 
-- Lists elements can be named and accessed by name, like the columns of a data frame
-- Lists are a 1D structure, meaning there is no use for comma-separated sets of vectors for the rows or columns. You can index them like a normal vector
-- Possible to index using normal indexing, i.e., `[]` or recursive indexing i.e.,`[[]]`.
+## Double vs Single Square Brackets
+Indexing a list with a single `[]` will return a list. But indexing with `[[]]` returns the actual object **stored in** that position
+```{r biglist_by_position}
+biglist[3] # Normal indexing: returns a list with the chosen element(s)
+class(biglist[3])
+biglist[[3]] # Recursive indexing: returns the matrix held in element 3
+class(biglist[[3]])
+```
 
 ## Indexing lists by name 
 ```{r biglist_by_name}
 biglist$data # Returns a matrix
+identical(biglist$data, biglist[["data"]]) # $ and [[]] both select single elements
 biglist[c("training","name")] # Returns a list of 2 
 ```
 
-## Indexing lists by position
-Indexing a list with a single `[]` will return a list. But indexing with `[[]]` returns the actual object **stored in** that position
-```{r biglist_by_position}
-biglist[2] # Normal indexing: returns list with 1 element
-biglist[[2]] # Recursive indexing: returns a data frame
-```
+
 
 ## Activity 
 1. Subset the first 3 elements of `biglist` by name 
-2. Subset the last element of `biglist` by position, keeping the returned value as a list
-3. Extract character value stored in the `name` field of `biglist`
+2. Subset the last element of `biglist` by position, with the returned value as a list
+3. Extract the character vector stored in the `name` field of `biglist`
 
 ```{r list_activity_sols, include=FALSE}
 biglist[c("training","data","times")]
@@ -275,9 +280,15 @@ A note of caution: this is an irreversible operation. It would behoove you to ma
 `DataObject[LogicalCriteria] <- NewValues`
 
 ## Replacing Values
-Lets say wanted to change the some of the names of the pesticides stored in the `spray` column in the `InsectSprays` data frame to be more informative than just A, B C, etc. 
-```{r renaming_sprays}
+Lets change the some of pesticide names in the `spray` column of the `InsectSprays` data frame to be more informative than just "A", "B", "C", etc. 
+
+First, coerce the `spray` variable from a factor vector into a character vector, for reasons...
+```{r coerce}
 InsectSprays$spray <- as.character(InsectSprays$spray)
+```
+
+Then, subset the combination of rows and columns you wish to overwrite, and assign a replacement value to them.
+```{r renaming_sprays}
 InsectSprays[InsectSprays$spray=='A','spray'] <- "SPRAY_OF_DOOOOM"
 InsectSprays[InsectSprays$spray=='B','spray'] <- "fairy_dust"
 InsectSprays[c(1,21),]
