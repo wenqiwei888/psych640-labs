@@ -22,7 +22,7 @@ But what are functions, other than the names of things you type in to get your a
 
 ## What is a Function?
 
-A function is fixed piece of code that accepts input values, performs some operations or calcuations on these values, and returns some results. 
+A function is fixed piece of code that accepts input values, performs some operations or calculations on these values, and returns some results. 
 
 A good way to start thinking about functions is think about algebraic equations. For instance, if we have the algebraic equation $y=\sqrt{x}$:
 
@@ -32,7 +32,8 @@ A good way to start thinking about functions is think about algebraic equations.
 
 ## Function  Terminology:
 
-- When you use a function in your script, you perform a 'function call' in computer science-ish terms. This leads to colloquialisms like "Call mean on that matrix" or "This code calls diag to extract the diagonal elements".
+- When you use a function in your script, you are performing a 'function call' (in computer science-ish terms). 
+- This leads to colloquialisms like "Call mean on that matrix" or "This code calls diag to extract the diagonal elements".
     - 'Call' does not mean anything special to us. All using the word 'call' means in this context is 'use a function'. 
 - The inputs to functions go by several names, but most often they are called "**arguments**" or "**parameters**".
     - Calling a function with some specific input is often called "passing an argument".
@@ -88,13 +89,13 @@ For example, the `na.rm` argument must be a logical value (i.e., `TRUE` or `FALS
 
 
 ## Named vs. Unnamed Arguments
-Every funtion argument has a name (e.g., `x`, `na.rm`, `trim`). When you call a function, those names can be used in a `keyname = value` style of syntax, or they may be omitted in favor of just specifying the value. 
+Every function argument has a name (e.g., `x`, `na.rm`, `trim`). When you call a function, those names can be used in a `keyname = value` style of syntax, or they may be omitted in favor of just specifying the value. 
 
 If you wish to omit the names of the arguments when calling a function **you must order your inputs in the exact same order as they appear in the `Usage` section!!!**
 
 If you specify arguments as `keyname=value` pairs, they may be passed in any order. 
 
-If you mix and match name and unnamed, unnamed inputs that R encounters will be paired up with the unnmatched arguments following their order in the Usage section.
+If you mix and match named and unnamed, unnamed inputs that R encounters will be paired up with the unmatched arguments following their order in the Usage section.
 
 ## Named vs. Unnamed Examples
 ```{r named_examples}
