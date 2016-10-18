@@ -248,7 +248,7 @@ class(biglist[[3]])
 
 ## Indexing lists by name 
 ```{r biglist_by_name}
-biglist$data # Returns a matrix
+biglist$data # Returns a data frame
 identical(biglist$data, biglist[["data"]]) # $ and [[]] both select single elements
 biglist[c("training","name")] # Returns a list of 2 
 ```
