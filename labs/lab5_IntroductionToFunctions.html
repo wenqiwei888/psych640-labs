@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-10-17" />
+  <meta name="date" content="2016-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-10-17</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-24</p>
           </hgroup>
   </slide>
 
@@ -177,9 +177,9 @@
 
 </article></slide><slide class=''><hgroup><h2>?mean: Arguments</h2></hgroup><article  id="mean-arguments" class="image-column helppage">
 
-<p><img src='../images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.</p>
+<p><img src='../images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tell us what types of values each argument is permitted to take on.</p>
 
-<p>It also tell us what particular behavior that specific argument controls.</p>
+<p>It also tells us what aspect of the function&#39;s behavior each argument controls.</p>
 
 <p>For example, the <code>na.rm</code> argument must be a logical value (i.e., <code>TRUE</code> or <code>FALSE</code>) and it controls whether or not missing values are removed before finding the mean.</p>
 
@@ -224,22 +224,27 @@
 
 </article></slide><slide class=''><hgroup><h2>An Argument&#39;s Name vs. An Argument&#39;s Value</h2></hgroup><article  id="an-arguments-name-vs.-an-arguments-value">
 
-<p>As pointed out earlier, all the arguments a function accepts have a name that identifies them.</p>
+<p>As we just discussed, all the arguments a function accepts have a name that identifies them.</p>
 
-<p>Inside the function, these names then become the names of R objects that the code acts upon.</p>
+<p>Inside the function, the argument names are used as the names of R objects that the code acts upon.</p>
 
 <p>So, when you call <code>mean(x=data)</code> (or <code>mean(data)</code>), the values you had stored in <code>data</code> become known to the code inside the <code>mean</code> function by the name <code>x</code> instead of <code>data</code>.</p>
 
 </article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping">
 
 <ul>
-<li>The code which calculates the mean runs off &quot;in its own world&quot;
+<li>The code which calculates the mean runs &quot;in its own world&quot;
 
 <ul>
 <li>These worlds have their own names: <strong>environments</strong></li>
-<li>You don&#39;t see objects in the function&#39;s environment, and it doesn&#39;t see yours.</li>
+<li>You don&#39;t see objects in the function&#39;s environment, and it doesn&#39;t see &quot;your&quot; environment (which is known as the &quot;calling environment&quot;).
+
+<ul>
+<li>When you call a function from the command line, or in a script, the calling environment is the global environment.</li>
 </ul></li>
-<li>The only way for objects in <strong>your</strong> environment to get into the function environment, where the cool calculations take place, is through the function interface.</li>
+</ul></li>
+<li>The only way for objects in <strong>your</strong> environment to get into the function environment, where the cool calculations take place, is through the function interface.* <br> <br> <br> <br> <br> <br> <span style="font-style: italic; font-size: 14px;">
+ *Unless the calling environment <em>is also</em> the enclosing environment, but we are not going to worry about that now. </span></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-1">
@@ -275,8 +280,8 @@
 </article></slide><slide class=''><hgroup><h2><code>...</code> : The &quot;dot dot dot&quot;</h2></hgroup><article  id="the-dot-dot-dot">
 
 <ul>
-<li>You will often encounter &quot;&#8230; : further arguments passed to or from other methods this in the <code>Arguments</code> section.</li>
-<li>A full explanation is beyond the scope of our class, but for our purposes, we can treat it like a special catch-all device for inputs that aren&#39;t otherwise explicitly specified.</li>
+<li>You will often encounter the lines like &quot;<code>...</code> <strong>: further arguments passed to other methods</strong>&quot; in the <code>Arguments</code> section.</li>
+<li>A full explanation of the <code>...</code> is beyond the scope of our class, but for our purposes, we can treat it like a special catch-all device for inputs that aren&#39;t otherwise explicitly specified.</li>
 <li>Protip: When looking for help on this, do not google &quot;R dot dot dot&quot; of &quot;R &#8230;&quot;. It will not be helpful. Instead, google for &quot;R ellipsis&quot;</li>
 </ul>
 
@@ -289,7 +294,7 @@
 <li>What values are held in that data structure</li>
 </ul>
 
-<p>The return value often differs depending on what arguments were used</p>
+<p>The return value may differ depending on which arguments were used, and what their values were.</p>
 
 </article></slide><slide class=''><hgroup><h2>?mean: Examples</h2></hgroup><article  id="mean-examples" class="image-column helppage">
 
@@ -311,11 +316,11 @@
 
 <p><img src='../images/var_arguments.png' title=''/> While there are 4 different functions defined here, they all have similar syntax</p>
 
-<p>In fact, looking at the <code>Arugments</code> section we see that between the 4 functions there are only 6 unique arguments between all 4 of these functions!</p>
+<p>In fact, looking at the <code>Arugments</code> section we see that there are only 6 unique arguments between these 4 functions!</p>
 
 </article></slide><slide class=''><hgroup><h2>Activity: Simulating Card Dealing</h2></hgroup><article  id="activity-simulating-card-dealing" class="img-centered">
 
-<p>Your activity is to simulate dealing a hand of 5 playing cards from a standard deck.</p>
+<p>Your activity is to simulate dealing a hand of 5 cards from a standard deck of playing cards.</p>
 
 <p>The cards have face values of 2 through 10, as well as the Ace, King, Queen, and Jack. Each of those cards comes in all 4 suites (Clubs, Diamonds, Hearts and Spades).</p>
 
@@ -324,9 +329,10 @@
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck" class="img-centered">
 
 <ol>
-<li>Use the <code>rep()</code> function to help you figure out how to create a vector representing all the face values in the deck. Abbreviate Ace as &quot;A&quot;, King as &quot;K&quot;, etc.
+<li>Create a vector representing the face value of each card in the deck. Abbreviate Ace as &quot;A&quot;, King as &quot;K&quot;, etc.
 
 <ul>
+<li>Hint: Check out <code>?rep</code></li>
 <li>Hint: The face value vector should have as many &quot;Kings&quot; as the real deck (4)</li>
 <li>Hint: Have the order of the face values match the order in the image</li>
 </ul></li>
@@ -337,7 +343,7 @@
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-1" class="img-centered">
 
 <ol>
-<li>Use <code>rep()</code> again to create a vector representing all the suite in the deck. Abbreviate Hearts as &quot;H&quot;, Clubs as &quot;C&quot;, etc.
+<li>Create a vector representing the suite of each card in the deck. Abbreviate Hearts as &quot;H&quot;, Clubs as &quot;C&quot;, etc.
 
 <ul>
 <li>Hint: The suites vector should have as many &quot;Hearts&quot; as the real deck (13)</li>
@@ -350,20 +356,21 @@
 </article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-2">
 
 <ol>
-<li>Use the help page for the <code>paste()</code> function to figure out how to combine these 2 vectors into a single vector that defines each unique combination of face value and suite
+<li>Combine these 2 vectors into a single vector that representing the deck of cards
 
 <ul>
+<li>Hint: Check out <code>?paste</code></li>
 <li>Hint: Each element of the vector should be face-value/suite combination, like &quot;AH&quot; for ace of hearts.</li>
-<li>Hint: there might be a better function to use than <code>paste()</code>: read the help page closely and look at the examples to find out more.</li>
 </ul></li>
 </ol>
 
 </article></slide><slide class=''><hgroup><h2>Dealing the Cards</h2></hgroup><article  id="dealing-the-cards">
 
 <ol>
-<li>Use the <code>sample()</code> function to figure out how to simulate drawing 5 cards from this &quot;deck&quot; vector.
+<li>Simulate drawing 5 cards from this virtual &quot;deck&quot; vector.
 
 <ul>
+<li>Hint: Check out <code>?sample</code></li>
 <li>Hint: Be sure that you are sampling cards like a real dealer: without replacement!</li>
 </ul></li>
 </ol></article></slide>

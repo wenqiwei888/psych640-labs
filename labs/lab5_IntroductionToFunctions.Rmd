@@ -81,9 +81,9 @@ For clarification, we must go the the arguments sections.
 ## ?mean: Arguments {.image-column .helppage}
 
 ![mean_arguments](../images/mean_arguments.png)
-The detailed descriptions in the arguments section tells us what types of values that each specific argument is permitted to take on.
+The detailed descriptions in the arguments section tell us what types of values each argument is permitted to take on.
 
-It also tell us what particular behavior that specific argument controls.
+It also tells us what aspect of the function's behavior each argument controls.
 
 For example, the `na.rm` argument must be a logical value (i.e., `TRUE` or `FALSE`) and it controls whether or not missing values are removed before finding the mean.
 
@@ -117,17 +117,27 @@ Prefer named arguments.
 
 ## An Argument's Name vs. An Argument's Value
 
-As pointed out earlier, all the arguments a function accepts have a name that identifies them. 
+As we just discussed, all the arguments a function accepts have a name that identifies them. 
 
-Inside the function, these names then become the names of R objects that the code acts upon.
+Inside the function, the argument names are used as the names of R objects that the code acts upon.
 
-So, when you call `mean(x=data)` (or `mean(data)`), the values you had stored in `data` become known to the code inside the `mean` function by the name `x` instead of `data`. 
+So, when you call `mean(x=data)` (or `mean(data)`), the values you had stored in `data` become known to the code inside the `mean` function by the name `x` instead of `data`.
 
 ## Scoping
--  The code which calculates the mean runs off "in its own world"
+-  The code which calculates the mean runs "in its own world"
     - These worlds have their own names: **environments**
-    - You don't see objects in the function's environment, and it doesn't see yours.
-- The only way for objects in **your** environment to get into the function environment, where the cool calculations take place, is through the function interface.
+    - You don't see objects in the function's environment, and it doesn't see "your" environment (which is known as the "calling environment").
+        - When you call a function from the command line, or in a script, the calling environment is the global environment.
+- The only way for objects in **your** environment to get into the function environment, where the cool calculations take place, is through the function interface.*
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<span style="font-style: italic; font-size: 14px;">
+\*Unless the calling environment _is also_ the enclosing environment, but we are not going to worry about that now.
+</span>
 
 ## Scoping
 ![scoping](../images/scoping.svg)<br>
@@ -148,8 +158,8 @@ mean()
 <div>
 
 ## `...` : The "dot dot dot"
-- You will often encounter "... : further arguments passed to or from other methods this in the `Arguments` section.
-- A full explanation is beyond the scope of our class, but for our purposes, we can treat it like a special catch-all device for inputs that aren't otherwise explicitly specified.
+- You will often encounter the lines like "`...` __: further arguments passed to other methods__" in the `Arguments` section.
+- A full explanation of the `...` is beyond the scope of our class, but for our purposes, we can treat it like a special catch-all device for inputs that aren't otherwise explicitly specified.
 - Protip: When looking for help on this, do not google "R dot dot dot" of "R ...". It will not be helpful. Instead, google for "R ellipsis"
 
 ## ?mean: Value {.image-column .helppage}
@@ -160,7 +170,7 @@ The value section tells you about what the function returns to you when it finis
   - The type of data structure (e.g. list, matrix, etc.)
   - What values are held in that data structure
 
-The return value often differs depending on what arguments were used
+The return value may differ depending on which arguments were used, and what their values were.
 
 ## ?mean: Examples {.image-column .helppage}
 
@@ -182,38 +192,39 @@ The first thing you might notice is that the information about the `var()` funct
 ![var_arguments](../images/var_arguments.png)
 While there are 4 different functions defined here, they all have similar syntax
 
-In fact, looking at the `Arugments` section we see that between the 4 functions there are only 6 unique arguments between all 4 of these functions!
-
-
+In fact, looking at the `Arugments` section we see that there are only 6 unique arguments between these 4 functions!
 
 ## Activity: Simulating Card Dealing {.img-centered}
-Your activity is to simulate dealing a hand of 5 playing cards from a standard deck. 
+Your activity is to simulate dealing a hand of 5 cards from a standard deck of playing cards. 
 
 The cards have face values of 2 through 10, as well as the Ace, King, Queen, and Jack. Each of those cards comes in all 4 suites (Clubs, Diamonds, Hearts and Spades).
 
 ![cards](../images/cards.png)<br>
 
 ## Creating the deck {.img-centered}
-1. Use the `rep()` function to help you figure out how to create a vector representing all the face values in the deck. Abbreviate Ace as "A", King as "K", etc. 
+1. Create a vector representing the face value of each card in the deck. Abbreviate Ace as "A", King as "K", etc. 
+    - Hint: Check out `?rep`
     - Hint: The face value vector should have as many "Kings" as the real deck (4)
     - Hint: Have the order of the face values match the order in the image
     
 ![cards](../images/cards.png)<br>
 
 ## Creating the deck {.img-centered}
-2. Use `rep()` again to  create a vector representing all the suite in the deck. Abbreviate Hearts as "H", Clubs as "C", etc. 
+2. Create a vector representing the suite of each card in the deck. Abbreviate Hearts as "H", Clubs as "C", etc. 
     - Hint: The suites vector should have as many "Hearts" as the real deck (13)
     - Hint: Have the order of the suites values match the order in the image
     
 ![cards](../images/cards.png)<br>
 
 ## Creating the deck
-3. Use the help page for the `paste()` function to figure out how to combine these 2 vectors into a single vector that defines each unique combination of face value and suite
+3. Combine these 2 vectors into a single vector that representing the deck of cards
+    - Hint: Check out `?paste`
     - Hint: Each element of the vector should be face-value/suite combination, like "AH" for ace of hearts.
-    - Hint: there might be a better function to use than `paste()`: read the help page closely and look at the examples to find out more.
+
     
 ## Dealing the Cards 
-4. Use the `sample()` function to figure out how to simulate drawing 5 cards from this "deck" vector. 
+4. Simulate drawing 5 cards from this virtual "deck" vector.
+    - Hint: Check out `?sample`
     - Hint: Be sure that you are sampling cards like a real dealer: without replacement!
   
 ```{r solution,prompt=FALSE,include=F}
