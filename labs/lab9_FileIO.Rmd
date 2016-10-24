@@ -257,7 +257,7 @@ On Windows, there is a base R solution: Highlight the cells you want, copy them 
 On other platforms, use the `read.clipboard()` function from the `psych` package. I find it slightly tempermental, but still useful. 
 
 ## Other Excel-lent packages
-If you want to write xlsx files to disk, or do more complex tasks utilizing Excel as a back end (e.g. writing a vector to a specific column in an Excel sheet), take a both the `xlsx` package, and the `XLconnect` package.
+If you want to write xlsx files to disk, or do more complex tasks utilizing Excel as a back end (e.g. writing a vector to a specific column in an Excel sheet), take a look at the `xlsx` package, and the `XLconnect` package.
 
 Both are cross-platform, have their own strengths/weaknesses, and don't require an Excel installation.
 
@@ -276,12 +276,12 @@ The `to.data.frame` argument specifies should the imported file be a data frame 
 The `use.value.labels` argumment controls whether columns of data in the .sav file with the values attribute set should be imported as a factor (using the value labels as the levels) or if they should be imported as characters/numerics. 
 
 ## Reading in SAS files
-If you have SAS data files you want to import into R, use the functions in the `sas7bdat` package.
+If you have SAS data files you want to import into R, use the `read_sas` function in the `haven` package.
 
 ```{r sasexamples,eval=FALSE}
-install.packages("sas7bdat")
-library(sas7bdat)
-mySASData <- read.sas7bdat("data/randomSASfile.sas7bdat")
+install.packages("haven")
+library(haven)
+mySASData <- read_sas("data/randomSASfile.sas7bdat")
 ```
 
 ## Reading in MATLAB files

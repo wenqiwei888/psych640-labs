@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2016-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-24</p>
           </hgroup>
   </slide>
 
@@ -487,7 +487,7 @@ head(chicks)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Other Excel-lent packages</h2></hgroup><article  id="other-excel-lent-packages">
 
-<p>If you want to write xlsx files to disk, or do more complex tasks utilizing Excel as a back end (e.g. writing a vector to a specific column in an Excel sheet), take a both the <code>xlsx</code> package, and the <code>XLconnect</code> package.</p>
+<p>If you want to write xlsx files to disk, or do more complex tasks utilizing Excel as a back end (e.g. writing a vector to a specific column in an Excel sheet), take a look at the <code>xlsx</code> package, and the <code>XLconnect</code> package.</p>
 
 <p>Both are cross-platform, have their own strengths/weaknesses, and don&#39;t require an Excel installation.</p>
 
@@ -507,11 +507,11 @@ spss &lt;- read.spss(&quot;data/example.sav&quot;, to.data.frame=TRUE,
 
 </article></slide><slide class=''><hgroup><h2>Reading in SAS files</h2></hgroup><article  id="reading-in-sas-files">
 
-<p>If you have SAS data files you want to import into R, use the functions in the <code>sas7bdat</code> package.</p>
+<p>If you have SAS data files you want to import into R, use the <code>read_sas</code> function in the <code>haven</code> package.</p>
 
-<pre class = 'prettyprint lang-r'>install.packages(&quot;sas7bdat&quot;)
-library(sas7bdat)
-mySASData &lt;- read.sas7bdat(&quot;data/randomSASfile.sas7bdat&quot;)</pre>
+<pre class = 'prettyprint lang-r'>install.packages(&quot;haven&quot;)
+library(haven)
+mySASData &lt;- read_sas(&quot;data/randomSASfile.sas7bdat&quot;)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading in MATLAB files</h2></hgroup><article  id="reading-in-matlab-files">
 
