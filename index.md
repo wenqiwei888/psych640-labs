@@ -25,15 +25,15 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 *Lab Topic* | *Date* 
 :----------- | :------ 
 [Intro to R with Rstudio](./labs/lab1_IntroToRwithRstudio.html) | 9/12/16
-[Data Types and Stuctures](./labs/lab2_DataTypesandStructures.html) | 9/17/16
-[Manipulating Data, Part 1](./labs/lab3_ManipulatingData.html) | TBA
-[Manipulating Data, Part 2](./labs/lab4_ManipulatingData2.html) | TBA
-[Intro to Functions](./labs/lab5_IntroductionToFunctions.html) | TBA
-[Control Statements](./labs/lab6_control_statements.html) | TBA
+[Data Types and Stuctures](./labs/lab2_DataTypesandStructures.html) | 9/19/16
+[Manipulating Data, Part 1](./labs/lab3_ManipulatingData.html) | 10/3/16
+[Manipulating Data, Part 2](./labs/lab4_ManipulatingData2.html) | 10/10/16
+[Intro to Functions](./labs/lab5_IntroductionToFunctions.html) | 10/17/16
+[Reading Data into R](./labs/lab9_FileIO.html) | 10/24/16
 [Plotting with Base Graphics, Part 1](./labs/lab7_basegraphics1.html) | TBA
 [Plotting with Base Graphics, Part 2](./labs/lab8_basegraphics2.html) | TBA
-[Reading Data into R](./labs/lab9_FileIO.html) | TBA
 [Dynamic Documents with Rmarkdown](./labs/lab10_rmarkdown.html) | TBA
+[Control Statements](./labs/lab6_control_statements.html) | TBA
 
 ### Spring Semester (641)
 
