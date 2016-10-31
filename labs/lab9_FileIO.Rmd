@@ -69,6 +69,20 @@ So we can remove the "/home/will" portion of the path, and use the remaining rel
 read.csv("data/commas.csv")
 ```
 
+## Special Path Characters
+
+There are two "special characters" to be aware of when dealing with file paths. Think of them as variables that change values when you change working directories.
+
+1. `..` : Short-hand for "one directory up" from the current working direcoty in the file system heirarchy
+2. `.` : Short-hand for "the current working directory".
+
+Current working directory | Command | New working directory
+--- |  ------- | ------
+`/home/will/data/` | `setwd("..")` | `/home/will`
+`/home/will/data/` | `setwd("../..")` | `/home`
+`/home/will/data/` | `setwd(".")` | `/home/will/data`
+`/` | `setwd("..")` | `/`
+
 ## The Structure of (Good) Data
 It's worth beginning with an outline of a well-formatted data set. 
 

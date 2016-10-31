@@ -168,6 +168,43 @@
 
 <pre class = 'prettyprint lang-r'>read.csv(&quot;data/commas.csv&quot;)</pre>
 
+</article></slide><slide class=''><hgroup><h2>Special Path Characters</h2></hgroup><article  id="special-path-characters">
+
+<p>There are two &quot;special characters&quot; to be aware of when dealing with file paths. Think of them as variables that change values when you change working directories.</p>
+
+<ol>
+<li><code>..</code> : Short-hand for &quot;one directory up&quot; from the current working direcoty in the file system heirarchy</li>
+<li><code>.</code> : Short-hand for &quot;the current working directory&quot;.</li>
+</ol>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="left">Current working directory</th>
+<th align="left">Command</th>
+<th align="left">New working directory</th>
+</tr>
+<tr class="odd">
+<td align="left"><code>/home/will/data/</code></td>
+<td align="left"><code>setwd(&quot;..&quot;)</code></td>
+<td align="left"><code>/home/will</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>/home/will/data/</code></td>
+<td align="left"><code>setwd(&quot;../..&quot;)</code></td>
+<td align="left"><code>/home</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>/home/will/data/</code></td>
+<td align="left"><code>setwd(&quot;.&quot;)</code></td>
+<td align="left"><code>/home/will/data</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="left"><code>setwd(&quot;..&quot;)</code></td>
+<td align="left"><code>/</code></td>
+</tr>
+</table>
+
 </article></slide><slide class=''><hgroup><h2>The Structure of (Good) Data</h2></hgroup><article  id="the-structure-of-good-data">
 
 <p>It&#39;s worth beginning with an outline of a well-formatted data set.</p>
