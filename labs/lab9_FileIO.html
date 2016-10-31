@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-10-24" />
+  <meta name="date" content="2016-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-10-24</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-10-31</p>
           </hgroup>
   </slide>
 
@@ -108,25 +108,25 @@
 
 <ul>
 <li>To read from or write to a file, R needs to know where that file is located before anything can be done.</li>
-<li>This is accomplished by specifying the file&#39;s location in the file system heirarchy, better known as the file path.</li>
-<li>This can be done in 1 of 2 ways:
+<li>This is accomplished by specifying the file&#39;s location in the file system hierarchy, better known as the <strong>file path</strong>.</li>
+<li>The location of a file can be supplied in 1 of 2 ways:
 
 <ol>
-<li>With a file&#39;s absolute path (i.e. specifying its location relative to the start of the file system)</li>
-<li>With a file&#39;s relative path (i.e. specifying its location relative to R&#39;s current working directory)</li>
+<li>Using a file&#39;s <em>absolute</em> path (i.e., specifying its location relative to the beginning of the of the file system)</li>
+<li>Using a file&#39;s <em>relative</em> path (i.e., specifying its location relative to R&#39;s current working directory)</li>
 </ol></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Absolute Paths</h2></hgroup><article  id="absolute-paths">
 
 <ul>
-<li>On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window&#39;s installation is &quot;C:\\&quot;
+<li>On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window&#39;s installation is &quot;<code>C:\\</code>&quot;
 
 <ul>
 <li>Directories are separated with <strong>backward</strong> slashes</li>
 <li>E.g. &quot;<code>C:\Users\will</code>&quot; is an absolute path</li>
 </ul></li>
-<li>On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is /
+<li>On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is <code>/</code>
 
 <ul>
 <li>Read as &quot;root&quot;</li>
@@ -144,8 +144,8 @@
 <li>The location where it &quot;lives&quot; is called the <strong>working directory</strong></li>
 </ul></li>
 <li>On Windows, the default working directory is your user&#39;s &quot;My Documents&quot; folder</li>
-<li>On OSX, OS9, the default working directory is your user&#39;s directory /Users</li>
-<li>On Linux, the default working directory is your user&#39;s directory under /home.</li>
+<li>On OSX, the default working directory is your user&#39;s directory in the <code>/Users</code> directory.</li>
+<li>On Linux, the default working directory is your user&#39;s directory in the <code>/home</code> directory.</li>
 </ul>
 
 <p>You can check your working directory with <code>getwd()</code>, and change it with <code>setwd()</code></p>
@@ -162,15 +162,15 @@
 
 <pre class = 'prettyprint lang-r'>getwd()</pre>
 
-<pre class = 'prettyprint lang-r'>print(&quot;/home/will&quot;)</pre>
+<pre >[1] &quot;/home/will&quot;</pre>
 
-<p>So we can remove the &quot;/home/will&quot; portion of the path, and use the remaing relative portion to read in the file.</p>
+<p>So we can remove the &quot;/home/will&quot; portion of the path, and use the remaining relative portion to read in the file.</p>
 
 <pre class = 'prettyprint lang-r'>read.csv(&quot;data/commas.csv&quot;)</pre>
 
 </article></slide><slide class=''><hgroup><h2>The Structure of (Good) Data</h2></hgroup><article  id="the-structure-of-good-data">
 
-<p>It&#39;s worth begining with an outline of a well-formatted data set.</p>
+<p>It&#39;s worth beginning with an outline of a well-formatted data set.</p>
 
 <ul>
 <li>The data is represented in a rectangular structure (table with rows and columns)</li>
@@ -184,7 +184,7 @@
 </article></slide><slide class=''><hgroup><h2>Plain Text Formats</h2></hgroup><article  id="plain-text-formats">
 
 <ul>
-<li>Plain text files consist only of sequences of characters codes, including spaces, tabs, new lines and delimeters.</li>
+<li>Plain text files consist only of sequences of characters codes, including spaces, tabs, new lines and delimiters.</li>
 <li>They have no styling associated with them (e.g. no italics or bolding, no images)</li>
 <li>Plain text examples: HTML, .txt files, .R files</li>
 <li>NOT plain text: Word documents, Excel documents</li>
@@ -192,7 +192,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Comma Separated Value (.csv)</h2></hgroup><article  id="comma-separated-value-.csv">
 
-<p>In a csv file, the columns in each row are separated by commas, naturally.</p>
+<p>In a csv file, the columns in each row are separated by commas, naturally. Below is an example of plain-text formatted as a .csv file:</p>
 
 <pre >condition,trial,rating
 a,1,3
@@ -213,7 +213,7 @@ c,3,11</pre>
 </tr>
 <tr class="odd">
 <td align="left">file</td>
-<td align="left">Path where R looks for file</td>
+<td align="left">Path to where file is stored</td>
 <td align="left">None, <code>file</code> must be specified</td>
 </tr>
 <tr class="even">
@@ -251,13 +251,17 @@ c,3,11</pre>
 </article></slide><slide class=''><hgroup><h2>Commonly values for <code>read.csv</code> arguments</h2></hgroup><article  id="commonly-values-for-read.csv-arguments">
 
 <ul>
-<li>Specifying the <code>sep</code> argument allows you to read in files where the columns are separated by non-standard delimeters
+<li>Specifying the <code>sep</code> argument allows you to read in files where the columns are separated by non-standard delimiters
 
 <ul>
-<li>e.g. tabs (use \t), spaces (use &quot; &quot;), <code>_</code>, <code>;</code>, <code>:</code>. or <code>.</code></li>
+<li>e.g. tabs (use &quot;<code>\t</code>&quot;), spaces (use <code>&quot; &quot;</code>), <code>_</code>, <code>;</code>, <code>:</code>, or <code>.</code></li>
 </ul></li>
 <li>Specifying the <code>dec</code> argument allows you to read in data sets were the decimal place is denoted with <code>,</code>.</li>
-<li>Using <code>col.names</code> together with <code>header=FALSE</code> allows you to set the column names in the resulting data frame, even when the data file has no column names.</li>
+<li>If the csv file <em>doesn&#39;t</em> have a row of column headers, use <code>header=FALSE</code> and supply a character vector for the <code>col.names</code> argument to give names to the variables in the resulting data frame you create.
+
+<ul>
+<li>If the csv file <em>does</em> have a row of column headers, you can still override them with the <code>col.names</code> argument.</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Basic <code>read.csv()</code> example</h2></hgroup><article  id="basic-read.csv-example">
@@ -281,7 +285,7 @@ c,3,11</pre>
 
 <p>R allows you to select which file to import using the default file explorer tool from your OS.</p>
 
-<p>Insted of specifying the path to the file you want as a character vector, you instead pass the <code>file.choose()</code> function as the first argument.</p>
+<p>Instead of specifying the path to the file you want as a character vector, you instead pass the <code>file.choose()</code> function as the first argument.</p>
 
 <pre class = 'prettyprint lang-r'>data &lt;- read.csv(file=file.choose())</pre>
 
@@ -334,7 +338,7 @@ c,3,11</pre>
 
 <p>Compare the defaults:</p>
 
-<pre class = 'prettyprint lang-r'>write.csv(commas, file =&quot;&quot;)</pre>
+<pre class = 'prettyprint lang-r'>write.csv(commas, file = &quot;&quot;)</pre>
 
 <pre >&quot;&quot;,&quot;condition&quot;,&quot;trial&quot;,&quot;rating&quot;
 &quot;1&quot;,&quot;a&quot;,1,3
@@ -352,7 +356,7 @@ c,3,11</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading in fixed-width data</h2></hgroup><article  id="reading-in-fixed-width-data">
 
-<p>Sometimes you may encounter data where the columns in each row are not separated by a delimeted, but by a fixed number of character spaces.</p>
+<p>Sometimes you may encounter data where the columns in each row are not separated by a delimited, but by a fixed number of character spaces.</p>
 
 <p>The previous file, which was separated by commas, has been changed to a fixed-width format below.</p>
 
@@ -364,7 +368,7 @@ c3xxxxx11
 
 <p><a href="../data/fixed.txt" download> Download this file </a></p>
 
-<p>We can see that the first column takes of 1 space, the second column takes up 1 space, and that the third colun takes up 2 spaces.</p>
+<p>We can see that the first column takes of 1 space, the second column takes up 1 space, and that the third column takes up 2 spaces.</p>
 
 <p>But, the second and third column have nonsense between them, the <code>xxxxx</code> you see.</p>
 
@@ -389,14 +393,10 @@ print(data)</pre>
 
 <p>The simplest way to read in data from Excel is to use Excel to save it as a CSV, and then use <code>read.csv()</code> =)</p>
 
-<p>But otherwise he easist way to read in data from .xls and .xlsx files is using the <code>readxl</code> package. Get it with <code>install.packages(&#39;readxl&#39;)</code>.</p>
-
-<p><code>readxl</code> is a relatively new package, so if there are new features/bug fixes you want, they may be present in the development version and not in the CRAN version. You can get the dev version with:</p>
+<p>But otherwise he easiest way to read in data from .xls and .xlsx files is using the <code>readxl</code> package. Get it with <code>install.packages(&#39;readxl&#39;)</code>.</p>
 
 <pre class = 'prettyprint lang-r'>install.packages(&quot;readxl&quot;)
 library(readxl)</pre>
-
-<p>In general though, CRAN packages are more stable and should be preferred to development versions.</p>
 
 </article></slide><slide class=''><hgroup><h2>Reading data from Excel</h2></hgroup><article  id="reading-data-from-excel-1">
 
@@ -413,7 +413,7 @@ library(readxl)</pre>
 </tr>
 <tr class="odd">
 <td align="left">file</td>
-<td align="left">Path to where file should be created (including file extension)</td>
+<td align="left">Path to where file is stored (including file extension)</td>
 <td align="left">None, <code>file</code> must be specified</td>
 </tr>
 <tr class="even">
@@ -461,7 +461,7 @@ head(chicks)</pre>
 
 <p>Or, we can read it in by its sheet name, aided in our effort by the <code>excel_sheets()</code> function, which lists out the names of all the sheets in the workbook.</p>
 
-<pre class = 'prettyprint lang-r'>excel_sheets(&quot;data/datasets.xlsx&quot;, echo = FALSE) # Mostly for interactive use</pre>
+<pre class = 'prettyprint lang-r'>excel_sheets(&quot;data/datasets.xlsx&quot;) # Mostly for interactive use</pre>
 
 <pre >[1] &quot;iris&quot;     &quot;mtcars&quot;   &quot;chickwts&quot; &quot;quakes&quot;  </pre>
 
@@ -479,9 +479,9 @@ head(chicks)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading Spreadsheets: The quick and dirty way</h2></hgroup><article  id="reading-spreadsheets-the-quick-and-dirty-way">
 
-<p>If we just want a one-off solution for getting the some data out of an Excel workbook, and into R, with minimal thinking, we can use the system clipboad!</p>
+<p>If we just want a one-off solution for getting the some data out of an Excel workbook, and into R, with minimal thinking, we can use the system clipboard!</p>
 
-<p>On Windows, there is a base R solution: Highlight the cells you want, copy them to the clipboad (i.e., Ctrl + c), and then in R, call <code>read.table(&quot;clipboard&quot;)</code>.</p>
+<p>On Windows, there is a base R solution: Highlight the cells you want, copy them to the clipboard (i.e., Ctrl + c), and then in R, call <code>read.table(&quot;clipboard&quot;)</code>.</p>
 
 <p>On other platforms, use the <code>read.clipboard()</code> function from the <code>psych</code> package. I find it slightly tempermental, but still useful.</p>
 
@@ -495,23 +495,21 @@ head(chicks)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading SPSS Files</h2></hgroup><article  id="reading-spss-files">
 
-<p>We can use the <code>read.spss()</code> function to import .sav files from SPSS</p>
-
-<pre class = 'prettyprint lang-r'>library(foreign)
-spss &lt;- read.spss(&quot;data/example.sav&quot;, to.data.frame=TRUE,
-                  use.value.labels=FALSE) # spss values = factors?</pre>
-
-<p>The <code>to.data.frame</code> argument specifies should the imported file be a data frame (if not, it becomes a matrix)</p>
-
-<p>The <code>use.value.labels</code> argumment controls whether columns of data in the .sav file with the values attribute set should be imported as a factor (using the value labels as the levels) or if they should be imported as characters/numerics.</p>
-
-</article></slide><slide class=''><hgroup><h2>Reading in SAS files</h2></hgroup><article  id="reading-in-sas-files">
-
-<p>If you have SAS data files you want to import into R, use the <code>read_sas</code> function in the <code>haven</code> package.</p>
+<p>We can use the <code>read_sav()</code> function from the <code>haven</code> packages to import .sav files from SPSS.</p>
 
 <pre class = 'prettyprint lang-r'>install.packages(&quot;haven&quot;)
 library(haven)
-mySASData &lt;- read_sas(&quot;data/randomSASfile.sas7bdat&quot;)</pre>
+spss &lt;- read_sav(&quot;data/example.sav&quot;) # spss values = factors?</pre>
+
+<p>If you have labeled variables in the .sav dataset, the variable labels will stored in the &quot;label&quot; attribute of each variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>Reading in SAS files</h2></hgroup><article  id="reading-in-sas-files">
+
+<p>If you have SAS data files you want to import into R, the <code>haven</code> package also includes a <code>read_sas</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>mySASData &lt;- read_sas(&quot;data/randomSASfile.sas7bdat&quot;)</pre>
+
+<p>.sas7bdat = <strong>SAS 7 B</strong> inary <strong>DAT</strong> a</p>
 
 </article></slide><slide class=''><hgroup><h2>Reading in MATLAB files</h2></hgroup><article  id="reading-in-matlab-files">
 
@@ -525,7 +523,7 @@ matData &lt;- readMat(&quot;data/matfile.mat&quot;)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading in MATLAB files</h2></hgroup><article  id="reading-in-matlab-files-1">
 
-<p>To supress printing of many extraneous details about the .mat file, set it&#39;s attributes to <code>NULL</code> in R</p>
+<p>To suppress printing of many extraneous details about the .mat file, set it&#39;s attributes to <code>NULL</code> in R</p>
 
 <pre class = 'prettyprint lang-r'>attributes(matData) &lt;- NULL 
 print(matData)</pre>

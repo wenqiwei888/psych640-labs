@@ -24,16 +24,16 @@ matData <- readMat("../data/matfile.mat")
 
 ## File paths
 - To read from or write to a file, R needs to know where that file is located before anything can be done. 
-- This is accomplished by specifying the file's location in the file system heirarchy, better known as the file path.
-- This can be done in 1 of 2 ways:
-    1. With a file's absolute path (i.e. specifying its location relative to the start of the file system)
-    2. With a file's relative path (i.e. specifying its location relative to R's current working directory)
+- This is accomplished by specifying the file's location in the file system hierarchy, better known as the **file path**.
+- The location of a file can be supplied in 1 of 2 ways:
+    1. Using a file's *absolute* path (i.e., specifying its location relative to the beginning of the of the file system)
+    2. Using a file's *relative* path (i.e., specifying its location relative to R's current working directory)
     
 ## Absolute Paths
-- On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window's installation is "C:\\\\"
+- On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window's installation is "`C:\\`"
     - Directories are separated  with **backward** slashes
     - E.g. "`C:\Users\will`" is an absolute path
-- On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is /
+- On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is `/`
     - Read as "root"
     - Directories are separated  with **forward** slashes
     - E.g. "`/Users/will`" is an absolute path
@@ -42,8 +42,8 @@ matData <- readMat("../data/matfile.mat")
 - Whenever you start R, the process that is begun "lives" in a specific directory on your filesystem. 
     - The location where it "lives" is called the **working directory**
 - On Windows, the default working directory is your user's "My Documents" folder
-- On OSX, OS9, the default working directory is your user's directory /Users
-- On Linux, the default working directory is your user's directory under /home.
+- On OSX, the default working directory is your user's directory in the `/Users` directory.
+- On Linux, the default working directory is your user's directory in the `/home` directory.
 
 You can check your working directory with `getwd()`, and change it with `setwd()`
  
@@ -59,17 +59,18 @@ But, our current working directory already is "/home/will"
 ```{r badexamples2, eval=FALSE}
 getwd()
 ```
-```{r badexamples2_2, eval=FALSE}
+
+```{r badexamples2_2, eval=TRUE,echo=FALSE}
 print("/home/will")
 ```
 
-So we can remove the "/home/will" portion of the path, and use the remaing relative portion to read in the file.
+So we can remove the "/home/will" portion of the path, and use the remaining relative portion to read in the file.
 ```{r badexamples3,eval=FALSE}
 read.csv("data/commas.csv")
 ```
 
 ## The Structure of (Good) Data
-It's worth begining with an outline of a well-formatted data set. 
+It's worth beginning with an outline of a well-formatted data set. 
 
 - The data is represented in a rectangular structure (table with rows and columns)
 - Each column represents a specific variable, with a header signifying the name of this variable
@@ -80,13 +81,14 @@ It's worth begining with an outline of a well-formatted data set.
 
 
 ## Plain Text Formats
-- Plain text files consist only of sequences of characters codes, including spaces, tabs, new lines and delimeters.
+- Plain text files consist only of sequences of characters codes, including spaces, tabs, new lines and delimiters.
 - They have no styling associated with them (e.g. no italics or bolding, no images)
 - Plain text examples: HTML, .txt files, .R files
 - NOT plain text: Word documents, Excel documents
 
 ## Comma Separated Value (.csv)
-In a csv file, the columns in each row are separated by commas, naturally.
+In a csv file, the columns in each row are separated by commas, naturally. Below is an example of plain-text formatted as a 
+.csv file:
 ```{r showCommas,echo=FALSE, prompt=FALSE}
 write.csv(commas,file="",quote=FALSE, row.names=FALSE)
 ```
@@ -98,7 +100,7 @@ We can import this file into a data frame in R with the `read.csv()` function
 
 Arg | Controls | Default Value
 --- |  ------- | ------
-file | Path where R looks for file | None, `file` must be specified
+file | Path to where file is stored | None, `file` must be specified
 header | Treat the first row as column headers? | `TRUE` 
 sep | What character delimits the columns within a row? | `,`
 dec | What character is used for the decimal place? | `.`
@@ -107,10 +109,11 @@ row.names | names for the rows | None, must specify a character vector
 col.names | names for the columns | None, must specify a character vector
 
 ## Commonly values for `read.csv` arguments
-- Specifying the `sep` argument allows you to read in files where the columns are separated by non-standard delimeters
-    - e.g. tabs (use \\t), spaces (use " "), `_`, `;`, `:`. or `.`
+- Specifying the `sep` argument allows you to read in files where the columns are separated by non-standard delimiters
+    - e.g. tabs (use "`\t`"), spaces (use `" "`), `_`, `;`, `:`, or `.`
 - Specifying the `dec` argument allows you to read in data sets were the decimal place is denoted with `,`. 
- - Using `col.names` together with `header=FALSE` allows you to set the column names in the resulting data frame, even when the data file has no column names.
+ - If the csv file *doesn't* have a row of column headers, use `header=FALSE` and supply a character vector for the `col.names` argument to give names to the variables in the resulting data frame you create.
+    - If the csv file *does* have a row of column headers, you can still override them with  the `col.names` argument.
  
 ## Basic `read.csv()` example
 ```{r readCSVexample1, eval=FALSE}
@@ -131,7 +134,7 @@ setNames(object = commas, nm = c("Cond","Tr","Rat"))
 ## Interactive File Selection
 R allows you to select which file to import using the default file explorer tool from your OS. 
 
-Insted of specifying the path to the file you want as a character vector, you instead pass the `file.choose()` function as the first argument.
+Instead of specifying the path to the file you want as a character vector, you instead pass the `file.choose()` function as the first argument.
 
 ```{r choosingfiles,eval=FALSE}
 data <- read.csv(file=file.choose())
@@ -155,7 +158,7 @@ Its often useful to set `quotes` and `row.names` to `FALSE` when writing a csv.
 
 Compare the defaults: 
 ```{r defaultWrite,prompt=FALSE, comment=""}
-write.csv(commas, file ="")
+write.csv(commas, file = "")
 ```
 
 to this:
@@ -164,7 +167,7 @@ write.csv(commas, file="", quote=FALSE, row.names=FALSE)
 ```
 
 ## Reading in fixed-width data
-Sometimes you may encounter data where the columns in each row are not separated by a delimeted, but by a fixed number of character spaces.
+Sometimes you may encounter data where the columns in each row are not separated by a delimited, but by a fixed number of character spaces.
 
 The previous file, which was separated by commas, has been changed to a fixed-width format below.
 
@@ -175,7 +178,7 @@ c3xxxxx11
 </pre>
 <a href="../data/fixed.txt" download> Download this file </a>
 
-We can see that the first column takes of 1 space, the second column takes up 1 space, and that the third colun takes up 2 spaces.
+We can see that the first column takes of 1 space, the second column takes up 1 space, and that the third column takes up 2 spaces.
 
 But, the second and third column have nonsense between them, the `xxxxx` you see.
 
@@ -198,23 +201,19 @@ The negative values tell R to skip characters. Here, -5 in the third position me
 ## Reading data from Excel
 The simplest way to read in data from Excel is to use Excel to save it as a CSV, and then use `read.csv()` =)
 
-But otherwise he easist way to read in data from .xls and .xlsx files is using the `readxl` package. Get it with `install.packages('readxl')`.
-
-`readxl` is a relatively new package, so if there are new features/bug fixes you want, they may be present in the development version and not in the CRAN version. You can get the dev version with:
+But otherwise he easiest way to read in data from .xls and .xlsx files is using the `readxl` package. Get it with `install.packages('readxl')`.
 
 ```{r readxl,eval=FALSE}
 install.packages("readxl")
 library(readxl)
 ```
 
-In general though, CRAN packages are more stable and should be preferred to development versions. 
-
 ## Reading data from Excel
 The main function in the package is `read_excel()`
 
 Arg | Controls | Default Value
 --- |  ------- | ------
-file | Path to where file should be created (including file extension)| None, `file` must be specified
+file | Path to where file is stored (including file extension)| None, `file` must be specified
 sheet| Which page should be read in (can use name or number) | `1` 
 col_names | TRUE/FALSE to use first row as column names, or a vector of name | `TRUE` 
 skip| Number of rows to skip before starting import |`0`
@@ -237,7 +236,7 @@ head(chicks)
 Or, we can read it in by its sheet name, aided in our effort by the `excel_sheets()` function, which lists out the names of all the sheets in the workbook.
 
 ```{r xlsx3, eval=FALSE}
-excel_sheets("data/datasets.xlsx", echo = FALSE) # Mostly for interactive use
+excel_sheets("data/datasets.xlsx") # Mostly for interactive use
 ```
 ```{r xlsx4, echo=FALSE}
 print(sheetnames)
@@ -250,9 +249,9 @@ head(chickwts)
 ```
 
 ## Reading Spreadsheets: The quick and dirty way
-If we just want a one-off solution for getting the some data out of an Excel workbook, and into R, with minimal thinking, we can use the system clipboad! 
+If we just want a one-off solution for getting the some data out of an Excel workbook, and into R, with minimal thinking, we can use the system clipboard! 
 
-On Windows, there is a base R solution: Highlight the cells you want, copy them to the clipboad (i.e., Ctrl + c), and then in R, call `read.table("clipboard")`. 
+On Windows, there is a base R solution: Highlight the cells you want, copy them to the clipboard (i.e., Ctrl + c), and then in R, call `read.table("clipboard")`. 
 
 On other platforms, use the `read.clipboard()` function from the `psych` package. I find it slightly tempermental, but still useful. 
 
@@ -264,25 +263,23 @@ Both are cross-platform, have their own strengths/weaknesses, and don't require 
 Avoid using the outdated `RODBC`, `xlsReadWrite` and `gdata` packages for accessing Excel files. 
 
 ## Reading SPSS Files
-We can use the `read.spss()` function to import .sav files from SPSS
+We can use the `read_sav()` function from the `haven` packages to import .sav files from SPSS.
 ```{r spss_NOTRUN,eval=FALSE,prompt=FALSE}
-library(foreign)
-spss <- read.spss("data/example.sav", to.data.frame=TRUE,
-                  use.value.labels=FALSE) # spss values = factors?
-```
-
-The `to.data.frame` argument specifies should the imported file be a data frame (if not, it becomes a matrix)
-
-The `use.value.labels` argumment controls whether columns of data in the .sav file with the values attribute set should be imported as a factor (using the value labels as the levels) or if they should be imported as characters/numerics. 
-
-## Reading in SAS files
-If you have SAS data files you want to import into R, use the `read_sas` function in the `haven` package.
-
-```{r sasexamples,eval=FALSE}
 install.packages("haven")
 library(haven)
+spss <- read_sav("data/example.sav") # spss values = factors?
+```
+
+If you have labeled variables in the .sav dataset, the variable labels will stored in the "label" attribute of each variable.
+
+## Reading in SAS files
+If you have SAS data files you want to import into R, the `haven` package also includes a `read_sas` function.
+
+```{r sasexamples,eval=FALSE}
 mySASData <- read_sas("data/randomSASfile.sas7bdat")
 ```
+
+.sas7bdat = __SAS 7 B__ inary __DAT__ a
 
 ## Reading in MATLAB files
 MATLAB supports saving variables in a proprietary format, called .mat files. We can read them into R using the R.matlab package's `readmat()` file. 
@@ -295,7 +292,7 @@ matData <- readMat("data/matfile.mat")
 ```
 
 ## Reading in MATLAB files
-To supress printing of many extraneous details about the .mat file, set it's attributes to `NULL` in R
+To suppress printing of many extraneous details about the .mat file, set it's attributes to `NULL` in R
 ```{r mfiles2}
 attributes(matData) <- NULL 
 print(matData)
