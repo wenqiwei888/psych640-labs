@@ -70,7 +70,6 @@ You can use the `typeof` function to see what data type an object holds.
 ```{r typeChecking}
 typeof(2)
 typeof(2L) # L at the end makes an integer
-typeof(as.integer(2)) # Same as L suffix
 typeof("herp")
 typeof(FALSE)
 ```
@@ -202,32 +201,25 @@ prod(dim(wide))
 ```
 
 ## Matrix Math
-When doing math on matrices with the `+`, `*`, `/` or `-` operators, R will by default applies the operations element-wise. But you can do matrix multiplication with the `%*%` operator. 
+When doing math on matrices with the `+`, `*`, `/` or `-` operators, R will by default applies the operations element-wise (i.e., add the first element of one matrix to the first element of the other matrix, etc.). 
+
+But you can perform matrix multiplication with the `%*%` operator. 
 ```{r linear_alg}
 long %*% wide
-```
-
-## Matrix Indexing
-The elements of a matrix can be individually accessed via indexing with the `[` operator. The `[` operator is combined with a (row,column) subscript or a linear position index. 
-```{r indexing_matrices}
-long[1,2] 
-long[3,] 
-wide[,2]
-wide[5]
 ```
 
 ## Activity
 Try creating a matrix with 900 elements and 9 columns that contains only logical `TRUE`s. Confirm the dimensionality using R.
 
 ## Data Frames
-Data Frames are similar to matrices, in that they are 2D rectangular structures, but are more flexible because they allow for mixed data types. A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables. 
+Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for data types to be stored in each column. 
 
-Data frames also support a more powerful syntax for subsetting and combining data than matrices, making them a preferred data structure in many instances where explicit matrix algebra is not required. 
+A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables. 
 
 ## Creating Data Frames
-Data frames can be created by passing `name = value` pairs to the `data.frame()` function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column.
+Data frames can be created by passing `name = value` pairs to the `data.frame()` function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column. Importantly, all the vectors stored in the data frame must be of *identical length*.
 
-Essentially, a data frame is a container that imposes a relational structure on any number of previously unrelated vectors. Importantly, all the vectors stored in the data frame must be of *identical length*.
+Essentially, a data frame is a container that imposes a relational structure on any number of previously unrelated vectors. 
 ```{r dataframeexample}
 df <- data.frame(x=c(1,4,4,2), y=c(3,3,1,4),
                  month=c("Sep","Oct","Nov","Jan"))
@@ -239,15 +231,7 @@ A useful feature of data frames is the ability to access the vectors you stored 
 ```{r dollarsign}
 df$month # Quotes around month are OK, but not needed
 ```
-Selecting more than 1 name with the `$` operator doesn't work though. 
-
-## Data Frame Indexing
-Data Frames can also be indexed with `[` like a matrix. 
-```{r square}
-df[1,] # Still A data frame
-df[,3] # A vector, like when using $
-df[1:3,2:3] # Selecting multiple columns and rows
-```
+Selecting more than 1 column with the `$` operator doesn't work though. We'll talk more about indexing data frames in the "Manipulating Data" labs.
 
 ## Growing Data Frames
 Columns can be added with the `cbind` function (short for column bind)
@@ -315,12 +299,10 @@ biglist
 ```
 
 ## Indexing Lists
-Like data frames, lists can be indexed with `$`. But, `$` only works if the list items have names. 
+Like data frames, elements of a lists can be extracted with `$`. But, `$` only works if the list items have names. 
 ```{r biglist_index}
 biglist$first
 ```
-
-You can use `[` with a numeric position index also, but its trickier - we'll talk about it next time
 
 ## List Tips
 - Avoid nesting lists if you can. One level of nesting is usually allright, but more than 1 is pain.
