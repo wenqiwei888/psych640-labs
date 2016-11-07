@@ -29,8 +29,8 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 [Manipulating Data, Part 1](./labs/lab3_ManipulatingData.html) | 10/3/16
 [Manipulating Data, Part 2](./labs/lab4_ManipulatingData2.html) | 10/10/16
 [Intro to Functions](./labs/lab5_IntroductionToFunctions.html) | 10/17/16
-[Reading Data into R](./labs/lab9_FileIO.html) | 10/24/16
-[Plotting with Base Graphics, Part 1](./labs/lab7_basegraphics1.html) | TBA
+[Reading Data into R](./labs/lab9_FileIO.html) | 10/31/16
+[Plotting with Base Graphics, Part 1](./labs/lab7_basegraphics1.html) | 11/7/16
 [Plotting with Base Graphics, Part 2](./labs/lab8_basegraphics2.html) | TBA
 [Dynamic Documents with Rmarkdown](./labs/lab10_rmarkdown.html) | TBA
 [Control Statements](./labs/lab6_control_statements.html) | TBA

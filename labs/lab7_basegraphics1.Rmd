@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(prompt=FALSE, cache = TRUE) 
 ```
 
 ## Base R Graphics
@@ -35,7 +35,7 @@ plot(pressure$temperature, pressure$pressure)
 ## plot {.helppage}
 Wait, plot only takes 2 arguments???
 
-But look, theres that `...`
+But look, there's that `...`
 
 ![plothelp](../images/plot.png)<br>
 
@@ -80,7 +80,7 @@ plot(pressure$temperature, pressure$pressure, xlab="Temperature (C)",
 
 ## Interfacing with `par` via `plot`
 - You can manipulate other aspects of your plot's appearance in the function call to `plot()`, even though they are not listed in the **Usage** section
-    - This is because `plot()` passes named arguments that don't match its own list of arugments onto the common graphics settings function, via that `...`
+    - This is because `plot()` passes named arguments that don't match its own list of arguments onto the common graphics settings function, via that `...`
     - This way, the settings will only affect the current plotting command
 
 ## Interfacing with `par` via `plot`
@@ -127,14 +127,14 @@ plot(x=mtcars$wt, y=mtcars$mpg, main="Automobile MPG vs. Automobile Weight",
     - Add legends
 
 ## Adding points
-- Not suprisingly, the R function which can draw new points is called `points`
+- Not surprisingly, the R function which can draw new points is called `points`
 - Just like `plot()`, `points()` only has a few explicit arguments, but passes on arguments to the underlying graphics settings in R. 
     - `col`, `pch`, `lwd`, `bg`, and `cex` are all commonly used with `points()`
 - But unlike plot, `points()` does not have a way to change things on the "outsides" of the plots
     - Can't change the axis title, axis limits, main title, etc.
 
 ## Adding points {.img-centered}
-Lets plot the exponential and logarthimic functions of base 2 against each other, at a few small integers.
+Lets plot the exponential and logarithmic functions of base 2 against each other, at a few small integers.
 ```{r logandexp,fig.height = 3.5, fig.width =4, echo=-1}
 par(mar = c(4,4,1,1))
 plot(x=0:4,y=2^(0:4),col="blue",xlim = c(0,8),ylim=c(0,16),
@@ -179,14 +179,14 @@ plot(x=x1,y=2^(x1), col="blue", xlim = c(0,8), ylim=c(0,16),
 lines(x=x2, y = log2(x2), col = "red", lwd=2)
 lines(x=seq(0,8,.01),y=seq(0,8,.01), lty=2)
 text(x=4,y=4.5,labels="y=x") # centered at (4,4.5)
-legend("topright", legend = c("Exponenital","Logarithmic"),
+legend("topright", legend = c("Exponential","Logarithmic"),
        col=c("blue","red"),lty=1, bty="n")
 ```
 
 ## Activity
 Show the standard normal PDF and the Student's t PDF with 15 degrees of freedom on the same plot, across a reasonable range on the x-axis.
 
-Plot the distributions in 2 different colors, and add a legend telling the viewer which color corrresponds to which distribution. 
+Plot the distributions in 2 different colors, and add a legend telling the viewer which color corresponds to which distribution. 
 
 Remember that you can calculate the normal density at any point on the x axis using `dnorm` and the t density using `dt`.
 

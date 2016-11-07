@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2016-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-11-07</p>
           </hgroup>
   </slide>
 
@@ -117,7 +117,7 @@
 <li>Using the <code>pressure</code> data set, lets plot the <a href='https://en.wikipedia.org/wiki/Vapor_pressure' title=''>vapor pressure</a> exerted by mercury as a function of its temperature.</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure)</pre>
+<pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/pressure-1.png" width="720" /></p>
 
@@ -137,7 +137,7 @@
 
 <p>Wait, plot only takes 2 arguments???</p>
 
-<p>But look, theres that <code>...</code></p>
+<p>But look, there&#39;s that <code>...</code></p>
 
 <p><img src='../images/plot.png' title=''/><br></p>
 
@@ -182,8 +182,8 @@
 </ol></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
-... +       ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;)</pre>
+<pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
+     ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/changelabels-1.png" width="720" /></p>
 
@@ -197,8 +197,8 @@
 </ul></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
-... +       ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;,type=&quot;o&quot;)</pre>
+<pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
+     ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;,type=&quot;o&quot;)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/overplotting-1.png" width="720" /></p>
 
@@ -208,7 +208,7 @@
 <li>You can manipulate other aspects of your plot&#39;s appearance in the function call to <code>plot()</code>, even though they are not listed in the <strong>Usage</strong> section
 
 <ul>
-<li>This is because <code>plot()</code> passes named arguments that don&#39;t match its own list of arugments onto the common graphics settings function, via that <code>...</code></li>
+<li>This is because <code>plot()</code> passes named arguments that don&#39;t match its own list of arguments onto the common graphics settings function, via that <code>...</code></li>
 <li>This way, the settings will only affect the current plotting command</li>
 </ul></li>
 </ul>
@@ -258,11 +258,11 @@
 
 </article></slide><slide class=''><hgroup><h2>Change all the things!</h2></hgroup><article  id="change-all-the-things">
 
-<pre class = 'prettyprint lang-r'>&gt; plot(pressure$temperature, pressure$pressure, xlab = &quot;Temperature (C)&quot;,
-... +       ylab = &quot;Pressure (mm of Hg)&quot;, main = &quot;Vapor Pressure of Mercury&quot;,
-... +       type=&quot;o&quot;, lwd = 3, lty = 2, pch = 24, col =&quot;darkmagenta&quot;,
-... +       bg = &quot;cyan&quot;, cex = 2, cex.main=2, cex.lab = 1.5, xlim = c(-100,500),
-... +       ylim = c(0,1000))</pre>
+<pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab = &quot;Temperature (C)&quot;,
+     ylab = &quot;Pressure (mm of Hg)&quot;, main = &quot;Vapor Pressure of Mercury&quot;,
+     type=&quot;o&quot;, lwd = 3, lty = 2, pch = 24, col =&quot;darkmagenta&quot;,
+     bg = &quot;cyan&quot;, cex = 2, cex.main=2, cex.lab = 1.5, xlim = c(-100,500),
+     ylim = c(0,1000))</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/allthingsmustchange-1.png" width="720" style="display: block; margin: auto;" /></p>
 
@@ -291,7 +291,7 @@
 </article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points">
 
 <ul>
-<li>Not suprisingly, the R function which can draw new points is called <code>points</code></li>
+<li>Not surprisingly, the R function which can draw new points is called <code>points</code></li>
 <li>Just like <code>plot()</code>, <code>points()</code> only has a few explicit arguments, but passes on arguments to the underlying graphics settings in R.
 
 <ul>
@@ -306,11 +306,11 @@
 
 </article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points-1" class="img-centered">
 
-<p>Lets plot the exponential and logarthimic functions of base 2 against each other, at a few small integers.</p>
+<p>Lets plot the exponential and logarithmic functions of base 2 against each other, at a few small integers.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; plot(x=0:4,y=2^(0:4),col=&quot;blue&quot;,xlim = c(0,8),ylim=c(0,16),
-... +       main = &quot;Log and Exponential, Base 2&quot;,ylab= &quot;y&quot;,xlab=&quot;x&quot;)
-&gt; points(x=0:8, y = log2(0:8),col = &quot;red&quot;)</pre>
+<pre class = 'prettyprint lang-r'>plot(x=0:4,y=2^(0:4),col=&quot;blue&quot;,xlim = c(0,8),ylim=c(0,16),
+     main = &quot;Log and Exponential, Base 2&quot;,ylab= &quot;y&quot;,xlab=&quot;x&quot;)
+points(x=0:8, y = log2(0:8),col = &quot;red&quot;)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/logandexp-1.png" width="384" /></p>
 
@@ -318,11 +318,11 @@
 
 <p>Next we&#39;ll visualize this relationship with a line graph via the <code>lines()</code> function. If we want a smooth line, we&#39;ll need to use <em>a lot</em> of points.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; x1 &lt;- seq(0.01,4,.01) # 400 points, .01 apart
-&gt; x2 &lt;- seq(0.01,8,.01) # 800 points, .01 apart
-&gt; plot(x=x1,y=2^(x1), col=&quot;blue&quot;, xlim = c(0,8),ylim=c(0,16),ylab= &quot;y&quot;,
-... +       xlab=&quot;x&quot;, main = &quot;Log and Exponential, Base 2&quot;, type=&#39;l&#39;,lwd=2)
-&gt; lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
+<pre class = 'prettyprint lang-r'>x1 &lt;- seq(0.01,4,.01) # 400 points, .01 apart
+x2 &lt;- seq(0.01,8,.01) # 800 points, .01 apart
+plot(x=x1,y=2^(x1), col=&quot;blue&quot;, xlim = c(0,8),ylim=c(0,16),ylab= &quot;y&quot;,
+     xlab=&quot;x&quot;, main = &quot;Log and Exponential, Base 2&quot;, type=&#39;l&#39;,lwd=2)
+lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/logandexp_line-1.png" width="336" /></p>
 
@@ -330,8 +330,8 @@
 
 <p>Next we&#39;ll add the identity line, and label it with the <code>text()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; lines(x=seq(0,8,.01),y=seq(0,8,.01), lty=2)
-&gt; text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
+<pre class = 'prettyprint lang-r'>lines(x=seq(0,8,.01),y=seq(0,8,.01), lty=2)
+text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/logandexp_identity-1.png" width="384" /></p>
 
@@ -341,8 +341,8 @@
 
 <p>In <code>legend()</code>, we need to tell the function to draw lines, color them, label them, and skip the bounding box on the legend.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; legend(&quot;topright&quot;, legend = c(&quot;Exponenital&quot;,&quot;Logarithmic&quot;),
-... +         col=c(&quot;blue&quot;,&quot;red&quot;),lty=1, bty=&quot;n&quot;)</pre>
+<pre class = 'prettyprint lang-r'>legend(&quot;topright&quot;, legend = c(&quot;Exponential&quot;,&quot;Logarithmic&quot;),
+       col=c(&quot;blue&quot;,&quot;red&quot;),lty=1, bty=&quot;n&quot;)</pre>
 
 <p><img src="lab7_basegraphics1_files/figure-html/logandexp_legend-1.png" width="384" /></p>
 
@@ -350,7 +350,7 @@
 
 <p>Show the standard normal PDF and the Student&#39;s t PDF with 15 degrees of freedom on the same plot, across a reasonable range on the x-axis.</p>
 
-<p>Plot the distributions in 2 different colors, and add a legend telling the viewer which color corrresponds to which distribution.</p>
+<p>Plot the distributions in 2 different colors, and add a legend telling the viewer which color corresponds to which distribution.</p>
 
 <p>Remember that you can calculate the normal density at any point on the x axis using <code>dnorm</code> and the t density using <code>dt</code>.</p>
 
