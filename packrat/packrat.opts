@@ -4,261 +4,70 @@ print.banner.on.startup: auto
 vcs.ignore.lib: TRUE
 vcs.ignore.src: FALSE
 external.packages:
-    acepack
-    assertr
-    base64enc
-    BayesFactor
-    BayesFactorExtras
-    BayesLMMTutorial
-    bbmle
     BH
-    brew
-    broom
-    chron
-    coda
-    colorfulVennPlot
-    colorspace
-    crayon
-    curl
-    data.table
     DBI
-    devtools
     DiagrammeR
-    dichromat
-    dplyr
-    effsize
-    evaluate
-    extrafont
-    extrafontdb
-    ez
-    FAM
-    formatR
-    formattable
-    Formula
-    gdtools
-    geepack
-    ggplot2
-    ggthemes
-    git2r
-    gridBase
-    gtable
-    gtools
-    haven
-    highr
-    Hmisc
-    htmltools
-    htmlwidgets
-    httpuv
-    igraph
-    influenceR
-    inline
-    irlba
-    jsonlite
-    knitr
-    ks
-    Lahman
-    latticeExtra
-    loo
-    magrittr
-    mapproj
-    maps
-    matrixStats
-    maxLik
-    memoise
-    mice
-    mime
-    misc3d
-    miscTools
-    mnormt
-    multcomp
-    multicool
-    munsell
-    mvtnorm
     NMF
-    pbapply
-    PCR
-    pipeR
-    plyr
-    praise
-    pryr
-    psych
-    pwr
     R.matlab
     R.methodsS3
     R.oo
     R.utils
     R6
-    randomForest
+    RColorBrewer
     Rcpp
-    readxl
-    reshape2
-    rjags
-    rJava
-    rjson
-    rlist
-    roxygen2
-    rstan
-    rstudioapi
-    Rttf2pt1
-    RUnit
-    runjags
-    rversions
-    sandwich
-    scales
-    shiny
-    slam
-    slidify
-    slidifyLibraries
-    sn
-    StanHeaders
-    stringi
-    stringr
-    svglite
-    testthat
-    TH.data
-    tibble
-    tidyr
-    tufterhandout
-    uuid
-    visNetwork
-    wesanderson
-    whisker
-    whoppeR
-    withr
-    xlsx
-    xlsxjars
-    xml2
-    zoo
-    ADGofTest
     assertthat
     base64enc
-    BB
-    bibtex
     bitops
     caTools
-    copula
-    DBI
-    dfoptim
-    doParallel
-    doRNG
-    evaluate
-    foreach
-    formatR
-    gsl
-    highr
-    htmltools
-    httr
-    iterators
-    jsonlite
-    knitcitations
-    knitr
-    lazyeval
-    lubridate
-    magrittr
-    manipulate
-    markdown
-    memoise
-    microbenchmark
-    mime
-    mvtnorm
-    numDeriv
-    openssl
-    optextras
-    optimx
-    packrat
-    pander
-    pcaPP
-    pkgmaker
-    pspline
-    quadprog
-    Rcgmin
-    RCurl
-    RefManageR
-    registry
-    RJSONIO
-    rngtools
-    rstudio
-    Rvmmin
-    setRNG
-    stabledist
-    svUnit
-    tibble
-    ucminf
-    XML
-    xtable
-    yaml
-    car
+    colorfulVennPlot
     colorspace
     dichromat
     digest
+    doParallel
+    dplyr
+    effsize
     evaluate
+    foreach
     formatR
     ggplot2
-    gridExtra
+    gridBase
     gtable
+    gtools
     highr
     htmltools
     htmlwidgets
-    httpuv
+    igraph
+    influenceR
+    irlba
+    iterators
     jsonlite
     knitr
     labeling
-    littler
-    lme4
+    lazyeval
     magrittr
     markdown
-    MatrixModels
     mime
-    minqa
     munsell
-    nloptr
-    pbkrtest
-    pkgKitten
+    packrat
+    pander
+    pkgmaker
     plyr
-    proto
-    quantreg
-    R6
-    RColorBrewer
-    Rcpp
-    RcppEigen
+    readxl
+    registry
     reshape2
-    rgl
+    rmarkdown
+    rngtools
+    rstudioapi
     scales
-    shiny
-    SparseM
     stringi
     stringr
+    tibble
+    tidyr
+    visNetwork
+    wesanderson
+    whoppeR
     xtable
     yaml
-    base
-    boot
-    class
-    cluster
-    codetools
-    compiler
-    datasets
-    foreign
-    graphics
-    grDevices
-    grid
-    KernSmooth
-    lattice
-    MASS
-    Matrix
-    methods
-    mgcv
-    nlme
-    nnet
-    parallel
-    rpart
-    spatial
-    splines
-    stats
-    stats4
-    survival
-    tcltk
-    tools
-    utils
 local.repos: ~/source
 load.external.packages.on.startup: FALSE
 ignored.packages: 
