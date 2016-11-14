@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(prompt=FALSE, cache = TRUE) 
 ```
 
 ## Different Data, Different Plots
@@ -46,30 +46,30 @@ hist(ToothGrowth$len,freq = FALSE,
 </div>
 
 ## Histograms {.smaller}
-- You can also change whether values that fall **exactly** on a break value are sorted into the left or the right hand bin. 
-    - This is especially important for summarising discrete data with a small number of possible responses (e.g. a 7-point likert scale).
+- You can change whether values that fall **exactly** on a break value are sorted into the left or the right hand bin. 
+    - Very important for discrete variables with only a few possible responses (e.g. a 7-point likert scale).
 
 <div class="columns-2">  
 ```{r tooth_hist2, fig.height = 3, fig.width = 4.5,echo=-1}
 par(mar = c(4,4,1,1))
-hist(ToothGrowth$len,right = TRUE) # right-inclusive
-hist(ToothGrowth$len,right = FALSE) # left-inclusive
+hist(ToothGrowth$len, right = TRUE) # right-inclusive
+hist(ToothGrowth$len, right = FALSE) # left-inclusive
 ```
 </div>
 
 ## Histograms 
-In the previous example, the bins were too wide and made the histogram looked rectangular. We can change this with the `breaks` argument:
+In the previous example, the bins were too wide and made the histogram appear rectangular. We can change this with the `breaks` argument:
 
 ```{r fake_breaks, echo = TRUE,eval=FALSE}
-hist(ToothGrowth$len, breaks = 20, main =NULL,xlab = "Tooth Length")
+hist(ToothGrowth$len, breaks = 20, main = NULL, xlab = "Tooth Length")
 ```
 
-We'll compare how well different breaks describe the data by plotting several on the same figure. We can do this by changing the `mfrow` (**m**ultiple **f**igures by **row**) graphics setting.
+We'll compare how well different breaks describe the data by plotting several histograms in the same figure. We can do this by changing the `mfrow` (**m**ultiple **f**igures by **row**) graphics setting.
 
-The `mfrow` is set through `par()`, and divides the plot window up into a grid regions so a different plot can be drawn in each region. 
+The `mfrow` value is set by using the `par()` function, and is used to divide the figure window up into a grid of different regions, allowing a different plot to be drawn in each region. 
 
 ## ¡Danger!
-When using `par`, remember that the changes you make affect *all subsequent plots*, which is not usually what you want. 
+When using `par`, remember that the changes you make affect *all subsequent plots*, which is not usually what you want.
 
 One solution is to make a copy of the default `par()` settings *before* you modify them, then use that copy to reset the defaults after your plotting.
 
@@ -91,7 +91,7 @@ With the warnings finished, lets change the plot window layout.
 With `par()`, you modify the settings using keyname/value pairs. So, the syntax for setting the layout style with `mfrow` is:
 
 ```{r set_mfrow}
-par(mfrow=c(2,2)) # sets a 2x2 grid of plots
+par(mfrow = c(2,2)) # sets a 2x2 grid of plots
 ```
 
 ## Comparing Breaks {.helppage}
@@ -118,8 +118,6 @@ hist(ToothGrowth$len, breaks=60, main=NULL, xlab="Tooth Length", xaxt="n")
 axis(side=1,col="blue", lwd=2) # side 1 is bottom axis
 ```
 
-The `axis()` function, allows for very fine grained control over axis appearance
-
 ## Box Plots {.img-centered}
 Box plots are a good way to present the shape of an observed sample along with some summary statistics. 
 
@@ -135,11 +133,11 @@ boxplot(OJ, AA, names=c("Orange Juice","Ascorbic Acid"),
 ## Box Plots {.img-centered}
 If our data  come from a data frame, we can use a formula instead of subsetting out every individual group.
 
-Below, the formula `len~dose`  means "Group the values in the `len` column by the values in the `dose` column. `dose` has 3 unique values, so we get 1 boxplot per dose.
+Below, the formula `len~dose`  means "Group the values in the `len` column by the values in the `dose` column." `dose` has 3 unique values, so we get 3 boxplots, 1 boxplot per dose.
 
 ```{r boxplot_formula,fig.height=3,echo=-1}
 par(mar = c(4,4,1,1))
-boxplot(len~dose,data=ToothGrowth,xlab="Dose", ylab="Tooth Length")
+boxplot(len~dose, data=ToothGrowth, xlab="Dose", ylab="Tooth Length")
 ```
 
 ## Customizing Box Plots {.img-centered}
@@ -150,7 +148,7 @@ Two useful boxplot customizations are:
 ```{r boxplot_formula2,fig.height=3,echo=-1}
 par(mar = c(4,4,1,1))
 boxplot(len~dose, data=ToothGrowth, horizontal = TRUE,
-        varwidth=TRUE,ylab="Dose",xlab = "Tooth Length")
+        varwidth=TRUE, ylab="Dose", xlab = "Tooth Length")
 ```
 
 ## Bar Plot {.img-centered}
@@ -158,7 +156,7 @@ Bar plots are used to visualize single summary statistics, like the mean and med
 
 ```{r simple_barplot,fig.height=3.5}
 barplot(height = c(5,10,7.5), names.arg = c("Slow","Medium","Fast"),
-        main="Fictional Data",ylab="Avg. Score",xlab="Speed")
+        main="Fictional Data", ylab="Avg. Score", xlab="Speed")
 ```
 
 
@@ -174,14 +172,14 @@ TG <- ToothGrowth %>% group_by(supp,dose) %>%
 knitr::kable(as.table(TG), caption = "Mean Tooth Length by Supplement and Dosage")
 ```
 
-Reshaping from `data.frame` to `matrix` is neccesary because `barplot` can only work with vectors or matices.
+Reshaping from `data.frame` to `matrix` is necessary because `barplot` can only work with vectors or matrices.
 
 ## Bar Plot {.img-centered}
 The default `barplot` settings for a matrix are not so hot.
 ```{r bar, fig.height = 3}
 barplot(TG,xlab="Dose", ylab="Tooth Length")
 ```
-Side-by-side barplots are preffered to stacked barplots, and we need a legend, to have a functional plot. 
+Side-by-side barplots are preferred to stacked barplots, and we need a legend, to have a functional plot. 
 
 ## Barplot: Good {.img-centered}
 Use `beside=TRUE` to put the bars next to one another.
@@ -191,7 +189,8 @@ barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length")
 ```
 
 ## Barplot: Better{.img-centered}
-Lets increase the size of the main title, the two axis tick labels (`cex.names` = y axis tick labels, `cex.names` = x axis tick labels), and the axis labels themselves 
+Lets place the bars side by side, and increase the size of the main title (`cex.main`), the axis labels, (`cex.lab`) and the axis tick labels (`cex.axis` affects the y axis tick labels, `cex.names` affects x axis tick labels).
+
 ```{r barplot_better, fig.height = 3, fig.width = 5,echo=-1}
 par(mar=c(5,4,1,1))
 barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length", 
@@ -200,22 +199,21 @@ barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length",
 ```
 
 ## Barplot: Best {.img-centered}
+Finally, lets add a legend with the `legend.text` argument, and choose a location for it with the `args.legend` argument. Alternatively, you could use the `legend` function directly.
 ```{r barplot_best, fig.height = 3, fig.width = 5,echo=-1}
 par(mar=c(5,4,1,1))
 barplot(TG, beside = TRUE, xlab="Dosage (mg)", ylab="Tooth Length", 
-        legend.text=TRUE, args.legend=list(x=3,y=25,bty="n"),
         cex.main=1.75, cex.axis=1.35,
-        cex.names=1.35, cex.lab=1.25)
+        cex.names=1.35, cex.lab=1.25,
+        legend.text=TRUE, args.legend=list(x=3,y=25,bty="n"))
 ```
-
-You can also use the `legend` function we looked at last time.
 
 ## Legend Placement
 In a barplot, its hard to know what x and y coordinates to use for your legend if the position keywords are not appropriate for your plot (e.g. the "topright" corner has data in it). 
 
 One trick is to use the `locator()` function. 
 
-1. Call `locator()` with no arugments, and your cursor should turn into crosshairs.
+1. Call `locator()` with no arguments, and your cursor should turn into cross-hairs.
 2. Click those cross hairs on the plot window and  hit `escape`
 3. In the console, you should see the x and y position of the point you clicked on. 
 4. Yay!
@@ -259,7 +257,7 @@ knitr::kable(as.table(TGerr), caption = "Standard Error of the Mean for Tooth Le
 ```
 
 ## Error Bars
-The key is to plotting error bars capturing the return value of barplot, which tells you the x-axis coordinates the bars are centered on. 
+The key to plotting error bars is capturing the return value of `barplot`, which tells you the x-axis coordinates the bars are centered on. 
 ```{r errorbars_step1, fig.height = 4,fig.width = 5}
 x <- barplot(TG, xlab="Dosage (mg)", ylab="Tooth Length",
              legend.text=TRUE, beside=TRUE, ylim=c(0,35),
