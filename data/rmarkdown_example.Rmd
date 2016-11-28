@@ -1,7 +1,7 @@
 ---
 title: "R Markdown Tutorial"
 subtitle: "Psych 640 Lab"
-author: "Andrew Cohen and Wlliam Hopper"
+author: "Andrew Cohen and William Hopper"
 date: "November 29, 2015"
 output: html_document
 ---

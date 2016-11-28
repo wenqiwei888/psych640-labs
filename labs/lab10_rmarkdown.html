@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2016-11-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-11-28</p>
           </hgroup>
   </slide>
 
@@ -101,7 +101,7 @@
 
 <slide class=''><hgroup><h2>What is the Rmarkdown toolkit?</h2></hgroup><article  id="what-is-the-rmarkdown-toolkit">
 
-<p>More generally, it provides a solution to the problem of separating our work from our reporting of that work.</p>
+<p>Functionally, Rmarkdown provides a solution to the problem of separating our work (i.e., our R code) from the reporting of our results.</p>
 
 <p>More specifically, it is a toolkit which allow us to tightly integrate any code used to solve a problem, the results of running that code, and the human-readable explanation of the methods and the solution.</p>
 
@@ -130,26 +130,28 @@
 <li>For a longer, more in depth intro checkout <a href='http://www.introductoryr.co.uk/Reproducibility/Markdown_guide.html' title=''>this tutorial</a> by Rob Knell</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>The R part of Rmarkdown</h2></hgroup><article  id="the-r-part-of-rmarkdown" class="sampleslide">
+</article></slide><slide class=''><hgroup><h2>The R part of Rmarkdown</h2></hgroup><article  id="the-r-part-of-rmarkdown" class="helppage">
 
 <ol>
 <li>Start by going to File &#8211;&gt; New File &#8211;&gt; R Markdown</li>
 <li>In the a dialogue box, select HTML as our output format.</li>
 <li>Choose your title and set yourself as author.</li>
-<li>Hit the &quot;Knit HTML&quot; button just above the editor window and you shoud something like: <img src='../images/Rmarkdownsample.png' title=''/></li>
+<li>Hit the &quot;Knit HTML&quot; button just above the editor window and you should something like:</li>
 </ol>
+
+<img src='../images/Rmarkdownsample.png' title='fig:'/><p class='caption'>Rmarkdown Template</p>
 
 </article></slide><slide class=''><hgroup><h2>Success! Now, more work!</h2></hgroup><article  id="success-now-more-work">
 
 <p>We&#39;ve created our first dynamic document, huzzah!</p>
 
-<p>But we&#39;re going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/master/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let&#39;s get to making even better documents.</p>
+<p>But we&#39;re going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/gh-pages/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let&#39;s get to making even better documents.</p>
 
 <p>We&#39;ll work through the sections of this document together, and as we go through it, try to connect the dots between the format of the input document, and the resulting elements in the output document.</p>
 
 </article></slide><slide class=''><hgroup><h2>YAML</h2></hgroup><article  id="yaml">
 
-<p>The section at the very top, separated by <code>---</code>, is called the YAML header (YAML stands for <strong>Y</strong>AML <strong>A</strong>int <strong>M</strong>arkup <strong>L</strong>anguage).</p>
+<p>The section at the very top, separated from the rest of the document by the 3 dashes <code>---</code>, is called the YAML header (YAML stands for <strong>Y</strong>AML <strong>A</strong>int <strong>M</strong>arkup <strong>L</strong>anguage).</p>
 
 <p>The YAML header stores info about your document <em>in</em> your document (i.e. <strong>metadata</strong>), and tells the interpreter about how to render the final document. <img src='../images/YAML.png' title=''/></p>
 
@@ -256,7 +258,7 @@
 <ul>
 <li>Looks like <img src='../images/run_chunk_button.png' title=''/></li>
 </ul></li>
-<li>You can run all <em>preceeding</em> chunks by pressing the small grey arrow next to the green play buttton
+<li>You can run all <em>preceeding</em> chunks by pressing the small grey arrow next to the green play button
 
 <ul>
 <li>Looks like <img src='../images/run_previous_button.png' title=''/></li>
@@ -267,7 +269,7 @@
 
 <ol>
 <li>Create a new .Rmd file, set up to compile to HTML</li>
-<li>Use an inline R expression to make the date stamp update each time the document is compiled. Do this by embdedding the function <code>Sys.Date()</code> in the date YAML field. Be sure to keep the enclosing double quotes!</li>
+<li>Use an inline R expression to make the date stamp update each time the document is compiled. Do this by enclosing the function <code>Sys.Date()</code> with backticks in the &quot;date&quot; YAML field . Be sure to also keep the enclosing double quotes!</li>
 <li>Make a center-aligned boxplot of the distribution of <code>count</code> values for each value of <code>spray</code> in the <code>InsectSprays</code> data frame.
 
 <ul>
@@ -295,7 +297,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Producing PDFs with Rmarkdown</h2></hgroup><article  id="producing-pdfs-with-rmarkdown">
 
-<p>It also easy to make your final document a PDF. Creating PDFs requires a \(\LaTeX\) installation. <a href='http://miktex.org/download' title=''>MikTeX</a> is preferred for Window&#39;s, while <a href='https://tug.org/mactex/mactex-download.html' title=''>MacTex</a> is prefered for Mac.</p>
+<p>It also easy to make your final document a PDF. Creating PDFs requires a \(\LaTeX\) installation. <a href='http://miktex.org/download' title=''>MikTeX</a> is preferred for Window&#39;s, while <a href='https://tug.org/mactex/mactex-download.html' title=''>MacTex</a> is preferred for Mac.</p>
 
 <p>Once \(\LaTeX\) is installed, just change the <code>output</code> YAML header value to <code>pdf_document</code> to set PDF as final format.</p>
 

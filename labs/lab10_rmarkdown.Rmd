@@ -19,7 +19,7 @@ knitr::opts_chunk$set(prompt=TRUE, cache = TRUE)
 
 ## What is the Rmarkdown toolkit?
 
-More generally, it provides a solution to the problem of separating our work from our reporting of that work.
+Functionally, Rmarkdown provides a solution to the problem of separating our work (i.e., our R code) from the reporting of our results.
 
 More specifically, it is a toolkit which allow us to tightly integrate any code used to solve a problem, the results of running that code, and the human-readable explanation of the methods and the solution.
 
@@ -46,22 +46,24 @@ Since we can't exhaustively learn Rmarkdown in one class, you'll need to know wh
 - Thoroughly explore all the chunk options at http://yihui.name/knitr/options/ (more on chunk options later in the class).
 - For a longer, more in depth intro checkout [this tutorial](http://www.introductoryr.co.uk/Reproducibility/Markdown_guide.html) by Rob Knell
 
-## The R part of Rmarkdown {.sampleslide}
+## The R part of Rmarkdown {.helppage}
 1. Start by going to File --> New File --> R Markdown
 2. In the a dialogue box, select HTML as our output format. 
 3. Choose your title and set yourself as author.
-4. Hit the "Knit HTML" button just above the editor window and you shoud something like:
+4. Hit the "Knit HTML" button just above the editor window and you should something like:
+
+
 ![Rmarkdown Template](../images/Rmarkdownsample.png)
 
 ## Success! Now, more work!
 We've created our first dynamic document, huzzah!
 
-But we're going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/master/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let's get to making even better documents.
+But we're going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/gh-pages/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let's get to making even better documents.
 
 We'll work through the sections of this document together, and as we go through it, try to connect the dots between the format of the input document, and the resulting elements in the output document.
 
 ## YAML
-The section at the very top, separated by `---`, is called the YAML header (YAML stands for **Y**AML **A**int **M**arkup **L**anguage). 
+The section at the very top, separated from the rest of the document by the 3 dashes `---`, is called the YAML header (YAML stands for **Y**AML **A**int **M**arkup **L**anguage). 
 
 The YAML header stores info about your document *in* your document (i.e. **metadata**), and tells the interpreter about how to render the final document.
 ![YAML](../images/YAML.png)
@@ -131,17 +133,17 @@ RStudio also allows you to evaluate the code inside you code chunks without knit
 - You can run code line-by-line with the `Run` button
 - You can run the entire code chunk by pressing the small green "play" button on the right side of the chunk 
     - Looks like ![run_chunk](../images/run_chunk_button.png)
-- You can run all *preceeding* chunks by pressing the small grey arrow next to the green play buttton
+- You can run all *preceeding* chunks by pressing the small grey arrow next to the green play button
     - Looks like ![run_prior](../images/run_previous_button.png)
 
 
 ## Activity: Writing a Report on `InsectSprays`
 1. Create a new .Rmd file, set up to compile to HTML
-2. Use an inline R expression to make the date stamp update each time the document is compiled. Do this by embdedding the function `Sys.Date()` in the date YAML field. Be sure to keep the enclosing double quotes!
+2. Use an inline R expression to make the date stamp update each time the document is compiled. Do this by enclosing the function `Sys.Date()` with backticks in the "date" YAML field . Be sure to also keep the enclosing double quotes!
 3. Make a center-aligned boxplot of the distribution of `count` values for each value of `spray` in the `InsectSprays` data frame.
     - Hint: Remember you can use the `~` operator in the call to `boxplot()`
 4. Below the figure, write a one sentence description of the plot (e.g. a short figure caption).
-5. Add a proper table summarizing the `InsectSprays` data frame in your document using `kable`. Keep the line of R code loading the `knitr` package out of the final document.
+5. Add a proper table summarizing the `InsectSprays` data frame in your document using `kable`. Keep the lines of R code loading the `knitr` package and generating the table out of the final document.
 
 ## Styling your HTML
 Your resulting HTML document can be extensively customized by including styling information via CSS (**C**ascading **S**tyle **S**heets).
@@ -159,7 +161,7 @@ You can take an existing Rmd file, change the output type in the YAML header to 
 Or if you want to start a new Rmd file set up to compile to a slide show, go to File --> New File --> R Markdown, select "Presentation" from the menu on the left, and pick your format (I prefer ioslides)
 
 ## Producing PDFs with Rmarkdown
-It also easy to make your final document a PDF. Creating PDFs requires a $\LaTeX$ installation. [MikTeX](http://miktex.org/download) is preferred for Window's, while [MacTex](https://tug.org/mactex/mactex-download.html) is prefered for Mac.
+It also easy to make your final document a PDF. Creating PDFs requires a $\LaTeX$ installation. [MikTeX](http://miktex.org/download) is preferred for Window's, while [MacTex](https://tug.org/mactex/mactex-download.html) is preferred for Mac.
 
 Once $\LaTeX$ is installed, just change the `output` YAML header value to `pdf_document` to set PDF as final format.
 
