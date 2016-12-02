@@ -1,0 +1,77 @@
+---
+title: "Lab Final"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    mathjax: default
+---
+
+## Question 1
+Write a program that prints the numbers from 1 to 100, in ascending order. 
+
+But, if the number to be printed is divisible by 3, print "Fizz" instead of the number.
+
+If the number to be printed is divisible by 5, print "Buzz" instead of the number.
+
+And if the number to be printed is divisible by both 3 and 5, print "FizzBuzz" instead of the number.
+
+## Question 2
+Complete the following code snippet to write a program that prints the numbers from 100 to 1, in descending order.
+
+```{r eval=FALSE}
+for (i in 1:100)
+```
+
+As a constraint, you cannot write any code to precede this snippet, and you may not use a second `for` loop.
+
+# Solutions
+
+## FizzBuzz
+
+```{r fizzbuzz_solution,eval=FALSE}
+for (i in 1:100) {
+  
+  divisible_by_3 <- i %% 3 == 0
+  divisible_by_5 <- i %% 5 == 0
+  
+  if (divisible_by_3 && divisible_by_5) {
+    print("FizzBuzz")
+    
+  } else if (!divisible_by_3 && divisible_by_5) {
+    print("Buzz")
+    
+  } else if (divisible_by_3 && !divisible_by_5) {
+    print("Fizz")
+    
+  } else {
+    print(i)
+  }
+}
+```
+
+## Reverse-printing
+
+```{r reverse_print, eval=FALSE}
+for (i in 1:100) {
+  print(101 - i) 
+}
+```
+
+We need to print 100 first (a large number) but our iterator (i) starts out small. If we subtract a small number from a large number, we'll still have a large number. But what large number should we subtract from?
+
+$$
+x - i = 100
+$$
+
+We know $i$ starts at 1
+
+$$
+x - 1 = 100
+$$
+
+Simple rearranging shows
+
+$$
+x = 101
+$$
