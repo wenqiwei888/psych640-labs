@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2016-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -93,7 +93,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2016-12-05</p>
           </hgroup>
   </slide>
 
@@ -141,8 +141,8 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 </ul></li>
 </ul>
 
-<div id="htmlwidget-91de063bba74fe93b153" style="width:720px;height:150px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-91de063bba74fe93b153">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-bdfe4b1ced94ad5f0891" style="width:720px;height:150px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bdfe4b1ced94ad5f0891">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 </article></slide><slide class=''><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
 
@@ -173,13 +173,13 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 <p>An <code>if else</code> statement allows us to conditionally evaluate specific statements. The general syntax is:</p>
 
 <pre class = 'prettyprint lang-r'>if (condition) {
-  expressionA
+  expression_C
 } else {
-  expressionB  
+  expression_D 
 }</pre>
 
 <ul>
-<li><code>condition</code> is an R expression that evaulates to a single logical value (i.e. a single <code>TRUE</code> or <code>FALSE</code> value)
+<li><code>condition</code> is an R expression that evaluates to a single logical value (i.e. a single <code>TRUE</code> or <code>FALSE</code> value)
 
 <ul>
 <li>This expression <strong>must</strong> be in parenthesis</li>
@@ -193,27 +193,37 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 
 </article></slide><slide class=''><hgroup><h2>if else control flow</h2></hgroup><article  id="if-else-control-flow">
 
-<div id="htmlwidget-b619ea55dfd786998c1a" style="width:720px;height:225px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b619ea55dfd786998c1a">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"x > y\" fontsize = 18]\nB->D [label=\"x < y\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<pre class = 'prettyprint lang-r'>if (condition) {
+  expression_C
+} else {
+  expression_D 
+}</pre>
+
+<div id="htmlwidget-e0439af08e553134918e" style="width:720px;height:225px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0439af08e553134918e">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 <ul>
-<li>if x &lt; y, take the path through C</li>
-<li>if y &gt; x, take the path through D</li>
+<li>if <code>condition</code> is equal to <code>TRUE</code>, take the path through C</li>
+<li>otherwise, take the path through D</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else">
 
-<p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random intergers is larger.</p>
+<p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random integers is larger.</p>
 
 <pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
 y &lt;- sample(1:50000,1)
-if (x &lt; y) {
+print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
+
+<pre >## [1] &quot;X is 39084, Y is 7372&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
 } else {
   print(&quot;X Wins!&quot;)
 }</pre>
 
-<pre >## [1] &quot;Y Wins!&quot;</pre>
+<pre >## [1] &quot;X Wins!&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-1">
 
@@ -221,7 +231,11 @@ if (x &lt; y) {
 
 <pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
 y &lt;- sample(1:50000,1)
-if (x &lt; y) {
+print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
+
+<pre >## [1] &quot;X is 13812, Y is 20218&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
 } else if (y &lt; x) {
   print(&quot;X Wins!&quot;)
@@ -262,17 +276,19 @@ if (x &lt; 0) {
 
 <ul>
 <li><code>for</code> loops repeat your operations for an explicit number of repetitions</li>
-<li><code>while</code> loops repeat your operations an indeterminite number of times, stopping only when a prespecified condition occurs (whenever that might be) <div id="htmlwidget-d12fa01ca829ca1e5777" style="width:720px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d12fa01ca829ca1e5777">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
+<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-77c20879d41d8c55d803" style="width:720px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-77c20879d41d8c55d803">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
 
-<p>At the heart of a <code>for</code> loop is the R object which serves as a counter. This counter variable determines the number of iterations your <code>for</code> loop should have.</p>
+<p>At the heart of a <code>for</code> loop is the R object which determines the number of iterations your <code>for</code> loop should make.</p>
+
+<p>This counter variable (<code>i</code> in this example) is declared inside the parenthesis immediately following the <code>for</code> keyword.</p>
 
 <p>It is common to refer to the counter variable as the variable you &quot;loop over&quot;.</p>
 
-<p>In this example, we use a for loop to print out the integers 1 through 3, one at a time.</p>
+<p>Here, we loop over the variable <code>i</code>. Inside the body of the <code>for</code> loop, the variable <code>i</code> takes on the values 1, 2, and 3.</p>
 
 <pre class = 'prettyprint lang-r'>for (i in 1:3) {
   print(i)
@@ -284,7 +300,7 @@ if (x &lt; 0) {
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-1">
 
-<p>But the counter variable doesn&#39;t have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and i will sequentially take on each value in the vector.</p>
+<p>But the counter variable doesn&#39;t have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and <code>i</code> will sequentially take on each value in the vector.</p>
 
 <pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,1,2,3)) {
   print(i)
@@ -303,50 +319,46 @@ if (x &lt; 0) {
   print(i)
 }</pre>
 
-<ul>
-<li>Note 2 important things that happened:
+<p>Note 2 important things that happened:</p>
 
 <ol>
 <li>The <code>print()</code> statement was executed exactly 6 times, the same number of times as the length of <code>c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,1,2,3)</code></li>
 <li>The value of <code>i</code> changed on every iteration of the loop, as evidenced by the fact that <code>print(i)</code> spit out a different value every time</li>
-</ol></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>for loops s</h2></hgroup><article  id="for-loops-s">
-
-<ul>
-<li>For loops are most often used for their &quot;side effects&quot;
-
-<ul>
-<li>This means you loop over one object (eg. <code>i = 1:10</code>), but use the value of <code>i</code> inside the loop as a subscript to index into other data structures</li>
-<li>This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame</li>
-</ul></li>
-</ul>
+</ol>
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-3">
+
+<p>For loops are most often used for their &quot;side effects&quot;</p>
+
+<p>This means you loop over one object (e.g., <code>i = 1:10</code>), but use the value of <code>i</code> inside the loop as a subscript to index into other data structures</p>
+
+<p>This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame</p>
+
+</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-4">
 
 <p>To demonstrate this indexing, here we:</p>
 
 <ol>
-<li>Create 4 element character vector</li>
+<li>Create 4 x 2 character matrix</li>
 <li>Create another 4 element vector of numeric indices</li>
-<li>Loop over those indices, and use the iterator to index into the character vector and print it&#39;s value.</li>
+<li>Loop over those indices, and use the iterator to index into the matrix and print each row</li>
 </ol>
 
-<pre class = 'prettyprint lang-r'>&gt; letters &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)
-&gt; indices &lt;- 1:4
-&gt; for (x in indices) { print(letters[x])}</pre>
+<pre class = 'prettyprint lang-r'>letters &lt;- matrix(c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,
+                    &quot;E&quot;,&quot;F&quot;,&quot;G&quot;,&quot;H&quot;), nrow = 4)
+indices &lt;- 1:4
+for (x in indices) { print(letters[x,]) }</pre>
 
-<pre >## [1] &quot;A&quot;
-## [1] &quot;B&quot;
-## [1] &quot;C&quot;
-## [1] &quot;D&quot;</pre>
+<pre >## [1] &quot;A&quot; &quot;E&quot;
+## [1] &quot;B&quot; &quot;F&quot;
+## [1] &quot;C&quot; &quot;G&quot;
+## [1] &quot;D&quot; &quot;H&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Group Means Example</h2></hgroup><article  id="group-means-example">
 
 <p>A common problem to solve in R is calculating summary statistics for each group in some data set. We&#39;re going to tackle this problem in the <code>InsectSprays</code> data set.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; head(InsectSprays,5)</pre>
+<pre class = 'prettyprint lang-r'>head(InsectSprays,5)</pre>
 
 <pre >##   count spray
 ## 1    10     A
@@ -361,9 +373,9 @@ if (x &lt; 0) {
 
 <p>First we need find the unique sprays used, and create a &quot;placeholder&quot; data frame which will end up storing the mean for each spray.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; sprays &lt;- unique(InsectSprays$spray)
-&gt; sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
-&gt; sprayMeans</pre>
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+print(sprayMeans)</pre>
 
 <pre >##   spray meanCount
 ## 1     A        NA
@@ -377,22 +389,30 @@ if (x &lt; 0) {
 
 <p>Then we select the first spray, and use <code>$</code> and <code>==</code> to extract the observed counts for that spray group from the <code>InsectSprays</code> data frame.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; sprays &lt;- unique(InsectSprays$spray)
-&gt; sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
-&gt; i = sprays[1]
-&gt; counts &lt;- InsectSprays$count==i </pre>
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+print(i)</pre>
+
+<pre >## [1] A
+## Levels: A B C D E F</pre>
+
+<pre class = 'prettyprint lang-r'>counts &lt;- InsectSprays$count[InsectSprays$spray==i]
+print(counts)</pre>
+
+<pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
 </article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-2">
 
-<p>Then we average those extacted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.</p>
+<p>Then we average those extracted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; sprays &lt;- unique(InsectSprays$spray)
-&gt; sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
-&gt; i = sprays[1]
-&gt; counts &lt;- InsectSprays$count[InsectSprays$spray==i]
-&gt; m &lt;- mean(counts)
-&gt; sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- m
-&gt; sprayMeans</pre>
+<pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+i = sprays[1]
+counts &lt;- InsectSprays$count[InsectSprays$spray==i]
+m &lt;- mean(counts)
+sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- m
+sprayMeans</pre>
 
 <pre >##   spray meanCount
 ## 1     A      14.5
@@ -421,7 +441,16 @@ if (x &lt; 0) {
 <p>We start the same way as before, finding the unique sprays used, and creating a &quot;placeholder&quot; data frame to store results.</p>
 
 <pre class = 'prettyprint lang-r'>sprays &lt;- unique(InsectSprays$spray)
-sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)</pre>
+sprayMeans &lt;- data.frame(spray = sprays, meanCount = NA)
+print(sprayMeans)</pre>
+
+<pre >##   spray meanCount
+## 1     A        NA
+## 2     B        NA
+## 3     C        NA
+## 4     D        NA
+## 5     E        NA
+## 6     F        NA</pre>
 
 </article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-1">
 
@@ -467,15 +496,15 @@ for (i in sprays) {
 
 <ul>
 <li>They repeat the same code block over and over again like <code>for</code> loop</li>
-<li>But they only repeat the block <code>if</code> some condition is met</li>
+<li>But they only evaluate the block <em>if</em> some condition is met</li>
 </ul></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; k &lt;- 1
-&gt; while(k &lt; 5) {
-... +    print(k)
-... +    k &lt;- k + 1
-... +  }</pre>
+<pre class = 'prettyprint lang-r'>k &lt;- 1
+while(k &lt; 5) {
+  print(k)
+  k &lt;- k + 1
+}</pre>
 
 <pre >## [1] 1
 ## [1] 2
@@ -485,41 +514,41 @@ for (i in sprays) {
 </article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-1">
 
 <ul>
-<li><code>while</code> loops are approriate to write when you don&#39;t know <em>a priori</em> how many iterations you will need
+<li><code>while</code> loops are appropriate to write when you don&#39;t know <em>a priori</em> how many iterations you will need
 
 <ul>
 <li>e.g. How many samples from the normal must you take before getting a value more than 3 SD&#39;s away?</li>
 </ul></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; r &lt;- rnorm(1)
-&gt; samples &lt;- 1
-&gt; while(r &lt; 3 &amp;&amp; r &gt; -3) {
-... +      samples &lt;- samples+1
-... +      r &lt;- rnorm(1)
-... +  }
-&gt; print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
+<pre class = 'prettyprint lang-r'>r &lt;- rnorm(1)
+samples &lt;- 1
+while(r &lt; 3 &amp;&amp; r &gt; -3) {
+    r &lt;- rnorm(1)
+    samples &lt;- samples+1
+}
+print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
 
-<pre >## [1] &quot;Success only took 1400 samples&quot;</pre>
+<pre >## [1] &quot;Success only took 83 samples&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
 
-<p>A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to acheive a specific level of experimental power</p>
+<p>A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to achieve a specific level of experimental power</p>
 
-<pre class = 'prettyprint lang-r'>power &lt;- 0; alt_p &lt;- .75; null_p &lt;- .5; n &lt;- 1;
+<pre class = 'prettyprint lang-r'>power &lt;- 0; alt_p &lt;- .75; null_p &lt;- .5; n &lt;- 0;
 while (power &lt; .8) {
-  crit_n &lt;- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE)
-  power &lt;- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
   n &lt;- n+1
+  crit_n &lt;- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE) - 1
+  power &lt;- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
 }
-n-1 # Number of trials needed</pre>
+print(paste(n, &quot;trials needed&quot;))</pre>
 
-<pre >## [1] 30</pre>
+<pre >## [1] &quot;23 trials needed&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>loop pro-tips</h2></hgroup><article  id="loop-pro-tips">
 
 <ul>
-<li>Loops are slow, and as a consequence, you should avoid large loops.</li>
+<li>Loops are often slow, so when you start writing one, carefully consider whether or not there is another solution.</li>
 <li>If you must use one (and sometimes you must), <strong>ALWAYS PREALLOCATE THE FINAL DATA STRUCTURES YOU WANT</strong></li>
 <li>Remember in our InsectSprays means example, we made a place holder data frame the exact size and shape we wanted, and then filled it in</li>
 </ul>

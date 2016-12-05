@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(prompt=FALSE, cache=TRUE) 
 library(DiagrammeR)
 ```
  
@@ -51,8 +51,8 @@ node [shape = circle,
 
 A; B; C; D; E;
 A->B
-B->C [label='x > y' fontsize = 18]
-B->D [label='x < y' fontsize = 18]
+B->C [label='if(condition)' fontsize = 18]
+B->D [label='else' fontsize = 18]
 D->E
 C->E
 }", height = 225)
@@ -104,29 +104,35 @@ An `if else` statement allows us to conditionally evaluate specific statements. 
 
 ```{r ifelse_template, prompt = F, eval=F}
 if (condition) {
-  expressionA
+  expression_C
 } else {
-  expressionB  
+  expression_D 
 }
 ```
-- `condition` is an R expression that evaulates to a single logical value (i.e. a single `TRUE` or `FALSE` value)
+- `condition` is an R expression that evaluates to a single logical value (i.e. a single `TRUE` or `FALSE` value)
     - This expression **must** be in parenthesis
 - `expressionA` and `expressionB` are two different blocks of R code 
     - These expressions should be contained in curly brackets
 
+
 ## if else control flow
+```{r ref.label="ifelse_template",eval=FALSE}
+```
+
 ```{r printBranching,echo=FALSE}
 branch_flow
 ```
 
-- if x < y, take the path through C
-- if y > x, take the path through D
-    
+- If `condition` is equal to `TRUE`, take the path through C
+- Otherwise, take the path through D
+
 ## if else
-Lets take a look at some simple examples of conditional branching. Here we'll use an `if else` statement to print out which of two random intergers is larger. 
-```{r  ifelse_ex1,prompt=FALSE,eval=TRUE}
+Lets take a look at some simple examples of conditional branching. Here we'll use an `if else` statement to print out which of two random integers is larger. 
+
+```{r  ifelse_ex1,eval=TRUE}
 x <- sample(1:50000,1) # random value from 1 to 50,000
 y <- sample(1:50000,1)
+print(sprintf("X is %d, Y is %d", x, y))
 if (x < y) {
   print("Y Wins!")
 } else {
@@ -136,9 +142,10 @@ if (x < y) {
 
 ## if else
 But we forgot a corner case - what if y equals x? We can add on additional if into this same statement like so:
-```{r  ifelse_ex2,prompt=FALSE,eval=TRUE}
+```{r  ifelse_ex2, prompt=FALSE,eval=TRUE}
 x <- sample(1:50000,1) # random value from 1 to 50,000
 y <- sample(1:50000,1)
+print(sprintf("X is %d, Y is %d", x, y))
 if (x < y) {
   print("Y Wins!")
 } else if (y < x) {
@@ -154,7 +161,7 @@ We can have as many `else if` statements chained together as we want, but only o
 We can also use just the `if` part of the statement.
 
 Here, we sample a random integer for `x`, and if it comes out negative, we flip the sign with the `abs()` function.
-```{r ifelse_ex3,prompt=FALSE,eval=TRUE}
+```{r ifelse_ex3,eval=TRUE}
 x <- sample(-10:10,1)
 if (x < 0) { 
   x <- abs(x)
@@ -186,17 +193,20 @@ if (rv[1] && rv[2] > 0) {
 Loops are a class of control flow that allow you to repeat the same operations over and over again, without explicitly writing out those operations over and over again in the code. 
 
 - `for` loops repeat your operations for an explicit number of repetitions
-- `while` loops repeat your operations an indeterminite number of times, stopping only when a prespecified condition occurs (whenever that might be)
+- `while` loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be)
 ```{r looping,echo=F}
 loop_flow
 ```
 
 ## for loops 
-At the heart of a `for` loop is the R object which serves as a counter. This counter variable determines the number of iterations your `for` loop should have. 
+At the heart of a `for` loop is the R object which determines the number of iterations your `for` loop should make.
+
+This counter variable (`i` in this example) is declared inside the parenthesis immediately following the `for` keyword.
 
 It is common to refer to the counter variable as the variable you "loop over".
 
-In this example, we use a for loop to print out the integers 1 through 3, one at a time.
+Here, we loop over the variable `i`. Inside the body of the `for` loop, the variable `i` takes on the values 1, 2, and 3.
+
 ```{r basicForloop, prompt=FALSE}
 for (i in 1:3) {
   print(i)
@@ -204,7 +214,7 @@ for (i in 1:3) {
 ```
 
 ## for loops 
-But the counter variable doesn't have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and i will sequentially take on each value in the vector.
+But the counter variable doesn't have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and `i` will sequentially take on each value in the vector.
 ```{r basicForloop2, prompt=FALSE}
 for (i in c("A","B","C",1,2,3)) {
   print(i)
@@ -215,25 +225,29 @@ for (i in c("A","B","C",1,2,3)) {
 ```{r prompt=FALSE,eval=FALSE,ref.label='basicForloop'}
 ```
 
-- Note 2 important things that happened:
-    1. The `print()` statement was executed exactly 6 times, the same number of times as the length of `c("A","B","C",1,2,3)`
-    2. The value of `i` changed on every iteration of the loop, as evidenced by the fact that `print(i)` spit out a different value every time
+Note 2 important things that happened:
+
+  1. The `print()` statement was executed exactly 6 times, the same number of times as the length of `c("A","B","C",1,2,3)`
+  2. The value of `i` changed on every iteration of the loop, as evidenced by the fact that `print(i)` spit out a different value every time
     
-## for loops s
-- For loops are most often used for their "side effects"
-    - This means you loop over one object (eg. `i = 1:10`), but use the value of `i` inside the loop as a subscript to index into other data structures
-    - This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame
+## for loops
+For loops are most often used for their "side effects"
+
+This means you loop over one object (e.g., `i = 1:10`), but use the value of `i` inside the loop as a subscript to index into other data structures
+
+This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame
     
 ## for loops
 To demonstrate this indexing, here we: 
 
-1. Create 4 element character vector
+1. Create 4 x 2 character matrix
 2. Create another 4 element vector of numeric indices
-3. Loop over those indices, and use the iterator to index into the character vector and print it's value. 
+3. Loop over those indices, and use the iterator to index into the matrix and print each row 
 ```{r easyforindexing}
-letters <- c("A","B","C","D")
+letters <- matrix(c("A","B","C","D",
+                    "E","F","G","H"), nrow = 4)
 indices <- 1:4
-for (x in indices) { print(letters[x])}
+for (x in indices) { print(letters[x,]) }
 ```
  
 ## Group Means Example
@@ -249,7 +263,7 @@ First we need find the unique sprays used, and create a "placeholder" data frame
 ```{r hardway1}
 sprays <- unique(InsectSprays$spray)
 sprayMeans <- data.frame(spray = sprays, meanCount = NA)
-sprayMeans
+print(sprayMeans)
 ```
 
 ## Group means: the hard way
@@ -258,11 +272,13 @@ Then we select the first spray, and use `$` and `==` to extract the observed cou
 sprays <- unique(InsectSprays$spray)
 sprayMeans <- data.frame(spray = sprays, meanCount = NA)
 i = sprays[1]
-counts <- InsectSprays$count==i 
+print(i)
+counts <- InsectSprays$count[InsectSprays$spray==i]
+print(counts)
 ```
 
 ## Group means: the hard way
-Then we average those extacted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.
+Then we average those extracted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.
 ```{r hardway3}
 sprays <- unique(InsectSprays$spray)
 sprayMeans <- data.frame(spray = sprays, meanCount = NA)
@@ -283,9 +299,7 @@ Oh wait, `for` loops do just that!
 
 ## Group means: `for` loop
 We start the same way as before, finding the unique sprays used, and creating a "placeholder" data frame to store results.
-```{r sideeffects_step1, eval=F,prompt=FALSE}
-sprays <- unique(InsectSprays$spray)
-sprayMeans <- data.frame(spray = sprays, meanCount = NA)
+```{r sideeffects_step1, ref.label="hardway1"}
 ```
 
 ## Group means: `for` loop   
@@ -293,7 +307,7 @@ But this time we use a for loop, looping over each unique spray. Inside the loop
 
 1. Subset out the observed counts for a particular spray
 2. Find the mean of those counts, and fill that mean into the placeholder data frame
-```{r sideeffects_step2,prompt=FALSE,eval=TRUE}
+```{r sideeffects_step2,eval=TRUE}
 sprays <- unique(InsectSprays$spray)
 sprayMeans <- data.frame(spray = sprays, meanCount = NA)
 
@@ -305,7 +319,7 @@ for (i in sprays) {
 
 ## Group means: `for` loop
 The result is a data frame the holds the mean insect count for each unique spray used, with no code duplication
-```{r sideeffects_step3, eval=TRUE,prompt=FALSE}
+```{r sideeffects_step3, eval=TRUE}
 sprayMeans
 ```
 
@@ -326,7 +340,7 @@ identical(cumulative,cumsum(v))
 ## `while` loops
 - `while` loops are like a hybrid of an `if else` and `for` loops
     - They repeat the same code block over and over again like `for` loop
-    - But they only repeat the block `if` some condition is met
+    - But they only evaluate the block *if* some condition is met
 ```{r_simple while}
 k <- 1
 while(k < 5) {
@@ -336,37 +350,37 @@ while(k < 5) {
 ```
 
 ## `while` loops
-- `while` loops are approriate to write when you don't know *a priori* how many iterations you will need
+- `while` loops are appropriate to write when you don't know *a priori* how many iterations you will need
     - e.g. How many samples from the normal must you take before getting a value more than 3 SD's away?
 ```{r normaldeviates}
 r <- rnorm(1)
 samples <- 1
 while(r < 3 && r > -3) {
-    samples <- samples+1
     r <- rnorm(1)
+    samples <- samples+1
 }
 print(paste("Success only took",samples,"samples"))
 ```
 
 ## `while` loops
-A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to acheive a specific level of experimental power
+A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to achieve a specific level of experimental power
 
 ```{r powerWhileLoop,prompt=F}
-power <- 0; alt_p <- .75; null_p <- .5; n <- 1;
+power <- 0; alt_p <- .75; null_p <- .5; n <- 0;
 while (power < .8) {
-  crit_n <- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE)
-  power <- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
   n <- n+1
+  crit_n <- qbinom(.025, size=n, prob = null_p, lower.tail=FALSE) - 1
+  power <- pbinom(crit_n, size=n, prob = alt_p, lower.tail = FALSE)
 }
-n-1 # Number of trials needed
+print(paste(n, "trials needed"))
 ```
 
 ## loop pro-tips
-- Loops are slow, and as a consequence, you should avoid large loops. 
+- Loops are often slow, so when you start writing one, carefully consider whether or not there is another solution.
 - If you must use one (and sometimes you must), **ALWAYS PREALLOCATE THE FINAL DATA STRUCTURES YOU WANT**
   - Remember in our InsectSprays means example, we made a place holder data frame the exact size and shape we wanted, and then filled it in
   
-```{r ref.label="sideeffects_step2", eval=F,prompt=FALSE}
+```{r ref.label="sideeffects_step2", eval=F}
 ```
 
 ## `stop`
@@ -374,7 +388,7 @@ n-1 # Number of trials needed
     - You probably don't need this just yet in your programming lives, but its good to know it exists
 - One good use for this is in combination with `if` statements, to detect states that are indicative of serious problems, and throw an error 
 
-```{r stopinthenameoflove,eval=F,prompt=FALSE}
+```{r stopinthenameoflove,eval=F}
 x <- somenumbers
 if (sd(x) < 0) {
   stop("Standard Deviation cannot be negative!")
