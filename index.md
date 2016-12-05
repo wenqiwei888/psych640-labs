@@ -24,27 +24,27 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 
 *Lab Topic* | *Date* 
 :----------- | :------ 
-[Intro to R with Rstudio](./labs/lab1_IntroToRwithRstudio.html) | 9/12/16
-[Data Types and Stuctures](./labs/lab2_DataTypesandStructures.html) | 9/19/16
-[Manipulating Data, Part 1](./labs/lab3_ManipulatingData.html) | 10/3/16
-[Manipulating Data, Part 2](./labs/lab4_ManipulatingData2.html) | 10/10/16
-[Intro to Functions](./labs/lab5_IntroductionToFunctions.html) | 10/17/16
-[Reading Data into R](./labs/lab9_FileIO.html) | 10/31/16
-[Plotting with Base Graphics, Part 1](./labs/lab7_basegraphics1.html) | 11/7/16
-[Plotting with Base Graphics, Part 2](./labs/lab8_basegraphics2.html) | 11/15/16
-[Dynamic Documents with Rmarkdown](./labs/lab10_rmarkdown.html) | 11/28/16
-[Control Statements](./labs/lab6_control_statements.html) | 12/5/16
+[Intro to R with Rstudio](./labs/IntroToRwithRstudio.html) | 9/12/16
+[Data Types and Stuctures](./labs/DataTypesandStructures.html) | 9/19/16
+[Manipulating Data, Part 1](./labs/ManipulatingData.html) | 10/3/16
+[Manipulating Data, Part 2](./labs/ManipulatingData_part2.html) | 10/10/16
+[Intro to Functions](./labs/IntroductionToFunctions.html) | 10/17/16
+[Reading Data into R](./labs/FileIO.html) | 10/31/16
+[Plotting with Base Graphics, Part 1](./labs/basegraphics_part1.html) | 11/7/16
+[Plotting with Base Graphics, Part 2](./labs/basegraphics_part2.html) | 11/15/16
+[Dynamic Documents with Rmarkdown](./labs/rmarkdown.html) | 11/28/16
+[Control Statements](./labs/control_statements.html) | 12/5/16
 
 ### Spring Semester (641)
 
 *Lab Topic* | *Date* 
 :----------- | :------ 
-[Reshaping Data](./labs/lab11_reshape.html) | TBA
-[Writing Functions](./labs/lab12_functions.html)| TBA
-[dplyr, part 1: Basic Verbs](./labs/lab13_dplyr1.html) | TBA
-[dplyr, part 2: Advanced Verbs and Pipes](./labs/lab14_dplyr2.html) | TBA
-[Merging Datasets with Joins](./labs/lab15_joins.html) |  TBA
-[Functional Programming: The apply functions](./labs/lab16_apply.html) |TBA
-[ggplot2: The grammar of graphics, part 1](./labs/lab17_ggplot.html) | TBA
-[ggplot2: The grammar of graphics, part 2](./labs/lab18_ggplot2.html)| TBA
+[Reshaping Data](./labs/reshape.html) | TBA
+[Writing Functions](./labs/functions.html)| TBA
+[dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | TBA
+[dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | TBA
+[Merging Datasets with Joins](./labs/joins.html) |  TBA
+[Functional Programming: The apply functions](./labs/apply.html) |TBA
+[ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | TBA
+[ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| TBA
 
