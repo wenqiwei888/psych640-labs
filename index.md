@@ -31,9 +31,9 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 [Intro to Functions](./labs/lab5_IntroductionToFunctions.html) | 10/17/16
 [Reading Data into R](./labs/lab9_FileIO.html) | 10/31/16
 [Plotting with Base Graphics, Part 1](./labs/lab7_basegraphics1.html) | 11/7/16
-[Plotting with Base Graphics, Part 2](./labs/lab8_basegraphics2.html) | TBA
-[Dynamic Documents with Rmarkdown](./labs/lab10_rmarkdown.html) | TBA
-[Control Statements](./labs/lab6_control_statements.html) | TBA
+[Plotting with Base Graphics, Part 2](./labs/lab8_basegraphics2.html) | 11/15/16
+[Dynamic Documents with Rmarkdown](./labs/lab10_rmarkdown.html) | 11/28/16
+[Control Statements](./labs/lab6_control_statements.html) | 12/5/16
 
 ### Spring Semester (641)
 
