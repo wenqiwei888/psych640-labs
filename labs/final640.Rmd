@@ -7,71 +7,9 @@ output:
     mathjax: default
 ---
 
-## Question 1
-Write a program that prints the numbers from 1 to 100, in ascending order. 
+## Lab Final
+Download the <a href="../data/640finaldataset.txt" download> 640finaldataset.txt </a> file. It is an underscore-delimited file which contains simulated data from 11 independent groups of participants (labeled "A" through "K") with 100 participants in each group. Write a script that does the following:
 
-But, if the number to be printed is divisible by 3, print "Fizz" instead of the number.
-
-If the number to be printed is divisible by 5, print "Buzz" instead of the number.
-
-And if the number to be printed is divisible by both 3 and 5, print "FizzBuzz" instead of the number.
-
-## Question 2
-Complete the following code snippet to write a program that prints the numbers from 100 to 1, in descending order.
-
-```{r eval=FALSE}
-for (i in 1:100)
-```
-
-As a constraint, you cannot write any code to precede this snippet, and you may not use a second `for` loop.
-
-# Solutions
-
-## FizzBuzz
-
-```{r fizzbuzz_solution,eval=FALSE}
-for (i in 1:100) {
-  
-  divisible_by_3 <- i %% 3 == 0
-  divisible_by_5 <- i %% 5 == 0
-  
-  if (divisible_by_3 && divisible_by_5) {
-    print("FizzBuzz")
-    
-  } else if (!divisible_by_3 && divisible_by_5) {
-    print("Buzz")
-    
-  } else if (divisible_by_3 && !divisible_by_5) {
-    print("Fizz")
-    
-  } else {
-    print(i)
-  }
-}
-```
-
-## Reverse-printing
-
-```{r reverse_print, eval=FALSE}
-for (i in 1:100) {
-  print(101 - i) 
-}
-```
-
-We need to print 100 first (a large number) but our iterator (i) starts out small. If we subtract a small number from a large number, we'll still have a large number. But what large number should we subtract from?
-
-$$
-x - i = 100
-$$
-
-We know $i$ starts at 1
-
-$$
-x - 1 = 100
-$$
-
-Simple rearranging shows
-
-$$
-x = 101
-$$
+1. Remove the data from group C
+2. Print the grand mean of all observations
+3. Perform a series of two-tailed t-tests that compares the mean of each group to the mean of group A. You may use the `t.test` function, but it may only appear 1 time in your program
