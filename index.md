@@ -39,6 +39,7 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 
 *Lab Topic* | *Date* 
 :----------- | :------ 
+[Review Exercises](./labs/Review640.html) | 1/30/17
 [Reshaping Data](./labs/reshape.html) | TBA
 [Writing Functions](./labs/functions.html)| TBA
 [dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | TBA

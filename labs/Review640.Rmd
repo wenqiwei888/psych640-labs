@@ -1,0 +1,31 @@
+---
+title: "Review of 640 Labs"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Except for its work, not a review
+
+The [2017 MLB Salaries](../data/mlb_2017_salaries.csv) data set has 9 variables describing how much each player in Major League Baseball earns*:
+
+- **name**: The player's first and last name
+- **team**: The team the player belongs to
+- **pos**: The player's primary field position (Pitcher, Catcher, Shortstop, etc.)
+- **salary**: The player's 2017 salary, in dollars
+- **duration**: The duration of the player's current contract
+- **start**: The year the player's current contract began
+- **end**: The year the player's current contract ends
+- **total_value**: The total value of the player's contract
+- **avg_annual**: The player's average annual salary (may be different from 2017 salary)
+
+## The Assignment
+
+1. Of the oldest contracts currently in effect, which player has the longest contract?
+
+2. Plot the total salaries for each team. On the same figure, plot the salary of the highest paid player for each team. (*Hint: the `las` graphical parameter can help you fit many axis labels on one plot*).
+
+3. Perform an ANOVA comparing the salaries among outfielders (i.e., right-fielders, left-fielders, and center-fielders). Are there any significant differences?
