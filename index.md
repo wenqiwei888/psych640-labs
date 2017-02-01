@@ -40,10 +40,10 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 *Lab Topic* | *Date* 
 :----------- | :------ 
 [Review Exercises](./labs/Review640.html) | 1/30/17
+[dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | 2/6/17
+[dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | 2/13/17
 [Reshaping Data](./labs/reshape.html) | TBA
 [Writing Functions](./labs/functions.html)| TBA
-[dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | TBA
-[dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | TBA
 [Merging Datasets with Joins](./labs/joins.html) |  TBA
 [Functional Programming: The apply functions](./labs/apply.html) |TBA
 [ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | TBA
