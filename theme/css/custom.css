@@ -111,3 +111,6 @@ kbd {
   background: #E6E6E6;
 }
 
+small {
+    font-size: smaller;
+}

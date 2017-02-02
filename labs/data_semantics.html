@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reshaping Datasets: A Reshaping Prelude</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2017-02-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Reshaping Datasets: A Reshaping Prelude',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/cellHighlighting.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-02-01</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Why shape matters</h2></hgroup><article  id="why-shape-matters">
+
+<ul>
+<li><p>Reshaping refers to the act of changing the physical layout of a data set</p></li>
+<li>Reshaping is useful and important for two main reasons:
+
+<ol>
+<li>A proper physical layout eases the readability and interpretation of the data</li>
+<li>Different analysis tools expect data to be laid out in different physical formats</li>
+</ol></li>
+<li><p>You <em>could</em> put all your data on a single 1 million character line, but that would impede working with it and understanding it</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics">
+
+<p>To prepare for learning a reshaping tool set, it is useful to define a vocabulary we can use to describe the content of our datasets, independent of their physical form.</p>
+
+<ul>
+<li><p>A data set is a collection of <strong>values</strong>, which can be grouped in two different ways: according to the <strong>variable</strong> a value belongs to, and according the the <strong>observation</strong> a value belongs to.</p></li>
+<li>A <strong>variable</strong> contains all the values that measure the same underlying attribute
+
+<ul>
+<li>A variable could be all the values measuring reaction time, or all the values recording levels of an experimental factor, etc.</li>
+</ul></li>
+<li>An <strong>observation</strong> contains all values measured from the same observational unit
+
+<ul>
+<li>An observational unit may be a person, an experimental trial, a day, etc.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics-1">
+
+<p>Lets make these terms more concrete with an example dataset.</p>
+
+<p>The fictional dataset below shows the results of a study comparing two treatments for migraine headaches. It holds 18 total values, from 6 observations of 3 variables.</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Values</h2></hgroup><article  id="values">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>The <span style="color: #288E26">
+values</span> are everything that is not a row or column label. They are represented physically by each cell of the table.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="variables">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>The <span style="color: #D5252D">
+variables</span> are represented physically by the columns in the data set. Here we have 3 variables:</p>
+
+<ol>
+<li><code>person</code>, with three possible values (John Smith, Mary Johnson, and Jane Doe).</li>
+<li><code>treatment</code>, with two possible values (a and b).</li>
+<li><code>headache</code>, with five values (or six,depending on how you think of the missing value (NA, 16, 3, 2, 11, 1).</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="VarTypes">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Variables can be naturally divided into two classes:</p>
+
+<ol>
+<li><span style="color: #D5252D">
+Identifier (ID) variables</span> define the unit of observation that measurements take place on.
+
+<ul>
+<li>ID variables are like the subscripts that identify what condition an observation is from (e.g., the \(_{ij}\) in \(Y_{ij}\)).</li>
+</ul></li>
+<li><span style="color: #E4B500">
+Measured variables</span> represent what is measured from that observational unit.
+
+<ul>
+<li>Measure variables are like the \(Y\) in \(Y_{ij}\).</li>
+</ul></li>
+</ol>
+
+<ul>
+<li>For example, row 2 could be written \(Y_{person = John Smith, treatment = b} = 2\)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Observations</h2></hgroup><article  id="observations">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Each <span style="color: #B825D5">
+observation</span> made is represented physically by a row in the data frame.</p>
+
+<p>This makes it easy to see that the single unit of observation in this dataset is a person within a treatment condition.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Normal Form</h2></hgroup><article  id="data-semantics-normal-form">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">treatment</th>
+<th align="center">headaches</th>
+</tr>
+<tr class="odd">
+<td align="center">John Smith</td>
+<td align="center">a</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">b</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">a</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">Jane Doe</td>
+<td align="center">b</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">a</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">Mary Johnson</td>
+<td align="center">b</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>When each variable forms a column, each observation forms a row, and the table holds measurements from a single observational unit, the dataset is said to be <a href='https://en.wikipedia.org/wiki/Third_normal_form' title=''>normalized</a>. This is the optimal format for your data in most cases.</p>
+
+<p>But normalized is far from the only format datasets may come in, and we will now examine two broader classes of data forms, &quot;long&quot; and &quot;wide&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Long Data</h2></hgroup><article  id="long" class="table-column">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">value</th>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">John Smith</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">John Smith</td>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">Jane Doe</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">Jane Doe</td>
+</tr>
+<tr class="odd">
+<td align="center">person</td>
+<td align="center">Mary Johnson</td>
+</tr>
+<tr class="even">
+<td align="center">person</td>
+<td align="center">Mary Johnson</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">treatment</td>
+<td align="center">a</td>
+</tr>
+<tr class="even">
+<td align="center">treatment</td>
+<td align="center">b</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">headaches</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">headaches</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Long datasets have a column whose values identify which variable the values in <em>other</em> columns are associated with.</p>
+
+<p>This format differs from normalized data in that it does not preserve the &quot;variables-as-columns&quot; and &quot;observations-as-rows relationship&quot;.</p>
+
+<p>All the variables are stuffed into one column and single observations are now spread over multiple rows.</p>
+
+</article></slide><slide class=''><hgroup><h2>Data Semantics: Wide Data</h2></hgroup><article  id="wide">
+
+<p>Wide datasets are defined by having a column for each variable, so the normalized data set we looked at earlier was also a wide data set.</p>
+
+<p>But, not all wide data sets are normalized. Below is another version of the same data, but this version contains less information about the data.</p>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">person</th>
+<th align="center">a</th>
+<th align="center">b</th>
+</tr>
+<tr class="odd">
+<td align="center">Jane Doe</td>
+<td align="center">16</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">John Smith</td>
+<td align="center">NA</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">Mary Johnson</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</table>
+
+<p>Here, the <code>headaches</code> label is gone, and single observations are now combined into one row. Additionally, <code>a</code> and <code>b</code> are now used as distinct variables, instead of as different values of the &quot;condition&quot; variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>Trouble defining &#39;Wide&#39; and &#39;Long&#39;</h2></hgroup><article  id="trouble-defining-wide-and-long">
+
+<p>While wide data and long data <em>do</em> have concrete definitions, these terms are often used imprecisely.</p>
+
+<p>They are often used in a relative sense, meaning to make a set of data longer or wider than it originally was, which may or may not correspond to making the data fit the actual definition of wide or long.</p>
+
+<p>These labels can also be confusing because when you change data from one layout to another, the absolute size of the table may shrink, but the new shape may still be referred to as wide or long form.</p>
+
+<p>Additionally, a dataset may have many different layouts that each can be called wide or long form.</p>
+
+<p>So, read carefully whenever you see these terms, and take care when using them yourself.</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
