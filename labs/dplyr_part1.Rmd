@@ -65,7 +65,7 @@ arrange(cropYield, Fert, Yield)
 ```
 
 ## The arrange function
-You can also sort by reverse alphabetical or numerically descending order by using the `desc` function inside the call to `arrange`.
+You can also sort by reverse alphabetical or numerically descending order by using the `desc` function (short for descending) inside the call to `arrange`.
 
 ```{r arrange_desc, R.options = list(max.print = 20)}
 arrange(cropYield, Fert, desc(Yield)) # desc only works inside arrange
@@ -117,8 +117,10 @@ c(NA == 1, NA %in% 1) # Logical Weirdness, Exhibit A!
 
 ## The select function
 The `select` function allows you to pare down your data set by only keeping the columns that you specify, and also allows you to rename and reorder the selected columns on the fly.
-```{r select1, R.options = list(max.print = 24)}
-# Existing column name on the right of the =, new name on the left 
+```{r select1, R.options = list(max.print = 12)}
+colnames(cropYield)
+# Existing column name on the right of the =, new name on the left
+# Just like assigning a new variable!
 select(cropYield, fertilizer = Fert, bushels = Yield, Till)
 ```
 
@@ -171,7 +173,7 @@ mutate(cropYield, yeildRoot = Yield^1/2, bigYield = yeildRoot + Yield)
 ```
 
 ## The summarise function
-The `summarise` function is useful for applying functions that reduce your variables down to a single value, similar to the idea of aggregation functions in the `dcast` function from `reshape`.
+The `summarise` function is useful for applying functions that reduce your variables down to a single value.
 
 ```{r summarise}
 summarise(cropYield, avgYield = mean(Yield))
@@ -180,9 +182,11 @@ summarise(cropYield, avgYield = mean(Yield))
 This may not seem incredibly useful on its own, but allows us to segue into what is perhaps the biggest reason to use `dplyr`.
 
 ## The Killer Feature of dplyr
-Unless you are struggling to work with a remote MySQL server, or waiting hours for your code to run on data frames with millions of observations, it might not seem worth to "relearn" how to do everything you know how to do.
+Unless you are struggling to work with a remote MySQL server, or waiting hours for your code to run on data frames with millions of observations, it might not seem worth it to "relearn" how to do everything the "dplyr way".
 
-But `dplyr` has one feature that makes it worth every minute of learning: The ability to define persistent groups in your data frame, and apply functions to *each individual group at the same time*.
+But `dplyr` has one feature that makes it worth every minute of learning:
+
+The ability to define persistent groups in your data frame, and apply functions to *each individual group, instead of the entire data frame*.
 
 ## Group-wise operations, the hard way
 Consider this method of finding the average crop yield for each of the unique tilling and fertilizer groups in our dataset.
@@ -218,7 +222,7 @@ cropsGrouped # Inspect the grouped dataset
 This line tells you which columns the groups are based on, and how many individual groups they form.
 
 ## Group-wise operations, the easy way
-When you apply the `mutate` and `summarise` functions to a grouped data frame, the operations you perform inside the functions are no longer applied to the entire data frame.
+When `dplyr` functions are applied to a grouped data frame, the operations you perform are no longer applied to the entire data frame.
 
 Instead, they are applied to each group of observations individually, **without any change to the function call**.
 
@@ -258,9 +262,7 @@ ungroup(cropsGrouped) # no more "Groups" line
 You can check a data frames grouped/ungrouped status with the `is.grouped` function.
 
 ## Activity
-Use the `group_by` and `summarize` functions to find the mean and standard error of the crop yields recorded for:
+Use the `dplyr` functions to:
 
-  - Each field
-  - Each tilling method
-  - Each fertilizing method
-  - Each combination of tilling and fertilizing method
+  - Find the mean and standard error of the crop yields recorded for each field
+  - Create a new variable in the data frame that gives that overall rank of each field in terms of average crop yield.

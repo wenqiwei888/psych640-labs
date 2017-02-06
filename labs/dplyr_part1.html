@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-02-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-02-06</p>
           </hgroup>
   </slide>
 
@@ -172,7 +172,7 @@
 
 </article></slide><slide class=''><hgroup><h2>The arrange function</h2></hgroup><article  id="the-arrange-function-2">
 
-<p>You can also sort by reverse alphabetical or numerically descending order by using the <code>desc</code> function inside the call to <code>arrange</code>.</p>
+<p>You can also sort by reverse alphabetical or numerically descending order by using the <code>desc</code> function (short for descending) inside the call to <code>arrange</code>.</p>
 
 <pre class = 'prettyprint lang-r'>&gt; arrange(cropYield, Fert, desc(Yield)) # desc only works inside arrange</pre>
 
@@ -264,7 +264,12 @@
 
 <p>The <code>select</code> function allows you to pare down your data set by only keeping the columns that you specify, and also allows you to rename and reorder the selected columns on the fly.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; # Existing column name on the right of the =, new name on the left 
+<pre class = 'prettyprint lang-r'>&gt; colnames(cropYield)</pre>
+
+<pre >## [1] &quot;Field&quot; &quot;Till&quot;  &quot;Fert&quot;  &quot;Yield&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; # Existing column name on the right of the =, new name on the left
+&gt; # Just like assigning a new variable!
 &gt; select(cropYield, fertilizer = Fert, bushels = Yield, Till)</pre>
 
 <pre >##    fertilizer bushels    Till
@@ -272,11 +277,7 @@
 ## 2        Deep     130  Chisel
 ## 3     Surface     123  Chisel
 ## 4       Broad     135  Chisel
-## 5        Deep     148  Chisel
-## 6     Surface     134  Chisel
-## 7       Broad     140  Chisel
-## 8        Deep     146  Chisel
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 91 rows ]</pre>
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 95 rows ]</pre>
 
 </article></slide><slide class=''><hgroup><h2>The select function</h2></hgroup><article  id="the-select-function-1">
 
@@ -376,7 +377,7 @@
 
 </article></slide><slide class=''><hgroup><h2>The summarise function</h2></hgroup><article  id="the-summarise-function">
 
-<p>The <code>summarise</code> function is useful for applying functions that reduce your variables down to a single value, similar to the idea of aggregation functions in the <code>dcast</code> function from <code>reshape</code>.</p>
+<p>The <code>summarise</code> function is useful for applying functions that reduce your variables down to a single value.</p>
 
 <pre class = 'prettyprint lang-r'>&gt; summarise(cropYield, avgYield = mean(Yield))</pre>
 
@@ -387,22 +388,24 @@
 
 </article></slide><slide class=''><hgroup><h2>The Killer Feature of dplyr</h2></hgroup><article  id="the-killer-feature-of-dplyr">
 
-<p>Unless you are struggling to work with a remote MySQL server, or waiting hours for your code to run on data frames with millions of observations, it might not seem worth to &quot;relearn&quot; how to do everything you know how to do.</p>
+<p>Unless you are struggling to work with a remote MySQL server, or waiting hours for your code to run on data frames with millions of observations, it might not seem worth it to &quot;relearn&quot; how to do everything the &quot;dplyr way&quot;.</p>
 
-<p>But <code>dplyr</code> has one feature that makes it worth every minute of learning: The ability to define persistent groups in your data frame, and apply functions to <em>each individual group at the same time</em>.</p>
+<p>But <code>dplyr</code> has one feature that makes it worth every minute of learning:</p>
+
+<p>The ability to define persistent groups in your data frame, and apply functions to <em>each individual group, instead of the entire data frame</em>.</p>
 
 </article></slide><slide class=''><hgroup><h2>Group-wise operations, the hard way</h2></hgroup><article  id="group-wise-operations-the-hard-way">
 
 <p>Consider this method of finding the average crop yield for each of the unique tilling and fertilizer groups in our dataset.</p>
 
 <pre class = 'prettyprint lang-r'>&gt; ChiselBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-... +                                &amp; cropYield$Fert == &#39;Broad&#39;])
++                               &amp; cropYield$Fert == &#39;Broad&#39;])
 &gt; ChiselDeep &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-... +                               &amp; cropYield$Fert == &#39;Deep&#39;])
++                              &amp; cropYield$Fert == &#39;Deep&#39;])
 &gt; ChiselSurface &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Chisel&#39;
-... +                                  &amp; cropYield$Fert == &#39;Surface&#39;])
++                                 &amp; cropYield$Fert == &#39;Surface&#39;])
 &gt; MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
-... +                                 &amp; cropYield$Fert == &#39;Broad&#39;])
++                                &amp; cropYield$Fert == &#39;Broad&#39;])
 &gt; # And so on, and so forth into infinity...</pre>
 
 <p>This is verbose, tedious, prone to typos, and doesn&#39;t scale to large datasets with many groups. A <code>for</code> loop would help, but there&#39;s an even better way&#8230;</p>
@@ -425,7 +428,7 @@
 ## Groups: Till, Fert [9]
 ## 
 ##    Field   Till    Fert Yield
-##    &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+##    &lt;int&gt; &lt;fctr&gt;  &lt;fctr&gt; &lt;int&gt;
 ## 1      1 Chisel   Broad   119
 ## 2      1 Chisel    Deep   130
 ## 3      1 Chisel Surface   123
@@ -436,7 +439,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Group-wise operations, the easy way</h2></hgroup><article  id="group-wise-operations-the-easy-way">
 
-<p>When you apply the <code>mutate</code> and <code>summarise</code> functions to a grouped data frame, the operations you perform inside the functions are no longer applied to the entire data frame.</p>
+<p>When <code>dplyr</code> functions are applied to a grouped data frame, the operations you perform are no longer applied to the entire data frame.</p>
 
 <p>Instead, they are applied to each group of observations individually, <strong>without any change to the function call</strong>.</p>
 
@@ -455,7 +458,7 @@
 ## Groups: Till [?]
 ## 
 ##      Till    Fert avgYeild
-##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+##    &lt;fctr&gt;  &lt;fctr&gt;    &lt;dbl&gt;
 ## 1  Chisel   Broad 124.2500
 ## 2  Chisel    Deep 133.7500
 ## 3  Chisel Surface 131.4167
@@ -474,7 +477,7 @@
 ## Groups: Till [?]
 ## 
 ##      Till    Fert avgYeild
-##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+##    &lt;fctr&gt;  &lt;fctr&gt;    &lt;dbl&gt;
 ## 1  Chisel   Broad 124.2500
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]</pre>
 
@@ -492,7 +495,7 @@
 ## Groups: Till [?]
 ## 
 ##      Till    Fert grpSize
-##     &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;
+##    &lt;fctr&gt;  &lt;fctr&gt;   &lt;int&gt;
 ## 1  Chisel   Broad      12
 ## 2  Chisel    Deep      12
 ## 3  Chisel Surface      12
@@ -511,7 +514,7 @@
 
 <pre >## # A tibble: 99 × 4
 ##    Field   Till    Fert Yield
-##    &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+##    &lt;int&gt; &lt;fctr&gt;  &lt;fctr&gt; &lt;int&gt;
 ## 1      1 Chisel   Broad   119
 ## 2      1 Chisel    Deep   130
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]
@@ -521,13 +524,11 @@
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
-<p>Use the <code>group_by</code> and <code>summarize</code> functions to find the mean and standard error of the crop yields recorded for:</p>
+<p>Use the <code>dplyr</code> functions to:</p>
 
 <ul>
-<li>Each field</li>
-<li>Each tilling method</li>
-<li>Each fertilizing method</li>
-<li>Each combination of tilling and fertilizing method</li>
+<li>Find the mean and standard error of the crop yields recorded for each field</li>
+<li>Create a new variable in the data frame that gives that overall rank of each field in terms of average crop yield.</li>
 </ul></article></slide>
 
 
