@@ -1,5 +1,6 @@
 ---
-title: 'dplyr, Part 2: Advanced Verbs and Pipes'
+title: 'dplyr, Part 2:'
+subtitle: 'Advanced Verbs and Pipes'
 author: "William Hopper"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(prompt=FALSE, cache = TRUE) 
 ```
 
 ## More dplyr
@@ -37,9 +38,13 @@ str(marathon)
 ## The prelude to analysis
 Many serial steps of "tidying" our data are often necessary to perform any analysis of interest (e.g., first reshaping the data, then removing observations, etc.)
 
-This "grunt work" is usually implemented using coding styles that make your scripts fragile and difficult to read, which is especially dangerous considering that these operations are dependent on the order in which they are performed.
+This "grunt work" is usually implemented using coding styles that make your scripts brittle and difficult to read
 
-We'll examine the drawbacks of these style by doing some prep work on the `marathon` dataset. Our job will be to: move the ID variables to the left hand side, make a variable showing the difference between `time` and `netTime`, and to sort the data from first place to last place.
+We'll examine the drawbacks of these styles by doing some prep work on the `marathon` dataset. Our job will be:
+
+1. Move the ID variables to the left hand side
+2. Make a variable showing the difference between `time` and `netTime`
+3. Sort the data from first place to last place.
 
 The goal of these examples is convince you that doing things "the dplyr way" is a better solution in most cases.
 
@@ -115,7 +120,7 @@ Here `TRUE` gets piped to the `na.rm` argument because `x` and `trim` are suppli
 TRUE %>% mean(x=c(10,NA,22), trim=0)
 ```
 
-Here, `TRUE` gets piped to the `x` argument, since the numeric vector is not *named*. The piped value takes precedence, and the numeric vector gets used as the `na.rm` argument.
+Below, `TRUE` gets piped to the `x` argument, since the numeric vector is not *named*. The piped value takes precedence, and the numeric vector gets used as the `na.rm` argument!
 ```{r firstNamedArg2, warning=FALSE}
 TRUE %>% mean(c(10,NA,22), trim=0)
 ```
@@ -270,11 +275,12 @@ marathon_lm$time_by_age[[2]] # Model for Males
 ```
 
 ## Do anything with `do`
-This is possible because `dplyr` creates a new kind of data frame called a `tbl_df` or table data frame, which can use a list as a column.
+This is possible because data frames may have lists as columns (because data frames *are secretely lists*!) and lists can hold *any* type of object.
 
 ```{r tbl_df_1}
 class(marathon_lm)
 class(marathon_lm$time_by_age)
+class(marathon_lm$time_by_age[[1]])
 ```
 
 While `do` is to `summarise` as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of lists, as well as the class of objects you've stored in the list.
