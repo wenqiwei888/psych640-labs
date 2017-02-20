@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-02-19" />
+  <meta name="date" content="2017-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -90,7 +90,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-02-19</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-02-20</p>
           </hgroup>
   </slide>
 
@@ -174,18 +174,18 @@ temperature</pre>
 
 <p>But the layout of the dataset is non-normalized, because values of the <strong>Date</strong> variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.</p>
 
-<p>Instead, they <em>should</em> be in the cells of the table as values of the <strong>Date</strong> variable.</p>
+<p>Instead, the dates <em>should</em> be in the cells of the table as values of the <strong>Date</strong> variable.</p>
 
 </article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="the-gather-function">
 
-<p>Let&#39;s use the <code>gather</code> function to move the dates that are being used as column headers down into the table as a new variable <strong>date</strong>, and move the actual temperature measurements into a new variable called <strong>temperature</strong>.</p>
+<p>Let&#39;s use the <code>gather</code> function to move the dates that are being used as column headers down into the table under a new variable <strong>date</strong>, and move the actual temperature measurements into a new variable called <strong>temp</strong>.</p>
 
 <p><code>gather</code> takes 4 required arguments:</p>
 
 <ol>
 <li><code>data</code>: the name of the data frame to re-arrange</li>
-<li><code>key</code>: the name of the new variable which will hold the values previously used as variables</li>
-<li><code>value</code>: the name of the new variable which will hold the values previously in the old variable columns</li>
+<li><code>key</code>: the name of the to-be-created variable that will hold values currrently used as variables</li>
+<li><code>value</code>: the name of the to-be-created variable that will hold the values currently present as observations in variables to be gathered.</li>
 <li><code>...</code>: A bare list of columns to gather (or columns <em>not</em> to gather)</li>
 </ol>
 
@@ -195,12 +195,12 @@ temperature</pre>
 
 <pre class = 'prettyprint lang-r'>gather(data = temperature,
        key = &quot;date&quot;,
-       value = &quot;temperature&quot;,
+       value = &quot;temp&quot;,
        -city)</pre>
 
 <ul>
 <li>The <code>key</code> column will be named &quot;date&quot;, because it will hold the dates that were previously used as individual variables</li>
-<li>The <code>value</code> column will be named &quot;temperature&quot; because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.</li>
+<li>The <code>value</code> column will be named &quot;temp&quot; because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.</li>
 <li>We want to gather values in all the colums <em>except</em> the city column, so we can write <code>-city</code>. Alternatively, we could write <code>Feb_19_2017, Feb_18_2017, and Feb_17_2017</code>.</li>
 </ul>
 
@@ -208,7 +208,7 @@ temperature</pre>
 
 <p>So this:</p>
 
-<pre class = 'prettyprint lang-r'>temperature &lt;- gather(data = temperature, key = &quot;date&quot;, value = &quot;temperature&quot;, -city)</pre>
+<pre class = 'prettyprint lang-r'>temperature &lt;- gather(data = temperature, key = &quot;date&quot;, value = &quot;temp&quot;, -city)</pre>
 
 <p>turns this:</p>
 
@@ -242,11 +242,11 @@ temperature</pre>
 <table class = 'rmdtable'>
 <col width="16%" />
 <col width="16%" />
-<col width="18%" />
+<col width="8%" />
 <tr class="header">
 <th align="center">city</th>
 <th align="center">date</th>
-<th align="center">temperature</th>
+<th align="center">temp</th>
 </tr>
 <tr class="odd">
 <td align="center">Northampton</td>
@@ -277,6 +277,181 @@ temperature</pre>
 <td align="center">Boston</td>
 <td align="center">Feb_17_2017</td>
 <td align="center">40</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="gather2">
+
+<p>Critically, the temperature observations are still matched up with the same date!</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">Feb_19_2017</th>
+<th align="center">Feb_18_2017</th>
+<th align="center">Feb_17_2017</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">55</td>
+<td align="center">48</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">59</td>
+<td align="center">48</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>spread()</code> function</h2></hgroup><article  id="the-spread-function">
+
+<p>The <code>spread</code> function is the complement to the <code>gather</code> function, so we can use it to undo this transformation.</p>
+
+<p>Its job is to takes values from an existing variable in the dataset and &quot;spread&quot; them out, creating a new variable for each unique value in the old variable.</p>
+
+<p>The <code>spread</code> function takes 3 required arguments:</p>
+
+<ol>
+<li><code>data</code>: the name of the data frame to re-arrange</li>
+<li><code>key</code>: the name of the existing variable whose <em>N</em> unique values will be &quot;spread out&quot; into <em>N</em> new variables</li>
+<li><code>value</code>: the name of the existing variable whose values will be used as observations in the <em>N</em> to-be-created variables.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>The <code>spread()</code> function</h2></hgroup><article  id="the-spread-function-1">
+
+<p>So to undo the wider-to-longer normalization we just performed, we would use this function call:</p>
+
+<pre class = 'prettyprint lang-r'>spread(data = temperature,
+       key = &quot;date&quot;,
+       value = &quot;temp&quot;)</pre>
+
+<ul>
+<li>the <code>key</code> argument is the &quot;date&quot; column, because the &quot;date&quot; column holds the values we want to be new variables</li>
+<li>the <code>value</code> argument is the &quot;temp&quot; column, because we want the temperature measurements to be observations in the 3 date variables</li>
+</ul>
+
+<p>We don&#39;t have to specify the names of the new variable we&#39;re creating, because they are going to come from the values in the &quot;date&quot; variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>spread()</code> function</h2></hgroup><article  id="spread">
+
+<p>So this:</p>
+
+<pre class = 'prettyprint lang-r'>spread(data = temperature, key = &quot;date&quot;, value = &quot;temp&quot;)</pre>
+
+<p>turns this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+<p>into this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">Feb_17_2017</th>
+<th align="center">Feb_18_2017</th>
+<th align="center">Feb_19_2017</th>
+</tr>
+<tr class="odd">
+<td align="center">Boston</td>
+<td align="center">40</td>
+<td align="center">48</td>
+<td align="center">59</td>
+</tr>
+<tr class="even">
+<td align="center">Northampton</td>
+<td align="center">38</td>
+<td align="center">48</td>
+<td align="center">55</td>
 </tr>
 </table>
 

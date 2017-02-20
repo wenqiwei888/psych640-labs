@@ -37,6 +37,7 @@ temperature
 
 ```{r import_temp_data, echo=FALSE, cache=FALSE}
 temperature <- read.csv("../data/temperature.csv")
+tmp_initial <- temperature
 ```
 ```{r display_temp_data, echo=FALSE}
 pander(temperature, "High Temperatures (Farenheight)")
@@ -51,16 +52,16 @@ The `temperature` dataset has measurements of 3 variables: **City**, **Date**, a
 
 But the layout of the dataset is non-normalized, because values of the **Date** variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.
 
-Instead, they *should* be in the cells of the table as values of the **Date** variable.
+Instead, the dates *should* be in the cells of the table as values of the **Date** variable.
 
 ## The `gather()` function 
-Let's use the `gather` function to move the dates that are being used as column headers down into the table under a new variable **date**, and move the actual temperature measurements into a new variable called **temperature**.
+Let's use the `gather` function to move the dates that are being used as column headers down into the table under a new variable **date**, and move the actual temperature measurements into a new variable called **temp**.
 
 `gather` takes 4 required arguments:
 
 1. `data`: the name of the data frame to re-arrange
-2. `key`: the name of the new variable which will hold the values previously used as variables
-3. `value`: the name of the new variable which will hold the values previously in the old variable columns
+2. `key`: the name of the to-be-created variable that will hold values currrently used as variables
+3. `value`: the name of the to-be-created variable that will hold the values currently present as observations in variables to be gathered.
 4. `...`: A bare list of columns to gather (or columns *not* to gather)
 
 
@@ -70,29 +71,83 @@ Let's make this more specific to our situation.
 ```{r,eval=FALSE}
 gather(data = temperature,
        key = "date",
-       value = "temperature",
+       value = "temp",
        -city)
 ```
 
 - The `key` column will be named "date", because it will hold the dates that were previously used as individual variables
-- The `value` column will be named "temperature" because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.
+- The `value` column will be named "temp" because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.
 - We want to gather values in all the colums *except* the city column, so we can write `-city`. Alternatively, we could write `Feb_19_2017, Feb_18_2017, and Feb_17_2017`.
 
 ## The `gather()` function {#gather}
 So this:
 ```r
-temperature <- gather(data = temperature, key = "date", value = "temperature", -city)
+temperature <- gather(data = temperature, key = "date", value = "temp", -city)
 ```
 turns this:
 ```{r, echo=FALSE}
-pander(temperature) 
+pander(temperature)
 ```
 
 into this:
 
 ```{r, echo=FALSE}
-temperature <- gather(data = temperature, key = "date", value = "temperature", -city)
-pander(temperature) 
+temperature <- gather(data = temperature, key = "date", value = "temp", -city)
+pander(temperature)
+```
+
+
+## The `gather()` function {#gather2}
+Critically, the temperature observations are still matched up with the same date!
+
+```{r, echo=FALSE}
+pander(tmp_initial) 
+```
+
+```{r, echo=FALSE}
+pander(temperature)
+```
+
+
+## The `spread()` function
+The `spread` function is the complement to the `gather` function, so we can use it to undo this transformation. 
+
+Its job is to takes values from an existing variable in the dataset and "spread" them out, creating a new variable for each unique value in the old variable.
+
+The `spread` function takes 3 required arguments:
+
+1. `data`: the name of the data frame to re-arrange
+2. `key`: the name of the existing variable whose *N* unique values will be "spread out" into *N* new variables
+3. `value`: the name of the existing variable whose values will be used as observations in the *N* to-be-created variables.
+
+## The `spread()` function
+So to undo the wider-to-longer normalization we just performed, we would use this function call:
+
+```{r,eval=FALSE}
+spread(data = temperature,
+       key = "date",
+       value = "temp")
+```
+
+- the `key` argument is the "date" column, because the "date" column holds the values we want to be new variables
+- the `value` argument is the "temp" column, because we want the temperature measurements to be observations in the 3 date variables
+
+We don't have to specify the names of the new variable we're creating, because they are going to come from the values in the "date" variable.
+
+## The `spread()` function {#spread}
+So this:
+```r
+spread(data = temperature, key = "date", value = "temp")
+```
+turns this:
+```{r, echo=FALSE}
+pander(temperature)
+```
+
+into this:
+
+```{r, echo=FALSE}
+pander(spread(data = temperature, key = "date", value = "temp"))
 ```
 
 ## Resources
