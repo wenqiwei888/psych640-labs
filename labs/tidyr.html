@@ -204,7 +204,7 @@ temperature</pre>
 <li>We want to gather values in all the colums <em>except</em> the city column, so we can write <code>-city</code>. Alternatively, we could write <code>Feb_19_2017, Feb_18_2017, and Feb_17_2017</code>.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="gather">
+</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="gather" class="sothis">
 
 <p>So this:</p>
 
@@ -379,7 +379,7 @@ temperature</pre>
 
 <p>We don&#39;t have to specify the names of the new variable we&#39;re creating, because they are going to come from the values in the &quot;date&quot; variable.</p>
 
-</article></slide><slide class=''><hgroup><h2>The <code>spread()</code> function</h2></hgroup><article  id="spread">
+</article></slide><slide class=''><hgroup><h2>The <code>spread()</code> function</h2></hgroup><article  id="spread" class="sothis">
 
 <p>So this:</p>
 
@@ -452,6 +452,264 @@ temperature</pre>
 <td align="center">38</td>
 <td align="center">48</td>
 <td align="center">55</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>separate()</code> function</h2></hgroup><article  id="the-separate-function">
+
+<p>The <code>separate</code> function is used to transform one variable in your dataset into many variables in your dataset. This is useful when multiple variables have been concatenated into a single variable, and you would like to examine these variables separately.</p>
+
+<p>For example, in our normalized <code>temperature</code> dataset, the <code>date</code> variable is actually a combination of a month, day of month, and year variable, concatenated together.</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>separate()</code> function</h2></hgroup><article  id="the-separate-function-1">
+
+<p>Let&#39;s separate this amalgamated &quot;date&quot; variable into 3 different variables, one for the month, day, and year.</p>
+
+<p>The <code>separate</code> function has 3 required arguments, and a 4<sup>th</sup> optional argument you almost always want to specify.</p>
+
+<ol>
+<li><code>data</code>: the name of the data frame to re-arrange</li>
+<li><code>col</code>: the bare name of the variable to be split-up</li>
+<li><code>into</code>: a character vector of names for the to-be-created variables</li>
+<li><code>sep</code>: the delimiter defining how to split existing values into multiple new values.</li>
+</ol>
+
+<p>By default, <code>separate</code> will split the values in the <code>col</code> variable on any non-alphanumeric character (e.g., <code>_</code>, <code>-</code>, <code>.</code>, <code>:</code>, etc.). You can have it split on a character string, a numeric index (e.g., every 3<sup>rd</sup> character), or using a regular expression.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>separate()</code> function</h2></hgroup><article  id="the-separate-function-2">
+
+<p>In our case, we would use the separate function like so:</p>
+
+<pre class = 'prettyprint lang-r'>separate(data = temperature,
+         col = date,
+         into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;),
+         sep = &quot;_&quot;)</pre>
+
+<ul>
+<li>We want to separate the <code>col</code>umn named <code>date</code> <em>into</em> 3 new variables named &quot;month&quot;, &quot;day&quot;, and &quot;year&quot;</li>
+<li>We are going to find the values that should go into the month, day, and year variables by splitting up the values in the <code>date</code> variable at every underscore character.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>The <code>separate()</code> function</h2></hgroup><article  id="separate" class="sothis">
+
+<p>So this:</p>
+
+<pre class = 'prettyprint lang-r'>temperature &lt;- separate(temperature, col=date, into=c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;_&quot;)</pre>
+
+<p>turns this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>into this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="11%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">month</th>
+<th align="center">day</th>
+<th align="center">year</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb</td>
+<td align="center">19</td>
+<td align="center">2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb</td>
+<td align="center">19</td>
+<td align="center">2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb</td>
+<td align="center">18</td>
+<td align="center">2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The <code>unite()</code> function</h2></hgroup><article  id="the-unite-function">
+
+<p>The <code>unite</code> function is the complement to the separate function. As you can imagine, its job is to combine multiple variables into a single variable.</p>
+
+<p>The <code>unite</code> function has 3 required arguments, and 2 other arguments you often want to specify:</p>
+
+<ol>
+<li><code>data</code>: the name of the data frame to re-arrange</li>
+<li><code>col</code>: the bare name of the to-be-created amalgam variable</li>
+<li><code>...</code> : a list of bare columns whose values are to be combined row-wise and placed inside the new variable <code>col</code></li>
+<li><code>sep</code>: the separator to use between combined values (defaults to <code>&quot;_&quot;</code>).</li>
+<li>remove<code>: a logical value indicating whether or not to remove the input columns from the data frame after combining them (defaults to</code>TRUE`).</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>The <code>unite()</code> function</h2></hgroup><article  id="the-unite-function-1" class="sothis">
+
+<p>So to undo our separation of the <code>date</code> variable, we could use this:</p>
+
+<pre class = 'prettyprint lang-r'>unite(temperature, col=date, month, day, year)</pre>
+
+<p>to turn this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="11%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">month</th>
+<th align="center">day</th>
+<th align="center">year</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb</td>
+<td align="center">19</td>
+<td align="center">2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb</td>
+<td align="center">19</td>
+<td align="center">2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb</td>
+<td align="center">18</td>
+<td align="center">2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>into this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="8%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temp</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
 </tr>
 </table>
 

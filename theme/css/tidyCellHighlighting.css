@@ -2,7 +2,7 @@ table.rmdtable td {
   padding: .3em;
 }
 
-#gather p, #gather table, #spread p, #spread table {
+.sothis p, .sothis table {
   margin-bottom: 10px;
   margin-top: 10px;
 }

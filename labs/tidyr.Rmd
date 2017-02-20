@@ -79,7 +79,7 @@ gather(data = temperature,
 - The `value` column will be named "temp" because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.
 - We want to gather values in all the colums *except* the city column, so we can write `-city`. Alternatively, we could write `Feb_19_2017, Feb_18_2017, and Feb_17_2017`.
 
-## The `gather()` function {#gather}
+## The `gather()` function {#gather  .sothis}
 So this:
 ```r
 temperature <- gather(data = temperature, key = "date", value = "temp", -city)
@@ -134,7 +134,7 @@ spread(data = temperature,
 
 We don't have to specify the names of the new variable we're creating, because they are going to come from the values in the "date" variable.
 
-## The `spread()` function {#spread}
+## The `spread()` function {#spread  .sothis}
 So this:
 ```r
 spread(data = temperature, key = "date", value = "temp")
@@ -148,6 +148,87 @@ into this:
 
 ```{r, echo=FALSE}
 pander(spread(data = temperature, key = "date", value = "temp"))
+```
+
+## The `separate()` function
+The `separate` function is used to transform one variable in your dataset into many variables in your dataset.
+This is useful when multiple variables have been concatenated into a single variable, and you would like to examine these variables separately.
+
+For example, in our normalized `temperature` dataset, the `date` variable is actually a combination of a month, day of month, and year variable, concatenated together.
+
+```{r, echo=FALSE}
+pander(temperature)
+```
+
+## The `separate()` function
+Let's separate this amalgamated "date" variable into 3 different variables, one for the month, day, and year.
+
+The `separate` function has 3 required arguments, and a 4^th^ optional argument you almost always want to specify.
+
+1. `data`: the name of the data frame to re-arrange
+2. `col`: the bare name of the variable to be split-up
+3. `into`: a character vector of names for the to-be-created variables
+4. `sep`: the delimiter defining how to split existing values into multiple new values. 
+
+By default, `separate` will split the values in the `col` variable on any non-alphanumeric character (e.g., `_`,  `-`, `.`, `:`, etc.). You can have it split on a character string, a numeric index (e.g., every 3^rd^ character), or using a regular expression.
+
+## The `separate()` function
+In our case, we would use the separate function like so:
+```{r separate, eval=FALSE}
+separate(data = temperature,
+         col = date,
+         into = c("month", "day", "year"),
+         sep = "_")
+```
+
+- We want to separate the `col`umn named `date` *into* 3 new variables named "month", "day", and "year"
+- We are going to find the values that should go into the month, day, and year variables by splitting up the values in the `date` variable at every underscore character.
+
+## The `separate()` function {#separate .sothis}
+So this:
+```r
+temperature <- separate(temperature, col=date, into=c("month", "day", "year"), sep = "_")
+```
+
+turns this:
+```{r, echo=FALSE}
+pander(prettifyTable(temperature, rows = 3))
+```
+
+into this:
+```{r, echo=FALSE}
+temperature <- separate(temperature, col=date, into=c("month", "day", "year"), sep = "_")
+pander(prettifyTable(temperature, rows = 3))
+```
+
+## The `unite()` function
+The `unite` function is the complement to the separate function. As you can imagine, its job is to combine multiple variables into a single variable. 
+
+The `unite` function has 3 required arguments, and 2 other arguments you often want to specify:
+
+1. `data`: the name of the data frame to re-arrange
+2. `col`: the bare name of the to-be-created amalgam variable
+3. `...` : a list of bare columns whose values are to be combined row-wise and placed inside the new variable `col`
+4. `sep`: the separator to use between combined values (defaults to `"_"`).
+5.  remove`: a logical value indicating whether or not to remove the input columns from the data frame after combining them (defaults to `TRUE`).
+
+## The `unite()` function {.sothis}
+So to undo our separation of the `date` variable, we could use this:
+```r
+unite(temperature, col=date, month, day, year)
+```
+
+to turn this:
+```{r, echo=FALSE}
+pander(prettifyTable(temperature, rows = 3))
+```
+
+back into this:
+```{r, echo=FALSE}
+pander(prettifyTable(unite(temperature,
+                           col=date,
+                           month, day, year),
+                     rows = 3))
 ```
 
 ## Resources
