@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reshaping Datasets with reshape2</title>
+  <title>Reshaping Datasets with tidyr</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,7 +26,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Reshaping Datasets with reshape2',
+                title: 'Reshaping Datasets with tidyr',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -109,7 +109,7 @@
 
 </article></slide><slide class=''><hgroup><h2>The temperature data</h2></hgroup><article  id="the-temperature-data">
 
-<p>We&#39;ll demonstrate how to use each function with a small dataset first, so its easy to see what changes get made. So, install <code>tidyr</code>, and load the <a href='../data/temperature.csv' title=''>temperature dataset</a>.</p>
+<p>We&#39;ll demonstrate how to use each function with a small dataset, so its easy to see what changes get made. So, install <code>tidyr</code>, and load the <a href='../data/temperature.csv' title=''>temperature dataset</a>.</p>
 
 <pre class = 'prettyprint lang-r'>install.packages(&quot;tidyr&quot;)
 library(tidyr)
@@ -174,18 +174,18 @@ temperature</pre>
 
 <p>But the layout of the dataset is non-normalized, because values of the <strong>Date</strong> variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.</p>
 
-<p>Instead, the dates <em>should</em> be in the cells of the table as values of the <strong>Date</strong> variable.</p>
+<p>Instead, the dates <em>should</em> be in the cells of the table as observed values of the <strong>Date</strong> variable.</p>
 
 </article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="the-gather-function">
 
-<p>Let&#39;s use the <code>gather</code> function to move the dates that are being used as column headers down into the table under a new variable <strong>date</strong>, and move the actual temperature measurements into a new variable called <strong>temp</strong>.</p>
+<p>Let&#39;s use the <code>gather</code> function to move the dates in the column headers down into the table under a new variable <strong>date</strong>, and move the actual temperature measurements into a new variable called <strong>temp</strong>.</p>
 
 <p><code>gather</code> takes 4 required arguments:</p>
 
 <ol>
 <li><code>data</code>: the name of the data frame to re-arrange</li>
-<li><code>key</code>: the name of the to-be-created variable that will hold values currrently used as variables</li>
-<li><code>value</code>: the name of the to-be-created variable that will hold the values currently present as observations in variables to be gathered.</li>
+<li><code>key</code>: the name of the to-be-created variable that will hold values currently in use as variables</li>
+<li><code>value</code>: the name of the to-be-created variable that will hold the values from the variables to be gathered.</li>
 <li><code>...</code>: A bare list of columns to gather (or columns <em>not</em> to gather)</li>
 </ol>
 
@@ -201,7 +201,7 @@ temperature</pre>
 <ul>
 <li>The <code>key</code> column will be named &quot;date&quot;, because it will hold the dates that were previously used as individual variables</li>
 <li>The <code>value</code> column will be named &quot;temp&quot; because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.</li>
-<li>We want to gather values in all the colums <em>except</em> the city column, so we can write <code>-city</code>. Alternatively, we could write <code>Feb_19_2017, Feb_18_2017, and Feb_17_2017</code>.</li>
+<li>We want to gather values from all the columns <em>except</em> the city column, so we can write <code>-city</code>. Alternatively, we could write <code>Feb_19_2017, Feb_18_2017, and Feb_17_2017</code>.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="gather" class="sothis">
@@ -455,6 +455,131 @@ temperature</pre>
 </tr>
 </table>
 
+</article></slide><slide class=''><hgroup><h2>Common <code>spread()</code> problems</h2></hgroup><article  id="common-spread-problems">
+
+<p>A common issue encountered with the <code>spread</code> function is the somewhat mysterious error &quot;<code style="color: red;">Duplicate identifiers for rows &#8230; </code>&quot;.</p>
+
+<p>Basically, this means is that the rows of your data frame are not uniquely identifiable, and <code>spread</code> can&#39;t figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.</p>
+
+<p>In general, the solution is to give each row a unique ID number like so:</p>
+
+<pre class = 'prettyprint lang-r'>temperature$id &lt;- 1:nrow(temperature)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Common <code>spread()</code> problems</h2></hgroup><article  id="common-spread-problems-1" class="errormsg">
+
+<p>For example, I can&#39;t spread the <code>X</code> variable in this data frame into new <code>A</code> and <code>B</code> variables.</p>
+
+<table class = 'rmdtable'>
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<tr class="header">
+<th align="center">X</th>
+<th align="center">Y</th>
+<th align="center">Z</th>
+</tr>
+<tr class="odd">
+<td align="center">A</td>
+<td align="center">1</td>
+<td align="center">106</td>
+</tr>
+<tr class="even">
+<td align="center">A</td>
+<td align="center">1</td>
+<td align="center">68</td>
+</tr>
+<tr class="odd">
+<td align="center">B</td>
+<td align="center">1</td>
+<td align="center">90</td>
+</tr>
+<tr class="even">
+<td align="center">B</td>
+<td align="center">2</td>
+<td align="center">140</td>
+</tr>
+</table>
+
+<pre class = 'prettyprint lang-r'>spread(d, key=X, value=Z)</pre>
+
+<pre >## Error: Duplicate identifiers for rows (1, 2)</pre>
+
+<p>The problem is that when trying to form the <code>A</code> column, it&#39;s ambigious whether the 106 or the 68 should go in the first row and get paired up with 90, because both 106 and 68 have a <code>Y</code> value of 1.</p>
+
+</article></slide><slide class=''><hgroup><h2>Common <code>spread()</code> problems</h2></hgroup><article  id="common-spread-problems-2">
+
+<p>If we add an observation identifier within A and B, we can reshape the data.</p>
+
+<table class = 'rmdtable'>
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<tr class="header">
+<th align="center">X</th>
+<th align="center">Y</th>
+<th align="center">Z</th>
+<th align="center">id</th>
+</tr>
+<tr class="odd">
+<td align="center">A</td>
+<td align="center">1</td>
+<td align="center">106</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">A</td>
+<td align="center">1</td>
+<td align="center">68</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">B</td>
+<td align="center">1</td>
+<td align="center">90</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">B</td>
+<td align="center">2</td>
+<td align="center">140</td>
+<td align="center">2</td>
+</tr>
+</table>
+
+<pre class = 'prettyprint lang-r'>spread(d, key=X, value=Z)</pre>
+
+<table class = 'rmdtable'>
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<tr class="header">
+<th align="center">Y</th>
+<th align="center">id</th>
+<th align="center">A</th>
+<th align="center">B</th>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">106</td>
+<td align="center">90</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">68</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">NA</td>
+<td align="center">140</td>
+</tr>
+</table>
+
 </article></slide><slide class=''><hgroup><h2>The <code>separate()</code> function</h2></hgroup><article  id="the-separate-function">
 
 <p>The <code>separate</code> function is used to transform one variable in your dataset into many variables in your dataset. This is useful when multiple variables have been concatenated into a single variable, and you would like to examine these variables separately.</p>
@@ -626,7 +751,7 @@ temperature</pre>
 <li><code>col</code>: the bare name of the to-be-created amalgam variable</li>
 <li><code>...</code> : a list of bare columns whose values are to be combined row-wise and placed inside the new variable <code>col</code></li>
 <li><code>sep</code>: the separator to use between combined values (defaults to <code>&quot;_&quot;</code>).</li>
-<li>remove<code>: a logical value indicating whether or not to remove the input columns from the data frame after combining them (defaults to</code>TRUE`).</li>
+<li><code>remove</code>: a logical value indicating whether or not to remove columns from the data frame after combining them (defaults to <code>TRUE</code>).</li>
 </ol>
 
 </article></slide><slide class=''><hgroup><h2>The <code>unite()</code> function</h2></hgroup><article  id="the-unite-function-1" class="sothis">
@@ -680,7 +805,7 @@ temperature</pre>
 </tr>
 </table>
 
-<p>into this:</p>
+<p>back into this:</p>
 
 <table class = 'rmdtable'>
 <col width="16%" />
@@ -713,16 +838,89 @@ temperature</pre>
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class=''><hgroup><h2>Resources &amp; More</h2></hgroup><article  id="resources-more">
+
+<p>For more information about the <em>theory</em> behind the <code>tidyr</code> package, check out the <a href='https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html' title=''>package vignette</a> and the <a href='http://vita.had.co.nz/papers/tidy-data.html' title=''>tidy data paper</a>.</p>
+
+<p>You may have noticed that the API (i.e., standard syntax) for <code>tidyr</code> functions is not unlike that of the functions in <code>dplyr</code>. This is not a coincidence; both packages have the same core authors and are part of the &quot;<a href='https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/' title=''>tidyverse</a>&quot; collection of R packages.</p>
+
+<p>However, <code>tidyr</code> is <em>not</em> the only choice for reshaping data. The <code>reshape2</code> package is also quite useful. Its focus is on reshaping more broadly (e.g., from one type of data structure to another, reshaping through aggregation, etc.). If you need a more general reshaping tool, start with the following <code>reshape2</code> tutorials:</p>
 
 <ul>
-<li>A general, modern framework for tidy data
+<li><a href='https://wjhopper.github.io/psych640/labs/reshape.html' title=''>My reshape2 lab</a></li>
+<li><a href='http://seananderson.ca/2013/10/19/reshape.html' title=''>A brief but good intro to reshape2</a></li>
+<li><a href='http://had.co.nz/reshape/introduction.pdf' title=''>Hadley Wickham&#39;s intro to reshape2</a></li>
+</ul>
 
-<ul>
-<li><a href='https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html' title=''>Short intro</a></li>
-<li><a href='http://vita.had.co.nz/papers/tidy-data.html' title=''>Full Paper</a></li>
-</ul></li>
-</ul></article></slide>
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Normalize the <code>iris</code> dataset using tidyr functions.</p>
+
+<table class = 'rmdtable'>
+<col width="20%" />
+<col width="19%" />
+<col width="20%" />
+<col width="19%" />
+<col width="12%" />
+<tr class="header">
+<th align="center">Sepal.Length</th>
+<th align="center">Sepal.Width</th>
+<th align="center">Petal.Length</th>
+<th align="center">Petal.Width</th>
+<th align="center">Species</th>
+</tr>
+<tr class="odd">
+<td align="center">5.1</td>
+<td align="center">3.5</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">4.9</td>
+<td align="center">3</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">4.7</td>
+<td align="center">3.2</td>
+<td align="center">1.3</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">4.6</td>
+<td align="center">3.1</td>
+<td align="center">1.5</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">3.6</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="even">
+<td align="center">5.4</td>
+<td align="center">3.9</td>
+<td align="center">1.7</td>
+<td align="center">0.4</td>
+<td align="center">setosa</td>
+</tr>
+<tr class="odd">
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+<td align="center">&#8230;</td>
+</tr>
+</table>
+
+<p>Go!</p></article></slide>
 
 
   <slide class="backdrop"></slide>

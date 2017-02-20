@@ -42,7 +42,8 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 [Review Exercises](./labs/Review640.html) | 1/30/17
 [dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | 2/6/17
 [dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | 2/13/17
-[Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | TBA
+[Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | 2/27/17
+[Reshaping Data with tidyr](./labs/tidyr.html) | 2/27/17
 [Reshaping Data with reshape2](./labs/reshape.html) | TBA
 [Writing Functions](./labs/functions.html)| TBA
 [Merging Datasets with Joins](./labs/joins.html) |  TBA

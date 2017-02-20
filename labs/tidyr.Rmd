@@ -1,5 +1,5 @@
 ---
-title: "Reshaping Datasets with reshape2"
+title: "Reshaping Datasets with tidyr"
 author: "William Hopper"
 date: "`r Sys.Date()`"
 output:
@@ -26,7 +26,7 @@ There are 4 main functions for re-arranging data in the `tidyr` package:
 4. `unite()`: combines multiple columns into a single column
 
 ## The temperature data
-We'll demonstrate how to use each function with a small dataset first, so its easy to see what changes get made. So, install `tidyr`, and load the [temperature dataset](../data/temperature.csv).
+We'll demonstrate how to use each function with a small dataset, so its easy to see what changes get made. So, install `tidyr`, and load the [temperature dataset](../data/temperature.csv).
 
 ```{r, eval=FALSE, cache=FALSE}
 install.packages("tidyr")
@@ -52,16 +52,16 @@ The `temperature` dataset has measurements of 3 variables: **City**, **Date**, a
 
 But the layout of the dataset is non-normalized, because values of the **Date** variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.
 
-Instead, the dates *should* be in the cells of the table as values of the **Date** variable.
+Instead, the dates *should* be in the cells of the table as observed values of the **Date** variable.
 
 ## The `gather()` function 
-Let's use the `gather` function to move the dates that are being used as column headers down into the table under a new variable **date**, and move the actual temperature measurements into a new variable called **temp**.
+Let's use the `gather` function to move the dates in the column headers down into the table under a new variable **date**, and move the actual temperature measurements into a new variable called **temp**.
 
 `gather` takes 4 required arguments:
 
 1. `data`: the name of the data frame to re-arrange
-2. `key`: the name of the to-be-created variable that will hold values currrently used as variables
-3. `value`: the name of the to-be-created variable that will hold the values currently present as observations in variables to be gathered.
+2. `key`: the name of the to-be-created variable that will hold values currently in use as variables
+3. `value`: the name of the to-be-created variable that will hold the values from the variables to be gathered.
 4. `...`: A bare list of columns to gather (or columns *not* to gather)
 
 
@@ -77,7 +77,7 @@ gather(data = temperature,
 
 - The `key` column will be named "date", because it will hold the dates that were previously used as individual variables
 - The `value` column will be named "temp" because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.
-- We want to gather values in all the colums *except* the city column, so we can write `-city`. Alternatively, we could write `Feb_19_2017, Feb_18_2017, and Feb_17_2017`.
+- We want to gather values from all the columns *except* the city column, so we can write `-city`. Alternatively, we could write `Feb_19_2017, Feb_18_2017, and Feb_17_2017`.
 
 ## The `gather()` function {#gather  .sothis}
 So this:
@@ -150,6 +150,48 @@ into this:
 pander(spread(data = temperature, key = "date", value = "temp"))
 ```
 
+
+## Common `spread()` problems
+A common issue encountered with the `spread` function is the somewhat mysterious error "<code style="color: red;">Duplicate identifiers for rows ... </code>".
+
+Basically, this means is that the rows of your data frame are not uniquely identifiable, and `spread` can't figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.
+
+In general, the solution is to give each row a unique ID number like so:
+
+```{r eval = FALSE} 
+temperature$id <- 1:nrow(temperature)
+```
+
+## Common `spread()` problems {.errormsg}
+For example, I can't spread the `X` variable in this data frame into new `A` and `B` variables.
+```{r notunique,echo=FALSE}
+set.seed(10)
+d <- data.frame(X = c("A","A","B","B"),
+                Y = c(1, 1, 1, 2),
+                Z = sample(10:200, 4))
+pander(d)
+```
+
+```{r trytospread, error=TRUE}
+spread(d, key=X, value=Z)
+```
+The problem is that when trying to form the `A` column, it's ambigious whether the 106 or the 68 should go in the first row and get paired up with 90, because both 106 and 68 have a `Y` value of 1.
+
+
+## Common `spread()` problems
+If we add an observation identifier within A and B, we can reshape the data.
+```{r adduniqueID,echo=FALSE}
+d$id <- rep(1:2, 2)
+pander(d)
+```
+
+```{r show_spread, eval=FALSE}
+spread(d, key=X, value=Z)
+```
+```{r actuallyspread, echo=FALSE}
+pander(spread(d, key=X, value=Z)) 
+```
+
 ## The `separate()` function
 The `separate` function is used to transform one variable in your dataset into many variables in your dataset.
 This is useful when multiple variables have been concatenated into a single variable, and you would like to examine these variables separately.
@@ -210,7 +252,7 @@ The `unite` function has 3 required arguments, and 2 other arguments you often w
 2. `col`: the bare name of the to-be-created amalgam variable
 3. `...` : a list of bare columns whose values are to be combined row-wise and placed inside the new variable `col`
 4. `sep`: the separator to use between combined values (defaults to `"_"`).
-5.  remove`: a logical value indicating whether or not to remove the input columns from the data frame after combining them (defaults to `TRUE`).
+5. `remove`: a logical value indicating whether or not to remove columns from the data frame after combining them (defaults to `TRUE`).
 
 ## The `unite()` function {.sothis}
 So to undo our separation of the `date` variable, we could use this:
@@ -231,7 +273,33 @@ pander(prettifyTable(unite(temperature,
                      rows = 3))
 ```
 
-## Resources
-- A general, modern framework for tidy data
-    - [Short intro](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
-    - [Full Paper](http://vita.had.co.nz/papers/tidy-data.html)
+## Resources & More
+For more information about the *theory* behind the `tidyr` package, check out the [package vignette](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) and the [tidy data paper](http://vita.had.co.nz/papers/tidy-data.html).
+
+You may have noticed that the API (i.e., standard syntax) for `tidyr` functions is not unlike that of the functions in `dplyr`. This is not a coincidence; both packages have the same core authors and are part of the "[tidyverse](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/)" collection of R packages.
+
+However, `tidyr` is *not* the only choice for reshaping data. The `reshape2` package is also quite useful. Its focus is on reshaping more broadly (e.g., from one type of data structure to another, reshaping through aggregation, etc.). If you need a more general reshaping tool, start with the following `reshape2` tutorials:
+
+- [My reshape2 lab](https://wjhopper.github.io/psych640/labs/reshape.html)
+- [A brief but good intro to reshape2](http://seananderson.ca/2013/10/19/reshape.html)
+- [Hadley Wickham's intro to reshape2](http://had.co.nz/reshape/introduction.pdf)
+
+
+## Activity
+Normalize the `iris` dataset using tidyr functions.
+
+```{r print_iris, echo=FALSE}
+pander(prettifyTable(iris, 6))
+```
+
+Go!
+```{r activity, include=FALSE}
+x <- iris %>%
+  gather(measurement, size, -Species) %>%
+  separate(measurement, c("structure", "dimension")) %>%
+  group_by(Species) %>%
+  mutate(id = 1:n()) %>%
+  ungroup() %>%
+  arrange(Species, id) %>%
+  spread(Species, size)
+```
