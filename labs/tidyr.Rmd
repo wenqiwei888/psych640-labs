@@ -1,0 +1,101 @@
+---
+title: "Reshaping Datasets with reshape2"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation:
+    css: ["../theme/css/custom.css", "../theme/css/tidyCellHighlighting.css"]
+---
+
+```{r setup,echo=FALSE,message=FALSE,warning=FALSE}
+library(pander)
+library(tidyr)
+library(dplyr)
+library(whoppeR)
+knitr::opts_chunk$set("warning"=FALSE, "message"=FALSE, cache = TRUE)
+```
+
+## Reshaping with `tidyr`
+The tools from the `tidyr` package help you re-arrange tabular data stored in data frames, with an emphasis on helping you *normalize* datasets.
+
+There are 4 main functions for re-arranging data in the `tidyr` package:
+
+1. `gather()`: transforms data from wide(r) to long(er)
+2. `spread()`: transforms data from long(er) to wide(r)
+3. `separate()`: splits a single column into multiple columns
+4. `unite()`: combines multiple columns into a single column
+
+## The temperature data
+We'll demonstrate how to use each function with a small dataset first, so its easy to see what changes get made. So, install `tidyr`, and load the [temperature dataset](../data/temperature.csv).
+
+```{r, eval=FALSE, cache=FALSE}
+install.packages("tidyr")
+library(tidyr)
+temperature <- read.csv("https://wjhopper.github.io/psych640/data/temperature.csv")
+temperature
+```
+
+```{r import_temp_data, echo=FALSE, cache=FALSE}
+temperature <- read.csv("../data/temperature.csv")
+```
+```{r display_temp_data, echo=FALSE}
+pander(temperature, "High Temperatures (Farenheight)")
+```
+
+## The temperature data
+```{r, ref.label="display_temp_data", echo=FALSE}
+pander(temperature, "High Temperatures (Farenheight)")
+```
+
+The `temperature` dataset has measurements of 3 variables: **City**, **Date**, and **Temperature**.
+
+But the layout of the dataset is non-normalized, because values of the **Date** variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.
+
+Instead, they *should* be in the cells of the table as values of the **Date** variable.
+
+## The `gather()` function 
+Let's use the `gather` function to move the dates that are being used as column headers down into the table under a new variable **date**, and move the actual temperature measurements into a new variable called **temperature**.
+
+`gather` takes 4 required arguments:
+
+1. `data`: the name of the data frame to re-arrange
+2. `key`: the name of the new variable which will hold the values previously used as variables
+3. `value`: the name of the new variable which will hold the values previously in the old variable columns
+4. `...`: A bare list of columns to gather (or columns *not* to gather)
+
+
+## The `gather()` function 
+Let's make this more specific to our situation.
+
+```{r,eval=FALSE}
+gather(data = temperature,
+       key = "date",
+       value = "temperature",
+       -city)
+```
+
+- The `key` column will be named "date", because it will hold the dates that were previously used as individual variables
+- The `value` column will be named "temperature" because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.
+- We want to gather values in all the colums *except* the city column, so we can write `-city`. Alternatively, we could write `Feb_19_2017, Feb_18_2017, and Feb_17_2017`.
+
+## The `gather()` function {#gather}
+So this:
+```r
+temperature <- gather(data = temperature, key = "date", value = "temperature", -city)
+```
+turns this:
+```{r, echo=FALSE}
+pander(temperature) 
+```
+
+into this:
+
+```{r, echo=FALSE}
+temperature <- gather(data = temperature, key = "date", value = "temperature", -city)
+pander(temperature) 
+```
+
+## Resources
+- A general, modern framework for tidy data
+    - [Short intro](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+    - [Full Paper](http://vita.had.co.nz/papers/tidy-data.html)

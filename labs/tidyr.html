@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reshaping Datasets with reshape2</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2017-02-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Reshaping Datasets with reshape2',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\tidyCellHighlighting.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-02-19</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Reshaping with <code>tidyr</code></h2></hgroup><article  id="reshaping-with-tidyr">
+
+<p>The tools from the <code>tidyr</code> package help you re-arrange tabular data stored in data frames, with an emphasis on helping you <em>normalize</em> datasets.</p>
+
+<p>There are 4 main functions for re-arranging data in the <code>tidyr</code> package:</p>
+
+<ol>
+<li><code>gather()</code>: transforms data from wide(r) to long(er)</li>
+<li><code>spread()</code>: transforms data from long(er) to wide(r)</li>
+<li><code>separate()</code>: splits a single column into multiple columns</li>
+<li><code>unite()</code>: combines multiple columns into a single column</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>The temperature data</h2></hgroup><article  id="the-temperature-data">
+
+<p>We&#39;ll demonstrate how to use each function with a small dataset first, so its easy to see what changes get made. So, install <code>tidyr</code>, and load the <a href='../data/temperature.csv' title=''>temperature dataset</a>.</p>
+
+<pre class = 'prettyprint lang-r'>install.packages(&quot;tidyr&quot;)
+library(tidyr)
+temperature &lt;- read.csv(&quot;https://wjhopper.github.io/psych640/data/temperature.csv&quot;)
+temperature</pre>
+
+<table class = 'rmdtable'>
+<caption>High Temperatures (Farenheight)</caption>
+<col width="16%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">Feb_19_2017</th>
+<th align="center">Feb_18_2017</th>
+<th align="center">Feb_17_2017</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">55</td>
+<td align="center">48</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">59</td>
+<td align="center">48</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>The temperature data</h2></hgroup><article  id="the-temperature-data-1">
+
+<table class = 'rmdtable'>
+<caption>High Temperatures (Farenheight)</caption>
+<col width="16%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">Feb_19_2017</th>
+<th align="center">Feb_18_2017</th>
+<th align="center">Feb_17_2017</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">55</td>
+<td align="center">48</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">59</td>
+<td align="center">48</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+<p>The <code>temperature</code> dataset has measurements of 3 variables: <strong>City</strong>, <strong>Date</strong>, and <strong>Temperature</strong>.</p>
+
+<p>But the layout of the dataset is non-normalized, because values of the <strong>Date</strong> variable (Feb_19_2017, Feb_18_2017, and Feb_17_2017) are used as unique variables themselves.</p>
+
+<p>Instead, they <em>should</em> be in the cells of the table as values of the <strong>Date</strong> variable.</p>
+
+</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="the-gather-function">
+
+<p>Let&#39;s use the <code>gather</code> function to move the dates that are being used as column headers down into the table as a new variable <strong>date</strong>, and move the actual temperature measurements into a new variable called <strong>temperature</strong>.</p>
+
+<p><code>gather</code> takes 4 required arguments:</p>
+
+<ol>
+<li><code>data</code>: the name of the data frame to re-arrange</li>
+<li><code>key</code>: the name of the new variable which will hold the values previously used as variables</li>
+<li><code>value</code>: the name of the new variable which will hold the values previously in the old variable columns</li>
+<li><code>...</code>: A bare list of columns to gather (or columns <em>not</em> to gather)</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="the-gather-function-1">
+
+<p>Let&#39;s make this more specific to our situation.</p>
+
+<pre class = 'prettyprint lang-r'>gather(data = temperature,
+       key = &quot;date&quot;,
+       value = &quot;temperature&quot;,
+       -city)</pre>
+
+<ul>
+<li>The <code>key</code> column will be named &quot;date&quot;, because it will hold the dates that were previously used as individual variables</li>
+<li>The <code>value</code> column will be named &quot;temperature&quot; because the values in each of the Feb_19_2017, Feb_18_2017, and Feb_17_2017 variables were our actual temperature measurements.</li>
+<li>We want to gather values in all the colums <em>except</em> the city column, so we can write <code>-city</code>. Alternatively, we could write <code>Feb_19_2017, Feb_18_2017, and Feb_17_2017</code>.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>The <code>gather()</code> function</h2></hgroup><article  id="gather">
+
+<p>So this:</p>
+
+<pre class = 'prettyprint lang-r'>temperature &lt;- gather(data = temperature, key = &quot;date&quot;, value = &quot;temperature&quot;, -city)</pre>
+
+<p>turns this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">Feb_19_2017</th>
+<th align="center">Feb_18_2017</th>
+<th align="center">Feb_17_2017</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">55</td>
+<td align="center">48</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">59</td>
+<td align="center">48</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+<p>into this:</p>
+
+<table class = 'rmdtable'>
+<col width="16%" />
+<col width="16%" />
+<col width="18%" />
+<tr class="header">
+<th align="center">city</th>
+<th align="center">date</th>
+<th align="center">temperature</th>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_19_2017</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_18_2017</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="center">Northampton</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">Boston</td>
+<td align="center">Feb_17_2017</td>
+<td align="center">40</td>
+</tr>
+</table>
+
+</article></slide><slide class=''><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+
+<ul>
+<li>A general, modern framework for tidy data
+
+<ul>
+<li><a href='https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html' title=''>Short intro</a></li>
+<li><a href='http://vita.had.co.nz/papers/tidy-data.html' title=''>Full Paper</a></li>
+</ul></li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
