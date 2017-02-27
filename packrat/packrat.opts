@@ -4,6 +4,7 @@ print.banner.on.startup: auto
 vcs.ignore.lib: TRUE
 vcs.ignore.src: FALSE
 external.packages:
+    backports
     BH
     DBI
     DiagrammeR
@@ -55,8 +56,8 @@ external.packages:
     readxl
     registry
     reshape2
-    rmarkdown
     rngtools
+    rprojroot
     rstudioapi
     scales
     stringi

@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
-RVersion: 3.3.1
+RVersion: 3.3.2
 Repos: CRAN=https://cran.revolutionanalytics.com
 
 Package: BH
@@ -70,6 +70,10 @@ Source: CRAN
 Version: 0.1
 Hash: 0afb92b59b02593c70ff8046700ba9d3
 
+Package: backports
+Source: CRAN
+Version: 1.0.5
+
 Package: base64enc
 Source: CRAN
 Version: 0.1-3
@@ -135,16 +139,11 @@ Version: 1.4.3
 Hash: cd53ef4cf29dc59ce3f8c5c1af735fd1
 Requires: iterators
 
-Package: formatR
-Source: CRAN
-Version: 1.4
-Hash: b2a47a2b91737978cf50ba95825a9cd1
-
 Package: ggplot2
 Source: CRAN
 Version: 2.1.0
 Hash: 50e297b0191179c39c7dcae0eff72b51
-Requires: digest, gtable, plyr, scales, reshape2
+Requires: digest, gtable, lazyeval, plyr, tibble, scales, reshape2
 
 Package: gridBase
 Source: CRAN
@@ -209,7 +208,7 @@ Package: knitr
 Source: CRAN
 Version: 1.14
 Hash: e7b411f5a5512295a260a45683fa0c4a
-Requires: digest, formatR, highr, yaml, markdown, stringr, evaluate
+Requires: digest, highr, yaml, markdown, stringr, evaluate
 
 Package: labeling
 Source: CRAN
@@ -285,10 +284,10 @@ Requires: Rcpp, plyr, stringr
 
 Package: rmarkdown
 Source: source
-Version: 1.0.9014
-Hash: 2f84deca281cdaf9f5f70a664ae0644d
+Version: 1.3
+Hash: d8f0cf248116dbdfc23f35991d0ed3f7
 Requires: base64enc, caTools, evaluate, htmltools, jsonlite, knitr,
-    tibble, yaml
+    rprojroot, yaml
 SourcePath: ~/source/rmarkdown
 
 Package: rngtools
@@ -296,6 +295,12 @@ Source: CRAN
 Version: 1.2.4
 Hash: 4db0661fe95ab6eb3d6339495bf22003
 Requires: digest, stringr, pkgmaker
+
+Package: rprojroot
+Source: CRAN
+Version: 1.2
+Hash: fdcac51a7f47decd60556ceefc3c26b1
+Requires: backports
 
 Package: rstudioapi
 Source: CRAN
