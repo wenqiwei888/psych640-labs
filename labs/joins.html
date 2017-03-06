@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -75,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -89,14 +95,18 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-03-06</p>
           </hgroup>
   </slide>
 
 <style>
 img {
-  margin-top: -50px;
-  float: left;
+  margin: -25px 20px;
+  display: inline-block
+}
+
+.join_plot {
+  text-align: center;
 }
 </style>
 
@@ -254,7 +264,10 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>An inner join returns all rows from <code>x</code> that have matching rows in <code>y</code>, and all columns from <code>x</code> and <code>y</code>.</p>
 
-<p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which adds new variables, but thins out the number of observations <img src="joins_files/figure-html/inner_join_venn-1.png" width="384" /><img src="joins_files/figure-html/inner_join_venn-2.png" width="384" /></p>
+<p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which adds new variables, but thins out the number of observations</p>
+
+<div class="join_plot">
+<p><img src="joins_files/figure-html/inner_join_venn-1.png" width="384" /><img src="joins_files/figure-html/inner_join_venn-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Inner Join: All rows in x with a match in y</h2></hgroup><article  id="inner-join-all-rows-in-x-with-a-match-in-y">
 
@@ -296,7 +309,8 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which adds new variables and observations.</p>
 
-<p><img src="joins_files/figure-html/left_join_venn-1.png" width="384" /><img src="joins_files/figure-html/left_join_venn-2.png" width="384" /></p>
+<div class="join_plot">
+<p><img src="joins_files/figure-html/left_join_venn-1.png" width="384" /><img src="joins_files/figure-html/left_join_venn-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Left Join: All rows from x</h2></hgroup><article  id="left-join-all-rows-from-x">
 
@@ -336,7 +350,8 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>The <code>y</code> data frame is considered the &quot;master&quot; set and <code>x</code> is the &quot;helper&quot; set which adds new variables.</p>
 
-<p><img src="joins_files/figure-html/right_join_plot-1.png" width="384" /><img src="joins_files/figure-html/right_join_plot-2.png" width="384" /></p>
+<div class="join_plot">
+<p><img src="joins_files/figure-html/right_join_plot-1.png" width="384" /><img src="joins_files/figure-html/right_join_plot-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Right Join: All rows from y</h2></hgroup><article  id="right-join-all-rows-from-y">
 
@@ -380,7 +395,8 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>There is no clear &quot;master&quot; or &quot;helper&quot; set in a full join; both data sets act in both capacities. A full join is more like shuffling two decks of cards together, if each row the datasets were a card.</p>
 
-<p><img src="joins_files/figure-html/full_join_plot-1.png" width="384" /><img src="joins_files/figure-html/full_join_plot-2.png" width="384" /></p>
+<div class="join_plot">
+<p><img src="joins_files/figure-html/full_join_plot-1.png" width="384" /><img src="joins_files/figure-html/full_join_plot-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Full Join: All the rows!</h2></hgroup><article  id="full-join-all-the-rows">
 
@@ -424,7 +440,8 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>The <code>x</code> data frame is considered the &quot;master&quot; set and <code>y</code> is the &quot;helper&quot; set which thins out the number of observations.</p>
 
-<p><img src="joins_files/figure-html/semi_join_plot-1.png" width="384" /><img src="joins_files/figure-html/semi_join_plot-2.png" width="384" /></p>
+<div class="join_plot">
+<p><img src="joins_files/figure-html/semi_join_plot-1.png" width="384" /><img src="joins_files/figure-html/semi_join_plot-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Semi Join</h2></hgroup><article  id="semi-join-1">
 
@@ -445,7 +462,8 @@ companies &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/companies
 
 <p>An anti join returns all rows from x where there are <strong>not</strong> matching values in y, keeping just columns from x. Thus an anti join is the inverse of a semi join.</p>
 
-<p><img src="joins_files/figure-html/anti_join_plot-1.png" width="384" /><img src="joins_files/figure-html/anti_join_plot-2.png" width="384" /></p>
+<div class="join_plot">
+<p><img src="joins_files/figure-html/anti_join_plot-1.png" width="384" /><img src="joins_files/figure-html/anti_join_plot-2.png" width="384" /></p></div>
 
 </article></slide><slide class=''><hgroup><h2>Anti Join</h2></hgroup><article  id="anti-join-1">
 
@@ -480,14 +498,6 @@ key &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/drugkey.csv&quo
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

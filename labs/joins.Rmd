@@ -6,8 +6,12 @@ date: "`r Sys.Date()`"
 
 <style>
 img {
-  margin-top: -50px;
-  float: left;
+  margin: -25px 20px;
+  display: inline-block
+}
+
+.join_plot {
+  text-align: center;
 }
 </style>
 
@@ -30,7 +34,7 @@ joinPlot <- function(type, color = "red", title = NULL) {
                   full= c(color, color, color),
                   outer = c(color, color, "white"))
   grid.newpage()
-  plotVenn2d(c("","", ""), labels = c('', ''),  Colors=fills)
+  plotVenn2d(c("","", ""), labels = c('', ''),  Colors=fills, resize = .75)
   grid.text(c("X","Y"), c(.3, .7), c(.5,.5), gp=gpar(fontsize=28))
   grid.text(title, .5, .8, gp=gpar(fontsize=16))
 }
@@ -154,10 +158,13 @@ To see how each join is different, it helps to realize that one of the data sets
 An inner join returns all rows from `x` that have matching rows in `y`, and all columns from `x` and `y`.
 
 The `x` data frame is considered the "master" set and `y` is the "helper" set which adds new variables, but thins out the number of observations
+
+<div class = "join_plot">
 ```{r inner_join_venn, echo=FALSE}
 joinPlot("inner", title = "Rows returned from Inner Join")
 joinPlot("full", color = "blue", title = "Columns returned from Inner Join")
 ```
+</div>
 
 ## Inner Join: All rows in x with a match in y
 ```{r inner_join}
@@ -180,10 +187,12 @@ A left join will return all rows from `x`, and all columns from x and y. Rows in
 
 The `x` data frame is considered the "master" set and `y` is the "helper" set which adds new variables and observations.
 
+<div class = "join_plot">
 ```{r left_join_venn, echo=FALSE}
 joinPlot('left', title = "Rows returned from Left Join")
 joinPlot('full', color = "blue", title = "Columns returned from Left Join")
 ```
+</div>
 
 ## Left Join: All rows from x
 ```{r left_join}
@@ -203,10 +212,12 @@ A right join returns all rows from y, and all columns from x and y. Rows in y wi
 
 The `y` data frame is considered the "master" set and `x` is the "helper" set which adds new variables.
 
+<div class = "join_plot">
 ```{r right_join_plot, echo = FALSE}
 joinPlot('right', title = "Rows returned from Right Join")
 joinPlot('full', color = "blue", title = "Columns returned from Right Join")
 ```
+</div>
 
 ## Right Join: All rows from y
 ```{r right_join}
@@ -230,10 +241,12 @@ A full join returns all rows and columns from both x and y. Any values not prese
 
 There is no clear "master" or "helper" set in a full join; both data sets act in both capacities. A full join is more like shuffling two decks of cards together, if each row the datasets were a card.
 
+<div class = "join_plot">
 ```{r full_join_plot, echo=FALSE}
 joinPlot('full', title = "Rows returned from Full Join")
 joinPlot('full', color = "blue", title = "Columns returned from Full Join")
 ```
+</div>
 
 ## Full Join: All the rows!
 ```{r full_join}
@@ -255,10 +268,12 @@ A Semi Join returns all rows from x where there are matching values in y, keepin
 
 The `x` data frame is considered the "master" set and `y` is the "helper" set which thins out the number of observations.
 
+<div class = "join_plot">
 ```{r semi_join_plot, echo=FALSE}
 joinPlot('inner', title = "Rows returned from Left Join")
 joinPlot('left', color = "blue", title = "Columns returned from Semi Join")
 ```
+</div>
 
 ## Semi Join
 ```{r semi}
@@ -270,10 +285,12 @@ Rows for super heroes with a publisher not listed in the `companies` dataset are
 ## Anti Join
 An anti join returns all rows from x where there are **not** matching values in y, keeping just columns from x. Thus an anti join is the inverse of a semi join.
 
+<div class = "join_plot">
 ```{r anti_join_plot, echo=FALSE}
 joinPlot('left_exclude', title = "Rows returned from Anti Join")
 joinPlot('left', color = "blue", title = "Columns returned from Anti Join")
 ```
+</div>
 
 ## Anti Join
 ```{r anti}
