@@ -44,10 +44,10 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 [dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | 2/13/17
 [Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | 2/27/17
 [Reshaping Data with tidyr](./labs/tidyr.html) | 2/27/17
-[Reshaping Data with reshape2](./labs/reshape.html) | TBA
-[Writing Functions](./labs/functions.html)| TBA
-[Merging Datasets with Joins](./labs/joins.html) |  TBA
-[Functional Programming: The apply functions](./labs/apply.html) |TBA
-[ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | TBA
-[ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| TBA
+[Reshaping Data with reshape2](./labs/reshape.html) | N/A
+[Merging Datasets with Joins](./labs/joins.html) |  3/6/17
+[ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | 3/20/17
+[ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| 3/27/17
+[Writing Functions](./labs/functions.html)| 4/3/17
+[Functional Programming: The apply functions](./labs/apply.html) | 4/10/17
 
