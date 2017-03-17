@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-03-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -89,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-03-17</p>
           </hgroup>
   </slide>
 
@@ -263,7 +269,7 @@
 
 <p>These measurements are taken over time, and it&#39;s usually best to represent time on the x-axis, so we&#39;ll map the <code>age</code> variable to the <code>x</code> aesthetic.</p>
 
-<p>The dependent measure should almost always be represented along the y-axis, so we&#39;ll map the <code>circumference</code> variable to the <code>x</code> aesthetic.</p>
+<p>The dependent measure should almost always be represented along the y-axis, so we&#39;ll map the <code>circumference</code> variable to the <code>y</code> aesthetic.</p>
 
 <p>There are measurements from 5 different trees, so we ought to represent the different trees visually in some way. Many possibilities exist, but let&#39;s try representing each tree with a different color, by mapping the <code>Tree</code> variable to the <code>color</code> aesthetic.</p>
 
@@ -364,7 +370,21 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p>However, we need not modify the dataset itself to achieve the desired result: we can manipulate the scale itself with some functions provided by <code>ggplot</code>.</p>
 
-<p>The functions for manipulating the scales have a consistent naming scheme: <code>scale_</code>, followed by the name of the aesthetic they are measuring, followed by the type of variable the aesthetic represents (e.g,. continuous, discrete, etc.)</p>
+<p>The functions for manipulating the scales have a consistent naming scheme:</p>
+
+<ol>
+<li><code>scale_</code></li>
+<li>The name of the measured aesthetic
+
+<ul>
+<li>e.g., color, x, y, size, etc.</li>
+</ul></li>
+<li>The type of variable the aesthetic represents
+
+<ul>
+<li>e.g,. continuous, discrete, identity, etc.</li>
+</ul></li>
+</ol>
 
 <p>Here, we&#39;ll use the <code>scale_color_discrete</code> function to modify our scale, because we&#39;ve mapped each tree to a distinct color.</p>
 
@@ -379,20 +399,9 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/unordered_easy-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-4">
-
-<p>We could use the <code>limits</code> argument to only display a color scale for <em>some</em> of the trees. I don&#39;t know why you&#39;d want to, but this just gives you an idea of how you can restrict your scales with the <code>limits</code> argument more generally.</p>
-
-<pre class = 'prettyprint lang-r'>ggplot(data = Orange,
-       mapping = aes(x = age, y = circumference, color = Tree)) + 
-  geom_point() +geom_line() + 
-  scale_color_discrete(limits = as.character(2:3))</pre>
-
-<p><img src="ggplot_part1_files/figure-html/unordered_subset-1.png" width="576" style="display: block; margin: auto;" /></p>
-
 </article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors">
 
-<p>You can exactly specify which colors to use using their color names (see <code>?colors</code>) or Hexadecimal RRB values and <code>scale_color_manual</code>.</p>
+<p>You can exactly specify which colors to use using their color names (see <code>?colors</code>) or Hexadecimal RGB values and <code>scale_color_manual</code>.</p>
 
 <pre class = 'prettyprint lang-r'>ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree)) + 
@@ -432,7 +441,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p>We can also set the aesthetics for our data to a constant property (i.e., <em>not</em> have the aesthetic change across levels of a variable).</p>
 
-<p>For example, we can change what type of line is drawn by setting the <code>linetype</code> aesthetic to constant value <em>outside</em> the <code>aes</code> function and inside the <code>geom_line()</code> funtion.</p>
+<p>For example, we can change what type of line is drawn by setting the <code>linetype</code> aesthetic to constant value <em>outside</em> the <code>aes</code> function and inside the <code>geom_line()</code> function.</p>
 
 <pre class = 'prettyprint lang-r'>ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree)) + 
@@ -443,14 +452,14 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
-<p>The <code>Indometh</code> dataset has pharmacokinetics measurements (i.e., excretion/absorbtion of a drug) of the NSAID pain-killer <em>indometacin</em>.</p>
+<p>The <code>Indometh</code> dataset has pharmacokinetics measurements (i.e., excretion/absorption of a drug) of the NSAID pain-killer <em>indometacin</em>.</p>
 
 <p>6 subjects were administered a dose of <em>indometacin</em>, and their blood concentration levels were measured 11 times afterwards (see <code>?Indometh</code> for more info).</p>
 
 <p>Use <code>ggplot</code> to visualize the data collected from each subject. Be sure to</p>
 
 <ol>
-<li>Distininguish between the data from each subject</li>
+<li>Distinguish between the data from each subject</li>
 <li>Arrange the scale identifying the data from each subject in ascending order.</li>
 <li>Experiment with using points, lines, points and lines, with different sizes of each, to see which looks best.</li>
 </ol></article></slide>
@@ -459,14 +468,6 @@ plot_obj + geom_point() # now we see our plot</pre>
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

@@ -97,7 +97,7 @@ Lets think about how best to visualize these circumferences.
 
 These measurements are taken over time, and it's usually best to represent time on the x-axis, so we'll map the `age` variable to the `x` aesthetic.
 
-The dependent measure should almost always be represented along the y-axis, so we'll map the `circumference` variable to the `x` aesthetic.
+The dependent measure should almost always be represented along the y-axis, so we'll map the `circumference` variable to the `y` aesthetic.
 
 There are measurements from 5 different trees, so we ought to represent the different trees visually in some way. Many possibilities exist, but let's try representing each tree with a different color, by mapping the `Tree` variable to the `color` aesthetic.
 
@@ -185,7 +185,13 @@ ggplot(data = Orange,
 ## Adjusting the scale
 However, we need not modify the dataset itself to achieve the desired result: we can manipulate the scale itself with some functions provided by `ggplot`.
 
-The functions for manipulating the scales have a consistent naming scheme: `scale_`, followed by the name of the aesthetic they are measuring, followed by the type of variable the aesthetic represents (e.g,. continuous, discrete, etc.)
+The functions for manipulating the scales have a consistent naming scheme:
+
+1. `scale_`
+2. The name of the measured aesthetic
+    - e.g., color, x, y, size, etc.
+3. The type of variable the aesthetic represents
+    - e.g,. continuous, discrete, identity, etc.
 
 Here, we'll use the `scale_color_discrete` function to modify our scale, because we've mapped each tree to a distinct color.
 
@@ -200,18 +206,8 @@ ggplot(data = Orange,
   scale_color_discrete(limits = as.character(1:5))
 ```
 
-## Adjusting the scale
-We could use the `limits` argument to only display a color scale for *some* of the trees. I don't know why you'd want to, but this just gives you an idea of how you can restrict your scales with the `limits` argument more generally.
-
-```{r unordered_subset, fig.height = 2.75}
-ggplot(data = Orange,
-       mapping = aes(x = age, y = circumference, color = Tree)) + 
-  geom_point() +geom_line() + 
-  scale_color_discrete(limits = as.character(2:3))
-```
-
 ## Adjusting the colors
-You can exactly specify which colors to use using their color names (see `?colors`) or Hexadecimal RRB values and `scale_color_manual`.
+You can exactly specify which colors to use using their color names (see `?colors`) or Hexadecimal RGB values and `scale_color_manual`.
 
 ```{r manual, fig.height=2.75}
 ggplot(data = Orange,
@@ -248,7 +244,7 @@ There are many custom-made pallets to choose from, if you're willing to go looki
 ## Setting an aesthetic
 We can also set the aesthetics for our data to a constant property (i.e., *not* have the aesthetic change across levels of a variable).
 
-For example, we can change what type of line is drawn by setting the `linetype` aesthetic to constant value *outside* the `aes` function and inside the `geom_line()` funtion.
+For example, we can change what type of line is drawn by setting the `linetype` aesthetic to constant value *outside* the `aes` function and inside the `geom_line()` function.
 
 ```{r, fig.height=2}
 ggplot(data = Orange,
@@ -258,13 +254,13 @@ ggplot(data = Orange,
 ```
 
 ## Activity
-The `Indometh` dataset has pharmacokinetics measurements (i.e., excretion/absorbtion of a drug) of the NSAID pain-killer *indometacin*.
+The `Indometh` dataset has pharmacokinetics measurements (i.e., excretion/absorption of a drug) of the NSAID pain-killer *indometacin*.
 
 6 subjects were administered a dose of *indometacin*, and their blood concentration levels were measured 11 times afterwards (see `?Indometh` for more info).
 
 Use `ggplot` to visualize the data collected from each subject. Be sure to
 
-1. Distininguish between the data from each subject
+1. Distinguish between the data from each subject
 2. Arrange the scale identifying the data from each subject in ascending order.
 3. Experiment with using points, lines, points and lines, with different sizes of each, to see which looks best.
 
