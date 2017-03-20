@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-03-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -75,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -89,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-03-20</p>
           </hgroup>
   </slide>
 
@@ -97,7 +103,7 @@
 
 <p>We&#39;re going to continue the tour of the <code>ggplot2</code> package we began <a href='./lab17_ggplot2.html' title=''>last week</a></p>
 
-<p>We&#39;ll look at data management issues in the context of ggplot-ing, explore some more &quot;advanced&quot; features of the package, and make some common types of visualizations.</p>
+<p>We&#39;ll explore some more &quot;advanced&quot; features of the package, look at data management issues in the context of ggplot-ing, and make some common types of visualizations.</p>
 
 </article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset" class="img-centered">
 
@@ -219,7 +225,7 @@ print(p)</pre>
 
 <p>Of course, this is an example of how to use <code>ggplot</code> and not an example of how to fit a regression model.</p>
 
-<p>Ignoring species is a Bad Idea™, because our model violates the assumption of normally distributed residual error around the regression line.</p>
+<p>Ignoring species is a Bad Idea™, because our model violates the assumption of homogenous error variance.</p>
 
 <p><img src="ggplot_part2_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
@@ -639,12 +645,11 @@ print(p)</pre>
 
 </article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages">
 
-<p>You could also plot these averages with a barplot, which are created with <code>geom_bar</code>. Making a bar plot with these geoms requires a little tweaking:</p>
+<p>You could also plot these averages with a barplot, which can be created with <code>geom_col</code>. Making a bar plot with these geoms requires a little tweaking:</p>
 
 <ul>
 <li>The <code>color</code> aesthetic of bars corresponds to the color if the bar&#39;s perimeter, rather than the color of its area, so we need to map the <code>fill</code> aesthetic instead</li>
 <li>To get side-by-side bars (instead of stacked bars), we need tell <code>ggplot</code> to put space between each bar with the <code>position_dodge()</code> function. This function takes 1 argument (<code>width</code>), which controls how far apart the bars are placed</li>
-<li>By default, the y-axis aesthetic is determined by the total number of observations in each group. To map the y aesthetic to a value in our dataset, we need to set the <code>stat</code> argument to <code>&quot;identity&quot;</code></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages-1">
@@ -652,7 +657,7 @@ print(p)</pre>
 <p>Here&#39;s how we apply those tweaks to get a bar plot of the averages</p>
 
 <pre class = 'prettyprint lang-r'>p &lt;- ggplot(iris_means, aes(x = dimension, y = avg, fill = Species)) + 
-  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 1)) + 
+  geom_col(position = position_dodge(width = 1)) + 
   facet_grid(~Structure)
 print(p)</pre>
 
@@ -719,14 +724,6 @@ print(p)</pre>
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

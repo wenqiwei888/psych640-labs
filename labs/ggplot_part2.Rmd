@@ -13,7 +13,7 @@ knitr::opts_chunk$set("warning"=FALSE, "message"=FALSE, "fig.width" = 6, "fig.he
 ## The Grammar of Graphics
 We're going to continue the tour of the `ggplot2` package we began [last week](./lab17_ggplot2.html)
 
-We'll look at data management issues in the context of ggplot-ing, explore some more "advanced" features of the package, and make some common types of visualizations.
+We'll explore some more "advanced" features of the package, look at data management issues in the context of ggplot-ing, and make some common types of visualizations.
 
 ## The `iris` dataset {.img-centered}
 We'll begin our examples with the `iris` dataset, which gives measurements of the length and width (in cm.) of the sepals and petals from 3 species of irises (*setosa*, *versicolor*, and *virginica*).
@@ -199,18 +199,17 @@ p + geom_errorbar(aes(ymin = lower, ymax = upper), width = .15)
 ```
 
 ## A barplot of the averages
-You could also plot these averages with a barplot, which are created with `geom_bar`. Making a bar plot with these geoms requires a little tweaking:
+You could also plot these averages with a barplot, which can be created with `geom_col`. Making a bar plot with these geoms requires a little tweaking:
 
   - The `color` aesthetic of bars corresponds to the color if the bar's perimeter, rather than the color of its area, so we need to map the `fill` aesthetic instead
   - To get side-by-side bars (instead of stacked bars), we need tell `ggplot` to put space between each bar with the `position_dodge()` function. This function takes 1 argument (`width`), which controls how far apart the bars are placed
-  - By default, the y-axis aesthetic is determined by the total number of observations in each group. To map the y aesthetic to a value in our dataset, we need to set the `stat` argument to `"identity"`
 
 
 ## A barplot of the averages
 Here's how we apply those tweaks to get a bar plot of the averages
 ```{r}
 p <- ggplot(iris_means, aes(x = dimension, y = avg, fill = Species)) + 
-  geom_bar(stat = "identity", position = position_dodge(width = 1)) + 
+  geom_col(position = position_dodge(width = 1)) + 
   facet_grid(~Structure)
 print(p)
 ```
@@ -259,7 +258,7 @@ Remember to take advantage of facets, including `facet_grid` or `facet_wrap`.
 
 ```{r, include=FALSE}
 ggplot(esoph, aes(x = agegp, y = p)) +
-  geom_bar(position = position_dodge(width = 1.5), stat = "identity") + 
+  geom_col(position = position_dodge(width = 1.5)) + 
   facet_grid(alcgp ~ tobgp) + 
   geom_errorbar(aes(ymin = lower, ymax = upper),
                 position = position_dodge(width = 1.5), width =.15)
