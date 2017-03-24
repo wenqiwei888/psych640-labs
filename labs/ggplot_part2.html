@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-03-20" />
+  <meta name="date" content="2017-03-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-03-20</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-03-24</p>
           </hgroup>
   </slide>
 
@@ -104,6 +104,8 @@
 <p>We&#39;re going to continue the tour of the <code>ggplot2</code> package we began <a href='./lab17_ggplot2.html' title=''>last week</a></p>
 
 <p>We&#39;ll explore some more &quot;advanced&quot; features of the package, look at data management issues in the context of ggplot-ing, and make some common types of visualizations.</p>
+
+<p>NB: This lab was made using ggplot2 version 2.2.1, and a few things I&#39;ll be using are specific to ggplot2 version &gt;= 2.0. So, if you have an older version installed, you&#39;ll need to upgrade to follow along. You can check your version using the command <code>packageVersion(&quot;ggplot2&quot;)</code></p>
 
 </article></slide><slide class=''><hgroup><h2>The <code>iris</code> dataset</h2></hgroup><article  id="the-iris-dataset" class="img-centered">
 
@@ -191,7 +193,7 @@ print(p)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Adding smooths</h2></hgroup><article  id="adding-smooths">
 
-<p>ggplot has a special geometric object called a &quot;smooth&quot;, which is a line path whose x and y values are determined by a regression algorithm (e.g., loess, or lm).</p>
+<p>ggplot has a special geometric object called a &quot;smooth&quot;, which is a line path whose x and y values are determined by a regression algorithm (e.g., <code>loess</code>, or <code>lm</code>).</p>
 
 <p>We can show a regression line and conditional mean C.I. for each flower group by adding a <code>geom_smooth</code> layer to the plot, and setting the <code>method</code> argument to be <code>&quot;lm&quot;</code>.</p>
 
@@ -203,40 +205,21 @@ print(p)</pre>
 
 <p>So far, any geometric object layers we&#39;ve added have inherited their data and aesthetic mapping from the &quot;global&quot; mapping defined in the call to the <code>gpplot</code> function.</p>
 
-<p>However, that need not be the case: geoms can set their own layer-specific data sets and aesthetic mappings. This feature is mainly useful for two tasks:</p>
+<p>However, that need not be the case: geoms can set their own layer-specific data sets and aesthetic mappings. The layer-specific dataset or mapping is set inside the call the <code>geom_*whatever*</code>, using the same syntax as inside <code>ggplot</code>.</p>
 
-<ul>
-<li>Adding summary-level information to plots of raw data</li>
-<li>Plotting part of a dataset with one geom, and different part with another geom (e.g. mixing a barplot and a scatter plot.)</li>
-</ul>
+<p>This feature is most useful for visualizing data from two different observational units (e.g., data from individual subjects, and summary statistics for each experimental condition).</p>
 
-</article></slide><slide class=''><hgroup><h2>Layer-specific mappings</h2></hgroup><article  id="layer-specific-mappings">
-
-<p>The layer-specific dataset or mapping is set inside the call the <code>geom_*whatever*</code>, using the same syntax as inside <code>ggplot</code>.</p>
-
-<p>Here, we&#39;ll use a layer specific mapping for <code>geom_smooth</code> which removes the mappings of <code>Species</code> to color, thus regressing width on length for all 3 species of iris at once.</p>
-
-<pre class = 'prettyprint lang-r'>p + geom_smooth(method = &quot;lm&quot;, fullrange = TRUE,
-                mapping = aes(color = NULL))</pre>
-
-<p><img src="ggplot_part2_files/figure-html/bad_idea-1.png" width="576" style="display: block; margin: auto;" /></p>
-
-</article></slide><slide class=''><hgroup><h2>Layer-specific mappings</h2></hgroup><article  id="layer-specific-mappings-1">
-
-<p>Of course, this is an example of how to use <code>ggplot</code> and not an example of how to fit a regression model.</p>
-
-<p>Ignoring species is a Bad Idea™, because our model violates the assumption of homogenous error variance.</p>
-
-<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>To see how to do this, let&#39;s show the <em>average</em> Sepal width and length for each Iris species on our plot of the raw observations.</p>
 
 </article></slide><slide class=''><hgroup><h2>Layer-specific data</h2></hgroup><article  id="layer-specific-data">
 
-<p>A better use of layer-specific setting would be to add another layer of points that has the mean Sepal width and length for each species.</p>
+<p>To do this, we&#39;ll need to a data frame that summarizes the Sepal length and width for each species with their average size.</p>
 
-<p>To do this, we&#39;ll need to create a dataset that summaries the Sepal length and width for each species with their average size.</p>
+<p>We&#39;ll start creating this data frame by grouping the iris dataset by the <code>Species</code> variable and averaging all the remaining columns.</p>
 
 <pre class = 'prettyprint lang-r'>library(dplyr)
-iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_each(&quot;mean&quot;)</pre>
+iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_all(&quot;mean&quot;)
+pander(iris_means, split.table = Inf)</pre>
 
 <table class = 'rmdtable'>
 <col width="15%" />
@@ -276,17 +259,17 @@ iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_each(&quot;mean&
 
 </article></slide><slide class=''><hgroup><h2>Layer-specific data</h2></hgroup><article  id="layer-specific-data-1">
 
-<p>Now, we&#39;ll include another layer of points, and set it to use the summarized dataset as its source of information. We&#39;ll also set it to use a different shape (an X) and size, so we can distinguish it from the raw data.</p>
+<p>Now, we&#39;ll include another layer of points, and use the summarized dataset as its source of information. We&#39;ll also use a different shape (an X), size, and thickness, so we can distinguish the means from the raw data.</p>
 
-<pre class = 'prettyprint lang-r'>p + geom_point(data = iris_means, size = 5, shape = 4)</pre>
+<pre class = 'prettyprint lang-r'>p + geom_point(data = iris_means, size = 4, shape = 4, stroke = 2)</pre>
 
 <p><img src="ggplot_part2_files/figure-html/means-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding Petal Width and Length</h2></hgroup><article  id="adding-petal-width-and-length">
 
-<p>So far we&#39;ve only been looking at half the data, so lets add in the Petal length and width data.</p>
+<p>So far we&#39;ve only been looking at half the data, so lets add in the Petal length and width measurements.</p>
 
-<p>But we&#39;ve got a problem: the widths and lengths for Petals and Sepals are separated individual variables!</p>
+<p>But there is a problem: the widths and lengths for Petals and Sepals are separate variables!</p>
 
 <table class = 'rmdtable'>
 <col width="20%" />
@@ -333,16 +316,16 @@ iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_each(&quot;mean&
 <pre class = 'prettyprint lang-r'>library(tidyr)
 
 # Add a primary key
-iris_normal &lt;- mutate(iris, FlowerID = row_number(Species)) %&gt;%
-# change layout to long-form
+iris_long &lt;- mutate(iris, FlowerID = 1:nrow(iris)) %&gt;%
+  # change layout to long-form
   gather(key = variable, value = size, Sepal.Length:Petal.Width) %&gt;%
-# Break &quot;Sepal/Petal&quot; &amp; &quot;Length/Width&quot; into 2 columns
+  # Break &quot;Sepal/Petal&quot; &amp; &quot;Length/Width&quot; into 2 columns
   separate(variable, c(&quot;Structure&quot;, &quot;dimension&quot;))
 
-# Make a variable for length and width each  
-iris_long &lt;- spread(iris_normal, dimension, size)</pre>
+# Make a separate variable for length and width measurement
+iris_normal &lt;- spread(iris_long, dimension, size)</pre>
 
-</article></slide><slide class=''><hgroup><h2>The new <code>iris_long</code> dataset</h2></hgroup><article  id="the-new-iris_long-dataset">
+</article></slide><slide class=''><hgroup><h2>The new <code>iris_normal</code> dataset</h2></hgroup><article  id="the-new-iris_normal-dataset">
 
 <p>Ah, much better</p>
 
@@ -350,63 +333,63 @@ iris_long &lt;- spread(iris_normal, dimension, size)</pre>
 <col width="13%" />
 <col width="15%" />
 <col width="16%" />
-<col width="16%" />
-<col width="8%" />
+<col width="12%" />
+<col width="12%" />
 <tr class="header">
 <th align="center">Species</th>
 <th align="center">FlowerID</th>
 <th align="center">Structure</th>
-<th align="center">dimension</th>
-<th align="center">size</th>
+<th align="center">Length</th>
+<th align="center">Width</th>
 </tr>
 <tr class="odd">
 <td align="center">setosa</td>
 <td align="center">1</td>
+<td align="center">Petal</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
+</tr>
+<tr class="even">
+<td align="center">setosa</td>
+<td align="center">1</td>
 <td align="center">Sepal</td>
-<td align="center">Length</td>
 <td align="center">5.1</td>
+<td align="center">3.5</td>
+</tr>
+<tr class="odd">
+<td align="center">setosa</td>
+<td align="center">2</td>
+<td align="center">Petal</td>
+<td align="center">1.4</td>
+<td align="center">0.2</td>
 </tr>
 <tr class="even">
 <td align="center">setosa</td>
 <td align="center">2</td>
 <td align="center">Sepal</td>
-<td align="center">Length</td>
 <td align="center">4.9</td>
+<td align="center">3</td>
 </tr>
 <tr class="odd">
 <td align="center">setosa</td>
 <td align="center">3</td>
-<td align="center">Sepal</td>
-<td align="center">Length</td>
-<td align="center">4.7</td>
+<td align="center">Petal</td>
+<td align="center">1.3</td>
+<td align="center">0.2</td>
 </tr>
 <tr class="even">
+<td align="center">setosa</td>
+<td align="center">3</td>
+<td align="center">Sepal</td>
+<td align="center">4.7</td>
+<td align="center">3.2</td>
+</tr>
+<tr class="odd">
 <td align="center">setosa</td>
 <td align="center">4</td>
-<td align="center">Sepal</td>
-<td align="center">Length</td>
-<td align="center">4.6</td>
-</tr>
-<tr class="odd">
-<td align="center">setosa</td>
-<td align="center">5</td>
-<td align="center">Sepal</td>
-<td align="center">Length</td>
-<td align="center">5</td>
-</tr>
-<tr class="even">
-<td align="center">setosa</td>
-<td align="center">6</td>
-<td align="center">Sepal</td>
-<td align="center">Length</td>
-<td align="center">5.4</td>
-</tr>
-<tr class="odd">
-<td align="center">setosa</td>
-<td align="center">7</td>
-<td align="center">Sepal</td>
-<td align="center">Length</td>
-<td align="center">4.6</td>
+<td align="center">Petal</td>
+<td align="center">1.5</td>
+<td align="center">0.2</td>
 </tr>
 <tr class="even">
 <td align="center">&#8230;</td>
@@ -427,44 +410,64 @@ iris_long &lt;- spread(iris_normal, dimension, size)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Facetting</h2></hgroup><article  id="facetting">
 
-<p>Facets are added just like adding a new geom layer, and the layout of the panels is determined using the <code>lm</code>-style formula syntax.</p>
+<p>Facets are added just like adding a new geom layer, and the layout of the panels is determined using formula syntax.</p>
 
-<p>Here, we&#39;re asking for that dataset to be divided into different plots according to the values of the <code>Structure</code> variable.</p>
+<p>Here, we&#39;re asking for that dataset to be divided into different panels according to the values of the <code>Structure</code> variable.</p>
 
-<p>We&#39;ll use <code>facet_grid</code> here, since dividing plot according to the <code>Structure</code> variable would evenly fill a 2x1 or 1x2 matrix.</p>
+<p>Variables on the <em>left</em> side of the <code>~</code> map onto vertically arranged panels, and variable names on the <em>right</em> side map onto horizontally arranged panels.</p>
 
-<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_long, 
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_normal, 
         mapping = aes(x = Length, y = Width, color = Species)) +
-  geom_point() + 
-  facet_grid( ~ Structure)</pre>
+  geom_point()
+p + facet_grid( ~ Structure)</pre>
 
 <p>We&#39;ll show the plot on the next slide&#8230;</p>
 
 </article></slide><slide class=''><hgroup><h2>Facetting</h2></hgroup><article  id="facetting-1">
 
-<p>Panels created with faceting share the same scales!.</p>
-
-<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_long, 
+<pre class = 'prettyprint lang-r'>p &lt;- ggplot(data = iris_normal, 
         mapping = aes(x = Length, y = Width, color = Species)) +
-  geom_point() + 
-  facet_grid( ~ Structure)</pre>
+  geom_point()
+p + facet_grid( ~ Structure)</pre>
 
-<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /> Panels created with faceting share the same scales!</p>
+
+</article></slide><slide class=''><hgroup><h2>Facet Labels</h2></hgroup><article  id="facet-labels">
+
+<p>If you want to change the panel labels, you&#39;ll need to use whats called a labeller function. The easiest way to create a labeller function is by the calling the function <em>called</em> <code>labeller</code> on a named character vector.</p>
+
+<p>The <em>names</em> of the elements in the character vector should be values of the variable you are faceting by, and the elements themselves should be the labels you want to appear in the plot.</p>
+
+<p>For the <code>Structure</code> variable, this would look something like:</p>
+
+<pre class = 'prettyprint lang-r'>labeller(Structure = c(&quot;Petal&quot; = &quot;Pointy Petals&quot;,
+                       &quot;Sepal&quot; = &quot;Sexy Sepals&quot;)
+         )</pre>
+
+</article></slide><slide class=''><hgroup><h2>Facet Labels</h2></hgroup><article  id="facet-labels-1">
+
+<p>Then take this function and supply it as the <code>labeller</code> argument of <code>facet_grid</code> or <code>facet_wrap</code>.</p>
+
+<pre class = 'prettyprint lang-r'>p + facet_grid(~ Structure,
+               labeller = labeller(Structure = c(&quot;Petal&quot; = &quot;Pointy Petals&quot;,
+                                                 &quot;Sepal&quot; = &quot;Sexy Sepals&quot;)))</pre>
+
+<p><img src="ggplot_part2_files/figure-html/change_facet_labels-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Plots with error bars</h2></hgroup><article  id="plots-with-error-bars">
 
 <p>Lets switch from scatter-plotting the lengths and widths to plotting some summary statistics of the Petal/Sepal lengths and widths for each species.</p>
 
-<p>Of course, any good plot of summary statistics includes error bars. Luckily, ggplot makes it easy to add error bars, so long as we make their upper and lower limits part of the dataset we are plotting.</p>
+<p>Of course, any good plot of summary statistics includes error bars. Luckily, ggplot makes it easy to add error bars, with the <code>geom_errorbar</code> function.</p>
 
-<p>Step 1: Summarizing the data, including the upper and lower bounds of the 95% CI.</p>
+<p>Step 1: Summarizing the long-form dataset, including the upper and lower bounds of the 95% CI.</p>
 
-<pre class = 'prettyprint lang-r'>iris_means &lt;- iris_normal %&gt;%
+<pre class = 'prettyprint lang-r'>iris_means &lt;- iris_long %&gt;%
   group_by(Species, Structure, dimension) %&gt;%
   summarise(avg = mean(size), SD = sd(size), N = n()) %&gt;%
   mutate(SEM = SD/sqrt(N),
          upper = avg + SEM*qt(.975, N-1,lower.tail = F),
-         lower = avg - SEM*qt(.975, N-1,lower.tail = F))</pre>
+         lower = avg - (upper-avg))</pre>
 
 </article></slide><slide class=''><hgroup><h2>Petal/Sepal Averages</h2></hgroup><article  id="petalsepal-averages">
 
@@ -645,11 +648,11 @@ print(p)</pre>
 
 </article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages">
 
-<p>You could also plot these averages with a barplot, which can be created with <code>geom_col</code>. Making a bar plot with these geoms requires a little tweaking:</p>
+<p>You could also plot these averages with a barplot, which can be created with <code>geom_col</code>. Making a bar plot requires a little tweaking:</p>
 
 <ul>
-<li>The <code>color</code> aesthetic of bars corresponds to the color if the bar&#39;s perimeter, rather than the color of its area, so we need to map the <code>fill</code> aesthetic instead</li>
-<li>To get side-by-side bars (instead of stacked bars), we need tell <code>ggplot</code> to put space between each bar with the <code>position_dodge()</code> function. This function takes 1 argument (<code>width</code>), which controls how far apart the bars are placed</li>
+<li>The <code>color</code> aesthetic of bars corresponds to the color of the bar&#39;s perimeter, rather than the color of its area, so we need to map the <code>Species</code> variable to the <code>fill</code> aesthetic instead</li>
+<li>To get side-by-side bars (instead of stacked bars), we need tell <code>ggplot</code> to spread each bar out across the x axis the <code>position_dodge()</code> function. This function takes 1 argument (<code>width</code>), which controls how far apart the bars are placed</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>A barplot of the averages</h2></hgroup><article  id="a-barplot-of-the-averages-1">
@@ -661,21 +664,21 @@ print(p)</pre>
   facet_grid(~Structure)
 print(p)</pre>
 
-<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>A barplot with errror bars</h2></hgroup><article  id="a-barplot-with-errror-bars">
 
 <p>To include error bars, we use <code>geom_errorbar</code> like before, but we also must set <code>position_dodge(width = 1)</code> to get each error bar to match up correctly.</p>
 
 <pre class = 'prettyprint lang-r'>p + geom_errorbar(aes(ymin = lower, ymax = upper),
-                position = position_dodge(width = 1),
-                width = .15)</pre>
+                  position = position_dodge(width = 1),
+                  width = .15)</pre>
 
-<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="ggplot_part2_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Miscellaneous</h2></hgroup><article  id="miscellaneous">
 
-<p>There is still a lot more to ggplot (the author of the package has a <a href='http://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/0387981403' title=''>great book</a>) but here are a few more pointers.</p>
+<p>There is still a lot more to ggplot (the author of the package has a <a href='https://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/331924275X' title=''>great book</a>) but here are a few more pointers.</p>
 
 <ul>
 <li>You&#39;ll often need to change the name and limits of a scale. You can do this by invoking the appropriate <code>scale_*whatever*</code> function, and using the <code>scale_name</code> and <code>limits</code> arguments
@@ -703,11 +706,12 @@ print(p)</pre>
 <li><code>lower</code>: The lower bound of cancers (assuming a binomial distribution)</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>esoph &lt;- mutate(esoph, cell_size = ncontrols + ncases,
-            p = ncases/cell_size,
-            upper = qbinom(.975, size = cell_size, prob = p)/cell_size,
-         lower = qbinom(.025, size = cell_size, prob = p)/cell_size,
-         cell_size = NULL)</pre>
+<pre class = 'prettyprint lang-r'>esoph &lt;- mutate(esoph,
+                cell_size = ncontrols + ncases,
+                p = ncases/cell_size,
+                upper = qbinom(.975, size = cell_size, prob = p) / cell_size,
+                lower = qbinom(.025, size = cell_size, prob = p) / cell_size,
+                cell_size = NULL)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
