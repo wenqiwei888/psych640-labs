@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -75,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -89,13 +95,13 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-03</p>
           </hgroup>
   </slide>
 
 <slide class=''><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function">
 
-<p>Consider a common situation: You as a programmer need to perform a set of identical or extremely similar operations on several different pieces of information. What do you do?</p>
+<p>Consider a common situation: You need to perform a set of identical or extremely similar operations on several different pieces of information. What do you do?</p>
 
 <p>The solution with the least upfront cost is to write the code necessary for your task once and copy and paste it into the places where you&#39;ll need it, tweaking little things each time for the specific information you&#39;re operating on.</p>
 
@@ -113,7 +119,7 @@
 
 <p>You can create a new function object in R with the <code>function</code> keyword and the following syntax:</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arguments) { body }</pre>
+<pre class = 'prettyprint lang-r'>f &lt;- function(arguments) { body }</pre>
 
 <p>This expression is called a <em>function declaration</em> or a <em>function definition</em>.</p>
 
@@ -127,10 +133,10 @@
 
 <p>The function definition below creates a new function object <code>f</code>, which takes two arguments, <code>arg1</code> and <code>arg2</code>, and prints out a report of their values to the console.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2) { 
-... +    print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
-... +  }
-&gt; f(&quot;eleventeen&quot;, -Inf)</pre>
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2) { 
+  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+}
+f(&quot;eleventeen&quot;, -Inf)</pre>
 
 <pre >## [1] &quot;arg1 is eleventeen and arg2 is -Inf&quot;</pre>
 
@@ -140,35 +146,35 @@
 
 <p>If you assign a default value, the argument is optional and may be omitted in the function call.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
-... +    print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
-... +  }
-&gt; f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+  print(paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2))
+}
+f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <pre >## [1] &quot;arg1 is squidily diddly and arg2 is not supplied!&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Required Arguments</h2></hgroup><article  id="required-arguments">
 
-Omitting arguments <em>without</em> a default value must always be specified on the function call. Omitting them will always result in a fatal error.
+<p>Arguments <em>without</em> a default value must always be specified on the function call. Omitting them will always result in a fatal error.</p>
 
-<div class="errormsg">
-<pre class = 'prettyprint lang-r'>&gt; f(arg2=pi) # I always forget pi is a built in constant!!</pre>
+<div style="margin-top: 10px;" class="errormsg">
+<pre class = 'prettyprint lang-r'>f(arg2=pi) # I always forget pi is a built in constant!!</pre>
 
 <pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; # Sorry for the formatting, errors don&#39;t line wrap</pre></div>
+<pre class = 'prettyprint lang-r'># Sorry for the formatting, errors don&#39;t line wrap</pre></div>
 
 </article></slide><slide class=''><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
 
-<p>when you call a function without using argument name, the values you supply are matched with the functions arguments <strong>by position</strong> (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)</p>
+<p>When you call a function without using argument name, the values you supply are matched with the functions arguments <strong>by position</strong> (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f(&quot;sir nose d&#39;voidoffunk&quot;, &quot;starchild&quot;)</pre>
+<pre class = 'prettyprint lang-r'>f(&quot;sir nose d&#39;voidoffunk&quot;, &quot;starchild&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is sir nose d&#39;voidoffunk and arg2 is starchild&quot;</pre>
 
 <p>But, when you pair the values with argument names, they may be specified in any order.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f(arg2 = &quot;sir nose d&#39;voidoffunk&quot;, arg1 = &quot;starchild&quot;)</pre>
+<pre class = 'prettyprint lang-r'>f(arg2 = &quot;sir nose d&#39;voidoffunk&quot;, arg1 = &quot;starchild&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is starchild and arg2 is sir nose d&#39;voidoffunk&quot;</pre>
 
@@ -186,11 +192,11 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>Lets try assigning the output from our function to a variable:</p>
 
-<pre class = 'prettyprint lang-r'>&gt; report &lt;- f(-1.05)</pre>
+<pre class = 'prettyprint lang-r'>report &lt;- f(-1.05)</pre>
 
 <pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; report</pre>
+<pre class = 'prettyprint lang-r'>report</pre>
 
 <pre >## [1] &quot;arg1 is -1.05 and arg2 is not supplied!&quot;</pre>
 
@@ -210,11 +216,11 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>For these reasons, R has a reserved keyword <code>return</code> which halts a functions execution and returns the value specified to <code>return</code>.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
-... +    x &lt;- paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2)
-... +    return(x)  # Same behavior, but more explicit
-... +  }
-&gt; f(&quot;autumn leaves&quot;)</pre>
+<pre class = 'prettyprint lang-r'>f &lt;- function(arg1, arg2=&quot;not supplied!&quot;) { 
+  x &lt;- paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2)
+  return(x)  # Same behavior, but more explicit
+}
+f(&quot;autumn leaves&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is autumn leaves and arg2 is not supplied!&quot;</pre>
 
@@ -232,15 +238,17 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; summaryStats &lt;- function(x) {
-... +    x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
-... +              sem = sd(x)/sqrt(length(x)))
-... +    return(x)
-... +  }
-&gt; statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
-&gt; statList$sem</pre>
+<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
+  x &lt;- list(mean = mean(x),
+            stdDev = sd(x),
+            range = range(x),
+            sem = sd(x)/sqrt(length(x)))
+  return(x)
+}
+statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
+statList$sem</pre>
 
-<pre >## [1] 5.795566</pre>
+<pre >## [1] 5.985896</pre>
 
 </article></slide><slide class=''><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
 
@@ -254,9 +262,9 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 </article></slide><slide class=''><hgroup><h2>Sourcing your functions</h2></hgroup><article  id="sourcing-your-functions">
 
-<p>A better solution is to have one .R file where you define a single function (or several of related functions), and use the <code>source</code> keyword to execute the file and define the function whenever you want use it.</p>
+<p>A better solution is to have one (or more) .R file where you define a single function (or several of related functions), and use the <code>source</code> keyword to execute the file and define the function whenever you want use it.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; source(&#39;/path/to/file/with/function/definitions.R&#39;)</pre>
+<pre class = 'prettyprint lang-r'>source(&#39;/path/to/file/with/function/definitions.R&#39;)</pre>
 
 <p><code>source</code> executes any R expressions found in the specified file in the environment where <code>source</code> was called. For example, executing the expression <code>x &lt;- 10</code> in the console and writing <code>x &lt;- 10</code> in a separate file and sourcing that file have the same effect.</p>
 
@@ -268,7 +276,7 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>Of course, <em>you</em> know that, because you wrote the function, and <em>you</em> would never dream of passing a character vector or list to <code>summaryStats</code>.</p>
 
-<p>But can you guarantee that you group member or lab member knows that? And can you absolutely guarantee that <code>summaryStats</code> won&#39;t be unintentionally passed some other type of data when called from a more complex or non-interactive program?</p>
+<p>But can you guarantee that your group member or lab member knows that? And can you absolutely guarantee that <code>summaryStats</code> won&#39;t be unintentionally passed some other type of data when called from a more complex or non-interactive program?</p>
 
 </article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-1">
 
@@ -282,15 +290,15 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>We can use it together with an <code>if</code> statements to enforce our requirement that the input to <code>summaryStats</code> be numerals of some kind.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; summaryStats &lt;- function(x) {
-... +    if (is.numeric(x) || is.logical(x)) {
-... +      x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
-... +                sem = sd(x)/sqrt(length(x)))
-... +      return(x)
-... +    } else {
-... +      stop(&quot;Input to summaryStats must be a numeric or logical vector!&quot;)
-... +    }
-... +  }</pre>
+<pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
+  if (is.numeric(x) || is.logical(x)) {
+    x &lt;- list(mean = mean(x), stdDev = sd(x), range = range(x),
+              sem = sd(x)/sqrt(length(x)))
+    return(x)
+  } else {
+    stop(&quot;Input to summaryStats must be a numeric or logical vector!&quot;)
+  }
+}</pre>
 
 </article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-3">
 
@@ -298,17 +306,19 @@ Omitting arguments <em>without</em> a default value must always be specified on 
 
 <p>First, a numeric vector which should be fine.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; statList &lt;- summaryStats(runif(25,0,100))
-&gt; statList$mean # good!</pre>
+<pre class = 'prettyprint lang-r'>x &lt;- runif(25,0,100)
+statList &lt;- summaryStats(x)
+statList$mean # good!</pre>
 
-<pre >## [1] 56.62911</pre>
+<pre >## [1] 44.48184</pre>
 
 Now, a character vector which should fail.
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>&gt; statList &lt;- summaryStats(as.character(runif(25,0,100)))</pre>
+<pre class = 'prettyprint lang-r'>x &lt;- as.character(runif(25,0,100))
+statList &lt;- summaryStats(x)</pre>
 
-<pre >## Error in summaryStats(as.character(runif(25, 0, 100))): Input to summaryStats must be a numeric or logical vector!</pre></div>
+<pre >## Error in summaryStats(x): Input to summaryStats must be a numeric or logical vector!</pre></div>
 
 <p>Hooray, an error! Whenever you write a test for your input, always test it with bad input to be sure it catches it.</p>
 
@@ -324,7 +334,7 @@ Now, a character vector which should fail.
 
 <p>When you want to interactively debug a function, provide the function object as an argument to the <code>debug</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; debug(summaryStats)</pre>
+<pre class = 'prettyprint lang-r'>debug(summaryStats)</pre>
 
 <p>This appears to have no effect, but it tells R that whenever <code>summaryStats</code> is called, to pause before the first line of the function body is executed, and open an interactive console inside the function&#39;s environment.</p>
 
@@ -337,22 +347,22 @@ Now, a character vector which should fail.
 <p><img src='../images/debugControls.png' title=''/> The navigation controls &amp; corresponding keyboard shortcuts are shown above, and explained below:</p>
 
 <ol>
-<li>Executes the very next line of code in the function</li>
-<li>Executes the next function call and changes the current environment to that function
+<li>&quot;Next&quot;: Executes the very next line of code in the function</li>
+<li>&quot;Step: Executes the next function call and changes the current environment to that function
 
 <ul>
 <li>Allows you to follow the entire code path, not just code in your function</li>
 </ul></li>
-<li>Executes all code remaining in the function, or all remaining iterations of a loop</li>
-<li>Continue execution of all code normally (exits debugging mode)</li>
-<li>Exit debugging mode and halt all execution</li>
+<li>&quot;Finish&quot;: Executes all code remaining in the function, or all remaining iterations of a loop</li>
+<li>&quot;Continue&quot;: Continue execution of <em>all</em> code normally (exits debugging mode)</li>
+<li>&quot;Quit: Exit debugging mode and halt all execution</li>
 </ol>
 
 </article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging-1">
 
 <p>When you decide that you want <code>summaryStats</code> to execute normally and no longer run under debugging mode, use the <code>undebug</code> function:</p>
 
-<pre class = 'prettyprint lang-r'>&gt; undebug(summaryStats)</pre>
+<pre class = 'prettyprint lang-r'>undebug(summaryStats)</pre>
 
 <p>Any subsequent calls to <code>summaryStats</code> will proceed as normal.</p>
 
@@ -401,13 +411,13 @@ Now, a character vector which should fail.
 
 <p>Here is a more a concrete example of what your function should behave like. When you think you are done, test your function to make sure your function can reproduce the results.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; v &lt;- c(2,4,10,33,2,8,19,3, 20, 3, 4, 45) # vector to search
-&gt; x &lt;- find(v, 2) # search for 2, reporting all positions where it is found
-&gt; all(v[x] == 2) # Indexing the vector with the results should produce all 2&#39;s</pre>
+<pre class = 'prettyprint lang-r'>v &lt;- c(2,4,10,33,2,8,19,3, 20, 3, 4, 45) # vector to search
+x &lt;- find(v, 2) # search for 2, reporting all positions where it is found
+all(v[x] == 2) # Indexing the vector with the results should produce all 2&#39;s</pre>
 
 <pre >## [1] TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; find(v, 2, 2) # Should produce 5 since the 5th element is the second 2</pre>
+<pre class = 'prettyprint lang-r'>find(v, 2, 2) # Should produce 5 since the 5th element is the second 2</pre>
 
 <pre >## [1] 5</pre></article></slide>
 
@@ -415,14 +425,6 @@ Now, a character vector which should fail.
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

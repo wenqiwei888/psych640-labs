@@ -5,11 +5,11 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(cache = TRUE) 
 ```
 
 ## Why write a new function?
-Consider a common situation: You as a programmer need to perform a set of identical or extremely similar operations on several different pieces of information.  What do you do? 
+Consider a common situation: You need to perform a set of identical or extremely similar operations on several different pieces of information.  What do you do? 
 
 The solution with the least upfront cost is to write the code necessary for your task once and copy and paste it into the places where you'll need it, tweaking little things each time for the specific information you're operating on.
 
@@ -56,8 +56,9 @@ f("squidily diddly") # only 1 argument given!
 ```
 
 ## Required Arguments
-Omitting arguments *without* a default value must always be specified on the function call. Omitting them will always result in a fatal error.
-<div class = "errormsg">
+Arguments *without* a default value must always be specified on the function call. Omitting them will always result in a fatal error.
+
+<div class = "errormsg", style="margin-top: 10px;">
 ```{r optionalTwo, error=TRUE}
 f(arg2=pi) # I always forget pi is a built in constant!!
 # Sorry for the formatting, errors don't line wrap
@@ -65,7 +66,7 @@ f(arg2=pi) # I always forget pi is a built in constant!!
 </div>
 
 ## A reminder: positional vs. named arguments
-when you call a function without using argument name, the values you supply are matched with the functions arguments **by position** (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)
+When you call a function without using argument name, the values you supply are matched with the functions arguments **by position** (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)
 ```{r unnamed}
 f("sir nose d'voidoffunk", "starchild")
 ```
@@ -124,7 +125,9 @@ Returning a list is a good general purpose solution to this problem, because lis
 For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.
 ```{r listReturns, eval=TRUE}
 summaryStats <- function(x) {
-  x <- list(mean = mean(x), stdDev = sd(x), range = range(x),
+  x <- list(mean = mean(x),
+            stdDev = sd(x),
+            range = range(x),
             sem = sd(x)/sqrt(length(x)))
   return(x)
 }
@@ -142,7 +145,7 @@ One option is to have a section starting each script where you define the person
 However, this method makes scripts confusing to follow, and is prone to error thanks to violating the DRY principle: when you make a change to your cool new function in one script, you have to change it in every file you've declared it in if you want to the function to have consistent behavior (which every function should!!!)
 
 ## Sourcing your functions
-A better solution is to have one .R file where you define a single function (or several of related functions), and use the `source` keyword to execute the file and define the function whenever you want use it.
+A better solution is to have one (or more) .R file where you define a single function (or several of related functions), and use the `source` keyword to execute the file and define the function whenever you want use it.
 
 ```{r sourcing, eval = FALSE}
 source('/path/to/file/with/function/definitions.R')
@@ -157,7 +160,7 @@ The `summaryStats` function implicitly requires that it's argument, `x`, be a nu
 
 Of course, *you* know that, because you wrote the function, and *you* would never dream of passing a character vector or list to `summaryStats`.
 
-But can you guarantee that you group member or lab member knows that? And can you absolutely guarantee that `summaryStats` won't be unintentionally passed some other type of data when called from a more complex or non-interactive program?
+But can you guarantee that your group member or lab member knows that? And can you absolutely guarantee that `summaryStats` won't be unintentionally passed some other type of data when called from a more complex or non-interactive program?
 
 ## User-Defined Errors
 The answer of course, is no. When you write a function, you should think carefully about what range of inputs your function can reliably compute sensible output from.
@@ -185,15 +188,18 @@ summaryStats <- function(x) {
 Lets test it out!
 
 First, a numeric vector which should be fine.
-```{r  passes}
-statList <- summaryStats(runif(25,0,100))
+```{r  passes, echo = -1}
+set.seed(10)
+x <- runif(25,0,100)
+statList <- summaryStats(x)
 statList$mean # good!
 ```
 
 Now, a character vector which should fail.
 <div class="errormsg">
 ```{r  fails, error=TRUE}
-statList <- summaryStats(as.character(runif(25,0,100)))
+x <- as.character(runif(25,0,100))
+statList <- summaryStats(x)
 ```
 </div>
 
@@ -222,12 +228,12 @@ The console prompt `>` should change to read `Browse [x]>`, where x is some inte
 ![debugControls](../images/debugControls.png)
 The navigation controls & corresponding keyboard shortcuts are shown above, and explained below:
 
-1. Executes the very next line of code in the function 
-2. Executes the next function call and changes the current environment to that function
+1. "Next": Executes the very next line of code in the function 
+2. "Step: Executes the next function call and changes the current environment to that function
     - Allows you to follow the entire code path, not just code in your function
-3. Executes all code remaining in the function, or all remaining iterations of a loop
-4. Continue execution of all code normally (exits debugging mode)
-5. Exit debugging mode and halt all execution
+3. "Finish": Executes all code remaining in the function, or all remaining iterations of a loop
+4. "Continue": Continue execution of *all* code normally (exits debugging mode)
+5. "Quit: Exit debugging mode and halt all execution
 
 ## Interactive Debugging
 When you decide that you want `summaryStats` to execute normally and no longer run under debugging mode, use the `undebug` function:
