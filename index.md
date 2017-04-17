@@ -50,4 +50,7 @@ When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kb
 [ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| 3/27/17
 [Writing Functions](./labs/functions.html)| 4/3/17
 [Functional Programming: The apply functions](./labs/apply.html) | 4/10/17
+[Functional Programming: Higher-Order Functions and Closures](./labs/apply_part2.html) | 4/17/17
 
+<br>
+<br>

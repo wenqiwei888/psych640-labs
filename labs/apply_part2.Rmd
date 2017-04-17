@@ -5,17 +5,241 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(prompt=FALSE, cache = TRUE) 
 ```
 
 ## Last Time...
-We explored "First-Class" functions in R, and how having functions be "just another object" makes possible the `apply` family of functions (`lapply`, `sapply`, `vapply` and regular old `apply`).
+We explored "First-Class" functions in R, and how having functions be "just another object" makes the `apply` family of functions possible (`lapply`, `sapply`, `vapply` and regular old `apply`).
 
 Today, we're going to look at a few neat tricks that you need to have up your sleeve when doing functional-style programming in R.
 
-  - Working around R's "Synactic Sugar"
+  - "Purely Functional" programming without R's "Syntactic Sugar"
   - Higher-order functions: When imperative style just wont do
-  - Closures (aka functions, but with some data along for the ride)
+  - Closures (a.k.a. functions, but with some data along for the ride)
 
 ## R's Sytactic Sugar
-I briefly mentioned last the time, R is truly a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In "pure" functional languages, *everything* is done as a function call.  
+R is a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In "pure" functional languages, *everything* is done as a function call. 
+
+It may not look like it, but this is true in R as well. To quote John Chambers (the designer of the R language):
+
+> "To understand computations in R, two slogans are helpful: Everything that exists is an object. Everything that     happens is a function call."
+
+Allow me to demonstrate: What does the following code return?
+
+```{r eval=F}
+2*(-3)
+```
+
+## What? How? Why?
+We got two-thirds instead of 6 because of this particularly evil snippet of code.
+
+It redefines the `*` and `(` operators, places them in a new environment, and inserts that environment onto the search path before the `base` package, which has the real `*` and `(` operators!
+
+```{r evil, eval = FALSE}
+e <- new.env(parent = emptyenv())
+e$`*` <- function(x,y) {x/y}
+e$`(` <- function(x) -x
+suppressWarnings(attach(e))
+rm(e)
+```
+
+## Everything that happens is a function call
+This works precisely because the `*` and `(` operators are functions - they just have an atypical syntax that makes them more natural to use. But, we can always use them with "traditional" function syntax by back-quoting them (which disables their typical evaluation).  
+
+```{r}
+`*` # The * function 
+`*`(10,2)
+```
+
+This is true for all of R's "infix" operators: `+`, `-`, `/`, `<-`, `[`, `[[`, `!`, `==`, `%in%`, `%*%`, etc. They are all functions!
+
+## Using infix operations in functional programming
+Using infix operators in functional programming contexts can be quite useful. For example, if I had a list of vectors, and wanted to remove the first element in each vector, but still keep them in the list, I could do the following:
+
+```{r}
+x <- list(c(8, 3, 2),  # list of numeric vectors
+          c(4, 5, 2),
+          c(3, 10, 9))
+lapply(x ,`[`, -1) # -1 is passed as the argument to `[`
+```
+
+## Higher-Order Functions
+Higher-Order functions are functions that take other functions as arguments, and return a vector as output
+
+You've already seen R's most commonly used higher-order functions (`lapply` *et al.*),  but we'll look at three more general-purpose higher-order functions today: 
+
+- `Map()`
+- `do.call()`
+- `Reduce()`
+
+
+## Map
+`Map` is a close cousin of the `*apply` functions, and can be thought of as a "multivariate" apply function.
+
+Instead of providing each *individual* element of a *single* vector as an argument to a function, it provides *sets* of elements from *multiple* vectors as arguments to a function.
+
+## Map
+Last week, we saw that the following two expressions were equivalent:
+```{r}
+x <- lapply(c(8, 6), seq, from = 3)
+str(x)
+y <- list(seq(from=3, 8), # doing it "manually"
+          seq(from=3, 6))
+str(y)
+```
+
+But what if we wanted the `from` argument to vary between calls to seq? Say we wanted the sequence going to 8 to start at 3, but the sequence going to 6 to start at 1?
+
+## Map
+When you want multiple arguments to vary on each function call, that's a job for `Map`. All we have to do is provide a second vector that has the values we want to be used as the `from` arguments.
+
+```{r}
+x <- Map(seq,
+         from = c(3, 1),
+         to = c(8, 6))
+str(x)
+y <- list(seq(from=3, to=8),
+          seq(from=1, to=6))
+str(y)
+```
+
+## do.call
+The `do.call` function is useful when the values you want to use as arguments to a function are stored inside of a list. For example, the following two expressions are equivalent:
+
+```{r}
+x <- list(x = c(50, NA, 12, 89, 61), na.rm = TRUE)
+do.call(mean, x)
+mean(x$x, na.rm = x$na.rm)
+```
+
+This is commonly used together with functions that take a potentially unlimited number of arguments (e.g., `rbind` and `cbind`).
+
+## Reduce
+The `Reduce` function uses a binary function (i.e., a function that takes 2 arguments) to successively combine the elements of a vector or list. 
+
+In other words, it *reduces* a vector down from many values to a single value by repeatedly calling a function on pairs of values from that vector.
+
+The `Reduce` function has 2 key arguments:
+
+- `f`: The binary function
+- `x`: The vector or list whose elements will be passed to `f`
+
+## Reduce
+So if we had a vector with 4 elements (`x1`, `x2`, `x3`, and `x4`), and some function `f`, `Reduce` performs the following operation internally:
+
+```{r eval = FALSE}
+Reduce(f, c(x1, x2, x3, x4))
+# is the same as:
+f( f( f(x1, x2), x3), x4)
+```
+
+First, it calls `f` with `x1` and `x2` as arguments. 
+
+Then it uses the result from `f(x1, x2)` as the first argument to `f`, along with `x3` as the second argument.
+
+Finally, the result of that operation is used as an argument to `f` again, along with `x4`, to find the final result.
+
+## Reduce
+For example, we could use the `Reduce` function to calculate a the sum of an entire numeric vector
+
+```{r Reduce}
+1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10
+Reduce(`+`, 1:10) # don't do this in real life, its quite slow
+sum(1:10)
+```
+
+A place where this function is quite useful in "real life" is joining together several data frames. Remember, the `*_join` functions from `dplyr` only join together 2 data frames, but what if you need to join together 3, or 4 or 5?
+
+Using `Reduce(left_join, list(df1, df2, df3, df4, df5))` is a lot better than writing out all 4 joins explicitly.
+
+## Closures
+A closure is a function that returns *another* function as its result. This name stems from the fact that all functions in R are said to be *enclosed* in an environment.
+
+The environment that encloses a function is the environment where it was defined. For example, if I executed the statement `f <- function(x) { x+1 }` in the console, then then function `f` would be enclosed in the global environment.
+
+```{r}
+f <- function() { x+1 }
+environment(f)
+```
+
+## Closures
+This relationship matters because R employs a method of matching variables (i.e., `x`) to values (i.e., `10`) known as *lexical scoping*. Lexical scoping means that if R can't find the value associated with a variable in the current environment, it looks in the enclosing environment.
+
+So if our function `f <- function() { x+1 }` is invoked, the variable `x` is not defined in the function's local environment, and so R will look in `f`'s enclosing environment for the value of `x`.
+
+<div class="errormsg">
+```{r, error=TRUE}
+f <- function() { x + 1 }
+f()
+```
+</div>
+
+```{r}
+x <- 10 # Define x in the global env
+f()
+```
+
+## Closures
+This relationship becomes more interesting if a function is defined inside another function. 
+
+Let's say we define function `g` inside the body of function `f`, and subsequently return the function object `g`. Then, function `g`'s enclosing environment is function `f`'s local "runtime" environment.
+
+```{r}
+f <- function() {
+  print(environment()) # Get memory address of local environment
+  g <- function() { x + 1}
+  return(g)
+}
+g_prime <- f()
+environment(g_prime)
+```
+
+## Closures
+This means that the function `g` can access and use any variables defined inside `f`'s environment.
+
+Who can predict what `g_prime()` will return?
+```{r add_one, eval=FALSE}
+f <- function(x) {
+  g <- function() { x + 1}
+  return(g)
+}
+g_prime <- f(10)
+g_prime()
+```
+
+## Closures
+Yes, `g_prime()` will return 11.
+
+```{r,ref.label="add_one"}
+```
+
+That's because the variable `x` was assigned a value of 10 inside `f`'s local execution environment by calling `f(10)`, and because `g` has access to variables defined in its enclosing environment.
+
+## Activity
+Execute the following statements, which will write several .csv's to a temp folder and create a vector called `filenames` which holds the full path to each file.
+```{r write, results='hide'}
+set.seed(1)
+tmp <- tempdir()
+sapply(1:10, function(x) {
+  write.csv(as.data.frame(matrix(rnorm(1000),100, 10,
+                                 dimnames = list(NULL, letters[1:10]))
+                          ),
+            file = file.path(tmp, paste0("FakeSubject", x, ".csv")),
+            row.names = FALSE)
+  })
+filenames <- list.files(path = tmp, pattern = "FakeSubject[0-9]+.csv",
+                        full.names = TRUE)
+```
+
+## Activity
+Combine the data in each csv into a single data frame. The catch: you may only use a single statement that must be 50 characters or less (not counting variable assignment).
+
+Bonus question:
+
+Which row in this data frame is the only row to have all observations less than 0?
+
+```{r solutions, include = FALSE, eval = FALSE}
+x <- do.call(rbind, lapply(filenames, read.csv))
+which(Reduce(`&`, lapply(x, `<`, 0)))
+which(t(apply(x, 1, function(y) all(y<0))))
+```

@@ -327,28 +327,11 @@ data <- matrix(c(5,1,10,11,8,3), ncol = 2)
 apply(data, MARGIN = 2, FUN = mean)
 ```
 
-## Activities 
-
-1. Using `sapply`, find the median value of the `time` and `netTime` variables in the `marathon` data frame, as both a list, and a vector.
-2. Find the minimum and maximum value value in each column of the matrix `x`.
-3. Execute the following expressions, which will write several .csv's to a temp folder.
-```{r write, results='hide'}
-tmp <- tempdir()
-sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
-                file = file.path(tmp, paste0("FakeSubject", x, ".csv")),
-                row.names = FALSE))
-filenames <- list.files(path = tmp, pattern = "FakeSubject[0-9]+.csv",
-                        full.names = TRUE)
-```
-
-Given the vector `filenames`, read each csv into R and take the mean of each variable `A` and `B` using only `read.csv`, `*apply` functions, and any anonymous functions you write.
+## Activity
+Find the median value of each variable in the `mtcars` dataset. What data structure do you think is most appropriate for holding the results?
 
 ```{r solutions, include = FALSE, eval = FALSE}
-library(magrittr)
-sapply(marathon[,1:2], median, simplify = TRUE)
-sapply(marathon[,1:2], median, simplify = FALSE)
-apply(x, 2, function(x) c(min(x), max(x)))
-lapply(filenames, read.csv) %>% sapply(colMeans)
+lapply(mtcars, median)
 ```
 
 

@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-04-10" />
+  <meta name="date" content="2017-04-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-04-10</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-17</p>
           </hgroup>
   </slide>
 
@@ -532,22 +532,9 @@ apply(data, MARGIN = 2, FUN = mean)</pre>
 
 <pre >## [1] 5.333333 7.333333</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
-<ol>
-<li>Using <code>sapply</code>, find the median value of the <code>time</code> and <code>netTime</code> variables in the <code>marathon</code> data frame, as both a list, and a vector.</li>
-<li>Find the minimum and maximum value value in each column of the matrix <code>x</code>.</li>
-<li>Execute the following expressions, which will write several .csv&#39;s to a temp folder.</li>
-</ol>
-
-<pre class = 'prettyprint lang-r'>tmp &lt;- tempdir()
-sapply(1:10, function(x) write.csv(data.frame(A=rnorm(10), B=rbeta(10,5,9)),
-                file = file.path(tmp, paste0(&quot;FakeSubject&quot;, x, &quot;.csv&quot;)),
-                row.names = FALSE))
-filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
-                        full.names = TRUE)</pre>
-
-<p>Given the vector <code>filenames</code>, read each csv into R and take the mean of each variable <code>A</code> and <code>B</code> using only <code>read.csv</code>, <code>*apply</code> functions, and any anonymous functions you write.</p>
+<p>Find the median value of each variable in the <code>mtcars</code> dataset. What data structure do you think is most appropriate for holding the results?</p>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
 

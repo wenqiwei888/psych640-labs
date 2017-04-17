@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-09-18" />
+  <meta name="date" content="2017-04-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -75,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -89,38 +95,305 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-17</p>
           </hgroup>
   </slide>
 
 <slide class=''><hgroup><h2>Last Time&#8230;</h2></hgroup><article  id="last-time...">
 
-<p>We explored &quot;First-Class&quot; functions in R, and how having functions be &quot;just another object&quot; makes possible the <code>apply</code> family of functions (<code>lapply</code>, <code>sapply</code>, <code>vapply</code> and regular old <code>apply</code>).</p>
+<p>We explored &quot;First-Class&quot; functions in R, and how having functions be &quot;just another object&quot; makes the <code>apply</code> family of functions possible (<code>lapply</code>, <code>sapply</code>, <code>vapply</code> and regular old <code>apply</code>).</p>
 
 <p>Today, we&#39;re going to look at a few neat tricks that you need to have up your sleeve when doing functional-style programming in R.</p>
 
 <ul>
-<li>Working around R&#39;s &quot;Synactic Sugar&quot;</li>
+<li>&quot;Purely Functional&quot; programming without R&#39;s &quot;Syntactic Sugar&quot;</li>
 <li>Higher-order functions: When imperative style just wont do</li>
-<li>Closures (aka functions, but with some data along for the ride)</li>
+<li>Closures (a.k.a. functions, but with some data along for the ride)</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>R&#39;s Sytactic Sugar</h2></hgroup><article  id="rs-sytactic-sugar">
 
-<p>I briefly mentioned last the time, R is truly a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In &quot;pure&quot; functional languages, <em>everything</em> is done as a function call.</p></article></slide>
+<p>R is a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In &quot;pure&quot; functional languages, <em>everything</em> is done as a function call.</p>
+
+<p>It may not look like it, but this is true in R as well. To quote John Chambers (the designer of the R language):</p>
+
+<blockquote>
+<p>&quot;To understand computations in R, two slogans are helpful: Everything that exists is an object. Everything that happens is a function call.&quot;</p>
+</blockquote>
+
+<p>Allow me to demonstrate: What does the following code return?</p>
+
+<pre class = 'prettyprint lang-r'>2*(-3)</pre>
+
+</article></slide><slide class=''><hgroup><h2>What? How? Why?</h2></hgroup><article  id="what-how-why">
+
+<p>We got two-thirds instead of 6 because of this particularly evil snippet of code.</p>
+
+<p>It redefines the <code>*</code> and <code>(</code> operators, places them in a new environment, and inserts that environment onto the search path before the <code>base</code> package, which has the real <code>*</code> and <code>(</code> operators!</p>
+
+<pre class = 'prettyprint lang-r'>e &lt;- new.env(parent = emptyenv())
+e$`*` &lt;- function(x,y) {x/y}
+e$`(` &lt;- function(x) -x
+suppressWarnings(attach(e))
+rm(e)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Everything that happens is a function call</h2></hgroup><article  id="everything-that-happens-is-a-function-call">
+
+<p>This works precisely because the <code>*</code> and <code>(</code> operators are functions - they just have an atypical syntax that makes them more natural to use. But, we can always use them with &quot;traditional&quot; function syntax by back-quoting them (which disables their typical evaluation).</p>
+
+<pre class = 'prettyprint lang-r'>`*` # The * function </pre>
+
+<pre >## function (e1, e2)  .Primitive(&quot;*&quot;)</pre>
+
+<pre class = 'prettyprint lang-r'>`*`(10,2)</pre>
+
+<pre >## [1] 20</pre>
+
+<p>This is true for all of R&#39;s &quot;infix&quot; operators: <code>+</code>, <code>-</code>, <code>/</code>, <code>&lt;-</code>, <code>[</code>, <code>[[</code>, <code>!</code>, <code>==</code>, <code>%in%</code>, <code>%*%</code>, etc. They are all functions!</p>
+
+</article></slide><slide class=''><hgroup><h2>Using infix operations in functional programming</h2></hgroup><article  id="using-infix-operations-in-functional-programming">
+
+<p>Using infix operators in functional programming contexts can be quite useful. For example, if I had a list of vectors, and wanted to remove the first element in each vector, but still keep them in the list, I could do the following:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- list(c(8, 3, 2),  # list of numeric vectors
+          c(4, 5, 2),
+          c(3, 10, 9))
+lapply(x ,`[`, -1) # -1 is passed as the argument to `[`</pre>
+
+<pre >## [[1]]
+## [1] 3 2
+## 
+## [[2]]
+## [1] 5 2
+## 
+## [[3]]
+## [1] 10  9</pre>
+
+</article></slide><slide class=''><hgroup><h2>Higher-Order Functions</h2></hgroup><article  id="higher-order-functions">
+
+<p>Higher-Order functions are functions that take other functions as arguments, and return a vector as output</p>
+
+<p>You&#39;ve already seen R&#39;s most commonly used higher-order functions (<code>lapply</code> <em>et al.</em>), but we&#39;ll look at three more general-purpose higher-order functions today:</p>
+
+<ul>
+<li><code>Map()</code></li>
+<li><code>do.call()</code></li>
+<li><code>Reduce()</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map">
+
+<p><code>Map</code> is a close cousin of the <code>*apply</code> functions, and can be thought of as a &quot;multivariate&quot; apply function.</p>
+
+<p>Instead of providing each <em>individual</em> element of a <em>single</em> vector as an argument to a function, it provides <em>sets</em> of elements from <em>multiple</em> vectors as arguments to a function.</p>
+
+</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map-1">
+
+<p>Last week, we saw that the following two expressions were equivalent:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- lapply(c(8, 6), seq, from = 3)
+str(x)</pre>
+
+<pre >## List of 2
+##  $ : int [1:6] 3 4 5 6 7 8
+##  $ : int [1:4] 3 4 5 6</pre>
+
+<pre class = 'prettyprint lang-r'>y &lt;- list(seq(from=3, 8), # doing it &quot;manually&quot;
+          seq(from=3, 6))
+str(y)</pre>
+
+<pre >## List of 2
+##  $ : int [1:6] 3 4 5 6 7 8
+##  $ : int [1:4] 3 4 5 6</pre>
+
+<p>But what if we wanted the <code>from</code> argument to vary between calls to seq? Say we wanted the sequence going to 8 to start at 3, but the sequence going to 6 to start at 1?</p>
+
+</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map-2">
+
+<p>When you want multiple arguments to vary on each function call, that&#39;s a job for <code>Map</code>. All we have to do is provide a second vector that has the values we want to be used as the <code>from</code> arguments.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- Map(seq,
+         from = c(3, 1),
+         to = c(8, 6))
+str(x)</pre>
+
+<pre >## List of 2
+##  $ : int [1:6] 3 4 5 6 7 8
+##  $ : int [1:6] 1 2 3 4 5 6</pre>
+
+<pre class = 'prettyprint lang-r'>y &lt;- list(seq(from=3, to=8),
+          seq(from=1, to=6))
+str(y)</pre>
+
+<pre >## List of 2
+##  $ : int [1:6] 3 4 5 6 7 8
+##  $ : int [1:6] 1 2 3 4 5 6</pre>
+
+</article></slide><slide class=''><hgroup><h2>do.call</h2></hgroup><article  id="do.call">
+
+<p>The <code>do.call</code> function is useful when the values you want to use as arguments to a function are stored inside of a list. For example, the following two expressions are equivalent:</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- list(x = c(50, NA, 12, 89, 61), na.rm = TRUE)
+do.call(mean, x)</pre>
+
+<pre >## [1] 53</pre>
+
+<pre class = 'prettyprint lang-r'>mean(x$x, na.rm = x$na.rm)</pre>
+
+<pre >## [1] 53</pre>
+
+<p>This is commonly used together with functions that take a potentially unlimited number of arguments (e.g., <code>rbind</code> and <code>cbind</code>).</p>
+
+</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce">
+
+<p>The <code>Reduce</code> function uses a binary function (i.e., a function that takes 2 arguments) to successively combine the elements of a vector or list.</p>
+
+<p>In other words, it <em>reduces</em> a vector down from many values to a single value by repeatedly calling a function on pairs of values from that vector.</p>
+
+<p>The <code>Reduce</code> function has 2 key arguments:</p>
+
+<ul>
+<li><code>f</code>: The binary function</li>
+<li><code>x</code>: The vector or list whose elements will be passed to <code>f</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-1">
+
+<p>So if we had a vector with 4 elements (<code>x1</code>, <code>x2</code>, <code>x3</code>, and <code>x4</code>), and some function <code>f</code>, <code>Reduce</code> performs the following operation internally:</p>
+
+<pre class = 'prettyprint lang-r'>Reduce(f, c(x1, x2, x3, x4))
+# is the same as:
+f( f( f(x1, x2), x3), x4)</pre>
+
+<p>First, it calls <code>f</code> with <code>x1</code> and <code>x2</code> as arguments.</p>
+
+<p>Then it uses the result from <code>f(x1, x2)</code> as the first argument to <code>f</code>, along with <code>x3</code> as the second argument.</p>
+
+<p>Finally, the result of that operation is used as an argument to <code>f</code> again, along with <code>x4</code>, to find the final result.</p>
+
+</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-2">
+
+<p>For example, we could use the <code>Reduce</code> function to calculate a the sum of an entire numeric vector</p>
+
+<pre class = 'prettyprint lang-r'>1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10</pre>
+
+<pre >## [1] 55</pre>
+
+<pre class = 'prettyprint lang-r'>Reduce(`+`, 1:10) # don&#39;t do this in real life, its quite slow</pre>
+
+<pre >## [1] 55</pre>
+
+<pre class = 'prettyprint lang-r'>sum(1:10)</pre>
+
+<pre >## [1] 55</pre>
+
+<p>A place where this function is quite useful in &quot;real life&quot; is joining together several data frames. Remember, the <code>*_join</code> functions from <code>dplyr</code> only join together 2 data frames, but what if you need to join together 3, or 4 or 5?</p>
+
+<p>Using <code>Reduce(left_join, list(df1, df2, df3, df4, df5))</code> is a lot better than writing out all 4 joins explicitly.</p>
+
+</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures">
+
+<p>A closure is a function that returns <em>another</em> function as its result. This name stems from the fact that all functions in R are said to be <em>enclosed</em> in an environment.</p>
+
+<p>The environment that encloses a function is the environment where it was defined. For example, if I executed the statement <code>f &lt;- function(x) { x+1 }</code> in the console, then then function <code>f</code> would be enclosed in the global environment.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function() { x+1 }
+environment(f)</pre>
+
+<pre >## &lt;environment: R_GlobalEnv&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-1">
+
+<p>This relationship matters because R employs a method of matching variables (i.e., <code>x</code>) to values (i.e., <code>10</code>) known as <em>lexical scoping</em>. Lexical scoping means that if R can&#39;t find the value associated with a variable in the current environment, it looks in the enclosing environment.</p>
+
+<p>So if our function <code>f &lt;- function() { x+1 }</code> is invoked, the variable <code>x</code> is not defined in the function&#39;s local environment, and so R will look in <code>f</code>&#39;s enclosing environment for the value of <code>x</code>.</p>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>f &lt;- function() { x + 1 }
+f()</pre>
+
+<pre >## Error in x + 1: non-numeric argument to binary operator</pre></div>
+
+<pre class = 'prettyprint lang-r'>x &lt;- 10 # Define x in the global env
+f()</pre>
+
+<pre >## [1] 11</pre>
+
+</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-2">
+
+<p>This relationship becomes more interesting if a function is defined inside another function.</p>
+
+<p>Let&#39;s say we define function <code>g</code> inside the body of function <code>f</code>, and subsequently return the function object <code>g</code>. Then, function <code>g</code>&#39;s enclosing environment is function <code>f</code>&#39;s local &quot;runtime&quot; environment.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function() {
+  print(environment()) # Get memory address of local environment
+  g &lt;- function() { x + 1}
+  return(g)
+}
+g_prime &lt;- f()</pre>
+
+<pre >## &lt;environment: 0x000000000a9c9450&gt;</pre>
+
+<pre class = 'prettyprint lang-r'>environment(g_prime)</pre>
+
+<pre >## &lt;environment: 0x000000000a9c9450&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-3">
+
+<p>This means that the function <code>g</code> can access and use any variables defined inside <code>f</code>&#39;s environment.</p>
+
+<p>Who can predict what <code>g_prime()</code> will return?</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(x) {
+  g &lt;- function() { x + 1}
+  return(g)
+}
+g_prime &lt;- f(10)
+g_prime()</pre>
+
+</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-4">
+
+<p>Yes, <code>g_prime()</code> will return 11.</p>
+
+<pre class = 'prettyprint lang-r'>f &lt;- function(x) {
+  g &lt;- function() { x + 1}
+  return(g)
+}
+g_prime &lt;- f(10)
+g_prime()</pre>
+
+<pre >## [1] 11</pre>
+
+<p>That&#39;s because the variable <code>x</code> was assigned a value of 10 inside <code>f</code>&#39;s local execution environment by calling <code>f(10)</code>, and because <code>g</code> has access to variables defined in its enclosing environment.</p>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Execute the following statements, which will write several .csv&#39;s to a temp folder and create a vector called <code>filenames</code> which holds the full path to each file.</p>
+
+<pre class = 'prettyprint lang-r'>set.seed(1)
+tmp &lt;- tempdir()
+sapply(1:10, function(x) {
+  write.csv(as.data.frame(matrix(rnorm(1000),100, 10,
+                                 dimnames = list(NULL, letters[1:10]))
+                          ),
+            file = file.path(tmp, paste0(&quot;FakeSubject&quot;, x, &quot;.csv&quot;)),
+            row.names = FALSE)
+  })
+filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
+                        full.names = TRUE)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+
+<p>Combine the data in each csv into a single data frame. The catch: you may only use a single statement that must be 50 characters or less (not counting variable assignment).</p>
+
+<p>Bonus question:</p>
+
+<p>Which row in this data frame is the only row to have all observations less than 0?</p></article></slide>
 
 
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->
