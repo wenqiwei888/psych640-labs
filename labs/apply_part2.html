@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-04-17" />
+  <meta name="date" content="2017-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-04-17</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-18</p>
           </hgroup>
   </slide>
 
@@ -113,7 +113,7 @@
 
 </article></slide><slide class=''><hgroup><h2>R&#39;s Sytactic Sugar</h2></hgroup><article  id="rs-sytactic-sugar">
 
-<p>R is a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In &quot;pure&quot; functional languages, <em>everything</em> is done as a function call.</p>
+<p>R is a functional programming language at its core, and functional programming languages are organized around (you guessed it) functions. In &quot;pure&quot; functional languages, <em>everything</em> is done as a function call.</p>
 
 <p>It may not look like it, but this is true in R as well. To quote John Chambers (the designer of the R language):</p>
 
@@ -127,14 +127,14 @@
 
 </article></slide><slide class=''><hgroup><h2>What? How? Why?</h2></hgroup><article  id="what-how-why">
 
-<p>We got two-thirds instead of 6 because of this particularly evil snippet of code.</p>
+<p>We got two-thirds instead of -6 because of this particularly evil snippet of code.</p>
 
 <p>It redefines the <code>*</code> and <code>(</code> operators, places them in a new environment, and inserts that environment onto the search path before the <code>base</code> package, which has the real <code>*</code> and <code>(</code> operators!</p>
 
 <pre class = 'prettyprint lang-r'>e &lt;- new.env(parent = emptyenv())
 e$`*` &lt;- function(x,y) {x/y}
 e$`(` &lt;- function(x) -x
-suppressWarnings(attach(e))
+suppressMessages(attach(e))
 rm(e)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Everything that happens is a function call</h2></hgroup><article  id="everything-that-happens-is-a-function-call">
@@ -332,11 +332,11 @@ f()</pre>
 }
 g_prime &lt;- f()</pre>
 
-<pre >## &lt;environment: 0x000000000a9c9450&gt;</pre>
+<pre >## &lt;environment: 0x0000000005c9d498&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>environment(g_prime)</pre>
 
-<pre >## &lt;environment: 0x000000000a9c9450&gt;</pre>
+<pre >## &lt;environment: 0x0000000005c9d498&gt;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-3">
 

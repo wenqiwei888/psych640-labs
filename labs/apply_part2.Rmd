@@ -18,7 +18,7 @@ Today, we're going to look at a few neat tricks that you need to have up your sl
   - Closures (a.k.a. functions, but with some data along for the ride)
 
 ## R's Sytactic Sugar
-R is a functional programming language are its core, and functional programming languages are organized around (you guessed it) functions. In "pure" functional languages, *everything* is done as a function call. 
+R is a functional programming language at its core, and functional programming languages are organized around (you guessed it) functions. In "pure" functional languages, *everything* is done as a function call. 
 
 It may not look like it, but this is true in R as well. To quote John Chambers (the designer of the R language):
 
@@ -31,7 +31,7 @@ Allow me to demonstrate: What does the following code return?
 ```
 
 ## What? How? Why?
-We got two-thirds instead of 6 because of this particularly evil snippet of code.
+We got two-thirds instead of -6 because of this particularly evil snippet of code.
 
 It redefines the `*` and `(` operators, places them in a new environment, and inserts that environment onto the search path before the `base` package, which has the real `*` and `(` operators!
 
@@ -39,7 +39,7 @@ It redefines the `*` and `(` operators, places them in a new environment, and in
 e <- new.env(parent = emptyenv())
 e$`*` <- function(x,y) {x/y}
 e$`(` <- function(x) -x
-suppressWarnings(attach(e))
+suppressMessages(attach(e))
 rm(e)
 ```
 
