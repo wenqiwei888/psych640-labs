@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Processing Basics</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2017-04-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Text Processing Basics',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-21</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Text Processing Basics</h2></hgroup><article  id="text-processing-basics">
+
+<p>R is primarily a numeric computing environment, but has a wide array of tools to process textual data as well.</p>
+
+<p>By textual data, I mean data stored in character vectors, e.g.,</p>
+
+<pre class = 'prettyprint lang-r'>c(&quot;I am textual data!&quot;)</pre>
+
+<p>The individual elements of character vectors are formally called <em>character constants</em> but are colloquially referred to to as <em>strings</em>.</p>
+
+<p>Today, we&#39;ll cover some basic functions for manipulating strings and character vectors, introduce tools to perform pattern matching with strings, and introduce the <code>stringr</code> package.</p>
+
+</article></slide><slide class=''><hgroup><h2>Elements vs. Characters</h2></hgroup><article  id="elements-vs.-characters">
+
+<p>There is an important distinction between the number of elements in a character vector, and the number of characters in a single string.</p>
+
+<p>For example, the character vector <code>c(&quot;I&quot;, &quot;Love&quot;, &quot;You&quot;)</code> has 3 elements (&quot;I&quot;,&quot;Love&quot;, and &quot;You&quot;), but its individual strings have 1, 4, and 3 characters, respectively.</p>
+
+<p>Use the <code>length()</code> function to determine the number of elements in a vector, and use the <code>nchar()</code> function to determine the number of characters in each string of the vector.</p>
+
+<pre class = 'prettyprint lang-r'>length(c(&quot;I&quot;, &quot;Love&quot;, &quot;You&quot;))</pre>
+
+<pre >## [1] 3</pre>
+
+<pre class = 'prettyprint lang-r'>nchar(c(&quot;I&quot;, &quot;Love&quot;, &quot;You&quot;))</pre>
+
+<pre >## [1] 1 4 3</pre>
+
+</article></slide><slide class=''><hgroup><h2>Changing Cases</h2></hgroup><article  id="changing-cases">
+
+<p>If you want to change <em>all</em> the characters in a vector to lower or uppercase characters, we can use the <code>tolower()</code> and <code>toupper()</code> functions.</p>
+
+<pre class = 'prettyprint lang-r'>tolower(&quot;Good MORNING!&quot;)</pre>
+
+<pre >## [1] &quot;good morning!&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>toupper(&quot;Good MORNING!&quot;)</pre>
+
+<pre >## [1] &quot;GOOD MORNING!&quot;</pre>
+
+<p>This is useful when you want to compare 2 vectors for equality, without the case of the letters getting in the way of the comparison.</p>
+
+<pre class = 'prettyprint lang-r'>tolower(&quot;SEND HELP!&quot;) == &quot;send help!&quot;</pre>
+
+<pre >## [1] TRUE</pre>
+
+</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors">
+
+<p>The <code>paste</code> function is used to combine two or more character vectors into one vector.</p>
+
+<pre class = 'prettyprint lang-r'>paste(&quot;You&#39;re&quot;, &quot;a&quot;, &quot;wizard&quot;, &quot;Harry&quot;, &quot;!&quot;)# 5 Individual strings, same as c() here</pre>
+
+<pre >## [1] &quot;You&#39;re a wizard Harry !&quot;</pre>
+
+<p>This function is quite useful when you have a string represented as a variable, and you would like to place together with other text (e.g., to make a sentence).</p>
+
+<pre class = 'prettyprint lang-r'>paste(&quot;The current date and time is: &quot;, date())</pre>
+
+<pre >## [1] &quot;The current date and time is:  Fri Apr 21 18:15:53 2017&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-1">
+
+<p>If the vectors have more than one element, and each vector has the same length, their elements will be pasted together pairwise.</p>
+
+<pre class = 'prettyprint lang-r'>paste(c(&quot;Good&quot;,&quot;Light&quot;,&quot;Right&quot;),
+      c(&quot;Bad&quot;, &quot;Dark&quot;, &quot;Wrong&quot;))</pre>
+
+<pre >## [1] &quot;Good Bad&quot;    &quot;Light Dark&quot;  &quot;Right Wrong&quot;</pre>
+
+<p>You can also choose a string that will separate the concatenated elements by using the <code>sep</code> argument (the default is a space).</p>
+
+<pre class = 'prettyprint lang-r'>paste(c(&quot;Good&quot;,&quot;Light&quot;,&quot;Right&quot;),
+      c(&quot;Bad&quot;, &quot;Dark&quot;, &quot;Wrong&quot;),
+      sep= &quot; vs. &quot;)</pre>
+
+<pre >## [1] &quot;Good vs. Bad&quot;    &quot;Light vs. Dark&quot;  &quot;Right vs. Wrong&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-2">
+
+<p>If the vectors have more than one element, but each vector <em>does not</em> have the same length, R will do some weird recycling of each vectors elements&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>paste(c(&quot;A&quot;,&quot;B&quot;),
+      c(&quot;C&quot;,&quot;D&quot;,&quot;E&quot;), 
+      c(&quot;V&quot;,&quot;W&quot;,&quot;X&quot;,&quot;Y&quot;,&quot;Z&quot;))</pre>
+
+<pre >## [1] &quot;A C V&quot; &quot;B D W&quot; &quot;A E X&quot; &quot;B C Y&quot; &quot;A D Z&quot;</pre>
+
+<p><code>c(&quot;A&quot;,&quot;B&quot;)</code> gets extended to <code>c(&quot;A&quot;,&quot;B&quot;,&quot;A&quot;,&quot;B&quot;,&quot;A&quot;)</code> and <code>c(&quot;C&quot;,&quot;D&quot;,&quot;E&quot;)</code> gets extended out to be <code>c(&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,&quot;C&quot;,&quot;D&quot;)</code>. This is probably not what you want, so be careful.</p>
+
+</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-3">
+
+<p><code>paste()</code> can also combine the many elements of a character vector into a single element, by supplying a value for the <code>collapse</code> argument.</p>
+
+<pre class = 'prettyprint lang-r'>paste(c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;), collapse = &quot; + &quot;)</pre>
+
+<pre >## [1] &quot;1 + 2 + 3&quot;</pre>
+
+<p>You can also use this together with multiple character vectors, but be careful, because the vectors elements are concatenated before the final product is collapsed!</p>
+
+<pre class = 'prettyprint lang-r'>paste(c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;), c(&quot;4&quot;,&quot;5&quot;,&quot;6&quot;),
+      collapse = &quot; + &quot;)</pre>
+
+<pre >## [1] &quot;1 4 + 2 5 + 3 6&quot;</pre>
+
+<p>&quot;1&quot; and &quot;4&quot;, &quot;2&quot; and &quot;5&quot;, and &quot;3&quot; and &quot;6&quot; are concatenated with a space, then &quot;1 4&quot;, &quot;2 5&quot; and &quot;3 6&quot; are collapsed with a &quot; + &quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart">
+
+<p>If we want to extract some of the characters within a string, and we know the specific <em>positions</em> of the characters within a string we want to extract (e.g., the first through the fifth characters), we can use the <code>substr()</code> function.</p>
+
+<p><code>substr()</code> has 3 arguments:</p>
+
+<ul>
+<li><code>x</code>: the vector whose elements should have some characters extracted</li>
+<li><code>start</code>: the <em>position</em> of the first character to be extracted in each element</li>
+<li><code>stop</code>: the <em>position</em> of the last character to be extracted in each element</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>substr(&quot;abcdefg&quot;, start=2, stop=4)</pre>
+
+<pre >## [1] &quot;bcd&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart-1">
+
+<p><code>substr</code> is a vectorized function, so we can extract sub-strings from each string in character vectors with more than 1 elements. You can also make <code>start</code> and <code>stop</code> the same value to extract just one character.</p>
+
+<pre class = 'prettyprint lang-r'>substr(c(&quot;Hit&quot;,&quot;Eye&quot;,&quot;Low&quot;,&quot;Lamb&quot;,&quot;Oval&quot;), start=1, stop=1)</pre>
+
+<pre >## [1] &quot;H&quot; &quot;E&quot; &quot;L&quot; &quot;L&quot; &quot;O&quot;</pre>
+
+<p>We can also extract <em>different</em> substrings from each element in the character vector by supplying longer vectors to <code>start</code> and <code>stop</code>.</p>
+
+<pre class = 'prettyprint lang-r'>substr(c(&quot;Pill&quot;,&quot;xzzy&quot;,&quot;haa!&quot;), start=c(1,2,3), stop=c(2,3,4))</pre>
+
+<pre >## [1] &quot;Pi&quot; &quot;zz&quot; &quot;a!&quot;</pre>
+
+<p>Here, we extract the first and second characters from &quot;Pill&quot;, the second and third characters from &quot;xzzy&quot;, and the third and fourth characters from &quot;haa!&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>Patern Matching</h2></hgroup><article  id="patern-matching">
+
+<p>What if you want to extract part of a string, but don&#39;t know for sure where the part you want will be located? Or what if you want to count the number of times a specific word occurs in some text, but the text isn&#39;t broken up by individual words already?</p>
+
+<p>If you know how to describe the <em>pattern</em> of text you&#39;re looking for, then you can use <em>regular expressions</em> to search for strings and substrings that match your pattern of interest.</p>
+
+<p>Regular expressions (or regexes, for short) are a double edged sword: they are extremely powerful and useful, but can easily <a href='https://thedailywtf.com/articles/The_Call_of_Codethulhu' title=''>summon Codethulu</a>. We&#39;ll just touch on some basics today, and leave the dangerous stuff for another class.</p>
+
+</article></slide><slide class=''><hgroup><h2>grep</h2></hgroup><article  id="grep">
+
+<p>R&#39;s <code>grep()</code> function (an acronym for &quot; <b>g</b>lobal <b>r</b>egular <b>e</b>xpression <b>p</b>rint&quot;) is commonly used to search for matches to a regular expression pattern within the elements of a character vector.</p>
+
+<p><code>grep()</code>has 2 required arguments:</p>
+
+<ol>
+<li><code>pattern</code>: A character string containing a regular expression</li>
+<li><code>x</code>: A character vector where matches to <code>pattern</code> are searched for</li>
+</ol>
+
+<p>By default, <code>grep()</code> returns the locations of the elements in the character vector that match the regex.</p>
+
+<p>But, we can have it return the actual character strings that were matched by setting the <code>value</code> argument to <code>TRUE</code>.</p>
+
+</article></slide><slide class=''><hgroup><h2>Literal Character Patterns</h2></hgroup><article  id="literal-character-patterns">
+
+<p>The simplest regular expressions include only literal characters, e.g., a, b, c, 1, 2, 3, etc.</p>
+
+<p>For example, the regex &quot;cat&quot; matches the strings, &quot;category&quot;, &quot;catnip&quot;, and &quot;concatenate&quot;, because the characters &quot;c&quot;, then &quot;a&quot;, then &quot;t&quot;, literally appear in each one.</p>
+
+<p>But, it wouldn&#39;t match &quot;cart&quot;, because the &quot;r&quot; interrupts the pattern.</p>
+
+<pre class = 'prettyprint lang-r'>grep(&quot;cat&quot;, c(&quot;category&quot;, &quot;catnip&quot;, &quot;concatenate&quot;, &quot;cart&quot;), value=TRUE)</pre>
+
+<pre >## [1] &quot;category&quot;    &quot;catnip&quot;      &quot;concatenate&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Character Classes</h2></hgroup><article  id="character-classes">
+
+<p>We can also specify a <em>set</em> of possible characters to match. If <em>any</em> of the characters in the set occur in the string, it is considered a match.</p>
+
+<p>These sets are called &quot;character classes&quot;, and are denoted by surrounding the characters you want to match with square brackets.</p>
+
+<p>So, if we wanted to find a match to a &quot;c&quot; <em>or</em> an &quot;a&quot;, <em>or</em> a &quot;t&quot; occurring <em>anywhere</em> in a string, we could use the regexes <code>[cat]</code>, or <code>[act]</code>, or <code>[tac]</code>, etc., order doesn&#39;t matter in a character class.</p>
+
+<pre class = 'prettyprint lang-r'>grep(&quot;[tac]&quot;, c(&quot;cat&quot;, &quot;dog&quot;, &quot;cart&quot;, &quot;bar&quot;), value=TRUE)</pre>
+
+<pre >## [1] &quot;cat&quot;  &quot;cart&quot; &quot;bar&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Ranges of Characters</h2></hgroup><article  id="ranges-of-characters">
+
+<p>If you want to specify a large range of characters for your set, the <code>-</code> symbol provides a convenient shorthand you can use to define <em>ranges</em> of characters.</p>
+
+<p>For example, if I wanted to match any of the characters &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, or &quot;6&quot;, I could type them all out, or use the following character ranges:</p>
+
+<pre class = 'prettyprint lang-r'>grep(&quot;[abcdefgh12345]&quot;,c(&quot;funky&quot;,&quot;town&quot;,&quot;is&quot;,&quot;#1&quot;),value=TRUE)</pre>
+
+<pre >## [1] &quot;funky&quot; &quot;#1&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>grep(&quot;[a-h1-6]&quot;,c(&quot;funky&quot;,&quot;town&quot;,&quot;is&quot;,&quot;#1&quot;),value=TRUE)</pre>
+
+<pre >## [1] &quot;funky&quot; &quot;#1&quot;</pre></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

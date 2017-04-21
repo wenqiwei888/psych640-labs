@@ -1,0 +1,178 @@
+---
+title: 'Text Processing Basics'
+author: "William Hopper"
+date: "`r Sys.Date()`"
+---
+
+## Text Processing Basics
+R is primarily a numeric computing environment, but  has a wide array of tools to process textual data as well.
+
+By textual data, I mean data stored in character vectors, e.g., 
+```r
+c("I am textual data!")
+```
+
+The individual elements of character vectors are formally called *character constants* but are colloquially referred to to as *strings*.
+
+Today, we'll cover some basic functions for manipulating strings and character vectors, introduce tools to perform pattern matching with strings, and introduce the `stringr` package.
+
+## Elements vs. Characters
+There is an important distinction between the number of elements in a character vector, and the number of characters in a single string.
+
+For example, the character vector `c("I", "Love", "You")` has 3 elements ("I","Love", and "You"), but its individual strings have 1, 4, and 3 characters, respectively.
+
+Use the `length()` function to determine the number of elements in a vector, and use the `nchar()` function to determine the number of characters in each string of the vector.
+
+```{r nchar}
+length(c("I", "Love", "You"))
+nchar(c("I", "Love", "You"))
+```
+
+## Changing Cases
+If you want to change *all* the characters in a vector to lower or uppercase characters, we can use the `tolower()` and `toupper()` functions.
+
+```{r}
+tolower("Good MORNING!")
+toupper("Good MORNING!")
+```
+
+This is useful when you want to compare 2 vectors for equality, without the case of the letters getting in the way of the comparison.
+
+```{r}
+tolower("SEND HELP!") == "send help!"
+```
+
+## Combining Character Vectors
+The `paste` function is used to combine two or more character vectors into one vector.
+
+```{r}
+paste("You're", "a", "wizard", "Harry", "!")# 5 Individual strings, same as c() here
+```
+
+This function is quite useful when you have a string represented as a variable, and you would like to place together with other text (e.g., to make a sentence).
+
+```{r}
+paste("The current date and time is: ", date())
+```
+
+## Combining Character Vectors
+If the vectors have more than one element, and each vector has the same length, their elements will be pasted together pairwise.
+
+```{r}
+paste(c("Good","Light","Right"),
+      c("Bad", "Dark", "Wrong"))
+```
+
+You can also choose a string that will separate the concatenated elements by using the `sep` argument (the default is a space).
+
+```{r}
+paste(c("Good","Light","Right"),
+      c("Bad", "Dark", "Wrong"),
+      sep= " vs. ")
+```
+
+## Combining Character Vectors
+If the vectors have more than one element, but each vector *does not* have the same length, R will do some weird recycling of each vectors elements...
+
+```{r}
+paste(c("A","B"),
+      c("C","D","E"), 
+      c("V","W","X","Y","Z"))
+```
+`c("A","B")` gets extended to `c("A","B","A","B","A")` and `c("C","D","E")` gets extended out to be `c("C","D","E","C","D")`. This is probably not what you want, so be careful.
+
+## Combining Character Vectors
+`paste()` can also combine the many elements of a character vector into a single element, by supplying a value for the `collapse` argument.
+
+```{r}
+paste(c("1","2","3"), collapse = " + ")
+```
+
+You can also use this together with multiple character vectors, but be careful, because the vectors elements are concatenated before the final product is collapsed!
+
+```{r}
+paste(c("1","2","3"), c("4","5","6"),
+      collapse = " + ")
+```
+
+"1" and "4", "2" and "5", and "3" and "6" are concatenated with a space, then "1 4", "2 5" and "3 6" are collapsed with a " + ".
+
+## Splitting vectors apart
+If we want to extract some of the characters within a string, and we know the specific *positions* of the characters within a string we want to extract (e.g., the first through the fifth characters), we can use the `substr()` function.
+
+`substr()` has 3 arguments:
+
+- `x`: the vector whose elements should have some characters extracted
+- `start`: the *position* of the first character to be extracted in each element
+- `stop`: the *position* of the last character to be extracted in each element
+
+```{r}
+substr("abcdefg", start=2, stop=4)
+```
+
+## Splitting vectors apart
+`substr` is a vectorized function, so we can extract sub-strings from each string in character vectors with more than 1 elements. You can also make `start` and `stop` the same value to extract just one character.
+
+```{r}
+substr(c("Hit","Eye","Low","Lamb","Oval"), start=1, stop=1)
+```
+We can also extract *different* substrings from each element in the character vector by supplying longer vectors to `start` and `stop`.
+
+```{r}
+substr(c("Pill","xzzy","haa!"), start=c(1,2,3), stop=c(2,3,4))
+```
+
+Here, we extract the first and second characters from "Pill", the second and third characters from "xzzy", and the third and fourth characters from "haa!".
+
+## Patern Matching
+What if you want to extract part of a string, but don't know for sure where the part you want will be located? Or what if you want to count the number of times a specific word occurs in some text, but the text isn't broken up by individual words already?
+
+If you know how to describe the *pattern* of text you're looking for, then you can use *regular expressions* to search for strings and substrings that match your pattern of interest.
+
+Regular expressions (or regexes, for short) are a double edged sword: they are extremely powerful and useful, but can easily [summon Codethulu](https://thedailywtf.com/articles/The_Call_of_Codethulhu). We'll just touch on some basics today, and leave the dangerous stuff for another class.
+
+## grep
+R's `grep()` function (an acronym for " <b>g</b>lobal <b>r</b>egular <b>e</b>xpression <b>p</b>rint") is commonly used to search for matches to a regular expression pattern within the elements of a character vector.
+
+`grep()`has 2 required arguments:
+
+1. `pattern`: A character string containing a regular expression
+2. `x`: A character vector where matches to `pattern` are searched for
+
+By default, `grep()` returns the locations of the elements in the character vector that match the regex. 
+
+But, we can have it return the actual character strings that were matched by setting the `value` argument to `TRUE`.
+
+## Literal Character Patterns
+The simplest regular expressions include only literal characters, e.g., a, b, c, 1, 2, 3, etc.
+
+For example, the regex "cat" matches the strings, "category", "catnip", and "concatenate", because the characters "c", then "a", then "t", literally appear in each one.
+
+But, it wouldn't match "cart", because the "r" interrupts the pattern.
+
+```{r}
+grep("cat", c("category", "catnip", "concatenate", "cart"), value=TRUE)
+```
+
+## Character Classes
+We can also specify a *set* of possible characters to match. If *any* of the characters in the set occur in the string, it is considered a match.
+
+These sets are called "character classes", and are denoted by surrounding the characters you want to match with square brackets.
+
+So, if we wanted to find a match to a "c" *or* an "a", *or* a "t" occurring *anywhere* in a string, we could use the regexes `[cat]`, or `[act]`, or `[tac]`, etc., order doesn't matter in a character class.
+
+```{r}
+grep("[tac]", c("cat", "dog", "cart", "bar"), value=TRUE)
+```
+
+## Ranges of Characters
+If you want to specify a large range of characters for your set, the `-` symbol provides a convenient shorthand you can use to define *ranges* of characters.
+
+For example, if I wanted to match any of the characters "a", "b", "c", "d", "e", "f", "g", "h", "1", "2", "3", "4", "5", or "6", I could type them all out, or use the following character ranges:
+
+```{r}
+grep("[abcdefgh12345]",c("funky","town","is","#1"),value=TRUE)
+grep("[a-h1-6]",c("funky","town","is","#1"),value=TRUE)
+
+```
+
