@@ -46,7 +46,7 @@ tolower("SEND HELP!") == "send help!"
 The `paste` function is used to combine two or more character vectors into one vector.
 
 ```{r}
-paste("You're", "a", "wizard", "Harry", "!")# 5 Individual strings, same as c() here
+paste("You're", "a", "wizard", "Harry", "!")# 5 Individual strings
 ```
 
 This function is quite useful when you have a string represented as a variable, and you would like to place together with other text (e.g., to make a sentence).
@@ -277,4 +277,16 @@ strsplit("1+2", "+") # empty match
 ```
 ```{r}
 strsplit("1+2", "\\+") # Probably what you wanted =)
+```
+
+## Activity
+Select the elements from the following character vectors have two or more "S" characters. How many "S" characters are there in each of those elements?
+
+```{r}
+x <- c("STSTSSST","STTTTT","SSSTSTT","S","SSSTTSSTT","TTTSTT")
+```
+
+```{r include=FALSE}
+y <- grep("SS+",x,value=TRUE)
+vapply(strsplit(y, ""), function(z) sum(z=="S"), integer(1))
 ```
