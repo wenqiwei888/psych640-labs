@@ -14,7 +14,7 @@ c("I am textual data!")
 
 The individual elements of character vectors are formally called *character constants* but are colloquially referred to to as *strings*.
 
-Today, we'll cover some basic functions for manipulating strings and character vectors, introduce tools to perform pattern matching with strings, and introduce the `stringr` package.
+Today, we'll cover some basic functions for manipulating strings and character vectors, including how to combine and split apart pieces of strings, search for strings that match a pattern,  and replace portions of strings with other characters.
 
 ## Elements vs. Characters
 There is an important distinction between the number of elements in a character vector, and the number of characters in a single string.
@@ -153,7 +153,12 @@ But, it wouldn't match "cart", because the "r" interrupts the pattern.
 ```{r}
 grep("cat", c("category", "catnip", "concatenate", "cart"), value=TRUE)
 ```
+`grepl` is a cousin of `grep`'s, which returns a logical vector indicating match or mismatch.
 
+
+```{r}
+grepl("cat", c("category", "catnip", "concatenate", "cart"))
+```
 ## Character Classes
 We can also specify a *set* of possible characters to match. If *any* of the characters in the set occur in the string, it is considered a match.
 
@@ -173,6 +178,103 @@ For example, if I wanted to match any of the characters "a", "b", "c", "d", "e",
 ```{r}
 grep("[abcdefgh12345]",c("funky","town","is","#1"),value=TRUE)
 grep("[a-h1-6]",c("funky","town","is","#1"),value=TRUE)
-
 ```
 
+## Replacing Characters
+We can use regular expressions to describe which characters in a string we would like to replace, and substitute in new characters using the `gsub()` function.
+
+`gsub()` takes 3 required arguments
+
+1. `pattern`: A regular expression
+2. `replacement`: The replacement string for any matches to the regular expression
+3. `x`: A character vector where matches to `pattern` are searched for
+
+If you want to remove the characters matching your regular expression, use an empty string (written `""`) for the `replacement` argument.
+
+## Replacing Characters
+Lets imagine that some of the elements in a character vector have variable amounts trailing or leading whitespace, and we want to remove it.
+
+```{r}
+text <- c("cat", "   cat", "cat      ") # 3 leading, 6 trailing spaces
+text
+```
+
+We could remove all space characters from the elements of the vector `text` with the following code:
+```{r}
+gsub(" ", "", text)
+```
+
+## Replacing Characters
+Now lets try the same task of stripping whitespace off the ends, but with a little more complex string:
+
+```{r}
+text <- c("   The quick brown fox jumped over the lazy dog    ")
+gsub(" ", "", text)
+```
+
+This is probably not what you wanted. The issue is that `gsub` doesn't discriminate between whitespace at the beginning and ends, or in the middle of the string - it replaces everything! 
+
+But, we can get around this by using *anchors*.
+
+## Anchoring
+There are two anchors in regular expressions: the `^` anchor, which anchors a pattern to the beginning of the string, and the `$` anchor, which anchors a pattern to the end of the string.
+
+Anchoring means that if the pattern doesn't begin at the start (or conclude at the end) of the string, it won't be matched. We can combine them with the `|`, which means match either one.
+
+```{r}
+gsub("^ ", "", text) # only replaces space at the beggining
+gsub(" $", "", text) # only replaces space at end beggining
+gsub("^ | $", "", text)
+```
+## Controlling Match Size
+But this time, `gsub` only removed 1 single space at the beginning and end. Huh?
+
+This is because only the very first space (or very last space) matched the pattern. Remember, we asked `gsub` to match spaces at the beginning (or end) of the string, and it did: The second and third spaces from the beginning, by definition, don't occur at the start, and so they weren't replaced!
+
+We can make the matching process "greedier" with repetition operators. There are 3 repetition operators in regexes:
+
+- `+` : Means "match preceding character *one or more times*"
+- `*` : Means "match preceding character *zero or more times*"
+- `?` : Means "match preceding character *zero or one times*"
+
+## Controlling Match Size
+In our case, we want to replace one or more whitespace characters, so we'll use the `+`.
+
+```{r}
+gsub("^ +| +$", "", text)
+```
+
+## Splitting Strings
+Finally, we'll look at how to split single strings into several pieces (while still retaining both pieces in our output).
+
+The R function for splitting strings into smaller pieces is `strsplit()`, which takes 2 required arguments:
+
+1. `x`: A character vector, each element of which is to be split into multiple pieces
+2. `split`: A regular expression which defines which patterns will divide the elements of `x` into smaller units.
+
+## Splitting Strings
+The most common use case for `strsplit` is splitting a string based on a literal character (otherwise known as splitting on a delimiter).
+
+```{r}
+strsplit(c('1,2','a,b,c,d'), ",")
+```
+Since `strsplit` has no way of knowing how many pieces a given string might be split up into, it always returns a list with as many elements as there are in `x`. The elements of the list it returns hold the split pieces.
+
+## Splitting Strings
+If empty matches are found to the pattern in `split`, (usually when `split` is `""`), `x` is split into single characters.
+
+```{r}
+strsplit('abcdefg', "")
+```
+
+## Splitting on Special Strings
+What happens if the delimiter you want to split on is a character that has special meaning in a regex, like `+` or `.` (which is a special character class the matches *any* character other than line breaks)?
+
+To make R's regular expression engine interpret those special characters as literal characters, you must prefix them with a double backslash (i.e., `"\\"`).
+
+```{r}
+strsplit("1+2", "+") # empty match
+```
+```{r}
+strsplit("1+2", "\\+") # Probably what you wanted =)
+```

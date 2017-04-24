@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-04-21" />
+  <meta name="date" content="2017-04-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-04-21</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-04-23</p>
           </hgroup>
   </slide>
 
@@ -109,7 +109,7 @@
 
 <p>The individual elements of character vectors are formally called <em>character constants</em> but are colloquially referred to to as <em>strings</em>.</p>
 
-<p>Today, we&#39;ll cover some basic functions for manipulating strings and character vectors, introduce tools to perform pattern matching with strings, and introduce the <code>stringr</code> package.</p>
+<p>Today, we&#39;ll cover some basic functions for manipulating strings and character vectors, including how to combine and split apart pieces of strings, search for strings that match a pattern, and replace portions of strings with other characters.</p>
 
 </article></slide><slide class=''><hgroup><h2>Elements vs. Characters</h2></hgroup><article  id="elements-vs.-characters">
 
@@ -157,7 +157,7 @@
 
 <pre class = 'prettyprint lang-r'>paste(&quot;The current date and time is: &quot;, date())</pre>
 
-<pre >## [1] &quot;The current date and time is:  Fri Apr 21 18:15:53 2017&quot;</pre>
+<pre >## [1] &quot;The current date and time is:  Sun Apr 23 22:45:09 2017&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-1">
 
@@ -272,6 +272,12 @@
 
 <pre >## [1] &quot;category&quot;    &quot;catnip&quot;      &quot;concatenate&quot;</pre>
 
+<p><code>grepl</code> is a cousin of <code>grep</code>&#39;s, which returns a logical vector indicating match or mismatch.</p>
+
+<pre class = 'prettyprint lang-r'>grepl(&quot;cat&quot;, c(&quot;category&quot;, &quot;catnip&quot;, &quot;concatenate&quot;, &quot;cart&quot;))</pre>
+
+<pre >## [1]  TRUE  TRUE  TRUE FALSE</pre>
+
 </article></slide><slide class=''><hgroup><h2>Character Classes</h2></hgroup><article  id="character-classes">
 
 <p>We can also specify a <em>set</em> of possible characters to match. If <em>any</em> of the characters in the set occur in the string, it is considered a match.</p>
@@ -296,7 +302,139 @@
 
 <pre class = 'prettyprint lang-r'>grep(&quot;[a-h1-6]&quot;,c(&quot;funky&quot;,&quot;town&quot;,&quot;is&quot;,&quot;#1&quot;),value=TRUE)</pre>
 
-<pre >## [1] &quot;funky&quot; &quot;#1&quot;</pre></article></slide>
+<pre >## [1] &quot;funky&quot; &quot;#1&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters">
+
+<p>We can use regular expressions to describe which characters in a string we would like to replace, and substitute in new characters using the <code>gsub()</code> function.</p>
+
+<p><code>gsub()</code> takes 3 required arguments</p>
+
+<ol>
+<li><code>pattern</code>: A regular expression</li>
+<li><code>replacement</code>: The replacement string for any matches to the regular expression</li>
+<li><code>x</code>: A character vector where matches to <code>pattern</code> are searched for</li>
+</ol>
+
+<p>If you want to remove the characters matching your regular expression, use an empty string (written <code>&quot;&quot;</code>) for the <code>replacement</code> argument.</p>
+
+</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-1">
+
+<p>Lets imagine that some of the elements in a character vector have variable amounts trailing or leading whitespace, and we want to remove it.</p>
+
+<pre class = 'prettyprint lang-r'>text &lt;- c(&quot;cat&quot;, &quot;   cat&quot;, &quot;cat      &quot;) # 3 leading, 6 trailing spaces
+text</pre>
+
+<pre >## [1] &quot;cat&quot;       &quot;   cat&quot;    &quot;cat      &quot;</pre>
+
+<p>We could remove all space characters from the elements of the vector <code>text</code> with the following code:</p>
+
+<pre class = 'prettyprint lang-r'>gsub(&quot; &quot;, &quot;&quot;, text)</pre>
+
+<pre >## [1] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-2">
+
+<p>Now lets try the same task of stripping whitespace off the ends, but with a little more complex string:</p>
+
+<pre class = 'prettyprint lang-r'>text &lt;- c(&quot;   The quick brown fox jumped over the lazy dog    &quot;)
+gsub(&quot; &quot;, &quot;&quot;, text)</pre>
+
+<pre >## [1] &quot;Thequickbrownfoxjumpedoverthelazydog&quot;</pre>
+
+<p>This is probably not what you wanted. The issue is that <code>gsub</code> doesn&#39;t discriminate between whitespace at the beginning and ends, or in the middle of the string - it replaces everything!</p>
+
+<p>But, we can get around this by using <em>anchors</em>.</p>
+
+</article></slide><slide class=''><hgroup><h2>Anchoring</h2></hgroup><article  id="anchoring">
+
+<p>There are two anchors in regular expressions: the <code>^</code> anchor, which anchors a pattern to the beginning of the string, and the <code>$</code> anchor, which anchors a pattern to the end of the string.</p>
+
+<p>Anchoring means that if the pattern doesn&#39;t begin at the start (or conclude at the end) of the string, it won&#39;t be matched. We can combine them with the <code>|</code>, which means match either one.</p>
+
+<pre class = 'prettyprint lang-r'>gsub(&quot;^ &quot;, &quot;&quot;, text) # only replaces space at the beggining</pre>
+
+<pre >## [1] &quot;  The quick brown fox jumped over the lazy dog    &quot;</pre>
+
+<pre class = 'prettyprint lang-r'>gsub(&quot; $&quot;, &quot;&quot;, text) # only replaces space at end beggining</pre>
+
+<pre >## [1] &quot;   The quick brown fox jumped over the lazy dog   &quot;</pre>
+
+<pre class = 'prettyprint lang-r'>gsub(&quot;^ | $&quot;, &quot;&quot;, text)</pre>
+
+<pre >## [1] &quot;  The quick brown fox jumped over the lazy dog   &quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size">
+
+<p>But this time, <code>gsub</code> only removed 1 single space at the beginning and end. Huh?</p>
+
+<p>This is because only the very first space (or very last space) matched the pattern. Remember, we asked <code>gsub</code> to match spaces at the beginning (or end) of the string, and it did: The second and third spaces from the beginning, by definition, don&#39;t occur at the start, and so they weren&#39;t replaced!</p>
+
+<p>We can make the matching process &quot;greedier&quot; with repetition operators. There are 3 repetition operators in regexes:</p>
+
+<ul>
+<li><code>+</code> : Means &quot;match preceding character <em>one or more times</em>&quot;</li>
+<li><code>*</code> : Means &quot;match preceding character <em>zero or more times</em>&quot;</li>
+<li><code>?</code> : Means &quot;match preceding character <em>zero or one times</em>&quot;</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size-1">
+
+<p>In our case, we want to replace one or more whitespace characters, so we&#39;ll use the <code>+</code>.</p>
+
+<pre class = 'prettyprint lang-r'>gsub(&quot;^ +| +$&quot;, &quot;&quot;, text)</pre>
+
+<pre >## [1] &quot;The quick brown fox jumped over the lazy dog&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings">
+
+<p>Finally, we&#39;ll look at how to split single strings into several pieces (while still retaining both pieces in our output).</p>
+
+<p>The R function for splitting strings into smaller pieces is <code>strsplit()</code>, which takes 2 required arguments:</p>
+
+<ol>
+<li><code>x</code>: A character vector, each element of which is to be split into multiple pieces</li>
+<li><code>split</code>: A regular expression which defines which patterns will divide the elements of <code>x</code> into smaller units.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-1">
+
+<p>The most common use case for <code>strsplit</code> is splitting a string based on a literal character (otherwise known as splitting on a delimiter).</p>
+
+<pre class = 'prettyprint lang-r'>strsplit(c(&#39;1,2&#39;,&#39;a,b,c,d&#39;), &quot;,&quot;)</pre>
+
+<pre >## [[1]]
+## [1] &quot;1&quot; &quot;2&quot;
+## 
+## [[2]]
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot;</pre>
+
+<p>Since <code>strsplit</code> has no way of knowing how many pieces a given string might be split up into, it always returns a list with as many elements as there are in <code>x</code>. The elements of the list it returns hold the split pieces.</p>
+
+</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-2">
+
+<p>If empty matches are found to the pattern in <code>split</code>, (usually when <code>split</code> is <code>&quot;&quot;</code>), <code>x</code> is split into single characters.</p>
+
+<pre class = 'prettyprint lang-r'>strsplit(&#39;abcdefg&#39;, &quot;&quot;)</pre>
+
+<pre >## [[1]]
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Splitting on Special Strings</h2></hgroup><article  id="splitting-on-special-strings">
+
+<p>What happens if the delimiter you want to split on is a character that has special meaning in a regex, like <code>+</code> or <code>.</code> (which is a special character class the matches <em>any</em> character other than line breaks)?</p>
+
+<p>To make R&#39;s regular expression engine interpret those special characters as literal characters, you must prefix them with a double backslash (i.e., <code>&quot;\\&quot;</code>).</p>
+
+<pre class = 'prettyprint lang-r'>strsplit(&quot;1+2&quot;, &quot;+&quot;) # empty match</pre>
+
+<pre >## [[1]]
+## [1] &quot;1&quot; &quot;+&quot; &quot;2&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>strsplit(&quot;1+2&quot;, &quot;\\+&quot;) # Probably what you wanted =)</pre>
+
+<pre >## [[1]]
+## [1] &quot;1&quot; &quot;2&quot;</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
