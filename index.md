@@ -18,7 +18,7 @@ table {
 
 Here you  will find live versions of the slides from the lab section of Psych 640/641 Graduate Statistics course with [Andrew Cohen](http://people.umass.edu/alc/) and [Will Hopper](http://people.umass.edu/whopper/).
 
-When viewing the slides, press the <kbd>f</kbd> key for full screen, and the <kbd>w</kbd> key for widescreen.
+When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, and the <kbd>w</kbd> key to toggle widescreen mode.
 
 ### Fall Semester (640)
 
