@@ -66,7 +66,7 @@ We'll start creating this data frame by grouping the iris dataset by the `Specie
 ```{r sepal_summary}
 library(dplyr)
 iris_means <- iris %>% group_by(Species) %>% summarise_all("mean")
-pander(iris_means, split.table = Inf)
+pander(as.data.frame(iris_means), split.table = Inf)
 ```
 
 ## Layer-specific data
@@ -178,7 +178,7 @@ iris_means <- iris_long %>%
 
 ## Petal/Sepal Averages
 ```{r averages, echo = FALSE}
-pander(iris_means, split.table = Inf)
+pander(as.data.frame(iris_means), split.table = Inf)
 ```
 
 ## Plotting the averages
@@ -275,6 +275,7 @@ preds <- as.data.frame(Orange) %>%
   do(model = lm(circumference ~ age, data = .)) %>%
   mutate(model = list(predict(model, points)),
          age = list(points$age)) %>%
+  ungroup() %>%
   tidyr::unnest() %>%
   rename(circumference = model)
 
