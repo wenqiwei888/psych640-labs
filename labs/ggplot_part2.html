@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-03-27" />
+  <meta name="date" content="2017-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-03-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
           </hgroup>
   </slide>
 
@@ -219,7 +219,7 @@ print(p)</pre>
 
 <pre class = 'prettyprint lang-r'>library(dplyr)
 iris_means &lt;- iris %&gt;% group_by(Species) %&gt;% summarise_all(&quot;mean&quot;)
-pander(iris_means, split.table = Inf)</pre>
+pander(as.data.frame(iris_means), split.table = Inf)</pre>
 
 <table class = 'rmdtable'>
 <col width="15%" />
@@ -244,8 +244,8 @@ pander(iris_means, split.table = Inf)</pre>
 <tr class="even">
 <td align="center">versicolor</td>
 <td align="center">5.936</td>
-<td align="center">2.770</td>
-<td align="center">4.260</td>
+<td align="center">2.77</td>
+<td align="center">4.26</td>
 <td align="center">1.326</td>
 </tr>
 <tr class="odd">
@@ -472,15 +472,15 @@ p + facet_grid( ~ Structure)</pre>
 </article></slide><slide class=''><hgroup><h2>Petal/Sepal Averages</h2></hgroup><article  id="petalsepal-averages">
 
 <table class = 'rmdtable'>
-<col width="12%" />
-<col width="13%" />
-<col width="13%" />
-<col width="6%" />
-<col width="11%" />
-<col width="4%" />
-<col width="12%" />
-<col width="11%" />
-<col width="11%" />
+<col width="14%" />
+<col width="15%" />
+<col width="15%" />
+<col width="7%" />
+<col width="9%" />
+<col width="5%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
 <tr class="header">
 <th align="center">Species</th>
 <th align="center">Structure</th>
@@ -497,132 +497,132 @@ p + facet_grid( ~ Structure)</pre>
 <td align="center">Petal</td>
 <td align="center">Length</td>
 <td align="center">1.462</td>
-<td align="center">0.1736640</td>
+<td align="center">0.1737</td>
 <td align="center">50</td>
-<td align="center">0.02455980</td>
-<td align="center">1.4126452</td>
-<td align="center">1.5113548</td>
+<td align="center">0.02456</td>
+<td align="center">1.413</td>
+<td align="center">1.511</td>
 </tr>
 <tr class="even">
 <td align="center">setosa</td>
 <td align="center">Petal</td>
 <td align="center">Width</td>
 <td align="center">0.246</td>
-<td align="center">0.1053856</td>
+<td align="center">0.1054</td>
 <td align="center">50</td>
-<td align="center">0.01490377</td>
-<td align="center">0.2160497</td>
-<td align="center">0.2759503</td>
+<td align="center">0.0149</td>
+<td align="center">0.216</td>
+<td align="center">0.276</td>
 </tr>
 <tr class="odd">
 <td align="center">setosa</td>
 <td align="center">Sepal</td>
 <td align="center">Length</td>
 <td align="center">5.006</td>
-<td align="center">0.3524897</td>
+<td align="center">0.3525</td>
 <td align="center">50</td>
-<td align="center">0.04984957</td>
-<td align="center">4.9058235</td>
-<td align="center">5.1061765</td>
+<td align="center">0.04985</td>
+<td align="center">4.906</td>
+<td align="center">5.106</td>
 </tr>
 <tr class="even">
 <td align="center">setosa</td>
 <td align="center">Sepal</td>
 <td align="center">Width</td>
 <td align="center">3.428</td>
-<td align="center">0.3790644</td>
+<td align="center">0.3791</td>
 <td align="center">50</td>
-<td align="center">0.05360780</td>
-<td align="center">3.3202711</td>
-<td align="center">3.5357289</td>
+<td align="center">0.05361</td>
+<td align="center">3.32</td>
+<td align="center">3.536</td>
 </tr>
 <tr class="odd">
 <td align="center">versicolor</td>
 <td align="center">Petal</td>
 <td align="center">Length</td>
-<td align="center">4.260</td>
-<td align="center">0.4699110</td>
+<td align="center">4.26</td>
+<td align="center">0.4699</td>
 <td align="center">50</td>
-<td align="center">0.06645545</td>
-<td align="center">4.1264528</td>
-<td align="center">4.3935472</td>
+<td align="center">0.06646</td>
+<td align="center">4.126</td>
+<td align="center">4.394</td>
 </tr>
 <tr class="even">
 <td align="center">versicolor</td>
 <td align="center">Petal</td>
 <td align="center">Width</td>
 <td align="center">1.326</td>
-<td align="center">0.1977527</td>
+<td align="center">0.1978</td>
 <td align="center">50</td>
-<td align="center">0.02796645</td>
-<td align="center">1.2697993</td>
-<td align="center">1.3822007</td>
+<td align="center">0.02797</td>
+<td align="center">1.27</td>
+<td align="center">1.382</td>
 </tr>
 <tr class="odd">
 <td align="center">versicolor</td>
 <td align="center">Sepal</td>
 <td align="center">Length</td>
 <td align="center">5.936</td>
-<td align="center">0.5161711</td>
+<td align="center">0.5162</td>
 <td align="center">50</td>
-<td align="center">0.07299762</td>
-<td align="center">5.7893058</td>
-<td align="center">6.0826942</td>
+<td align="center">0.073</td>
+<td align="center">5.789</td>
+<td align="center">6.083</td>
 </tr>
 <tr class="even">
 <td align="center">versicolor</td>
 <td align="center">Sepal</td>
 <td align="center">Width</td>
-<td align="center">2.770</td>
-<td align="center">0.3137983</td>
+<td align="center">2.77</td>
+<td align="center">0.3138</td>
 <td align="center">50</td>
-<td align="center">0.04437778</td>
-<td align="center">2.6808195</td>
-<td align="center">2.8591805</td>
+<td align="center">0.04438</td>
+<td align="center">2.681</td>
+<td align="center">2.859</td>
 </tr>
 <tr class="odd">
 <td align="center">virginica</td>
 <td align="center">Petal</td>
 <td align="center">Length</td>
 <td align="center">5.552</td>
-<td align="center">0.5518947</td>
+<td align="center">0.5519</td>
 <td align="center">50</td>
-<td align="center">0.07804970</td>
-<td align="center">5.3951533</td>
-<td align="center">5.7088467</td>
+<td align="center">0.07805</td>
+<td align="center">5.395</td>
+<td align="center">5.709</td>
 </tr>
 <tr class="even">
 <td align="center">virginica</td>
 <td align="center">Petal</td>
 <td align="center">Width</td>
 <td align="center">2.026</td>
-<td align="center">0.2746501</td>
+<td align="center">0.2747</td>
 <td align="center">50</td>
-<td align="center">0.03884138</td>
-<td align="center">1.9479453</td>
-<td align="center">2.1040547</td>
+<td align="center">0.03884</td>
+<td align="center">1.948</td>
+<td align="center">2.104</td>
 </tr>
 <tr class="odd">
 <td align="center">virginica</td>
 <td align="center">Sepal</td>
 <td align="center">Length</td>
 <td align="center">6.588</td>
-<td align="center">0.6358796</td>
+<td align="center">0.6359</td>
 <td align="center">50</td>
-<td align="center">0.08992695</td>
-<td align="center">6.4072850</td>
-<td align="center">6.7687150</td>
+<td align="center">0.08993</td>
+<td align="center">6.407</td>
+<td align="center">6.769</td>
 </tr>
 <tr class="even">
 <td align="center">virginica</td>
 <td align="center">Sepal</td>
 <td align="center">Width</td>
 <td align="center">2.974</td>
-<td align="center">0.3224966</td>
+<td align="center">0.3225</td>
 <td align="center">50</td>
-<td align="center">0.04560791</td>
-<td align="center">2.8823475</td>
-<td align="center">3.0656525</td>
+<td align="center">0.04561</td>
+<td align="center">2.882</td>
+<td align="center">3.066</td>
 </tr>
 </table>
 

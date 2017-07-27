@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-12-05" />
+  <meta name="date" content="2017-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,21 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+  <script src="lib/htmlwidgets-0.7/htmlwidgets.js"></script>
+  <script src="lib/viz-0.3/viz.js"></script>
+  <link href="lib/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+  <script src="lib/grViz-binding-0.8.4/grViz.js"></script>
 
   <style type="text/css">
 
@@ -77,10 +87,6 @@
 
   <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
-  <script src="lib/htmlwidgets-0.7/htmlwidgets.js"></script>
-  <script src="lib/viz-0.3/viz.js"></script>
-  <link href="lib/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-  <script src="lib/grViz-binding-0.8.4/grViz.js"></script>
 </head>
 
 <body style="opacity: 0">
@@ -93,7 +99,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-12-05</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
           </hgroup>
   </slide>
 
@@ -141,8 +147,8 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 </ul></li>
 </ul>
 
-<div id="htmlwidget-bdfe4b1ced94ad5f0891" style="width:720px;height:150px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bdfe4b1ced94ad5f0891">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b2df5f744f282a568e5e" style="width:720px;height:150px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b2df5f744f282a568e5e">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 </article></slide><slide class=''><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
 
@@ -199,23 +205,27 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
   expression_D 
 }</pre>
 
-<div id="htmlwidget-e0439af08e553134918e" style="width:720px;height:225px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e0439af08e553134918e">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c14d44564d10c0dc856a" style="width:720px;height:225px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c14d44564d10c0dc856a">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 <ul>
-<li>if <code>condition</code> is equal to <code>TRUE</code>, take the path through C</li>
-<li>otherwise, take the path through D</li>
+<li>If <code>condition</code> is equal to <code>TRUE</code>, take the path through C</li>
+<li>Otherwise, take the path through D</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else">
 
 <p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random integers is larger.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
-y &lt;- sample(1:50000,1)
+<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000</pre>
+
+<pre >## Warning in sample.int(length(x), size, replace, prob): &#39;.Random.seed&#39; is
+## not an integer vector but of type &#39;NULL&#39;, so ignored</pre>
+
+<pre class = 'prettyprint lang-r'>y &lt;- sample(1:50000,1)
 print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
-<pre >## [1] &quot;X is 39084, Y is 7372&quot;</pre>
+<pre >## [1] &quot;X is 33257, Y is 45001&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
@@ -223,7 +233,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
   print(&quot;X Wins!&quot;)
 }</pre>
 
-<pre >## [1] &quot;X Wins!&quot;</pre>
+<pre >## [1] &quot;Y Wins!&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-1">
 
@@ -233,7 +243,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 y &lt;- sample(1:50000,1)
 print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
-<pre >## [1] &quot;X is 13812, Y is 20218&quot;</pre>
+<pre >## [1] &quot;X is 18871, Y is 17777&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
@@ -243,7 +253,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
   print(&quot;zomg X equals Y!!&quot;)
 }</pre>
 
-<pre >## [1] &quot;Y Wins!&quot;</pre>
+<pre >## [1] &quot;X Wins!&quot;</pre>
 
 <p>We can have as many <code>else if</code> statements chained together as we want, but only one <code>else</code>.</p>
 
@@ -276,8 +286,8 @@ if (x &lt; 0) {
 
 <ul>
 <li><code>for</code> loops repeat your operations for an explicit number of repetitions</li>
-<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-77c20879d41d8c55d803" style="width:720px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-77c20879d41d8c55d803">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
+<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-58dc05b044e586cb2e47" style="width:720px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-58dc05b044e586cb2e47">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
@@ -529,7 +539,7 @@ while(r &lt; 3 &amp;&amp; r &gt; -3) {
 }
 print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
 
-<pre >## [1] &quot;Success only took 83 samples&quot;</pre>
+<pre >## [1] &quot;Success only took 124 samples&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
 
@@ -581,14 +591,6 @@ if (sd(x) &lt; 0) {
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

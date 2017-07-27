@@ -18,7 +18,11 @@ external.packages:
     Rcpp
     assertthat
     base64enc
+    bindr
+    bindrcpp
     bitops
+    brew
+    cellranger
     caTools
     colorfulVennPlot
     colorspace
@@ -31,6 +35,8 @@ external.packages:
     foreach
     formatR
     ggplot2
+    glue
+    gridExtra
     gridBase
     gtable
     gtools
@@ -52,21 +58,31 @@ external.packages:
     packrat
     pander
     pkgmaker
+    pkgconfig
+    plogr
     plyr
     readxl
     registry
+    rematch
     reshape2
+    rgexf
+    rlang
     rngtools
+    Rook
     rprojroot
     rstudioapi
     scales
+    stringdist
     stringi
     stringr
     tibble
     tidyr
+    viridis
+    viridisLite
     visNetwork
     wesanderson
     whoppeR
+    XML
     xtable
     yaml
 local.repos: ~/source

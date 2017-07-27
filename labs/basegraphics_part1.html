@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2016-11-07" />
+  <meta name="date" content="2017-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -46,6 +41,17 @@
             ]
     };
   </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
   <style type="text/css">
 
@@ -89,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2016-11-07</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
           </hgroup>
   </slide>
 
@@ -119,11 +125,11 @@
 
 <pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/pressure-1.png" width="720" /></p>
+<p><img src="basegraphics_part1_files/figure-html/pressure-1.png" width="720" /></p>
 
 </article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot-1" class="img-centered">
 
-<p><img src="lab7_basegraphics1_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
+<p><img src="basegraphics_part1_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
 
 <ul>
 <li>We can gather that as temperature goes up, vapor pressure goes up as well, but this isn&#39;t the world&#39;s prettiest graph. Lets go to the help page and see if we can tweak it to looks a little nicer
@@ -185,7 +191,7 @@
 <pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
      ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/changelabels-1.png" width="720" /></p>
+<p><img src="basegraphics_part1_files/figure-html/changelabels-1.png" width="720" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-2" class="img-centered">
 
@@ -200,7 +206,7 @@
 <pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab=&quot;Temperature (C)&quot;,
      ylab=&quot;Pressure&quot;, main=&quot;Vapor Pressure of Mercury&quot;,type=&quot;o&quot;)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/overplotting-1.png" width="720" /></p>
+<p><img src="basegraphics_part1_files/figure-html/overplotting-1.png" width="720" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot">
 
@@ -264,7 +270,7 @@
      bg = &quot;cyan&quot;, cex = 2, cex.main=2, cex.lab = 1.5, xlim = c(-100,500),
      ylim = c(0,1000))</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/allthingsmustchange-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="basegraphics_part1_files/figure-html/allthingsmustchange-1.png" width="720" style="display: block; margin: auto;" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
@@ -312,7 +318,7 @@
      main = &quot;Log and Exponential, Base 2&quot;,ylab= &quot;y&quot;,xlab=&quot;x&quot;)
 points(x=0:8, y = log2(0:8),col = &quot;red&quot;)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/logandexp-1.png" width="384" /></p>
+<p><img src="basegraphics_part1_files/figure-html/logandexp-1.png" width="384" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding lines</h2></hgroup><article  id="adding-lines" class="img-centered">
 
@@ -324,7 +330,7 @@ plot(x=x1,y=2^(x1), col=&quot;blue&quot;, xlim = c(0,8),ylim=c(0,16),ylab= &quot
      xlab=&quot;x&quot;, main = &quot;Log and Exponential, Base 2&quot;, type=&#39;l&#39;,lwd=2)
 lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/logandexp_line-1.png" width="336" /></p>
+<p><img src="basegraphics_part1_files/figure-html/logandexp_line-1.png" width="336" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding text</h2></hgroup><article  id="adding-text" class="img-centered">
 
@@ -333,7 +339,7 @@ lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
 <pre class = 'prettyprint lang-r'>lines(x=seq(0,8,.01),y=seq(0,8,.01), lty=2)
 text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/logandexp_identity-1.png" width="384" /></p>
+<p><img src="basegraphics_part1_files/figure-html/logandexp_identity-1.png" width="384" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Adding a legend</h2></hgroup><article  id="adding-a-legend" class="img-centered">
 
@@ -344,7 +350,7 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 <pre class = 'prettyprint lang-r'>legend(&quot;topright&quot;, legend = c(&quot;Exponential&quot;,&quot;Logarithmic&quot;),
        col=c(&quot;blue&quot;,&quot;red&quot;),lty=1, bty=&quot;n&quot;)</pre>
 
-<p><img src="lab7_basegraphics1_files/figure-html/logandexp_legend-1.png" width="384" /></p>
+<p><img src="basegraphics_part1_files/figure-html/logandexp_legend-1.png" width="384" /></p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
@@ -362,14 +368,6 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
 
 
 <!-- map slide visiblity events into shiny -->

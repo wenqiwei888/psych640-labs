@@ -10,15 +10,10 @@
 
 
 
-  <meta name="date" content="2017-02-13" />
+  <meta name="date" content="2017-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/fonts/fonts.css">
-
-  <link rel="stylesheet" media="all" href="lib/ioslides-13.5.1/theme/css/default.css">
-  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="lib/ioslides-13.5.1/theme/css/phone.css">
 
   <base target="_blank">
 
@@ -48,6 +43,17 @@
     };
   </script>
 
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
   <style type="text/css">
 
     b, strong {
@@ -76,7 +82,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
 
 </head>
 
@@ -90,7 +96,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-02-13</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
           </hgroup>
   </slide>
 
@@ -276,15 +282,20 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
   mutate(quintile = ntile(netTime, 5))
 select(marathon, gender:last, netTime, quintile)</pre>
 
-<pre >## Source: local data frame [14,969 x 5]
-## Groups: gender [2]
-## 
+<pre >## # A tibble: 14,969 x 5
+## # Groups:   gender [2]
 ##    gender           first        last netTime quintile
 ##    &lt;fctr&gt;          &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;    &lt;int&gt;
-## 1       F          Lineth   Chepkurui  53.533        1
-## 2       M        Ridouane    Harroufi  45.933        1
-## 3       F Belianesh Zemed       Gebre  53.917        1
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 rows ]
+##  1      F          Lineth   Chepkurui  53.533        1
+##  2      M        Ridouane    Harroufi  45.933        1
+##  3      F Belianesh Zemed       Gebre  53.917        1
+##  4      M          Feyisa       Liesa  45.967        1
+##  5      F           Teyba       Naser  53.967        1
+##  6      M           Silas        Sang  45.983        1
+##  7      M           Karim El Mabchour  46.000        1
+##  8      F           Abebu       Gelan  54.433        1
+##  9      M         Stephen    Chemlany  46.100        1
+## 10      F       Catherine     Ndereba  54.450        1
 ## # ... with 14,959 more rows</pre>
 
 </article></slide><slide class=''><hgroup><h2>The <code>percent_rank()</code> function</h2></hgroup><article  id="the-percent_rank-function">
@@ -295,17 +306,20 @@ select(marathon, gender:last, netTime, quintile)</pre>
   mutate(pBelow = percent_rank(netTime))
 select(marathon, gender:last, netTime, pBelow)</pre>
 
-<pre >## Source: local data frame [14,969 x 5]
-## Groups: gender [2]
-## 
+<pre >## # A tibble: 14,969 x 5
+## # Groups:   gender [2]
 ##    gender           first        last netTime       pBelow
 ##    &lt;fctr&gt;          &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;        &lt;dbl&gt;
-## 1       F          Lineth   Chepkurui  53.533 0.0000000000
-## 2       M        Ridouane    Harroufi  45.933 0.0000000000
-## 3       F Belianesh Zemed       Gebre  53.917 0.0001201779
-## 4       M          Feyisa       Liesa  45.967 0.0001504664
-## 5       F           Teyba       Naser  53.967 0.0002403557
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 5 rows ]
+##  1      F          Lineth   Chepkurui  53.533 0.0000000000
+##  2      M        Ridouane    Harroufi  45.933 0.0000000000
+##  3      F Belianesh Zemed       Gebre  53.917 0.0001201779
+##  4      M          Feyisa       Liesa  45.967 0.0001504664
+##  5      F           Teyba       Naser  53.967 0.0002403557
+##  6      M           Silas        Sang  45.983 0.0003009329
+##  7      M           Karim El Mabchour  46.000 0.0004513993
+##  8      F           Abebu       Gelan  54.433 0.0003605336
+##  9      M         Stephen    Chemlany  46.100 0.0006018658
+## 10      F       Catherine     Ndereba  54.450 0.0004807115
 ## # ... with 14,959 more rows</pre>
 
 </article></slide><slide class=''><hgroup><h2>The <code>lead()</code> function</h2></hgroup><article  id="the-lead-function">
@@ -345,13 +359,19 @@ select(marathon, gender:last, netTime, pBelow)</pre>
          lag_time = replace(lag_time, is.na(lag_time), 0))
 select(marathon, gender:last, netTime, lag_time)</pre>
 
-<pre >## # A tibble: 14,969 × 5
+<pre >## # A tibble: 14,969 x 5
 ##    gender        first        last netTime lag_time
 ##    &lt;fctr&gt;       &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       M     Ridouane    Harroufi  45.933    0.000
-## 2       M       Feyisa       Liesa  45.967    0.034
-## 3       M        Silas        Sang  45.983    0.016
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 rows ]
+##  1      M     Ridouane    Harroufi  45.933    0.000
+##  2      M       Feyisa       Liesa  45.967    0.034
+##  3      M        Silas        Sang  45.983    0.016
+##  4      M        Karim El Mabchour  46.000    0.017
+##  5      M      Stephen    Chemlany  46.100    0.100
+##  6      M Cosmas Koech     Kimuati  46.133    0.033
+##  7      M     Philemon       Terer  46.467    0.334
+##  8      M       Samuel     Ndereba  46.967    0.500
+##  9      M      Kiplimo     Kimutai  47.050    0.083
+## 10      M          Lee       Troop  47.717    0.667
 ## # ... with 14,959 more rows</pre>
 
 </article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates">
@@ -378,14 +398,19 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 <pre class = 'prettyprint lang-r'>marathon &lt;- marathon %&gt;% mutate(cumAvgNetTime = cummean(netTime))
 select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 
-<pre >## # A tibble: 14,969 × 5
+<pre >## # A tibble: 14,969 x 5
 ##    gender        first        last netTime cumAvgNetTime
 ##    &lt;fctr&gt;       &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;         &lt;dbl&gt;
-## 1       M     Ridouane    Harroufi  45.933      45.93300
-## 2       M       Feyisa       Liesa  45.967      45.95000
-## 3       M        Silas        Sang  45.983      45.96100
-## 4       M        Karim El Mabchour  46.000      45.97075
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 6 rows ]
+##  1      M     Ridouane    Harroufi  45.933      45.93300
+##  2      M       Feyisa       Liesa  45.967      45.95000
+##  3      M        Silas        Sang  45.983      45.96100
+##  4      M        Karim El Mabchour  46.000      45.97075
+##  5      M      Stephen    Chemlany  46.100      45.99660
+##  6      M Cosmas Koech     Kimuati  46.133      46.01933
+##  7      M     Philemon       Terer  46.467      46.08329
+##  8      M       Samuel     Ndereba  46.967      46.19375
+##  9      M      Kiplimo     Kimutai  47.050      46.28889
+## 10      M          Lee       Troop  47.717      46.43170
 ## # ... with 14,959 more rows</pre>
 
 </article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-2" class="img-centered">
@@ -417,7 +442,7 @@ marathon_lm</pre>
 <pre >## Source: local data frame [2 x 2]
 ## Groups: &lt;by row&gt;
 ## 
-## # A tibble: 2 × 2
+## # A tibble: 2 x 2
 ##   gender time_by_age
 ## * &lt;fctr&gt;      &lt;list&gt;
 ## 1      F    &lt;S3: lm&gt;
@@ -522,12 +547,19 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <pre class = 'prettyprint lang-r'>marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
 
-<pre >## # A tibble: 14,929 × 16
+<pre >## # A tibble: 14,929 x 16
 ##      age gender           first      last       city  state country    div
 ##    &lt;int&gt; &lt;fctr&gt;          &lt;fctr&gt;    &lt;fctr&gt;     &lt;fctr&gt; &lt;fctr&gt;  &lt;fctr&gt; &lt;fctr&gt;
-## 1     29      M             Sam   Blasiak  N Potomac     MD     USA  25-29
-## 2     21      F Belianesh Zemed     Gebre   Ethiopia     NR     ETH  20-24
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 8 rows ]
+##  1    29      M             Sam   Blasiak  N Potomac     MD     USA  25-29
+##  2    21      F Belianesh Zemed     Gebre   Ethiopia     NR     ETH  20-24
+##  3    22      F           Teyba     Naser   Ethiopia     NR     ETH  20-24
+##  4    24      M           Dylan     Keith  Arlington     VA     USA  20-24
+##  5    26      M          Carlos   Renjifo   Columbia     MD     USA  25-29
+##  6    25      M         Patrick    Murray Washington     DC     USA  25-29
+##  7    37      M           Randy McDermott Alexandria     VA     USA  35-39
+##  8    19      F           Abebu     Gelan   Ethiopia     NR     ETH    19-
+##  9    36      F       Catherine   Ndereba      Kenya     NR     KEN  35-39
+## 10    25      M            Dave    Miller   Leesburg     VA     USA  25-29
 ## # ... with 14,919 more rows, and 8 more variables: place &lt;int&gt;,
 ## #   time &lt;dbl&gt;, netTime &lt;dbl&gt;, waitTime &lt;dbl&gt;, quintile &lt;int&gt;,
 ## #   pBelow &lt;dbl&gt;, lag_time &lt;dbl&gt;, cumAvgNetTime &lt;dbl&gt;</pre>
@@ -560,9 +592,8 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 <pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
   mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
 
-<pre >## Source: local data frame [2 x 3]
-## Groups: gender [2]
-## 
+<pre >## # A tibble: 2 x 3
+## # Groups:   gender [2]
 ##   gender time_by_age   Rsquared
 ##   &lt;fctr&gt;      &lt;list&gt;      &lt;dbl&gt;
 ## 1      F    &lt;S3: lm&gt; 0.01764281
@@ -594,20 +625,12 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 </slides>
 
-<script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
-<script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
-<script src="lib/ioslides-13.5.1/js/hammer.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
-<script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
-
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
