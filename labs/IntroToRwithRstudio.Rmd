@@ -22,7 +22,7 @@ knitr::opts_chunk$set(prompt=TRUE, cache = TRUE)
 - Rstudio is like a workbench and toolbox, where R is like a hammer. 
     - It certainly is possible for you to use your hammer to build something *without* a workbench and toolbox
     - But it's nice to have the workbench to rest things on while you work, and to have the toolbox holding your nails right next to your hammer, etc. 
-- Download at https://www.rstudio.com/products/rstudio/download
+- Download at https://www.rstudio.com/products/rstudio/download#download
 
 ## The Rstudio IDE*
 
