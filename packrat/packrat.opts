@@ -8,6 +8,7 @@ external.packages:
     BH
     DBI
     DiagrammeR
+    downloader
     NMF
     R.matlab
     R.methodsS3
@@ -41,6 +42,7 @@ external.packages:
     gtable
     gtools
     highr
+    hms
     htmltools
     htmlwidgets
     igraph
@@ -61,7 +63,9 @@ external.packages:
     pkgconfig
     plogr
     plyr
+    purrr
     readxl
+    readr
     registry
     rematch
     reshape2
@@ -77,6 +81,7 @@ external.packages:
     stringr
     tibble
     tidyr
+    tidyselect
     viridis
     viridisLite
     visNetwork
