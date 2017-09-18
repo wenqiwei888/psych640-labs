@@ -18,15 +18,15 @@ knitr::opts_chunk$set(prompt=FALSE, cache = TRUE)
 
 - Just as in mathematics, the **integer** data type can only represent whole numbers
     + e.g. 6
-- The **double** data type is used to represent [rational numbers](https://en.wikipedia.org/wiki/Rational_number) with a fractional component.
+- The **double** data type is used to represent all [real numbers](https://en.wikipedia.org/wiki/Real_number) (e.g.,numbers with a fractional component).
     + e.g. 6.66666667
-- However, the **double** data type is not perfectly precise, and those with a long decimal component must be approximated.
+- However, the **double** data type is not perfectly precise, and numbers with a long decimal component must be approximated by the computer.
 - By default, R uses the **double** data type to represent the numbers you feed into it
-- I will often refer to doubles and integers together as "numeric" data types.
+- Doubles and integers together are referred to as the "numeric" data types.
 
 ## Character
 
-- The **character** data type is used for representing textual data
+- The **character** data type (sometimes referred to as the "string" data type) is used for representing textual data
 - To encode a string of text as character data in R, it must be wrapped in quotes (" " or ' ' are both acceptable)
 - Without the quotes, R will interpret the text as the name of an R object, and attempt to find that object and return its value. Missing quotes is a common source of "object not found" errors
 ```{r textdata_good}
@@ -76,7 +76,7 @@ typeof(FALSE)
 
 ## Data Structures {.dslist}
 
-Of course, it is helpful in a language focused on analyzing large data sets to have data structures capable of holding more than a single value.
+Of course, it is helpful in a language focused on analyzing data to have the ability to group multiple values together.
 
 Think of data structures in R as big containers used for grouping together many values. After storing your data in these containers, you can reuse it multiple places (e.g. create an R object to store it) or access different subsets of it by position or name.
 
@@ -95,6 +95,8 @@ In this course, we will primarily be working with 4 different types of data stru
 
 ## Vectors
 Vectors are 1 dimensional data structures which can hold numeric, logical, and character data.
+
+Data types may not be mixed in a matrix (e.g. you cannot have some elements be characters and other be numeric, etc.)
 
 The individual values held in the vector are referred to as *elements*, and vectors have a *length* equal to the number of elements it contains. 
 
@@ -138,17 +140,8 @@ vec2 * vec1
 ```
 So, the first element of `vec1` gets added to the first element of `vec2`, etc...
 
-## Summarizing Vectors
-Often it is useful to summarize a vector with a single number, and many common statistical operations in R are implemented as function that take vector input. 
-```{r summarising_vectors}
-mean(55:100) # can use : operator inline
-sd(55:100) # standard deviation
-sum(55:100) # I'll bet you can guess...
-```
-See more examples in Andrew's Chapter 2 R file.
-
 ## Inspecting Vectors 
-We can check what type of data our vectors hold with the `typeof` function, just like we did with single numbers
+We can check what type of data our vectors hold with the `typeof` function, just like we did with single values.
 ```{r typechecking}
 typeof(c(5.5,3.1,4))
 typeof(c(TRUE,TRUE,FALSE))
@@ -212,7 +205,7 @@ long %*% wide
 Try creating a matrix with 900 elements and 9 columns that contains only logical `TRUE`s. Confirm the dimensionality using R.
 
 ## Data Frames
-Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for data types to be stored in each column. 
+Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for different data types to be stored in each column.
 
 A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables. 
 

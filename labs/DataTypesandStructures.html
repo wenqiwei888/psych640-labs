@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2017-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-09-18</p>
           </hgroup>
   </slide>
 
@@ -118,20 +118,20 @@
 <ul>
 <li>e.g. 6</li>
 </ul></li>
-<li>The <strong>double</strong> data type is used to represent <a href='https://en.wikipedia.org/wiki/Rational_number' title=''>rational numbers</a> with a fractional component.
+<li>The <strong>double</strong> data type is used to represent all <a href='https://en.wikipedia.org/wiki/Real_number' title=''>real numbers</a> (e.g.,numbers with a fractional component).
 
 <ul>
 <li>e.g. 6.66666667</li>
 </ul></li>
-<li>However, the <strong>double</strong> data type is not perfectly precise, and those with a long decimal component must be approximated.</li>
+<li>However, the <strong>double</strong> data type is not perfectly precise, and numbers with a long decimal component must be approximated by the computer.</li>
 <li>By default, R uses the <strong>double</strong> data type to represent the numbers you feed into it</li>
-<li>I will often refer to doubles and integers together as &quot;numeric&quot; data types.</li>
+<li>Doubles and integers together are referred to as the &quot;numeric&quot; data types.</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Character</h2></hgroup><article  id="character">
 
 <ul>
-<li>The <strong>character</strong> data type is used for representing textual data</li>
+<li>The <strong>character</strong> data type (sometimes referred to as the &quot;string&quot; data type) is used for representing textual data</li>
 <li>To encode a string of text as character data in R, it must be wrapped in quotes (&quot; &quot; or &#39; &#39; are both acceptable)</li>
 <li>Without the quotes, R will interpret the text as the name of an R object, and attempt to find that object and return its value. Missing quotes is a common source of &quot;object not found&quot; errors</li>
 </ul>
@@ -200,7 +200,7 @@ a</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
 
-<p>Of course, it is helpful in a language focused on analyzing large data sets to have data structures capable of holding more than a single value.</p>
+<p>Of course, it is helpful in a language focused on analyzing data to have the ability to group multiple values together.</p>
 
 <p>Think of data structures in R as big containers used for grouping together many values. After storing your data in these containers, you can reuse it multiple places (e.g. create an R object to store it) or access different subsets of it by position or name.</p>
 
@@ -224,6 +224,8 @@ In this course, we will primarily be working with 4 different types of data stru
 </article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors">
 
 <p>Vectors are 1 dimensional data structures which can hold numeric, logical, and character data.</p>
+
+<p>Data types may not be mixed in a matrix (e.g. you cannot have some elements be characters and other be numeric, etc.)</p>
 
 <p>The individual values held in the vector are referred to as <em>elements</em>, and vectors have a <em>length</em> equal to the number of elements it contains.</p>
 
@@ -276,27 +278,9 @@ vec2 + vec1</pre>
 
 <p>So, the first element of <code>vec1</code> gets added to the first element of <code>vec2</code>, etc&#8230;</p>
 
-</article></slide><slide class=''><hgroup><h2>Summarizing Vectors</h2></hgroup><article  id="summarizing-vectors">
-
-<p>Often it is useful to summarize a vector with a single number, and many common statistical operations in R are implemented as function that take vector input.</p>
-
-<pre class = 'prettyprint lang-r'>mean(55:100) # can use : operator inline</pre>
-
-<pre >## [1] 77.5</pre>
-
-<pre class = 'prettyprint lang-r'>sd(55:100) # standard deviation</pre>
-
-<pre >## [1] 13.42262</pre>
-
-<pre class = 'prettyprint lang-r'>sum(55:100) # I&#39;ll bet you can guess...</pre>
-
-<pre >## [1] 3565</pre>
-
-<p>See more examples in Andrew&#39;s Chapter 2 R file.</p>
-
 </article></slide><slide class=''><hgroup><h2>Inspecting Vectors</h2></hgroup><article  id="inspecting-vectors">
 
-<p>We can check what type of data our vectors hold with the <code>typeof</code> function, just like we did with single numbers</p>
+<p>We can check what type of data our vectors hold with the <code>typeof</code> function, just like we did with single values.</p>
 
 <pre class = 'prettyprint lang-r'>typeof(c(5.5,3.1,4))</pre>
 
@@ -409,7 +393,7 @@ long</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
 
-<p>Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for data types to be stored in each column.</p>
+<p>Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for different data types to be stored in each column.</p>
 
 <p>A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables.</p>
 
