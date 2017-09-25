@@ -138,6 +138,17 @@ char_vector <- c("foo","bar","herp","derp")
 c(new_vector,c(1,2,3,4,5))
 ```
 
+## Names 
+After you create a vector, you can give the elements names, using the `names()` function, and a character vector.
+
+```{r named_Vec}
+new_vector
+names(new_vector) <- c("A","B","C","D")
+new_vector
+```
+
+This can be useful later when you want to pick out a few values from the larger vector (we'll talk more about this sort of thing in the next lab).
+
 ## Vector Tricks
 You can create a sequential numeric vector using the colon operator `:`, instead of typing out hundreds or thousands of values by hand.
 ```{r colon}
@@ -278,12 +289,6 @@ data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
 
 Recycling enables concise code, but can make for hard to spot bugs when you didn't intended for recycling to happen. Use this feature with care, and favor being explicit about your vector lengths when programming.
 
-## Activity
-Create a data frame that has:
-
-1. Rows for you and your neighbor(s)
-2. Columns to hold your first names, last names, birthday, and age.
-
 ## Lists
 Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn't impose any relationship between them. 
 
@@ -314,17 +319,7 @@ biglist
 str(biglist)
 ```
 
-## Exercises
-1. Make a list of length 3, where each element is a data structure with more than one element. Each element of the list must be named.
-2. report the details of this lists structure, and the structure of the objects it holds, using an R function. 
+## Activity
+Create a data frame that holds you and your neighbor(s) first name, last name, and age. Think about the appropriate variables your data frame should have to represent this information in a well-organized manner
 
-
-*Hint: reuse some of the data structures you've created in the previous exercises as your list elements. 
-
-## Advanced Extras 
-
-## Names 
-After you create a vector, you can give the elements names, using the `names()` function, and a character vector. This can be useful later when you want to pick out a few values from the larger vector.
-```{r named_Vec}
-names(new_vector) <- c("A","B","C","D")
-```
+Then, put this data frame in a list with a matrix. Report the details of this lists structure and the structure of the objects it holds, using an R function.

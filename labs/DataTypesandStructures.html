@@ -279,6 +279,22 @@ char_vector &lt;- c(&quot;foo&quot;,&quot;bar&quot;,&quot;herp&quot;,&quot;derp&
 
 <pre >## [1]  1 10 45 -1  1  2  3  4  5</pre>
 
+</article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
+
+<p>After you create a vector, you can give the elements names, using the <code>names()</code> function, and a character vector.</p>
+
+<pre class = 'prettyprint lang-r'>new_vector</pre>
+
+<pre >## [1]  1 10 45 -1</pre>
+
+<pre class = 'prettyprint lang-r'>names(new_vector) &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)
+new_vector</pre>
+
+<pre >##  A  B  C  D 
+##  1 10 45 -1</pre>
+
+<p>This can be useful later when you want to pick out a few values from the larger vector (we&#39;ll talk more about this sort of thing in the next lab).</p>
+
 </article></slide><slide class=''><hgroup><h2>Vector Tricks</h2></hgroup><article  id="vector-tricks">
 
 <p>You can create a sequential numeric vector using the colon operator <code>:</code>, instead of typing out hundreds or thousands of values by hand.</p>
@@ -481,15 +497,6 @@ df</pre>
 
 <p>Recycling enables concise code, but can make for hard to spot bugs when you didn&#39;t intended for recycling to happen. Use this feature with care, and favor being explicit about your vector lengths when programming.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
-
-<p>Create a data frame that has:</p>
-
-<ol>
-<li>Rows for you and your neighbor(s)</li>
-<li>Columns to hold your first names, last names, birthday, and age.</li>
-</ol>
-
 </article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
 
 <p>Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn&#39;t impose any relationship between them.</p>
@@ -531,25 +538,16 @@ biglist</pre>
 <pre class = 'prettyprint lang-r'>str(biglist)</pre>
 
 <pre >## List of 2
-##  $ first : num [1:4] 1 10 45 -1
-##  $ second: int [1:2, 1:3] 1 2 3 99 100 101</pre>
+##  $ first : int [1:6] -10 -11 -12 -13 -14 -15
+##  $ second:&#39;data.frame&#39;:  2 obs. of  2 variables:
+##   ..$ x: Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 2
+##   ..$ y: int [1:2] 1 2</pre>
 
-</article></slide><slide class=''><hgroup><h2>Exercises</h2></hgroup><article  id="exercises">
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
 
-<ol>
-<li>Make a list of length 3, where each element is a data structure with more than one element. Each element of the list must be named.</li>
-<li>report the details of this lists structure, and the structure of the objects it holds, using an R function.</li>
-</ol>
+<p>Create a data frame that holds you and your neighbor(s) first name, last name, and age. Think about the appropriate variables your data frame should have to represent this information in a well-organized manner</p>
 
-<p>*Hint: reuse some of the data structures you&#39;ve created in the previous exercises as your list elements.</p>
-
-</article></slide><slide class=''><hgroup><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
-
-</article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
-
-<p>After you create a vector, you can give the elements names, using the <code>names()</code> function, and a character vector. This can be useful later when you want to pick out a few values from the larger vector.</p>
-
-<pre class = 'prettyprint lang-r'>names(new_vector) &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)</pre></article></slide>
+<p>Then, put this data frame in a list with a matrix. Report the details of this lists structure and the structure of the objects it holds, using an R function.</p></article></slide>
 
 
   <slide class="backdrop"></slide>
