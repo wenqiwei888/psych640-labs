@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-09-18" />
+  <meta name="date" content="2017-09-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,14 +95,20 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-09-18</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-09-25</p>
           </hgroup>
   </slide>
 
 <slide class=''><hgroup><h2>What is a data type?</h2></hgroup><article  id="what-is-a-data-type">
 
 <ul>
-<li>A data type is defined by how your computer represents the data in memory and by the types of operations that can be performed on them.</li>
+<li>The data type of piece of information is defined by
+
+<ul>
+<li>how the information is represented in hardware (e.g., CPU, memory)</li>
+<li>the range of values it can take on</li>
+<li>the types of operations that can be performed with it in your software</li>
+</ul></li>
 <li>R uses many different data types, but the most important to learn are <strong>integer, double, character</strong>, and <strong>logical</strong>
 
 <ul>
@@ -198,6 +204,33 @@ a</pre>
 
 <pre >## [1] &quot;logical&quot;</pre>
 
+</article></slide><slide class=''><hgroup><h2>Coercion</h2></hgroup><article  id="coercion">
+
+<ul>
+<li>Values stored in one data type can often be changed to another data type. This transformation is called <em>coercion</em></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>as.double(&quot;4.2&quot;) + 1</pre>
+
+<pre >## [1] 5.2</pre>
+
+<ul>
+<li>Sometimes when an operation requires a specific data type, R will coerce things to the proper types for us.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>TRUE + 1 # coerce TRUE to integer and add</pre>
+
+<pre >## [1] 2</pre>
+
+<ul>
+<li>But things can&#39;t always be magically perfect</li>
+</ul>
+
+<div class="errormsg">
+<pre class = 'prettyprint lang-r'>&quot;TRUE&quot; + 1</pre>
+
+<pre >## Error in &quot;TRUE&quot; + 1: non-numeric argument to binary operator</pre></div>
+
 </article></slide><slide class=''><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
 
 <p>Of course, it is helpful in a language focused on analyzing data to have the ability to group multiple values together.</p>
@@ -225,7 +258,7 @@ In this course, we will primarily be working with 4 different types of data stru
 
 <p>Vectors are 1 dimensional data structures which can hold numeric, logical, and character data.</p>
 
-<p>Data types may not be mixed in a matrix (e.g. you cannot have some elements be characters and other be numeric, etc.)</p>
+<p>Data types may not be mixed in a vector (e.g. you cannot have some elements be characters and other be integers)</p>
 
 <p>The individual values held in the vector are referred to as <em>elements</em>, and vectors have a <em>length</em> equal to the number of elements it contains.</p>
 
@@ -264,7 +297,7 @@ char_vector &lt;- c(&quot;foo&quot;,&quot;bar&quot;,&quot;herp&quot;,&quot;derp&
 
 </article></slide><slide class=''><hgroup><h2>Element-wise Math operations</h2></hgroup><article  id="element-wise-math-operations">
 
-<p>You can apply the math opertators we used in the first class to vectors as well. When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by position and applies the operation to each pair of elements.</p>
+<p>You can apply the math operators we used in the first class to vectors as well. When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by position and applies the operation to each pair of elements.</p>
 
 <pre class = 'prettyprint lang-r'>vec1 &lt;- c(5,-1,100,75)
 vec2 &lt;- c(10,3,4,-4)
@@ -278,25 +311,7 @@ vec2 + vec1</pre>
 
 <p>So, the first element of <code>vec1</code> gets added to the first element of <code>vec2</code>, etc&#8230;</p>
 
-</article></slide><slide class=''><hgroup><h2>Inspecting Vectors</h2></hgroup><article  id="inspecting-vectors">
-
-<p>We can check what type of data our vectors hold with the <code>typeof</code> function, just like we did with single values.</p>
-
-<pre class = 'prettyprint lang-r'>typeof(c(5.5,3.1,4))</pre>
-
-<pre >## [1] &quot;double&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>typeof(c(TRUE,TRUE,FALSE))</pre>
-
-<pre >## [1] &quot;logical&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>typeof(c(5L,10L,-1L))</pre>
-
-<pre >## [1] &quot;integer&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>typeof(c(&quot;hi&quot;,&quot;class&quot;))</pre>
-
-<pre >## [1] &quot;character&quot;</pre>
+<p>If you want to find the grand sum or product of all the elements in a numeric vector, use the <code>sum()</code> and <code>prod()</code> functions, respectively.</p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
@@ -395,16 +410,17 @@ long</pre>
 
 <p>Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for different data types to be stored in each column.</p>
 
-<p>A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables.</p>
+<p>A Data Frame is usually the best way to store and work with data that mixes qualitative and quantitative variables.</p>
 
 </article></slide><slide class=''><hgroup><h2>Creating Data Frames</h2></hgroup><article  id="creating-data-frames">
 
 <p>Data frames can be created by passing <code>name = value</code> pairs to the <code>data.frame()</code> function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column. Importantly, all the vectors stored in the data frame must be of <em>identical length</em>.</p>
 
-<p>Essentially, a data frame is a container that imposes a relational structure on any number of previously unrelated vectors.</p>
+<p>Essentially, a data frame is a container that imposes a relational structure on a set of vectors.</p>
 
 <pre class = 'prettyprint lang-r'>df &lt;- data.frame(x=c(1,4,4,2), y=c(3,3,1,4),
-                 month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Jan&quot;))
+                 month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Jan&quot;),
+                 stringsAsFactors = FALSE)
 df</pre>
 
 <pre >##   x y month
@@ -413,65 +429,35 @@ df</pre>
 ## 3 4 1   Nov
 ## 4 2 4   Jan</pre>
 
-</article></slide><slide class=''><hgroup><h2>Data Frame Indexing</h2></hgroup><article  id="data-frame-indexing">
+</article></slide><slide class=''><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors">
 
-<p>A useful feature of data frames is the ability to access the vectors you stored in it, using the name from the <code>name=value</code> pair you used at creation, and the <code>$</code> operator.</p>
+<p>This example also shows an extra argument, <code>stringsAsFactors = FALSE</code>, that was <strong>not</strong> a variable to store in the data frame. This argument controls how R interprets character vectors (a.k.a. strings) when forming the data frame.</p>
 
-<pre class = 'prettyprint lang-r'>df$month # Quotes around month are OK, but not needed</pre>
+<p>If <code>stringsAsFactors = TRUE</code>, the default setting, then R converts your character vector to a <strong>factor</strong> variable in the data frame.</p>
 
-<pre >## [1] Sep Oct Nov Jan
-## Levels: Jan Nov Oct Sep</pre>
+<p>A factor variable is a class of vector where <em>all</em> the possible values are known and already included in the vector. A good example of a factor variable would be the gender responses to a survey where there was a box for male, and a box for female; there are only 2 possible values the data can take on, and you know them to be valid a-priori.</p>
 
-<p>Selecting more than 1 column with the <code>$</code> operator doesn&#39;t work though. We&#39;ll talk more about indexing data frames in the &quot;Manipulating Data&quot; labs.</p>
+<p>If <code>stringsAsFactors = FALSE</code>, then R leaves the input data alone when forming the data frame.</p>
 
-</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames">
+</article></slide><slide class=''><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors-1">
 
-<p>Columns can be added with the <code>cbind</code> function (short for column bind)</p>
+<p>What should you use?</p>
 
-<pre class = 'prettyprint lang-r'>cbind(df, age = c(21,29,31,40))</pre>
+<p>99% of the time, you&#39;ll want your data frame to have a plain old character vector for a variable. They&#39;re inherently more flexible, and if you decide later you <em>do</em> want a factor variable, you can always convert it into one with the <code>factor()</code> function.</p>
 
-<pre >##   x y month age
-## 1 1 3   Sep  21
-## 2 4 3   Oct  29
-## 3 4 1   Nov  31
-## 4 2 4   Jan  40</pre>
+<p>So, get into the habit of specifying <code>stringsAsFactors = FALSE</code> when you use functions that create data frames (e.g., <code>data.frame()</code>, <code>read.csv()</code>, <code>read.table()</code>, etc.)</p>
 
-</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames-1">
+<p>Or, you can change the setting globally for the length of your R session by using <code>options(stringsAsFactors = FALSE</code>).</p>
 
-<p>You can add new columns to a data frame &quot;on the fly&quot; with the <code>$</code> operator</p>
+<p>If you want to know more about the reasons for all this nonsense, <a href='https://simplystatistics.org/2015/07/24/stringsasfactors-an-unauthorized-biography/' title=''>stringsAsFactors: An unauthorized biography</a> and <a href='http://notstatschat.tumblr.com/post/124987394001/stringsasfactors-sigh' title=''>stringsAsFactors = <sigh></a> are two great reads.</p>
 
-<pre class = 'prettyprint lang-r'>df$age &lt;- c(21,29,31,40)
-df</pre>
+</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps">
 
-<pre >##   x y month age
-## 1 1 3   Sep  21
-## 2 4 3   Oct  29
-## 3 4 1   Nov  31
-## 4 2 4   Jan  40</pre>
+<p>The <code>data.frame()</code> function can also recycle input, so you can save some keystrokes if you have a column that has only a few unique values that repeat.</p>
 
-<p>But unlike with the <code>cbind</code> example, we did assignment here, so the column got added instead of just printed.</p>
+<p>R compares the length of the first vector to the length of each vector after it. If the lengths don&#39;t match, R will check if the length of one vector is a multiple of the length of the other vector.</p>
 
-</article></slide><slide class=''><hgroup><h2>Growing Data Frames</h2></hgroup><article  id="growing-data-frames-2">
-
-<p>Rows can be added with rbind (guess what that&#39;s short for&#8230;)</p>
-
-<pre class = 'prettyprint lang-r'>rbind(df, c(5,1,&quot;Mar&quot;,10)) # Vector length equals number of columns in df</pre>
-
-<pre >## Warning in `[&lt;-.factor`(`*tmp*`, ri, value = &quot;Mar&quot;): invalid factor level,
-## NA generated</pre>
-
-<pre >##   x y month age
-## 1 1 3   Sep  21
-## 2 4 3   Oct  29
-## 3 4 1   Nov  31
-## 4 2 4   Jan  40
-## 5 5 1  &lt;NA&gt;  10</pre>
-
-<p>But be careful, this can change the type of data held in the data frame. Its safer to make a new data frame, and then <code>rbind</code> those together.</p>
-
-</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps" class="smaller">
-
-<p>Data Frames can also recycle input, so if you have a column that has only a few unique values that repeat over and over, you can save some keystroke.</p>
+<p>If so, R will repeat the shorter vector over and over so the lengths match up. In this example, the <code>x</code> variable has length 4, and the <code>month</code> vector has length 1; since 4 is a multiple of 1 (1 x 4 = 4), R will repeat the <code>month</code> vector 4 times so the lengths match.</p>
 
 <pre class = 'prettyprint lang-r'>data.frame(x=c(1,4,4,2),y=c(3,3,1,4),month=&quot;Sep&quot;)</pre>
 
@@ -481,26 +467,28 @@ df</pre>
 ## 3 4 1   Sep
 ## 4 2 4   Sep</pre>
 
-<p>But be careful, <code>data.frame()</code> will throw an error if the length of your longer vector is not a multiple of your shorter vector&#39;s lengths.</p>
+</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps-1">
+
+<p>The <code>data.frame()</code> function will throw an error if the length of the longer vector is not a multiple of the shorter vector&#39;s lengths.</p>
+
+<p>Here, the <code>x</code> variable still has length 4, but the <code>month</code> vector has length 3; since 4 is not multiple of 3, an error occurs.</p>
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'># length of month is 3, which is not a factor of length of x or y
-data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
+<pre class = 'prettyprint lang-r'>data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
            month=c(&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;)) </pre>
 
 <pre >## Error in data.frame(x = c(1, 4, 4, 2), y = c(3, 3, 1, 4), month = c(&quot;Sep&quot;, : arguments imply differing number of rows: 4, 3</pre></div>
+
+<p>Recycling enables concise code, but can make for hard to spot bugs when you didn&#39;t intended for recycling to happen. Use this feature with care, and favor being explicit about your vector lengths when programming.</p>
 
 </article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
 
 <p>Create a data frame that has:</p>
 
 <ol>
-<li>Rows for you and your neighbor</li>
+<li>Rows for you and your neighbor(s)</li>
 <li>Columns to hold your first names, last names, birthday, and age.</li>
-<li>Add a new row for your imaginary best friend.</li>
 </ol>
-
-<p>Note: If you get some errors about &quot;Invalid Factor Levels generated&quot;, run this command <code>options(stringsAsFactors =FALSE)</code> and start over.</p>
 
 </article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
 
@@ -510,37 +498,33 @@ data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
 
 </article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists-1">
 
-<p>Think of them almost like a directory on your hard drive. You can stuff any kind of file you like in there and give it a name, but there is no relationship between them inside that folder, other than the order they are sorted in.</p>
+<p>Think of lists like a folder on your hard drive.</p>
 
-<p>Anytime you need to hold disparate types of data together, use a list. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with</p>
+<p>You can stuff any kind of file you like in there and give it a name, but there is no relationship between them inside that folder, other than the order they are sorted in.</p>
+
+<p>Use a list when you need to group data structures of different sizes and types together. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with</p>
 
 </article></slide><slide class=''><hgroup><h2>Creating Lists</h2></hgroup><article  id="creating-lists">
 
-<p>As you might have guessed, you can create lists of your own with the <code>list()</code> function. Like the <code>data.frame()</code> function, you pass in <code>name=value</code> pairs. But now, the values can be any R object, of any size, not just vectors with the same lengths.</p>
+<p>As you might have guessed, you can create lists of your own with the <code>list()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>biglist &lt;- list(first = new_vector, second = wide)
+<p>Like the <code>data.frame()</code> function, you pass in <code>name=value</code> pairs. But now, the values can be any R object, of any size, not just vectors with the same lengths.</p>
+
+<pre class = 'prettyprint lang-r'>biglist &lt;- list(first = -10:-15, second = data.frame(x=c(&quot;A&quot;,&quot;B&quot;), y = 1:2))
 biglist</pre>
 
 <pre >## $first
-## [1]  1 10 45 -1
+## [1] -10 -11 -12 -13 -14 -15
 ## 
 ## $second
-##      [,1] [,2] [,3]
-## [1,]    1    3  100
-## [2,]    2   99  101</pre>
-
-</article></slide><slide class=''><hgroup><h2>Indexing Lists</h2></hgroup><article  id="indexing-lists">
-
-<p>Like data frames, elements of a lists can be extracted with <code>$</code>. But, <code>$</code> only works if the list items have names.</p>
-
-<pre class = 'prettyprint lang-r'>biglist$first</pre>
-
-<pre >## [1]  1 10 45 -1</pre>
+##   x y
+## 1 A 1
+## 2 B 2</pre>
 
 </article></slide><slide class=''><hgroup><h2>List Tips</h2></hgroup><article  id="list-tips">
 
 <ul>
-<li>Avoid nesting lists if you can. One level of nesting is usually allright, but more than 1 is pain.</li>
+<li>Avoid nesting lists if you can. One level of nesting is usually all right, but more than 1 is pain.</li>
 <li>Use the <code>str()</code> function to examine the structure of the list if you&#39;re having problems working with it. This function will tell you useful information about any R object&#39;s internal structure, such as the class of the data structure and data types it hold, all the unique values in it, etc.</li>
 </ul>
 
@@ -560,33 +544,6 @@ biglist</pre>
 <p>*Hint: reuse some of the data structures you&#39;ve created in the previous exercises as your list elements.</p>
 
 </article></slide><slide class=''><hgroup><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
-
-</article></slide><slide class=''><hgroup><h2>Coercion</h2></hgroup><article  id="coercion">
-
-<ul>
-<li>Values stored in one data type can often be changed to another data type. This transformation is called <em>coercion</em></li>
-</ul>
-
-<pre class = 'prettyprint lang-r'>as.double(&quot;4.2&quot;) + 1</pre>
-
-<pre >## [1] 5.2</pre>
-
-<ul>
-<li>Sometimes when an operation requires a specific data type, R will coerce things to the proper types for us.</li>
-</ul>
-
-<pre class = 'prettyprint lang-r'>TRUE + 1 # coerce TRUE to integer and add</pre>
-
-<pre >## [1] 2</pre>
-
-<ul>
-<li>But things can&#39;t always be magically perfect</li>
-</ul>
-
-<div class="errormsg">
-<pre class = 'prettyprint lang-r'>&quot;TRUE&quot; + 1</pre>
-
-<pre >## Error in &quot;TRUE&quot; + 1: non-numeric argument to binary operator</pre></div>
 
 </article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
 

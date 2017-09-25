@@ -352,3 +352,38 @@ Try to reason about what R "is doing" in the previous example. Why do we get the
 ```{r mat_examples6_2, ref.label= 'mat_examples6'}
 ```
 As a hint, try running the code "from the inside out", one logical step at a time.
+
+
+
+## Data Frame Indexing
+A useful feature of data frames is the ability to access the vectors you stored in it, using the name from the `name=value` pair you used at creation, and the `$` operator. 
+```{r dollarsign}
+df$month # Quotes around month are OK, but not needed
+```
+Selecting more than 1 column with the `$` operator doesn't work though. We'll talk more about indexing data frames in the "Manipulating Data" labs.
+
+## Growing Data Frames
+Columns can be added with the `cbind` function (short for column bind)
+```{r cbind_example}
+cbind(df, age = c(21,29,31,40))
+```
+
+## Growing Data Frames
+You can add new columns to a data frame "on the fly" with the `$` operator
+```{r adding_col}
+df$age <- c(21,29,31,40)
+df
+```
+But unlike with the `cbind` example, we did assignment here, so the column got added instead of just printed. 
+## Growing Data Frames
+Rows can be added with `rbind` (guess what that's short for...)
+```{r rbind_example}
+rbind(df, c(5,1,"Mar",10)) # Vector length equals number of columns in df
+```
+But be careful, this can change the type of data held in the data frame. Its safer to make a new data frame, and then `rbind` those together.
+
+## Indexing Lists
+Like data frames, elements of a lists can be extracted with `$`. But, `$` only works if the list items have names. 
+```{r biglist_index}
+biglist$first
+```

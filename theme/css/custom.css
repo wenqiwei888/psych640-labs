@@ -78,6 +78,7 @@ pre {
 
 .errormsg pre {
   color: red;
+  max-width: 100%;
 }
 
 .lang-r {

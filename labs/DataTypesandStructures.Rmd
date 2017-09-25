@@ -10,7 +10,10 @@ knitr::opts_chunk$set(prompt=FALSE, cache = TRUE)
 
 ## What is a data type?
 
-- A data type is defined by how your computer represents the data in memory and by the types of operations that can be performed on them.
+- The data type of piece of information is defined by 
+    - how the information is represented in hardware (e.g., CPU, memory)
+    - the range of values it can take on
+    - the types of operations that can be performed with it in your software
 - R uses many different data types, but the most important to learn are **integer, double, character**, and **logical**
     - These are the **atomic** data types in R, because they are the smallest possible building blocks
 
@@ -74,6 +77,23 @@ typeof("herp")
 typeof(FALSE)
 ```
 
+## Coercion
+- Values stored in one data type can often be changed to another data type. This transformation is called *coercion*
+```{r coerce}
+as.double("4.2") + 1
+```
+- Sometimes when an operation requires a specific data type, R will coerce things to the proper types for us. 
+```{r autocoerce}
+TRUE + 1 # coerce TRUE to integer and add
+```
+- But things can't always be magically perfect
+
+<div class = "errormsg">
+```{r failcoerce, error=TRUE}
+"TRUE" + 1
+```
+</div>
+
 ## Data Structures {.dslist}
 
 Of course, it is helpful in a language focused on analyzing data to have the ability to group multiple values together.
@@ -96,7 +116,7 @@ In this course, we will primarily be working with 4 different types of data stru
 ## Vectors
 Vectors are 1 dimensional data structures which can hold numeric, logical, and character data.
 
-Data types may not be mixed in a matrix (e.g. you cannot have some elements be characters and other be numeric, etc.)
+Data types may not be mixed in a vector (e.g. you cannot have some elements be characters and other be integers)
 
 The individual values held in the vector are referred to as *elements*, and vectors have a *length* equal to the number of elements it contains. 
 
@@ -130,7 +150,7 @@ seq(from = 5, to = 22, by = 3)
 ```
 
 ## Element-wise Math operations
-You can apply the math opertators we used in the first class to vectors as well.
+You can apply the math operators we used in the first class to vectors as well.
 When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by position and applies the operation to each pair of elements. 
 ```{r math_vectors}
 vec1 <- c(5,-1,100,75)
@@ -140,14 +160,7 @@ vec2 * vec1
 ```
 So, the first element of `vec1` gets added to the first element of `vec2`, etc...
 
-## Inspecting Vectors 
-We can check what type of data our vectors hold with the `typeof` function, just like we did with single values.
-```{r typechecking}
-typeof(c(5.5,3.1,4))
-typeof(c(TRUE,TRUE,FALSE))
-typeof(c(5L,10L,-1L))
-typeof(c("hi","class"))
-```
+If you want to find the grand sum or product of all the elements in a numeric vector, use the `sum()` and `prod()` functions, respectively. 
 
 ## Activity
 1. Try to create a vector that uses all the 4 basic data types. What type of data is stored in the resulting vector?
@@ -207,70 +220,69 @@ Try creating a matrix with 900 elements and 9 columns that contains only logical
 ## Data Frames
 Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for different data types to be stored in each column.
 
-A Data Frame is usually the best way to store and work with data in R that mixes qualitative and quantitative variables. 
+A Data Frame is usually the best way to store and work with data that mixes qualitative and quantitative variables. 
 
 ## Creating Data Frames
 Data frames can be created by passing `name = value` pairs to the `data.frame()` function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column. Importantly, all the vectors stored in the data frame must be of *identical length*.
 
-Essentially, a data frame is a container that imposes a relational structure on any number of previously unrelated vectors. 
+Essentially, a data frame is a container that imposes a relational structure on a set of vectors. 
 ```{r dataframeexample}
 df <- data.frame(x=c(1,4,4,2), y=c(3,3,1,4),
-                 month=c("Sep","Oct","Nov","Jan"))
+                 month=c("Sep","Oct","Nov","Jan"),
+                 stringsAsFactors = FALSE)
 df
 ```
 
-## Data Frame Indexing
-A useful feature of data frames is the ability to access the vectors you stored in it, using the name from the `name=value` pair you used at creation, and the `$` operator. 
-```{r dollarsign}
-df$month # Quotes around month are OK, but not needed
-```
-Selecting more than 1 column with the `$` operator doesn't work though. We'll talk more about indexing data frames in the "Manipulating Data" labs.
+## stringsAsFactors?
+This example also shows an extra argument, `stringsAsFactors = FALSE`, that was **not** a variable to store in the data frame. This argument controls how R interprets character vectors (a.k.a. strings) when forming the data frame.
 
-## Growing Data Frames
-Columns can be added with the `cbind` function (short for column bind)
-```{r cbind_example}
-cbind(df, age = c(21,29,31,40))
-```
+If `stringsAsFactors = TRUE`, the default setting, then R converts your character vector to a **factor** variable in the data frame. 
 
-## Growing Data Frames
-You can add new columns to a data frame "on the fly" with the `$` operator
-```{r adding_col}
-df$age <- c(21,29,31,40)
-df
-```
-But unlike with the `cbind` example, we did assignment here, so the column got added instead of just printed. 
+A factor variable is a class of vector where *all* the possible values are known and already included in the vector. A good example of a factor variable would be the gender responses to a survey where there was a box for male, and a box for female; there are only 2 possible values the data can take on, and you know them to be valid a-priori.
 
-## Growing Data Frames
-Rows can be added with rbind (guess what that's short for...)
-```{r rbind_example}
-rbind(df, c(5,1,"Mar",10)) # Vector length equals number of columns in df
-```
-But be careful, this can change the type of data held in the data frame. Its safer to make a new data frame, and then `rbind` those together.
+If `stringsAsFactors = FALSE`, then R leaves the input data alone when forming the data frame.
 
-## Data Frame Tricks (and Traps) {.smaller}
-Data Frames can also recycle input, so if you have a column that has only a few unique values that repeat over and over, you can save some keystroke.
+## stringsAsFactors?
+What should you use? 
+
+99% of the time, you'll want your data frame to have a plain old character vector for a variable. They're inherently more flexible, and if you decide later you *do* want a factor variable, you can always convert it into one with the `factor()` function.
+
+So, get into the habit of specifying `stringsAsFactors = FALSE` when you use functions that create data frames (e.g., `data.frame()`, `read.csv()`, `read.table()`, etc.)
+
+Or, you can change the setting globally for the length of your R session by using `options(stringsAsFactors = FALSE`).
+
+If you want to know more about the reasons for all this nonsense, [stringsAsFactors: An unauthorized biography](https://simplystatistics.org/2015/07/24/stringsasfactors-an-unauthorized-biography/) and [stringsAsFactors = <sigh>](http://notstatschat.tumblr.com/post/124987394001/stringsasfactors-sigh) are two great reads.
+
+## Data Frame Tricks (and Traps)
+The `data.frame()` function can also recycle input, so you can save some keystrokes if you have a column that has only a few unique values that repeat.
+
+R compares the length of the first vector to the length of each vector after it. If the lengths don't match, R will check if the length of one vector is a multiple of the length of the other vector.
+
+If so, R will repeat the shorter vector over and over so the lengths match up. In this example, the `x` variable has length 4, and the `month` vector has length 1; since 4 is a multiple of 1 (1 x 4 = 4), R will repeat the `month` vector 4 times so the lengths match.
+
 ```{r goodrecycle}
 data.frame(x=c(1,4,4,2),y=c(3,3,1,4),month="Sep")
 ```
-But be careful, `data.frame()` will throw an error if the length of your longer vector is not a multiple of your shorter vector's lengths.
+
+## Data Frame Tricks (and Traps)
+The `data.frame()` function will throw an error if the length of the longer vector is not a multiple of the shorter vector's lengths.
+
+Here, the `x` variable still has length 4, but the `month` vector has length 3; since 4 is not multiple of 3, an error occurs.
 
 <div class = "errormsg">
 ```{r badrecycle, error=TRUE}
-# length of month is 3, which is not a factor of length of x or y
 data.frame(x=c(1,4,4,2),y=c(3,3,1,4),
            month=c("Sep","Oct","Nov")) 
 ```
 </div>
 
+Recycling enables concise code, but can make for hard to spot bugs when you didn't intended for recycling to happen. Use this feature with care, and favor being explicit about your vector lengths when programming.
+
 ## Activity
 Create a data frame that has:
 
-1. Rows for you and your neighbor
-2. Columns to hold your first names, last names, birthday, and age. 
-3. Add a new row for your imaginary best friend. 
-
-Note: If you get some errors about "Invalid Factor Levels generated", run this command `options(stringsAsFactors =FALSE)` and start over. 
-
+1. Rows for you and your neighbor(s)
+2. Columns to hold your first names, last names, birthday, and age.
 
 ## Lists
 Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn't impose any relationship between them. 
@@ -278,27 +290,25 @@ Lists are the most abstract and flexible data structure in R. Lists can hold any
 You can have a list holding matrices, data frames, vectors, and even lists holding other lists!
 
 ## Lists
-Think of them almost like a directory on your hard drive. You can stuff any kind of file you like in there and give it a name, but there is no relationship between them inside that folder, other than the order they are sorted in. 
+Think of lists like a folder on your hard drive.
 
-Anytime you need to hold disparate types of data together, use a list. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with
+You can stuff any kind of file you like in there and give it a name, but there is no relationship between them inside that folder, other than the order they are sorted in.
+
+Use a list when you need to group data structures of different sizes and types together. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with
 
 ## Creating Lists
-As you might have guessed, you can create lists of your own with the `list()` function. Like the `data.frame()` function, you pass in `name=value` pairs. But now, the values can be any R object, of any size, not just vectors with the same lengths.
+As you might have guessed, you can create lists of your own with the `list()` function.
+
+Like the `data.frame()` function, you pass in `name=value` pairs. But now, the values can be any R object, of any size, not just vectors with the same lengths.
 
 ```{r createlist}
 
-biglist <- list(first = new_vector, second = wide)
+biglist <- list(first = -10:-15, second = data.frame(x=c("A","B"), y = 1:2))
 biglist
 ```
 
-## Indexing Lists
-Like data frames, elements of a lists can be extracted with `$`. But, `$` only works if the list items have names. 
-```{r biglist_index}
-biglist$first
-```
-
 ## List Tips
-- Avoid nesting lists if you can. One level of nesting is usually allright, but more than 1 is pain.
+- Avoid nesting lists if you can. One level of nesting is usually all right, but more than 1 is pain.
 - Use the `str()` function to examine the structure of the list if you're having problems working with it. This function will tell you useful information about any R object's internal structure, such as the class of the data structure and data types it hold, all the unique values in it, etc.
 ```{r str}
 str(biglist)
@@ -312,23 +322,6 @@ str(biglist)
 *Hint: reuse some of the data structures you've created in the previous exercises as your list elements. 
 
 ## Advanced Extras 
-
-## Coercion
-- Values stored in one data type can often be changed to another data type. This transformation is called *coercion*
-```{r coerce}
-as.double("4.2") + 1
-```
-- Sometimes when an operation requires a specific data type, R will coerce things to the proper types for us. 
-```{r autocoerce}
-TRUE + 1 # coerce TRUE to integer and add
-```
-- But things can't always be magically perfect
-
-<div class = "errormsg">
-```{r failcoerce, error=TRUE}
-"TRUE" + 1
-```
-</div>
 
 ## Names 
 After you create a vector, you can give the elements names, using the `names()` function, and a character vector. This can be useful later when you want to pick out a few values from the larger vector.
