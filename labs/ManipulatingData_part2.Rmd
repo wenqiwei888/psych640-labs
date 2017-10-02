@@ -1,22 +1,29 @@
 ---
-title: "Manipulating Data Part 2: The Data Rises"
+title: "Manipulating Data, Part 2: The Data Rises"
 author: "William Hopper"
 date: "`r Sys.Date()`"
 output:
   ioslides_presentation:
     mathjax: default
 ---
+<style>
+.columns-2 {
+    -moz-column-rule: none;
+    -webkit-column-rule: none;
+    -ms-column-rule: none;
+    column-rule: none;
+}
+</style>
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(cache = TRUE) 
 ```
 
-
 ## Recall...
-- Indexing (or subsetting) is the process of slicing a smaller chunk out of a larger data structure
+- Subsetting is the process of slicing a smaller chunk out of a larger data structure
 - Basic syntax template is `DataStructure[IndexVector]`
 - the `IndexVector` can be a numeric or logical vector
-- Logical testing uses using comparison operators like `<` and `==` and logical operators (e.g., `&&` and `||`) to test which elements in our data structure meet specific requirements 
+- Logical testing uses relational operators like `<` and `==` and logical operators (e.g., `&&` and `||`) to test which elements in our data structure meet specific requirements 
 
 ## Higher Dimensional Structures
 Now we'll learn how to index data structures with more than one dimension. 
@@ -24,8 +31,7 @@ Now we'll learn how to index data structures with more than one dimension.
 - Recall that Matrices and Data Frames have both rows **and** columns, making them a 2D data structure
 - This means when we index them, we must specify which rows we would like to take out in our subset, as well as which columns
 
-* A list is also considered a 1D data structure, but they have a few tricky differences from vectors, so we'll save them until the end.
-
+* Lists are *technically* 1D vectors, but they have tricky differences from atomic vectors, so we'll save them until the end.
 
 ## Indexing Matrices
 To index a matrix, all that is required is to have two vectors inside our square brackets, separated from each other by a comma.
@@ -38,7 +44,7 @@ Like with vectors, the index vectors can be either:
 - logical vectors specifying for each column and row whether we want to access it (`TRUE`)  or ignore it (`FALSE`)
 
 ## Matrix Examples
-Create a small matrix & index it [row,column] style
+Create a small matrix & index it with numeric vectors:
 ```{r mat_examples}
 dummy <- matrix(6:1, nrow = 2)
 dummy
@@ -47,7 +53,7 @@ dummy[1:2,2:3] # Row 1 and 2, Column 2 and 3. Output is a matrix.
 ```
 
 ## Matrix Examples
-If you want to select **all** of one dimension, (e.g., keep all rows or all columns) but selectively index the other dimension, provide the separating comma as usual, but don't give any indexing vector for the dimension you want to stay 100% intact.
+If you want to select **all** of one dimension, (e.g., keep all rows or all columns) but  index the other dimension, provide the separating comma as usual, but don't give any indexing vector for the dimension you want to stay 100% intact.
 ```{r mat_examples3}
 dummy[1,] # First Row, all columns
 dummy[1,1:3] # Same as previous
@@ -166,7 +172,7 @@ InsectSprays[InsectSprays$spray=="A",]$count # Still the same. Can you figure ou
     + e.g., if you want to select multiple columns
     + `InsectSprays[InsectSprays$spray=="A",]`
 - Use Method 2 if you sincerely, 100% want your results to be a vector, and are **only** interested in subsetting the values of a single column
-    + Its also fewer key strokes =)
+    + It's also fewer key strokes =)
     
 ## Errors when indexing by name
 If you try to subset a column of a data frame using the `$` operator, but the name of the column doesn't exist, `R` will return `NULL``
