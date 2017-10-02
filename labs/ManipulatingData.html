@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2017-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,8 +81,8 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../theme/css/ManipulatingData.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\ManipulatingData.css" type="text/css" />
 
 </head>
 
@@ -96,7 +96,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-10-02</p>
           </hgroup>
   </slide>
 
@@ -150,17 +150,17 @@
 
 <p>We&#39;ll start by slicing smaller chunks out of a larger vector. Here, the numeric vectors inside the brackets tell R the <em>positions</em> of the elements we wish to extract.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,
-+               &quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;) 
-&gt; alphabet[c(1,26)] # Extract First and 26th element</pre>
+<pre class = 'prettyprint lang-r'>alphabet &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,
+              &quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;) 
+alphabet[c(1,26)] # Extract First and 26th element</pre>
 
 <pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[10:20] # Extract tenth through 20th</pre>
+<pre class = 'prettyprint lang-r'>alphabet[10:20] # Extract tenth through 20th</pre>
 
 <pre >##  [1] &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot; &quot;t&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[seq(from=1,to=26,by=2)] # Extract every other element</pre>
+<pre class = 'prettyprint lang-r'>alphabet[seq(from=1,to=26,by=2)] # Extract every other element</pre>
 
 <pre >##  [1] &quot;a&quot; &quot;c&quot; &quot;e&quot; &quot;g&quot; &quot;i&quot; &quot;k&quot; &quot;m&quot; &quot;o&quot; &quot;q&quot; &quot;s&quot; &quot;u&quot; &quot;w&quot; &quot;y&quot;</pre>
 
@@ -168,7 +168,7 @@
 
 <p>The most common mistake is including a value in your indexing vector which is greater than the length of the vector you are subsetting</p>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[100] # there are not 100 letters in the alphabet</pre>
+<pre class = 'prettyprint lang-r'>alphabet[100] # there are not 100 letters in the alphabet</pre>
 
 <pre >## [1] NA</pre>
 
@@ -177,7 +177,7 @@
 Another common mistake is forgetting to concatenate the values you want to use for the indexing vector (i.e. forgetting the <code>c()</code> function).
 
 <div class="errormsg">
-<pre class = 'prettyprint lang-r'>&gt; alphabet[1,5,10]</pre>
+<pre class = 'prettyprint lang-r'>alphabet[1,5,10]</pre>
 
 <pre >## Error in alphabet[1, 5, 10]: incorrect number of dimensions</pre></div>
 
@@ -185,12 +185,12 @@ Another common mistake is forgetting to concatenate the values you want to use f
 
 <p>Instead of creating a vector of values you <em>do</em> want to pick out, it may be easier to come up with a vector of ones you <em>don&#39;t</em> want. We can use negative number&#39;s to specify which vector elements we don&#39;t want.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[c(-1,-26)] # Same as alphabet[2:24]</pre>
+<pre class = 'prettyprint lang-r'>alphabet[c(-1,-26)] # Same as alphabet[2:24]</pre>
 
 <pre >##  [1] &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot;
 ## [18] &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[-1:-10]</pre>
+<pre class = 'prettyprint lang-r'>alphabet[-1:-10]</pre>
 
 <pre >##  [1] &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</pre>
 
@@ -221,13 +221,13 @@ months</pre>
 
 <p>Let&#39;s revisit the example of selecting the first and last elements of the alphabet vector: We make a vector of logicals and stick it in the square brackets after your vector.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[c(1,26)]</pre>
+<pre class = 'prettyprint lang-r'>alphabet[c(1,26)]</pre>
 
 <pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; alphabet[c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-+            FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-+            FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)]</pre>
+<pre class = 'prettyprint lang-r'>alphabet[c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+           FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+           FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)]</pre>
 
 <pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
 
@@ -242,11 +242,16 @@ months</pre>
 
 <p>The logical vector&#39;s utility comes into play when you <em>don&#39;t</em> know the numeric positions of the elements you are interested in.</p>
 
-</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-2">
+</article></slide><slide class=''><hgroup><h2>Logical Tests</h2></hgroup><article  id="logical-tests">
 
 <p>&quot;But wait&quot; you say: &quot;If we don&#39;t know where they are already, how are we going to find them?&quot;. This brings us to <strong>logical testing</strong> and <strong>relational operators</strong></p>
 
-<p>Relational operators are R expressions that can be used to test whether or not some value meets a condition or not. If it meets your test&#39;s conditions, the test returns <code>TRUE</code>. If it does not, it returns <code>FALSE</code>.</p>
+<p>Relational operators are R expressions that test whether some value meets a condition or not.</p>
+
+<ul>
+<li>If the value meets your test&#39;s condition(s), the test returns <code>TRUE</code></li>
+<li>If the value does <em>not</em> meet your test&#39;s condition(s), the test returns <code>FALSE</code>.</li>
+</ul>
 
 <p>You already know lots of relational operators. The equal to, greater than and less than expressions from 3rd grade math are all relational operators!</p>
 
@@ -255,38 +260,38 @@ months</pre>
 <table class = 'rmdtable'>
 <tr class="header">
 <th align="left">Comparison</th>
-<th align="left">Expression</th>
+<th align="center">Expression</th>
 <th align="left">Example</th>
 </tr>
 <tr class="odd">
 <td align="left">Less Than</td>
-<td align="left"><code>&lt;</code></td>
-<td align="left"><code>5 &lt; 10</code>, <code>5 &lt; 1</code></td>
+<td align="center"><code>&lt;</code></td>
+<td align="left"><code>5 &lt; 10</code><br><code>5 &lt; 1</code></td>
 </tr>
 <tr class="even">
 <td align="left">Less Than or Equal To</td>
-<td align="left"><code>&lt;=</code></td>
-<td align="left"><code>5 &lt;= 5</code>, <code>5 &lt;= 1</code></td>
+<td align="center"><code>&lt;=</code></td>
+<td align="left"><code>5 &lt;= 5</code><br><code>5 &lt;= 1</code></td>
 </tr>
 <tr class="odd">
 <td align="left">Greater Than</td>
-<td align="left"><code>&gt;</code></td>
-<td align="left"><code>10 &gt; 5</code>, <code>5 &gt; 5</code></td>
+<td align="center"><code>&gt;</code></td>
+<td align="left"><code>10 &gt; 5</code><br><code>5 &gt; 5</code></td>
 </tr>
 <tr class="even">
 <td align="left">Greater Than or Equal To</td>
-<td align="left"><code>&gt;=</code></td>
-<td align="left"><code>10 &gt;= 10</code>, <code>10 &gt;= 12</code></td>
+<td align="center"><code>&gt;=</code></td>
+<td align="left"><code>10 &gt;= 10</code><br><code>10 &gt;= 12</code></td>
 </tr>
 <tr class="odd">
 <td align="left">Equal To</td>
-<td align="left"><code>==</code></td>
-<td align="left"><code>5 == 6</code>, <code>5 == 5</code></td>
+<td align="center"><code>==</code></td>
+<td align="left"><code>5 == 6</code><br><code>5 == 5</code></td>
 </tr>
 <tr class="even">
 <td align="left">Not equal to</td>
-<td align="left"><code>!=</code></td>
-<td align="left"><code>5 != 6</code>, <code>5 != 5</code></td>
+<td align="center"><code>!=</code></td>
+<td align="left"><code>5 != 6</code><br><code>5 != 5</code></td>
 </tr>
 </table>
 
@@ -294,14 +299,18 @@ months</pre>
 
 <p>What makes relational operators useful is that they can be applied to all the elements of a data structure simultaneously.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; x &lt;- 2:11
-&gt; x &lt;= 5 # Apply the less than or equals test</pre>
+<pre class = 'prettyprint lang-r'>x &lt;- 2:11
+print(x)</pre>
+
+<pre >##  [1]  2  3  4  5  6  7  8  9 10 11</pre>
+
+<pre class = 'prettyprint lang-r'>x &lt;= 5 # Apply the less than or equals test</pre>
 
 <pre >##  [1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</pre>
 
 <p>As you can see, values that meet the criteria (&lt;= 5) return as <code>TRUE</code>.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; x[x &lt;= 5] # Index vector x with the results of the test. </pre>
+<pre class = 'prettyprint lang-r'>x[x &lt;= 5] # Index vector x with the results of the test. </pre>
 
 <pre >## [1] 2 3 4 5</pre>
 
@@ -311,16 +320,16 @@ months</pre>
 
 <p>We index character vectors using the <code>==</code> and <code>!=</code> operators, but not the greater/less than operators. Quantity makes no sense for characters!</p>
 
-<pre class = 'prettyprint lang-r'>&gt; months == &quot;June&quot; # The sixth element is TRUE</pre>
+<pre class = 'prettyprint lang-r'>months == &quot;June&quot; # The sixth element is TRUE</pre>
 
 <pre >##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
 ## [12] FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; months[months == &quot;June&quot;]</pre>
+<pre class = 'prettyprint lang-r'>months[months == &quot;June&quot;]</pre>
 
 <pre >## [1] &quot;June&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; months[months != &quot;July&quot;]</pre>
+<pre class = 'prettyprint lang-r'>months[months != &quot;July&quot;]</pre>
 
 <pre >##  [1] &quot;January&quot;   &quot;February&quot;  &quot;March&quot;     &quot;April&quot;     &quot;May&quot;      
 ##  [6] &quot;June&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;   &quot;November&quot; 
@@ -330,41 +339,43 @@ months</pre>
 
 <p>Unfortunately, we often have to deal with missing observations in real world data sets. R codes missing data as <code>NA</code> (or sometimes <code>NaN</code>). We can use the <code>is.na()</code> function to find any missing values in a vector.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; missingno &lt;- c(10,NA,1,4,2,NA,NA,99,NaN, NA)
-&gt; is.na(missingno)</pre>
+<pre class = 'prettyprint lang-r'>missingno &lt;- c(10,NA,1,4,2,NA,NA,99,NaN, NA)
+is.na(missingno)</pre>
 
 <pre >##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; missingno[!is.na(missingno)] # Select things that are the opposite of missing</pre>
+<pre class = 'prettyprint lang-r'>missingno[!is.na(missingno)] # Select things that are the opposite of missing</pre>
 
 <pre >## [1] 10  1  4  2 99</pre>
 
 </article></slide><slide class=''><hgroup><h2>Other Useful Tests: modulus division</h2></hgroup><article  id="other-useful-tests-modulus-division">
 
-<p>An important arithmetic operator that was not mentioned last week is the modulus operator <code>%%</code>, which gives us the remainder of division.</p>
+<p>Another important arithmetic operatoris the modulus operator <code>%%</code>, which gives us the remainder of division. For example: <code>5 %% 3</code> is <code>2</code>, because 3 goes into 5 once, with 2 left over.</p>
 
-<p>For example: <code>5 %% 3</code> is <code>2</code>.</p>
+<p>A common use case for the <code>%%</code> operator is to search for multiples of a number. We can do this by exploiting the fact that if one number is a multiple of another, the remainder of division will be 0.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa &lt;- c(34, 509, 63, 187, 998, 78, 3330)
-&gt; lisa %% 17 == 0</pre>
+<pre class = 'prettyprint lang-r'>lisa &lt;- c(34, 509, 63, 187, 998, 78, 3330)
+lisa %% 17</pre>
+
+<pre >## [1]  0 16 12  0 12 10 15</pre>
+
+<pre class = 'prettyprint lang-r'>lisa %% 17 == 0</pre>
 
 <pre >## [1]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa[lisa %% 17 == 0]</pre>
+<pre class = 'prettyprint lang-r'>lisa[lisa %% 17 == 0]</pre>
 
 <pre >## [1]  34 187</pre>
-
-<p>This returns all the values of the vector called <code>lisa</code> that are multiples of 17, since multiples of 17 will have a remainder of zero.</p>
 
 </article></slide><slide class=''><hgroup><h2>Tips and Tricks</h2></hgroup><article  id="tips-and-tricks">
 
 <p>A useful function to know is <code>which()</code>. When used on a logical vector, it will return to your the position indices of the vector&#39;s <code>TRUE</code> element. It is useful when you want to know <strong>where</strong> in the vector your matches occur.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa %% 17 == 0</pre>
+<pre class = 'prettyprint lang-r'>lisa %% 17 == 0</pre>
 
 <pre >## [1]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; which(lisa %% 17 == 0)</pre>
+<pre class = 'prettyprint lang-r'>which(lisa %% 17 == 0)</pre>
 
 <pre >## [1] 1 4</pre>
 
@@ -372,8 +383,8 @@ months</pre>
 
 <p>Write an expression using logical testing and indexing that, when applied to the vector <code>dummy</code>, returns the same output as the numeric indexing example shown below.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; dummy &lt;- 17:23
-&gt; dummy[5:7]</pre>
+<pre class = 'prettyprint lang-r'>dummy &lt;- 17:23
+dummy[5:7]</pre>
 
 <pre >## [1] 21 22 23</pre>
 
@@ -450,7 +461,7 @@ months</pre>
 
 <p>Let&#39;s say we wanted to select the elements in <code>lisa</code> which were less than 500 or greater than 1000.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa</pre>
+<pre class = 'prettyprint lang-r'>lisa</pre>
 
 <pre >## [1]   34  509   63  187  998   78 3330</pre>
 
@@ -476,7 +487,7 @@ months</pre>
 
 </article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1" class="conditionals">
 
-<p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot; test <strong>OR</strong> if it passed the &quot;greater than 1000&quot; test.</p>
+<p>The goal is to have our test return a <code>TRUE</code> for each element that passes the &quot;less than 500&quot; test <strong>OR</strong> passes the &quot;greater than 1000&quot; test.</p>
 
 <table class = 'rmdtable'>
 <col width="16%" />
@@ -613,9 +624,7 @@ months</pre>
 </tr>
 </table>
 
-<p><br></p>
-
-<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 | lisa &gt; 1000]</pre>
+<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 | lisa &gt; 1000]</pre>
 
 <pre >## [1]   34   63  187   78 3330</pre>
 
@@ -710,13 +719,13 @@ months</pre>
 
 <p><br></p>
 
-<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 &amp; lisa &gt;= 50]</pre>
+<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 &amp; lisa &gt;= 50]</pre>
 
 <pre >## [1]  63 187  78</pre>
 
 </article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-5">
 
-<pre class = 'prettyprint lang-r'>&gt; lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
+<pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
 
 <pre >## numeric(0)</pre>
 

@@ -8,9 +8,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(cache = TRUE) 
 ```
-
 
 ## Indexing 
 
@@ -114,29 +113,33 @@ But this specific example is not a good use case for logical vectors. Why?
 
 The logical vector's utility comes into play when you *don't* know the numeric positions of the elements you are interested in.
 
-## Logical Indexing
+## Logical Tests
 
 "But wait" you say: "If we don't know where they are already, how are we going to find them?". This brings us to **logical testing** and **relational operators**
 
-Relational operators are R expressions that can be used to test whether or not some value meets a condition or not. If it meets your test's conditions, the test returns `TRUE`. If it does not, it returns `FALSE`. 
+Relational operators are R expressions that test whether some value meets a condition or not.
+
+- If the value meets your test's condition(s), the test returns `TRUE`
+- If the value does *not* meet your test's condition(s), the test returns `FALSE`. 
 
 You already know lots of relational operators. The equal to, greater than and less than expressions from 3rd grade math are all relational operators!
 
 ## Relational Operators Table
 
 Comparison | Expression | Example
----------- | ---------- | -------
-Less Than | `<` | `5 < 10`, `5 < 1`
-Less Than or Equal To | `<=` | `5 <= 5`, `5 <= 1`
-Greater Than | `>` | `10 > 5`, `5 > 5`
-Greater Than or Equal To | `>=` | `10 >= 10`, `10 >= 12`
-Equal To | `==` | `5 == 6`, `5 == 5`
-Not equal to | `!=` | `5 != 6`, `5 != 5`
+---------- | :----------: | ----------
+Less Than | `<` | `5 < 10`<br>`5 < 1`
+Less Than or Equal To | `<=` | `5 <= 5`<br>`5 <= 1`
+Greater Than | `>` | `10 > 5`<br>`5 > 5`
+Greater Than or Equal To | `>=` | `10 >= 10`<br>`10 >= 12`
+Equal To | `==` | `5 == 6`<br>`5 == 5`
+Not equal to | `!=` | `5 != 6`<br>`5 != 5`
 
 ## Relational Operators & Indexing
 What makes relational operators useful is that they can be applied to all the elements of a data structure simultaneously. 
 ```{r sometest}
 x <- 2:11
+print(x)
 x <= 5 # Apply the less than or equals test
 ```
 As you can see, values that meet the criteria (<= 5) return as `TRUE`. 
@@ -162,18 +165,17 @@ missingno[!is.na(missingno)] # Select things that are the opposite of missing
 ```
 
 ## Other Useful Tests: modulus division
-An important arithmetic operator that was not mentioned last week
-is the modulus operator `%%`, which gives us the remainder of division.  
+Another important arithmetic operatoris the modulus operator `%%`, which gives us the remainder of division. For example: `5 %% 3` is `2`, because 3 goes into 5 once, with 2 left over.
 
-For example: `5 %% 3` is `2`.
-
+A common use case for the `%%` operator is to search for multiples of a number. We can do this by exploiting the fact that if one number is a multiple of another, the remainder of division will be 0.
 ```{r lisa}
 lisa <- c(34, 509, 63, 187, 998, 78, 3330)
+lisa %% 17
 lisa %% 17 == 0
 lisa[lisa %% 17 == 0]
 ```
 
-This returns all the values of the vector called `lisa` that are multiples of 17, since multiples of 17 will have a remainder of zero.
+
 
 ## Tips and Tricks
 A useful function to know is `which()`. When used on a logical vector, it will return to your the position indices of the vector's `TRUE` element. It is useful when you want to know **where** in the vector your matches occur. 
@@ -239,7 +241,7 @@ To do this, we need to:
 
     
 ## Indexing with Multiple Conditions {.conditionals}
-Our goal of the test is to have it return a `TRUE` for each element if it passed the "less than 500" test **OR** if it passed the "greater than 1000" test.
+The goal is to have our test return a `TRUE` for each element that passes the "less than 500" test **OR** passes the "greater than 1000" test.
 
 Expression | Element 1 | Element 2 | Element 3 | Element 4 | Element 5 | Element 6 | Element 7
 ------------- | --------- | --------- | --------- | --------- | --------- | --------- | ---------
@@ -261,7 +263,7 @@ Expression | Element 1 | Element 2 | Element 3 | Element 4 | Element 5 | Element
 `lisa > 1000` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `TRUE`
 `lisa < 500 | lisa > 1000` | `TRUE` | `FALSE` | `TRUE` | `TRUE` | `FALSE` | `TRUE` | `TRUE` 
 
-<br>
+
 ```{r lisa_or}
 lisa[lisa < 500 | lisa > 1000]
 ```
