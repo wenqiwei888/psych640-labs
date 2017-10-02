@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manipulating Data, Part 3: The Data Returns</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2017-10-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Manipulating Data, Part 3: The Data Returns',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'William Hopper' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="lib/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="lib/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="lib/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="lib/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-10-02</p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>Replacing and Removing Values</h2></hgroup><article  id="replacing-and-removing-values">
+
+<p>You can use indexing operation on the left hand side of an assignment operation to remove or replace values in your data structure. The basic recipe looks like:</p>
+
+<p><code>DataObject[IndexVector] &lt;- NewValues</code></p>
+
+<p>A note of caution: this is an irreversible operation, so make a backup copy of your data structure if you&#39;re uncertain what will happen:</p>
+
+<p><code>backup_object &lt;- DataObject</code></p>
+
+<p><code>DataObject[LogicalCriteria] &lt;- NewValues</code></p>
+
+</article></slide><slide class=''><hgroup><h2>Replacing Values</h2></hgroup><article  id="replacing-values">
+
+<p>Lets change the some of pesticide names in the <code>spray</code> column of the <code>InsectSprays</code> data frame to be more informative than just &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, etc.</p>
+
+<p>First, coerce the <code>spray</code> variable from a factor vector into a character vector, for reasons&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>InsectSprays$spray &lt;- as.character(InsectSprays$spray)</pre>
+
+<p>Then, subset the combination of rows and columns you wish to overwrite, and assign a replacement value to them.</p>
+
+<pre class = 'prettyprint lang-r'>InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
+InsectSprays[InsectSprays$spray==&#39;B&#39;,&#39;spray&#39;] &lt;- &quot;fairy_dust&quot;
+InsectSprays[c(1,21),]</pre>
+
+<pre >##    count           spray
+## 1     10 SPRAY_OF_DOOOOM
+## 21    19      fairy_dust</pre>
+
+</article></slide><slide class=''><hgroup><h2>Removing Columns or List Elements</h2></hgroup><article  id="removing-columns-or-list-elements">
+
+<p>You can remove single columns from a data frame column or single elements from a list by setting their values to be the <code>NULL</code> object.</p>
+
+<pre class = 'prettyprint lang-r'>backup_iris &lt;- iris
+ncol(iris)</pre>
+
+<pre >## [1] 5</pre>
+
+<pre class = 'prettyprint lang-r'>iris$Sepal.Length &lt;- NULL
+str(iris)</pre>
+
+<pre >## &#39;data.frame&#39;:    150 obs. of  4 variables:
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</pre>
+
+</article></slide><slide class=''><hgroup><h2>Removing Multiple Rows and Columns</h2></hgroup><article  id="removing-multiple-rows-and-columns">
+
+<p>Unfortunately, this method of assigning values to be <code>NULL</code> isn&#39;t a general solution for all data structures.</p>
+
+<p>Instead, we&#39;ll have to subset our data structure, and over-writing the existing variable with our subset.</p>
+
+<p>In these situations, some times it&#39;s useful to re-frame the problem; instead of thinking of your task as &quot;delete these things&quot;, try thinking of it as &quot;keep everything else&quot;.</p>
+
+</article></slide><slide class=''><hgroup><h2>Removing Multiple Rows and Columns</h2></hgroup><article  id="removing-multiple-rows-and-columns-1">
+
+<p>For instance, if you want to remove the first 5 rows of a matrix or data frame, you can use negative integers in the your index vector.</p>
+
+<pre class = 'prettyprint lang-r'>iris</pre>
+
+<pre >##     Sepal.Width Petal.Length Petal.Width    Species
+## 1           3.5          1.4         0.2     setosa
+## 2           3.0          1.4         0.2     setosa
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 148 rows ]</pre>
+
+<pre class = 'prettyprint lang-r'>iris &lt;- iris[-(1:5),]
+iris</pre>
+
+<pre >##     Sepal.Width Petal.Length Petal.Width    Species
+## 6           3.9          1.7         0.4     setosa
+## 7           3.4          1.4         0.3     setosa
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 143 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Removing Multiple Rows and Columns</h2></hgroup><article  id="removing-multiple-rows-and-columns-2">
+
+<p>But, if you wanted to remove all the Petal-related columns from the <code>iris</code> dataset, you could accomplish that by subsetting just the <code>Sepal.Length</code>, <code>Sepal.Width</code>, and <code>Species</code> columns; you delete the Petal-related columns by omitting them.</p>
+
+<pre class = 'prettyprint lang-r'>sepal_only_data &lt;- iris[,c(&quot;Sepal.Length&quot;, &quot;Sepal.Width&quot;, &quot;Species&quot;)]
+str(sepal_only_data)</pre>
+
+<pre >## &#39;data.frame&#39;:    150 obs. of  3 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</pre>
+
+</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+
+<p>Use the <code>airquality</code> data frame and do the following:</p>
+
+<ol>
+<li>Remove the <code>Wind</code> column.</li>
+<li>Find the <code>is.na()</code> function to find and remove rows that are missing observations in the <code>Ozone</code> column.</li>
+<li>Replace the entries in the <code>Day</code> column that have value 1 with the character string &#39;Sunday&#39;.</li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Combining Data Structures</h2></hgroup><article  id="combining-data-structures">
+
+<p>While subsetting and replacing values is probably a more common operation, you&#39;ll often want to add additional data to an existing data structure.</p>
+
+<p>Some functions commonly used to grow and combine data structures are:</p>
+
+<ul>
+<li><code>c()</code>: Concatenate</li>
+<li><code>$</code>: Extract/Replace</li>
+<li><code>cbind()</code>: Combine horizontally (side to side)</li>
+<li><code>rbind()</code>: Combine vertically (top to bottom)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Concatenation</h2></hgroup><article  id="concatenation">
+
+<p>As mentioned previously, the <code>c()</code> function is used to concatenate multiple vectors into a single vector.</p>
+
+<p>Because individual numeric and character values are interpreted as vectors of length 1, <code>c()</code> can be used to make &quot;new&quot; vectors.</p>
+
+<pre class = 'prettyprint lang-r'>odd &lt;- c(1, 3, 5)
+even &lt;- c(2, 4, 6)
+c(odd, even)</pre>
+
+<pre >## [1] 1 3 5 2 4 6</pre>
+
+</article></slide><slide class=''><hgroup><h2>Concatenation</h2></hgroup><article  id="concatenation-1">
+
+<p>Because lists are also considered vectors, the <code>c()</code> function can be used to combine multiple lists into one.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- list(odd = c(1, 3, 5))
+y &lt;- list(even = c(2, 4, 6))
+z &lt;- c(x, y)
+print(z)</pre>
+
+<pre >## $odd
+## [1] 1 3 5
+## 
+## $even
+## [1] 2 4 6</pre>
+
+</article></slide><slide class=''><hgroup><h2>Adding new data to lists</h2></hgroup><article  id="adding-new-data-to-lists">
+
+<p>The <code>$</code> operator can be used to add new named variables to lists</p>
+
+<pre class = 'prettyprint lang-r'>z$random = matrix(rnorm(6), ncol=3)
+print(z)</pre>
+
+<pre >## $odd
+## [1] 1 3 5
+## 
+## $even
+## [1] 2 4 6
+## 
+## $random
+##            [,1]       [,2]       [,3]
+## [1,] -2.8265921 -2.0583778  1.0650897
+## [2,] -0.3085687 -0.0685406 -0.7577712</pre>
+
+</article></slide><slide class=''><hgroup><h2>Adding new data to lists</h2></hgroup><article  id="adding-new-data-to-lists-1">
+
+<p>The <code>$</code> operator can also add new named variables to data frames. Here, there is additional constraint that the variable added must be of the same length as the data frame, or be able to be recycled to match the length of the data frame.</p>
+
+<pre class = 'prettyprint lang-r'>options(stringsAsFactors = FALSE)
+words &lt;- data.frame(word = c(&quot;good&quot;, &quot;night&quot;))
+words$n_letters &lt;- c(4, 5)
+print(words)</pre>
+
+<pre >##    word n_letters
+## 1  good         4
+## 2 night         5</pre>
+
+</article></slide><slide class=''><hgroup><h2>Column-binding</h2></hgroup><article  id="column-binding">
+
+<p>The <code>cbind</code> function (short for &quot;column bind&quot;&quot;) can also add new variables to data frames, but has more general utility than the <code>$</code>.</p>
+
+<p>For example, multiple columns can be added simultaneously:</p>
+
+<pre class = 'prettyprint lang-r'>words &lt;- cbind(words,
+               freq = c(&quot;high&quot;, &quot;low&quot;),
+               opposite = c(&quot;evil&quot;, &quot;day&quot;))
+print(words)</pre>
+
+<pre >##    word n_letters freq opposite
+## 1  good         4 high     evil
+## 2 night         5  low      day</pre>
+
+</article></slide><slide class=''><hgroup><h2>Column-binding</h2></hgroup><article  id="column-binding-1">
+
+<p>You can also combine two data frames with the same number of rows into one</p>
+
+<pre class = 'prettyprint lang-r'>df_one &lt;- data.frame(letters)
+df_two &lt;- data.frame(rnorm(length(letters)))
+cbind(df_one, df_two)</pre>
+
+<pre >##    letters rnorm.length.letters..
+## 1        a            -0.72020408
+## 2        b            -0.59282500
+## 3        c            -0.32416190
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 23 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Column-binding</h2></hgroup><article  id="column-binding-2">
+
+<p>The <code>cbind()</code> function can also combine matrices together, and combine multiple vectors into a matrix</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- cbind(odd, even) # odd = c(1,3,5), even = c(2,4,6)
+y &lt;- cbind(x, matrix(rnorm(n = 6), nrow = 3))
+print(y)</pre>
+
+<pre >##      odd even                       
+## [1,]   1    2 -1.32815130  1.1809652
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 2 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Row-binding</h2></hgroup><article  id="row-binding">
+
+<p>The <code>rbind()</code> function provides equivalent operations to the <code>cbind</code> function, but combines data structures vertically instead of horizontally.</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- rbind(odd, even)
+y &lt;- rbind(x, matrix(rnorm(n = 6), ncol = 3))
+print(y)</pre>
+
+<pre >##            [,1]       [,2]       [,3]
+## odd   1.0000000  3.0000000  5.0000000
+## even  2.0000000  4.0000000  6.0000000
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 2 rows ]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Row-binding</h2></hgroup><article  id="row-binding-1">
+
+<p>The <code>rbind()</code> function can be used with data frames as well, but there are some caveats.</p>
+
+<p>If you want to add a vector to a data frame as a new row, the vector must:</p>
+
+<ol>
+<li>Have the same number of elements as there are columns in the data frame</li>
+<li>Have the same type as (or be coercible to) the type in the corresponding column of the data frame.
+
+<ul>
+<li>This one can be tricky, because you can&#39;t mix types in a vector</li>
+</ul></li>
+</ol>
+
+</article></slide><slide class=''><hgroup><h2>Row-binding</h2></hgroup><article  id="row-binding-2" class="errormsg">
+
+<p>If you want to combine two data frames together vertically (i.e., top to bottom), then they must have:</p>
+
+<ol>
+<li>The same number of columns</li>
+<li>The same column names</li>
+</ol>
+
+<p>So, you can&#39;t <code>rbind()</code> two data frames with different variables.</p>
+
+</article></slide><slide class=''><hgroup><h2>Merging Datasets</h2></hgroup><article  id="merging-datasets">
+
+<p>Sometimes you&#39;ll want to combine two datasets based on common values in a shared variable.</p>
+
+<p>We&#39;ll cover these types of merging operations, called &quot;joins&quot;, <a href='../joins.html' title=''>later in the course</a>. But if you are certain you need to understand how to do this before we cover them in class, come see me =)</p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

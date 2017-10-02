@@ -1,0 +1,191 @@
+---
+title: "Manipulating Data, Part 3: The Data Returns"
+author: "William Hopper"
+date: "`r Sys.Date()`"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+## Replacing and Removing Values
+You can use indexing operation on the left hand side of an assignment operation to remove or replace values in your data structure. The basic recipe looks like:
+
+`DataObject[IndexVector] <- NewValues`
+
+A note of caution: this is an irreversible operation, so make a backup copy of your data structure if you're uncertain what will happen:
+
+`backup_object <- DataObject`
+
+`DataObject[LogicalCriteria] <- NewValues`
+
+## Replacing Values
+Lets change the some of pesticide names in the `spray` column of the `InsectSprays` data frame to be more informative than just "A", "B", "C", etc. 
+
+First, coerce the `spray` variable from a factor vector into a character vector, for reasons...
+
+```{r coerce}
+InsectSprays$spray <- as.character(InsectSprays$spray)
+```
+
+Then, subset the combination of rows and columns you wish to overwrite, and assign a replacement value to them.
+
+```{r renaming_sprays}
+InsectSprays[InsectSprays$spray=='A','spray'] <- "SPRAY_OF_DOOOOM"
+InsectSprays[InsectSprays$spray=='B','spray'] <- "fairy_dust"
+InsectSprays[c(1,21),]
+```
+
+## Removing Columns or List Elements
+You can remove single columns from a data frame column or single elements from a list by setting their values to be the `NULL` object.
+```{r removing_columns}
+backup_iris <- iris
+ncol(iris)
+iris$Sepal.Length <- NULL
+str(iris)
+```
+
+```{r echo=FALSE}
+iris <- backup_iris
+```
+## Removing Multiple Rows and Columns
+Unfortunately, this method of assigning values to be `NULL` isn't a general solution for all data structures.
+
+Instead, we'll have to  subset our data structure, and over-writing the existing variable with our subset.
+
+In these situations, some times it's useful to re-frame the problem; instead of thinking of your task as "delete these things", try thinking of it as "keep everything else".
+
+## Removing Multiple Rows and Columns
+For instance, if you want to remove the first 5 rows of a matrix or data frame, you can use negative integers in the your index vector.
+```{r rename_dont_delete, R.options=list(max.print=10)}
+iris
+iris <- iris[-(1:5),]
+iris
+```
+
+```{r echo=FALSE}
+iris <- backup_iris
+```
+
+## Removing Multiple Rows and Columns
+But, if you wanted to remove all the Petal-related columns from the `iris` dataset, you could accomplish that by subsetting just the `Sepal.Length`, `Sepal.Width`, and `Species` columns; you delete the Petal-related columns by omitting them.
+
+```{r}
+sepal_only_data <- iris[,c("Sepal.Length", "Sepal.Width", "Species")]
+str(sepal_only_data)
+```
+## Activity
+Use the `airquality` data frame and do the following:
+
+1. Remove the `Wind` column.
+2. Find the `is.na()` function to find and remove rows that are missing observations in the `Ozone` column.
+3. Replace the entries in the `Day` column that have value 1 with the character string 'Sunday'.
+
+
+## Combining Data Structures
+While subsetting and replacing values is probably a more common operation, you'll often want to add additional data to an existing data structure.
+
+Some functions commonly used to grow and combine data structures are:
+
+- `c()`: Concatenate
+- `$`: Extract/Replace
+- `cbind()`: Combine horizontally (side to side)
+- `rbind()`: Combine vertically (top to bottom)
+
+## Concatenation
+As mentioned previously, the `c()` function is used to concatenate multiple vectors into a single vector.
+
+Because individual numeric and character values are interpreted as vectors of length 1, `c()` can be used to make "new" vectors.
+
+```{r c}
+odd <- c(1, 3, 5)
+even <- c(2, 4, 6)
+c(odd, even)
+```
+
+## Concatenation
+Because lists are also considered vectors, the `c()` function can be used to combine multiple lists into one.
+
+```{r c_lists}
+x <- list(odd = c(1, 3, 5))
+y <- list(even = c(2, 4, 6))
+z <- c(x, y)
+print(z)
+```
+
+## Adding new data to lists
+The `$` operator can be used to add new named variables to lists
+
+```{r dollar_sign_list}
+z$random = matrix(rnorm(6), ncol=3)
+print(z)
+```
+
+## Adding new data to lists
+The `$` operator can also add new named variables to data frames. Here, there is additional constraint that the variable added must be of the same length as the data frame, or be able to be recycled to match the length of the data frame.
+
+```{r dollar_sign_df}
+options(stringsAsFactors = FALSE)
+words <- data.frame(word = c("good", "night"))
+words$n_letters <- c(4, 5)
+print(words)
+```
+
+## Column-binding
+The `cbind` function (short for "column bind"") can also add new variables to data frames, but has more general utility than the `$`.
+
+For example, multiple columns can be added simultaneously:
+```{r cbind_new_vars}
+words <- cbind(words,
+               freq = c("high", "low"),
+               opposite = c("evil", "day"))
+print(words)
+```
+
+## Column-binding
+You can also combine two data frames with the same number of rows into one
+```{r cbind_two_df, R.options=list(max.print=6)}
+df_one <- data.frame(letters)
+df_two <- data.frame(rnorm(length(letters)))
+cbind(df_one, df_two)
+```
+
+## Column-binding
+The `cbind()` function can also combine matrices together, and combine multiple vectors into a matrix
+```{r cbind_matrices, R.options=list(max.print=6)}
+x <- cbind(odd, even) # odd = c(1,3,5), even = c(2,4,6)
+y <- cbind(x, matrix(rnorm(n = 6), nrow = 3))
+print(y)
+```
+
+## Row-binding
+The `rbind()` function provides equivalent operations to the `cbind` function, but combines data structures vertically instead of horizontally.
+
+```{r rbind_matrices, R.options=list(max.print=6)}
+x <- rbind(odd, even)
+y <- rbind(x, matrix(rnorm(n = 6), ncol = 3))
+print(y)
+```
+
+## Row-binding
+The `rbind()` function can be used with data frames as well, but there are some caveats.
+
+If you want to add a vector to a data frame as a new row, the vector must:
+
+1. Have the same number of elements as there are columns in the data frame
+2. Have the same type as (or be coercible to) the type in the corresponding column of the data frame.
+    - This one can be tricky, because you can't mix types in a vector
+
+## Row-binding {.errormsg}
+If you want to combine two data frames together vertically (i.e., top to bottom), then they must have:
+
+1. The same number of columns
+2. The same column names
+
+So, you can't `rbind()` two data frames with different variables.
+
+## Merging Datasets
+Sometimes you'll want to combine two datasets based on common values in a shared variable.
+
+We'll cover these types of merging operations, called "joins", [later in the course](../joins.html). But if you are certain you need to understand how to do this before we cover them in class, come see me =)
