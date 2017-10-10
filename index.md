@@ -28,7 +28,7 @@ When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, 
 [Data Types and Stuctures](./labs/DataTypesandStructures.html) | 9/18/17
 [Manipulating Data, Part 1](./labs/ManipulatingData.html) | 9/25/17
 [Manipulating Data, Part 2](./labs/ManipulatingData_part2.html) | 10/2/17
-[Manipulating Data, Part 3](./labs/ManipulatingData_part2.html) | 10/10/17
+[Manipulating Data, Part 3](./labs/ManipulatingData_part3.html) | 10/10/17
 [Intro to Functions](./labs/IntroductionToFunctions.html) | 10/16/17
 [Reading Data into R](./labs/FileIO.html) | 10/23/17
 [Plotting with Base Graphics, Part 1](./labs/basegraphics_part1.html) | 10/30/17
