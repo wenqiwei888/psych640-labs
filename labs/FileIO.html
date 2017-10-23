@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reading and Writing Data Sets</title>
+  <title>Importing and Exporting Data</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2017-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +21,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Reading and Writing Data Sets',
+                title: 'Importing and Exporting Data',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-10-23</p>
           </hgroup>
   </slide>
 
@@ -126,7 +126,7 @@
 </article></slide><slide class=''><hgroup><h2>Absolute Paths</h2></hgroup><article  id="absolute-paths">
 
 <ul>
-<li>On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window&#39;s installation is &quot;<code>C:\\</code>&quot;
+<li>On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window&#39;s installation is &quot;<code>C:\</code>&quot;
 
 <ul>
 <li>Directories are separated with <strong>backward</strong> slashes</li>
@@ -144,12 +144,12 @@
 </article></slide><slide class=''><hgroup><h2>The working directory</h2></hgroup><article  id="the-working-directory">
 
 <ul>
-<li>Whenever you start R, the process that is begun &quot;lives&quot; in a specific directory on your filesystem.
+<li>Whenever you start R, the process that is begun &quot;lives&quot; in a specific directory on your file system.
 
 <ul>
 <li>The location where it &quot;lives&quot; is called the <strong>working directory</strong></li>
 </ul></li>
-<li>On Windows, the default working directory is your user&#39;s &quot;My Documents&quot; folder</li>
+<li>On Windows, the default working directory is your user&#39;s folder in the <code>C:\Users</code> directory.</li>
 <li>On OSX, the default working directory is your user&#39;s directory in the <code>/Users</code> directory.</li>
 <li>On Linux, the default working directory is your user&#39;s directory in the <code>/home</code> directory.</li>
 </ul>
@@ -179,7 +179,7 @@
 <p>There are two &quot;special characters&quot; to be aware of when dealing with file paths. Think of them as variables that change values when you change working directories.</p>
 
 <ol>
-<li><code>..</code> : Short-hand for &quot;one directory up&quot; from the current working direcoty in the file system heirarchy</li>
+<li><code>..</code> : Short-hand for &quot;one directory up&quot; from the current working directory in the file system hierarchy</li>
 <li><code>.</code> : Short-hand for &quot;the current working directory&quot;.</li>
 </ol>
 
@@ -377,7 +377,7 @@ c,3,11</pre>
 
 </article></slide><slide class=''><hgroup><h2>Exporting Data Structures as a CSV</h2></hgroup><article  id="exporting-data-structures-as-a-csv-1">
 
-<p>Its often useful to set <code>quotes</code> and <code>row.names</code> to <code>FALSE</code> when writing a csv.</p>
+<p>Its often useful to set <code>row.names</code> to <code>FALSE</code> when writing a csv.</p>
 
 <p>Compare the defaults:</p>
 
@@ -390,12 +390,12 @@ c,3,11</pre>
 
 <p>to this:</p>
 
-<pre class = 'prettyprint lang-r'>write.csv(commas, file=&quot;&quot;, quote=FALSE, row.names=FALSE)</pre>
+<pre class = 'prettyprint lang-r'>write.csv(commas, file=&quot;&quot;, row.names=FALSE)</pre>
 
-<pre >condition,trial,rating
-a,1,3
-b,2,1
-c,3,11</pre>
+<pre >&quot;condition&quot;,&quot;trial&quot;,&quot;rating&quot;
+&quot;a&quot;,1,3
+&quot;b&quot;,2,1
+&quot;c&quot;,3,11</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading in fixed-width data</h2></hgroup><article  id="reading-in-fixed-width-data">
 
@@ -434,9 +434,7 @@ print(data)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Reading data from Excel</h2></hgroup><article  id="reading-data-from-excel">
 
-<p>The simplest way to read in data from Excel is to use Excel to save it as a CSV, and then use <code>read.csv()</code> =)</p>
-
-<p>But otherwise he easiest way to read in data from .xls and .xlsx files is using the <code>readxl</code> package. Get it with <code>install.packages(&#39;readxl&#39;)</code>.</p>
+<p>The simplest way to read in data from Excel (i.e., .xls and .xlsx files) is using the <code>readxl</code> package. Get it with <code>install.packages(&#39;readxl&#39;)</code>.</p>
 
 <pre class = 'prettyprint lang-r'>install.packages(&quot;readxl&quot;)
 library(readxl)</pre>
@@ -490,7 +488,7 @@ library(readxl)</pre>
 <pre class = 'prettyprint lang-r'>chicks &lt;- read_excel(&quot;data/datasets.xlsx&quot;, sheet = 3)
 head(chicks)</pre>
 
-<pre ># A tibble: 6 × 2
+<pre ># A tibble: 6 x 2
   weight      feed
    &lt;dbl&gt;     &lt;chr&gt;
 1    179 horsebean
@@ -510,7 +508,7 @@ head(chicks)</pre>
 
 <pre class = 'prettyprint lang-r'>read_excel(&quot;data/datasets.xlsx&quot;, sheet = &quot;chickwts&quot;)</pre>
 
-<pre ># A tibble: 6 × 2
+<pre ># A tibble: 6 x 2
   weight      feed
    &lt;dbl&gt;     &lt;chr&gt;
 1    179 horsebean
@@ -552,7 +550,7 @@ spss &lt;- read_sav(&quot;data/example.sav&quot;) # spss values = factors?</pre>
 
 <pre class = 'prettyprint lang-r'>mySASData &lt;- read_sas(&quot;data/randomSASfile.sas7bdat&quot;)</pre>
 
-<p>.sas7bdat = <strong>SAS 7 B</strong> inary <strong>DAT</strong> a</p>
+<p>.sas7bdat = <b>SAS 7 B</b>inary <b>DAT</b>a</p>
 
 </article></slide><slide class=''><hgroup><h2>Reading in MATLAB files</h2></hgroup><article  id="reading-in-matlab-files">
 

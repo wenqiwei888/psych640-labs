@@ -1,5 +1,5 @@
 ---
-title: "Reading and Writing Data Sets"
+title: "Importing and Exporting Data"
 author: "William Hopper"
 date: "`r Sys.Date()`"
 ---
@@ -30,7 +30,7 @@ matData <- readMat("../data/matfile.mat")
     2. Using a file's *relative* path (i.e., specifying its location relative to R's current working directory)
     
 ## Absolute Paths
-- On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window's installation is "`C:\\`"
+- On Windows, the start of each file system is given a letter prefix; the prefix of the file system holding the Window's installation is "`C:\`"
     - Directories are separated  with **backward** slashes
     - E.g. "`C:\Users\will`" is an absolute path
 - On Mac OSX, Gnu/Linux or other unix-like systems, the start of the file system is `/`
@@ -39,9 +39,9 @@ matData <- readMat("../data/matfile.mat")
     - E.g. "`/Users/will`" is an absolute path
 
 ## The working directory
-- Whenever you start R, the process that is begun "lives" in a specific directory on your filesystem. 
+- Whenever you start R, the process that is begun "lives" in a specific directory on your file system. 
     - The location where it "lives" is called the **working directory**
-- On Windows, the default working directory is your user's "My Documents" folder
+- On Windows, the default working directory is your user's folder in the `C:\Users` directory.
 - On OSX, the default working directory is your user's directory in the `/Users` directory.
 - On Linux, the default working directory is your user's directory in the `/home` directory.
 
@@ -73,7 +73,7 @@ read.csv("data/commas.csv")
 
 There are two "special characters" to be aware of when dealing with file paths. Think of them as variables that change values when you change working directories.
 
-1. `..` : Short-hand for "one directory up" from the current working direcoty in the file system heirarchy
+1. `..` : Short-hand for "one directory up" from the current working directory in the file system hierarchy
 2. `.` : Short-hand for "the current working directory".
 
 Current working directory | Command | New working directory
@@ -168,7 +168,7 @@ quote | Should characters or factors be printed with quotes | `TRUE`
 row.names | Should row names be written? | `TRUE`
 
 ## Exporting Data Structures as a CSV
-Its often useful to set `quotes` and `row.names` to `FALSE` when writing a csv.
+Its often useful to set `row.names` to `FALSE` when writing a csv.
 
 Compare the defaults: 
 ```{r defaultWrite,prompt=FALSE, comment=""}
@@ -177,7 +177,7 @@ write.csv(commas, file = "")
 
 to this:
 ```{r optimalWrite,prompt=FALSE, comment=""}
-write.csv(commas, file="", quote=FALSE, row.names=FALSE)
+write.csv(commas, file="", row.names=FALSE)
 ```
 
 ## Reading in fixed-width data
@@ -213,9 +213,7 @@ The positive values in the `width` vector specify the number of characters to at
 The negative values tell R to skip characters. Here, -5 in the third position means to skip 5 characters before starting the third column (i.e. skip the x's).
 
 ## Reading data from Excel
-The simplest way to read in data from Excel is to use Excel to save it as a CSV, and then use `read.csv()` =)
-
-But otherwise he easiest way to read in data from .xls and .xlsx files is using the `readxl` package. Get it with `install.packages('readxl')`.
+The simplest way to read in data from Excel (i.e., .xls and .xlsx files) is using the `readxl` package. Get it with `install.packages('readxl')`.
 
 ```{r readxl,eval=FALSE}
 install.packages("readxl")
@@ -293,7 +291,7 @@ If you have SAS data files you want to import into R, the `haven` package also i
 mySASData <- read_sas("data/randomSASfile.sas7bdat")
 ```
 
-.sas7bdat = __SAS 7 B__ inary __DAT__ a
+.sas7bdat = <b>SAS 7 B</b>inary <b>DAT</b>a
 
 ## Reading in MATLAB files
 MATLAB supports saving variables in a proprietary format, called .mat files. We can read them into R using the R.matlab package's `readmat()` file. 
