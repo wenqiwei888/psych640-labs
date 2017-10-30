@@ -86,9 +86,9 @@ plot(pressure$temperature, pressure$pressure, xlab="Temperature (C)",
 ## Interfacing with `par` via `plot`
 
 Argument | Behavior | Values
--------- | -------- | ------
+---- | -------- | ------
 col | Point and line color | [color name string](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf) or [RGB hex value](http://www.color-hex.com/)
-pch | The symbols used for points | Numeric vector (see `?points`) [Cheat Sheet](http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/)
+pch | "Point Characters"; The symbols used for points | Numeric vector (see `?points`) [Cheat Sheet](http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/)
 bg | The fill color of points | Same as `col`
 lty | line type (dotted, dashed, etc.) | Type name or numeric vector [Cheat Sheet](http://www.statisticstoproveanything.com/2010/10/chart-of-different-lty-values-in-r.html)
 lwd | Line thickness (including point perimeters)| Numeric Vector
@@ -167,9 +167,9 @@ text(x=4,y=4.75,labels="y=x") # centered at (4,4.75)
 ```
 
 ## Adding a legend {.img-centered}
-We'll include legend that associates each function with its line color so others can tell which function is which.
+We'll include a legend that associates each function with its line color so others can tell which function is which, using the  `legend()` function.
 
-In `legend()`, we need to tell the function to draw lines, color them, label them, and skip the bounding box on the legend.
+In `legend()`, we need to tell the function to where to draw lines, what to label them, what to color them, and to  skip the bounding box on the legend.
 ```{r logandexp_legend,fig.height = 3.25, fig.width =4, echo=8}
 par(mar = c(4,4,1,1))
 x1 <- seq(0.01,4,.01) # 400 points, .01 apart

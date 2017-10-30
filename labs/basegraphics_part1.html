@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2017-10-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-10-30</p>
           </hgroup>
   </slide>
 
@@ -222,7 +222,7 @@
 </article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot-1">
 
 <table class = 'rmdtable'>
-<col width="12%" />
+<col width="6%" />
 <col width="12%" />
 <col width="9%" />
 <tr class="header">
@@ -237,7 +237,7 @@
 </tr>
 <tr class="even">
 <td align="left">pch</td>
-<td align="left">The symbols used for points</td>
+<td align="left">&quot;Point Characters&quot;; The symbols used for points</td>
 <td align="left">Numeric vector (see <code>?points</code>) <a href='http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/' title=''>Cheat Sheet</a></td>
 </tr>
 <tr class="odd">
@@ -343,9 +343,9 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Adding a legend</h2></hgroup><article  id="adding-a-legend" class="img-centered">
 
-<p>We&#39;ll include legend that associates each function with its line color so others can tell which function is which.</p>
+<p>We&#39;ll include a legend that associates each function with its line color so others can tell which function is which, using the <code>legend()</code> function.</p>
 
-<p>In <code>legend()</code>, we need to tell the function to draw lines, color them, label them, and skip the bounding box on the legend.</p>
+<p>In <code>legend()</code>, we need to tell the function to where to draw lines, what to label them, what to color them, and to skip the bounding box on the legend.</p>
 
 <pre class = 'prettyprint lang-r'>legend(&quot;topright&quot;, legend = c(&quot;Exponential&quot;,&quot;Logarithmic&quot;),
        col=c(&quot;blue&quot;,&quot;red&quot;),lty=1, bty=&quot;n&quot;)</pre>
