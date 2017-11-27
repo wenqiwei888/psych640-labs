@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2017-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,10 +52,10 @@
   <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
   <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
   <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
-  <script src="lib/htmlwidgets-0.7/htmlwidgets.js"></script>
+  <script src="lib/htmlwidgets-0.9/htmlwidgets.js"></script>
   <script src="lib/viz-0.3/viz.js"></script>
   <link href="lib/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-  <script src="lib/grViz-binding-0.8.4/grViz.js"></script>
+  <script src="lib/grViz-binding-0.9.1/grViz.js"></script>
 
   <style type="text/css">
 
@@ -85,7 +85,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -99,7 +99,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2017-11-27</p>
           </hgroup>
   </slide>
 
@@ -147,8 +147,8 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 </ul></li>
 </ul>
 
-<div id="htmlwidget-b2df5f744f282a568e5e" style="width:720px;height:150px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b2df5f744f282a568e5e">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-db12396514cbdb0b8300" style="width:720px;height:150px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-db12396514cbdb0b8300">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 </article></slide><slide class=''><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
 
@@ -178,35 +178,31 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 
 <p>An <code>if else</code> statement allows us to conditionally evaluate specific statements. The general syntax is:</p>
 
-<pre class = 'prettyprint lang-r'>if (condition) {
+<pre class = 'prettyprint lang-r'>expression_A
+expression_B
+if (condition) {
   expression_C
 } else {
   expression_D 
 }</pre>
 
 <ul>
-<li><code>condition</code> is an R expression that evaluates to a single logical value (i.e. a single <code>TRUE</code> or <code>FALSE</code> value)
-
-<ul>
-<li>This expression <strong>must</strong> be in parenthesis</li>
-</ul></li>
-<li><code>expressionA</code> and <code>expressionB</code> are two different blocks of R code
-
-<ul>
-<li>These expressions should be contained in curly brackets</li>
-</ul></li>
+<li><code>condition</code> is an R expression that evaluates to a single logical value (i.e. <code>TRUE</code> or <code>FALSE</code> value). This expression <strong>must</strong> be in parenthesis</li>
+<li><code>expression_C</code> and <code>expression_D</code> are two different blocks of R code that should be contained in curly braces</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>if else control flow</h2></hgroup><article  id="if-else-control-flow">
 
-<pre class = 'prettyprint lang-r'>if (condition) {
+<pre class = 'prettyprint lang-r'>expression_A
+expression_B
+if (condition) {
   expression_C
 } else {
   expression_D 
 }</pre>
 
-<div id="htmlwidget-c14d44564d10c0dc856a" style="width:720px;height:225px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c14d44564d10c0dc856a">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6884dc3d90fae815fe7d" style="width:720px;height:225px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6884dc3d90fae815fe7d">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 <ul>
 <li>If <code>condition</code> is equal to <code>TRUE</code>, take the path through C</li>
@@ -217,15 +213,11 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 
 <p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random integers is larger.</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000</pre>
-
-<pre >## Warning in sample.int(length(x), size, replace, prob): &#39;.Random.seed&#39; is
-## not an integer vector but of type &#39;NULL&#39;, so ignored</pre>
-
-<pre class = 'prettyprint lang-r'>y &lt;- sample(1:50000,1)
+<pre class = 'prettyprint lang-r'>x &lt;- sample(1:50000,1) # random value from 1 to 50,000
+y &lt;- sample(1:50000,1)
 print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
-<pre >## [1] &quot;X is 33257, Y is 45001&quot;</pre>
+<pre >## [1] &quot;X is 13276, Y is 18607&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
@@ -243,7 +235,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 y &lt;- sample(1:50000,1)
 print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
-<pre >## [1] &quot;X is 18871, Y is 17777&quot;</pre>
+<pre >## [1] &quot;X is 28643, Y is 45411&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>if (x &lt; y) {
   print(&quot;Y Wins!&quot;)
@@ -253,7 +245,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
   print(&quot;zomg X equals Y!!&quot;)
 }</pre>
 
-<pre >## [1] &quot;X Wins!&quot;</pre>
+<pre >## [1] &quot;Y Wins!&quot;</pre>
 
 <p>We can have as many <code>else if</code> statements chained together as we want, but only one <code>else</code>.</p>
 
@@ -286,19 +278,17 @@ if (x &lt; 0) {
 
 <ul>
 <li><code>for</code> loops repeat your operations for an explicit number of repetitions</li>
-<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-58dc05b044e586cb2e47" style="width:720px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-58dc05b044e586cb2e47">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
+<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-2a560ad00bd8f80114e3" style="width:720px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2a560ad00bd8f80114e3">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
 
 <p>At the heart of a <code>for</code> loop is the R object which determines the number of iterations your <code>for</code> loop should make.</p>
 
-<p>This counter variable (<code>i</code> in this example) is declared inside the parenthesis immediately following the <code>for</code> keyword.</p>
+<p>This counter variable (<code>i</code> in this example) is declared inside the parenthesis immediately following the <code>for</code> keyword. It is common to refer to the counter variable as the variable you &quot;loop over&quot;.</p>
 
-<p>It is common to refer to the counter variable as the variable you &quot;loop over&quot;.</p>
-
-<p>Here, we loop over the variable <code>i</code>. Inside the body of the <code>for</code> loop, the variable <code>i</code> takes on the values 1, 2, and 3.</p>
+<p>Here, we loop over the variable <code>i</code>, which is the vector <code>[1, 2, 3]</code>. Inside the body of the <code>for</code> loop, the variable <code>i</code> takes on the values 1, 2, and 3, one at a time..</p>
 
 <pre class = 'prettyprint lang-r'>for (i in 1:3) {
   print(i)
@@ -312,20 +302,20 @@ if (x &lt; 0) {
 
 <p>But the counter variable doesn&#39;t have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and <code>i</code> will sequentially take on each value in the vector.</p>
 
-<pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,1,2,3)) {
+<pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,3,2,1)) {
   print(i)
 }</pre>
 
 <pre >## [1] &quot;A&quot;
 ## [1] &quot;B&quot;
 ## [1] &quot;C&quot;
-## [1] &quot;1&quot;
+## [1] &quot;3&quot;
 ## [1] &quot;2&quot;
-## [1] &quot;3&quot;</pre>
+## [1] &quot;1&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-2">
 
-<pre class = 'prettyprint lang-r'>for (i in 1:3) {
+<pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,3,2,1)) {
   print(i)
 }</pre>
 
@@ -539,7 +529,7 @@ while(r &lt; 3 &amp;&amp; r &gt; -3) {
 }
 print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
 
-<pre >## [1] &quot;Success only took 124 samples&quot;</pre>
+<pre >## [1] &quot;Success only took 386 samples&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
 

@@ -103,17 +103,16 @@ linear_flow
 An `if else` statement allows us to conditionally evaluate specific statements. The general syntax is: 
 
 ```{r ifelse_template, prompt = F, eval=F}
+expression_A
+expression_B
 if (condition) {
   expression_C
 } else {
   expression_D 
 }
 ```
-- `condition` is an R expression that evaluates to a single logical value (i.e. a single `TRUE` or `FALSE` value)
-    - This expression **must** be in parenthesis
-- `expressionA` and `expressionB` are two different blocks of R code 
-    - These expressions should be contained in curly brackets
-
+- `condition` is an R expression that evaluates to a single logical value (i.e. `TRUE` or `FALSE` value). This expression **must** be in parenthesis
+- `expression_C` and `expression_D` are two different blocks of R code that should be contained in curly braces
 
 ## if else control flow
 ```{r ref.label="ifelse_template",eval=FALSE}
@@ -129,7 +128,12 @@ branch_flow
 ## if else
 Lets take a look at some simple examples of conditional branching. Here we'll use an `if else` statement to print out which of two random integers is larger. 
 
-```{r  ifelse_ex1,eval=TRUE}
+```{r echo=FALSE}
+rm(.Random.seed)
+set.seed(1)
+```
+
+```{r ifelse_ex1,eval=TRUE}
 x <- sample(1:50000,1) # random value from 1 to 50,000
 y <- sample(1:50000,1)
 print(sprintf("X is %d, Y is %d", x, y))
@@ -201,11 +205,9 @@ loop_flow
 ## for loops 
 At the heart of a `for` loop is the R object which determines the number of iterations your `for` loop should make.
 
-This counter variable (`i` in this example) is declared inside the parenthesis immediately following the `for` keyword.
+This counter variable (`i` in this example) is declared inside the parenthesis immediately following the `for` keyword. It is common to refer to the counter variable as the variable you "loop over".
 
-It is common to refer to the counter variable as the variable you "loop over".
-
-Here, we loop over the variable `i`. Inside the body of the `for` loop, the variable `i` takes on the values 1, 2, and 3.
+Here, we loop over the variable `i`, which is the vector `[1, 2, 3]`. Inside the body of the `for` loop, the variable `i` takes on the values 1, 2, and 3, one at a time..
 
 ```{r basicForloop, prompt=FALSE}
 for (i in 1:3) {
@@ -216,13 +218,13 @@ for (i in 1:3) {
 ## for loops 
 But the counter variable doesn't have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and `i` will sequentially take on each value in the vector.
 ```{r basicForloop2, prompt=FALSE}
-for (i in c("A","B","C",1,2,3)) {
+for (i in c("A","B","C",3,2,1)) {
   print(i)
 }
 ```
 
 ## for loops 
-```{r prompt=FALSE,eval=FALSE,ref.label='basicForloop'}
+```{r prompt=FALSE,eval=FALSE,ref.label='basicForloop2'}
 ```
 
 Note 2 important things that happened:
