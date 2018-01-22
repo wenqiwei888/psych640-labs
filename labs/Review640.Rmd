@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Except for its work, not a review
 
-The [2017 MLB Salaries](../data/mlb_2017_salaries.csv) data set has 9 variables describing how much each player in Major League Baseball earns*:
+The [2017 MLB Salaries](../data/mlb_2017_salaries.csv) data set has 9 variables describing the contracts of Major League Baseball players:
 
 - **name**: The player's first and last name
 - **team**: The team the player belongs to
@@ -20,12 +20,12 @@ The [2017 MLB Salaries](../data/mlb_2017_salaries.csv) data set has 9 variables 
 - **start**: The year the player's current contract began
 - **end**: The year the player's current contract ends
 - **total_value**: The total value of the player's contract
-- **avg_annual**: The player's average annual salary (may be different from 2017 salary)
+- **avg_annual**: The player's average annual salary, over the course of their contract
 
 ## The Assignment
 
-1. Of the oldest contracts currently in effect, which player has the longest contract?
+1. Which player has the longest currently active contract?
 
-2. Plot the total salaries for each team. On the same figure, plot the salary of the highest paid player for each team. (*Hint: the `las` graphical parameter can help you fit many axis labels on one plot*).
+2. Plot the total salaries for each team in 2017. On the same figure, plot the salary of the highest paid player for each team in 2017. (*Hint: the `las` graphical parameter can help you fit many axis labels on one plot*).
 
-3. Perform an ANOVA comparing the salaries among outfielders (i.e., right-fielders, left-fielders, and center-fielders). Are there any significant differences?
+3. Perform an ANOVA comparing the 2017 salaries among outfielders (i.e., right-fielders, left-fielders, and center-fielders). Are there any significant differences?

@@ -40,9 +40,9 @@ When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, 
 
 *Lab Topic* | *Date* 
 :----------- | :------ 
-[Review Exercises](./labs/Review640.html) | TBA
-[dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | TBA
-[dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | TBA
+[Review Exercises](./labs/Review640.html) | 1/22/18
+[dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | 1/29/18
+[dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | 2/5/18
 [Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | TBA
 [Reshaping Data with tidyr](./labs/tidyr.html) | TBA
 [Reshaping Data with reshape2](./labs/reshape.html) | N/A
