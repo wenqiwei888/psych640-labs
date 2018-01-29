@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(prompt=TRUE, cache = TRUE) 
+knitr::opts_chunk$set(cache = TRUE) 
 ```
 
 ## What is dplyr?
@@ -37,7 +37,7 @@ We'll start our tour by installing the `dplyr` package and loading a dataset to 
 ```{r installing,eval=FALSE}
 install.packages('dplyr')
 library(dplyr)
-cropYield <- read.csv("http://wjhopper.github.io//psych640/data/crops.csv")
+cropYield <- read.csv("http://wjhopper.github.io/psych640-labs/data/crops.csv")
 head(cropYield)
 ```
 
@@ -53,7 +53,7 @@ The `cropYield` data frame has 99 observations of 4 variables: Field, Till,	Fert
 The `arrange` function sorts the rows of a data frame based on the values of one or more variables. Lets use it to sort the rows of the `cropYield` data frame by fertilizer type.
 
 `arrange` expects the first argument to be the data frame to sort, and uses any remaining arguments as the names of the variables to sort by.
-```{r arrange1, R.options = list(max.print = 20)}
+```{r arrange1, R.options = list(max.print = 20), warning=FALSE}
 arrange(cropYield, Fert) # Column names are unquoted!!
 ```
 
@@ -256,7 +256,9 @@ summarise(cropsGrouped, grpSize = n())
 
 ## Ungrouping
 If you want to remove the grouping you've applied to a data frame, just use the `ungroup` function to reset it back to a "normal" data frame.
-```{r ungroup, R.options=list("max.print" = 12)}
+sd
+```{r ungroup, echo = -1}
+options(tibble.print_max = 8, tibble.print_min = 8)
 ungroup(cropsGrouped) # no more "Groups" line
 ```
 You can check a data frames grouped/ungrouped status with the `is.grouped` function.
@@ -265,4 +267,4 @@ You can check a data frames grouped/ungrouped status with the `is.grouped` funct
 Use the `dplyr` functions to:
 
   - Find the mean and standard error of the crop yields recorded for each field
-  - Create a new variable in the data frame that gives that overall rank of each field in terms of average crop yield.
+  - Create a new variable in the data frame that gives the overall rank of each field in terms of average crop yield (see the `?rank` function).
