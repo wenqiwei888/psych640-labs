@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-02-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -82,7 +82,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -96,11 +96,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-02-05</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>More dplyr</h2></hgroup><article  id="more-dplyr">
+<slide class=""><hgroup><h2>More dplyr</h2></hgroup><article  id="more-dplyr">
 
 <ul>
 <li>In the last lab we introduced some of dplyr&#39;s &quot;Basic Verbs&quot;, i.e., functions for performing some of the most common tasks in data manipulation and analysis.
@@ -114,12 +114,12 @@
 <li>Today we&#39;re going to look at how to combine these operations together to simplify your workflow, and some more &#39;advanced&#39; features of the <code>dplyr</code> package.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Our Dataset</h2></hgroup><article  id="our-dataset">
+</article></slide><slide class=""><hgroup><h2>Our Dataset</h2></hgroup><article  id="our-dataset">
 
 <p>Before we start, load <code>dplyr</code> and download the data. The <code>marathon</code> dataset holds the results of the 2009 <a href='http://www.cherryblossom.org/' title=''>Credit Union Cherry Blossom Ten Mile Run</a>.</p>
 
 <pre class = 'prettyprint lang-r'>library(dplyr)
-marathon &lt;- read.csv(&quot;http://wjhopper.github.io//psych640/data/marathon.csv&quot;)
+marathon &lt;- read.csv(&quot;http://wjhopper.github.io//psych640-labs/data/marathon.csv&quot;)
 str(marathon)</pre>
 
 <pre >## &#39;data.frame&#39;:    14969 obs. of  11 variables:
@@ -127,15 +127,15 @@ str(marathon)</pre>
 ##  $ time   : num  108.4 95.8 130.9 133.9 100.5 ...
 ##  $ netTime: num  94.8 89.9 118.6 121.4 93.5 ...
 ##  $ age    : int  28 32 22 28 28 44 29 29 30 37 ...
-##  $ gender : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 1 1 2 1 2 2 2 1 ...
-##  $ first  : Factor w/ 2941 levels &quot;Aakar&quot;,&quot;Aaron&quot;,..: 1279 2085 1073 424 1087 1441 687 2444 1229 1383 ...
-##  $ last   : Factor w/ 8755 levels &quot;Aaronson&quot;,&quot;Abagon&quot;,..: 1 2 3 4 4 4 5 6 6 6 ...
-##  $ city   : Factor w/ 1259 levels &quot;Aberdeen&quot;,&quot;Abingdon&quot;,..: 1027 743 48 48 48 375 1172 1172 48 705 ...
-##  $ state  : Factor w/ 51 levels &quot;AE&quot;,&quot;AK&quot;,&quot;AL&quot;,..: 21 21 46 46 46 46 9 9 46 46 ...
-##  $ country: Factor w/ 13 levels &quot;AUS&quot;,&quot;CAN&quot;,&quot;ETH&quot;,..: 13 13 13 13 13 13 13 13 13 13 ...
-##  $ div    : Factor w/ 14 levels &quot;19-&quot;,&quot;20-24&quot;,..: 3 4 2 3 3 6 3 3 4 5 ...</pre>
+##  $ gender : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; ...
+##  $ first  : chr  &quot;Jeremy&quot; &quot;Nicodemo&quot; &quot;Heather&quot; &quot;Carissa&quot; ...
+##  $ last   : chr  &quot;Aaronson&quot; &quot;Abagon&quot; &quot;Abbey&quot; &quot;Abbott&quot; ...
+##  $ city   : chr  &quot;Silver Spring&quot; &quot;Mongomery Village&quot; &quot;Arlington&quot; &quot;Arlington&quot; ...
+##  $ state  : chr  &quot;MD&quot; &quot;MD&quot; &quot;VA&quot; &quot;VA&quot; ...
+##  $ country: chr  &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; ...
+##  $ div    : chr  &quot;25-29&quot; &quot;30-34&quot; &quot;20-24&quot; &quot;25-29&quot; ...</pre>
 
-</article></slide><slide class=''><hgroup><h2>The prelude to analysis</h2></hgroup><article  id="the-prelude-to-analysis">
+</article></slide><slide class=""><hgroup><h2>The prelude to analysis</h2></hgroup><article  id="the-prelude-to-analysis">
 
 <p>Many serial steps of &quot;tidying&quot; our data are often necessary to perform any analysis of interest (e.g., first reshaping the data, then removing observations, etc.)</p>
 
@@ -151,7 +151,7 @@ str(marathon)</pre>
 
 <p>The goal of these examples is convince you that doing things &quot;the dplyr way&quot; is a better solution in most cases.</p>
 
-</article></slide><slide class=''><hgroup><h2>The &quot;Objects Everywhere&quot; method</h2></hgroup><article  id="the-objects-everywhere-method">
+</article></slide><slide class=""><hgroup><h2>The &quot;Objects Everywhere&quot; method</h2></hgroup><article  id="the-objects-everywhere-method">
 
 <p>One way to make the results from each task feed into the next is to make a new variable after we finish each task, and use that variable as the input to the next function</p>
 
@@ -161,9 +161,9 @@ marathon_sorted &lt;- arrange(marathon2, place)</pre>
 
 <p>One drawback to this approach is that it promotes using uninformative variable names, like <code>marathon1</code>, because there aren&#39;t good single words to describe what has changed and most results are just intermediate, &quot;one-off&quot; data frames.</p>
 
-<p>Additionally, it is prone to simple typos (missing the <code>1</code> on the end of <code>marathon</code>) and can make your script slow due to making copies of approximately identical data sets.</p>
+<p>Additionally, it is prone to simple typos (missing the <code>1</code> on the end of <code>marathon</code>) and can use lots of memory in the long run by keeping copies of approximately identical data sets.</p>
 
-</article></slide><slide class=''><hgroup><h2>The &quot;Identity Crisis&quot; method</h2></hgroup><article  id="the-identity-crisis-method">
+</article></slide><slide class=""><hgroup><h2>The &quot;Identity Crisis&quot; method</h2></hgroup><article  id="the-identity-crisis-method">
 
 <p>An alternative style is to re-assign the variable after each step: If you use <code>marathon</code> as the input to a function, overwrite the <code>marathon</code> variable with the output of that function.</p>
 
@@ -171,13 +171,11 @@ marathon_sorted &lt;- arrange(marathon2, place)</pre>
 marathon &lt;- mutate(marathon, waitTime = time - netTime)
 marathon &lt;- arrange(marathon, place)</pre>
 
-<p>This is better, but it also makes your script fragile because the lines become too tightly coupled.</p>
+<p>This is somewhat better semantically, but it also introduces ambiguity, especially in interactive situations. If you have a variable called <code>marathon</code>, what do you have? Is it the <code>marathon</code> variable after the <code>select</code>, or after the <code>mutate</code> or after the <code>arrange</code>?</p>
 
-<p>For example, your operations on the <code>marathon</code> data frame in line 5 of your script likely depend on what you did on lines 1:4.</p>
+<p>When there are lots of steps, and you&#39;re running and re-running code, its easy to forget what you have and haven&#39;t done.</p>
 
-<p>But if you make a mistake in line 5, and overwrite the variable with bad output, you need to run lines 1:4 again after fixing the error (instead of just fixing line 5). This is problematic when there are long-distance dependencies (e.g. line 100 depends on line 10) and when previous lines perform long-running operations.</p>
-
-</article></slide><slide class=''><hgroup><h2>The &quot;One Line or Bust&quot; Method</h2></hgroup><article  id="the-one-line-or-bust-method">
+</article></slide><slide class=""><hgroup><h2>The &quot;One Line or Bust&quot; Method</h2></hgroup><article  id="the-one-line-or-bust-method">
 
 <p>The intrepid coder who realizes the perils of constant object creation and overwriting variables may attempt to have it all. They want a single variable, assigned a single time, and they will get it by writing a single line of code!</p>
 
@@ -189,7 +187,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>Nesting many functions obscures which arguments belong to which functions, even when the arguments are broken down on different lines, and requires to write your functions &quot;inside out&quot;.</p>
 
-</article></slide><slide class=''><hgroup><h2>The Solution: Pipes!</h2></hgroup><article  id="the-solution-pipes">
+</article></slide><slide class=""><hgroup><h2>The Solution: Pipes!</h2></hgroup><article  id="the-solution-pipes">
 
 <p>Installing <code>dplyr</code> also installs another R package called <code>magrittr</code>, which provides an operator called a <strong>pipe</strong>.</p>
 
@@ -205,7 +203,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <pre >## [1] 13.33333</pre>
 
-</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes">
+</article></slide><slide class=""><hgroup><h2>Pipes</h2></hgroup><article  id="pipes">
 
 <p>The output of the left-hand side function always becomes the value of the <strong>first unnamed argument</strong> to the right-hand side function. Let&#39;s look at this by changing the data from the <code>mean</code> example to include an <code>NA</code>. The <code>mean</code> function has 3 arguments: <code>x</code> (data), <code>trim</code> (percent to remove) and <code>na.rm</code> (include or remove missings).</p>
 
@@ -217,7 +215,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>The vector <code>c(10,NA,22)</code> gets used as the value of the <code>x</code> argument (instead of<code>trim</code>) because <code>x</code> is the first argument <strong>not</strong> supplied in the argument list.</p>
 
-</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-1">
+</article></slide><slide class=""><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-1">
 
 <p>The first unnamed argument will receive its value through the pipe, regardless of serial position in the formal argument list.</p>
 
@@ -233,7 +231,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <pre >## [1] 1</pre>
 
-</article></slide><slide class=''><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-2">
+</article></slide><slide class=""><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-2">
 
 <p>If you want to use the piped-in data as the value for several arguments, or reference it explicitly for clarities sake, you can use <code>.</code> inside the function call.</p>
 
@@ -251,7 +249,7 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
 
 <pre >## Error in is.data.frame(x): argument &quot;x&quot; is missing, with no default</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Pipes with <code>dplyr</code> functions</h2></hgroup><article  id="pipes-with-dplyr-functions">
+</article></slide><slide class=""><hgroup><h2>Pipes with <code>dplyr</code> functions</h2></hgroup><article  id="pipes-with-dplyr-functions">
 
 <p>Pipes can simplify the flow of multi-step tasks that spans multiple functions by allowing you to write code that can be read left to right, top to bottom.</p>
 
@@ -262,9 +260,11 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
   mutate(waitTime = time - netTime) %&gt;%
   arrange(place)</pre>
 
+<pre >## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.1</pre>
+
 <p>We omit the data frame argument to <code>select</code>, <code>mutate</code>, and <code>arrange</code> because it is supplied from the previous functions output, via the pipe operator.</p>
 
-</article></slide><slide class=''><hgroup><h2>Window Functions</h2></hgroup><article  id="window-functions">
+</article></slide><slide class=""><hgroup><h2>Window Functions</h2></hgroup><article  id="window-functions">
 
 <ul>
 <li>A window function is a function that takes an input containing <em>n</em> elements and returns an output containing <em>n</em> elements</li>
@@ -272,7 +272,7 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
 <li>Window functions which are particularly useful in conjunction with the <code>mutate</code> function.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>The <code>ntile()</code> function</h2></hgroup><article  id="the-ntile-function">
+</article></slide><slide class=""><hgroup><h2>The <code>ntile()</code> function</h2></hgroup><article  id="the-ntile-function">
 
 <p>The <code>ntile()</code> function ranks the data from each group into <code>n</code> clusters. This allows you to easily divide your data into as many bins as you like.</p>
 
@@ -285,7 +285,7 @@ select(marathon, gender:last, netTime, quintile)</pre>
 <pre >## # A tibble: 14,969 x 5
 ## # Groups:   gender [2]
 ##    gender           first        last netTime quintile
-##    &lt;fctr&gt;          &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;    &lt;int&gt;
+##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;int&gt;
 ##  1      F          Lineth   Chepkurui  53.533        1
 ##  2      M        Ridouane    Harroufi  45.933        1
 ##  3      F Belianesh Zemed       Gebre  53.917        1
@@ -298,7 +298,7 @@ select(marathon, gender:last, netTime, quintile)</pre>
 ## 10      F       Catherine     Ndereba  54.450        1
 ## # ... with 14,959 more rows</pre>
 
-</article></slide><slide class=''><hgroup><h2>The <code>percent_rank()</code> function</h2></hgroup><article  id="the-percent_rank-function">
+</article></slide><slide class=""><hgroup><h2>The <code>percent_rank()</code> function</h2></hgroup><article  id="the-percent_rank-function">
 
 <p>The <code>percent_rank()</code> function ranks each observation in your data according to what proportion of other observations in the group have a lower value.</p>
 
@@ -309,7 +309,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 <pre >## # A tibble: 14,969 x 5
 ## # Groups:   gender [2]
 ##    gender           first        last netTime       pBelow
-##    &lt;fctr&gt;          &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;        &lt;dbl&gt;
+##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;        &lt;dbl&gt;
 ##  1      F          Lineth   Chepkurui  53.533 0.0000000000
 ##  2      M        Ridouane    Harroufi  45.933 0.0000000000
 ##  3      F Belianesh Zemed       Gebre  53.917 0.0001201779
@@ -322,7 +322,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 ## 10      F       Catherine     Ndereba  54.450 0.0004807115
 ## # ... with 14,959 more rows</pre>
 
-</article></slide><slide class=''><hgroup><h2>The <code>lead()</code> function</h2></hgroup><article  id="the-lead-function">
+</article></slide><slide class=""><hgroup><h2>The <code>lead()</code> function</h2></hgroup><article  id="the-lead-function">
 
 <p>The <code>lead()</code> function takes a vector as input, and returns a vector where the elements have been moved to the left one position.</p>
 
@@ -336,7 +336,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <p>You can think of <code>lead</code> as answering the question &quot;What is the value of the element to my right?&quot; for each element in a vector.</p>
 
-</article></slide><slide class=''><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function">
+</article></slide><slide class=""><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function">
 
 <p>The <code>lag()</code> function is similar to the <code>lead</code> function, but returns a vector where the elements have been moved to the right by one position.</p>
 
@@ -348,7 +348,7 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <p>You can think of <code>lag</code> as answering the question &quot;What is the value of the element to my left?&quot; for each element in a vector.</p>
 
-</article></slide><slide class=''><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function-1">
+</article></slide><slide class=""><hgroup><h2>The <code>lag()</code> function</h2></hgroup><article  id="the-lag-function-1">
 
 <p>Let&#39;s use the lag function to find how far apart in time successive runners finished the race.</p>
 
@@ -361,7 +361,7 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 
 <pre >## # A tibble: 14,969 x 5
 ##    gender        first        last netTime lag_time
-##    &lt;fctr&gt;       &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
 ##  1      M     Ridouane    Harroufi  45.933    0.000
 ##  2      M       Feyisa       Liesa  45.967    0.034
 ##  3      M        Silas        Sang  45.983    0.016
@@ -374,7 +374,7 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 ## 10      M          Lee       Troop  47.717    0.667
 ## # ... with 14,959 more rows</pre>
 
-</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates">
+</article></slide><slide class=""><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates">
 
 <p>Cumulative aggregates functions calculate a summary value for each element in a vector, based on all values up to and including that element. Consider the cumulative sum function <code>cumsum</code>:</p>
 
@@ -389,7 +389,7 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 <li>etc., etc., etc.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-1">
+</article></slide><slide class=""><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-1">
 
 <p>In addition to <code>cumsum()</code>, Base R has the <code>cummin()</code>, <code>cummax()</code> and <code>cumprod()</code> functions. <code>dplyr</code> provides an additional function, <code>cummean</code>.</p>
 
@@ -400,7 +400,7 @@ select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 
 <pre >## # A tibble: 14,969 x 5
 ##    gender        first        last netTime cumAvgNetTime
-##    &lt;fctr&gt;       &lt;fctr&gt;      &lt;fctr&gt;   &lt;dbl&gt;         &lt;dbl&gt;
+##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;         &lt;dbl&gt;
 ##  1      M     Ridouane    Harroufi  45.933      45.93300
 ##  2      M       Feyisa       Liesa  45.967      45.95000
 ##  3      M        Silas        Sang  45.983      45.96100
@@ -413,7 +413,7 @@ select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 ## 10      M          Lee       Troop  47.717      46.43170
 ## # ... with 14,959 more rows</pre>
 
-</article></slide><slide class=''><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-2" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-2" class="img-centered">
 
 <p>The cumulative average net time as a function of overall finishing place is a very interesting curve!</p>
 
@@ -423,7 +423,7 @@ plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
 
 <p><img src="dplyr_part2_files/figure-html/plot_cummean-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do">
+</article></slide><slide class=""><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do">
 
 <p>If you thought that summarizing groups of values and creating complex new variables effortlessly was a powerful set of features, allow me to introduce the <code>do</code> function.</p>
 
@@ -431,7 +431,7 @@ plot(x=seq_along(marathon$cumAvgNetTime), y = marathon$cumAvgNetTime,
 
 <p>And by arbitrary, I mean arbitrary. You are not limited to applying functions that return a single values, or exactly <code>n</code> values. You can apply functions that return literally any type of objects.</p>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-1">
+</article></slide><slide class=""><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-1">
 
 <p>Allow me to demonstrate by running a linear regression, predicting a runner&#39;s net time from their age, on the male and female runners separately.</p>
 
@@ -444,11 +444,11 @@ marathon_lm</pre>
 ## 
 ## # A tibble: 2 x 2
 ##   gender time_by_age
-## * &lt;fctr&gt;      &lt;list&gt;
+## *  &lt;chr&gt;      &lt;list&gt;
 ## 1      F    &lt;S3: lm&gt;
 ## 2      M    &lt;S3: lm&gt;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-2" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-2" class="smaller">
 
 <p>The <code>time_by_age</code> column is a list of individual <code>lm</code> objects!</p>
 
@@ -472,7 +472,7 @@ marathon_lm</pre>
 ## (Intercept)          age  
 ##     79.9273       0.2311</pre>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-3">
+</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-3">
 
 <p>This is possible because data frames may have lists as columns (because data frames <em>are secretely lists</em>!) and lists can hold <em>any</em> type of object.</p>
 
@@ -490,28 +490,28 @@ marathon_lm</pre>
 
 <p>While <code>do</code> is to <code>summarise</code> as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of lists, as well as the class of objects you&#39;ve stored in the list.</p>
 
-<p>So, don&#39;t use <code>do</code> when you don&#39;t neccesarily need its power.</p>
+<p>So, don&#39;t use <code>do</code> when you don&#39;t necessarily need its power.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+</article></slide><slide class=""><hgroup><h2>Activities</h2></hgroup><article  id="activities">
 
 <ol>
 <li>Make a new column called <code>division_place</code> that gives a runners place within their own age division (given by the <code>div</code> variable)
 
 <ul>
-<li>Hint: Be sure the data is sorted properly, and the <code>n()</code> function can be used inside <code>mutate</code> to tell you the size of the group you&#39;re operating on.</li>
+<li>Hint: There is more than one way to do this (See <code>?dplyr::ranking</code> for possibilities), but using explicit sorting and the <code>n()</code> function will help you with problem 2.</li>
 </ul></li>
-<li>Use the data in the <code>lag_time</code> column to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner&#39;s finish (e.g., it should tell you how much time passed between the first place finisher and the 100th place finisher).
+<li>Use the data in the <code>lag_time</code> column we made earlier to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner&#39;s finish (e.g., it should tell you how much time passed between the first place finisher and the second place finisher, and the first place finisher and the third place finisher, etc.).
 
 <ul>
-<li>Hint: Use one of the cummulative agggregation functions we talked about.</li>
+<li>Hint: Use one of the cumulative aggregation functions we talked about.</li>
 </ul></li>
 </ol>
 
 <p>Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with <code>%&gt;%</code>).</p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Extra Slides</h2></hgroup><article  id="extra-slides">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Extra Slides</h2></hgroup><article  id="extra-slides">
 
-</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests">
+</article></slide><slide class=""><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests">
 
 <p><code>dplyr</code> provides the <code>cumany</code> and <code>cumall</code> functions, which perform element-wise <code>&amp;&amp;</code> and <code>||</code> operations on vectors.</p>
 
@@ -526,7 +526,7 @@ cumall(x == &quot;G&quot;) # Same as x[1]==&quot;G&quot;, x[1]==&quot;G&quot; &a
 
 <p>You can think of the <code>cumall</code> function as answering the question &quot;Have <strong>all</strong> the elements in the vector up to this point met the criteria?&quot;</p>
 
-</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-1">
+</article></slide><slide class=""><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-1">
 
 <p>The <code>cumany</code> function traverses the vector and returns <code>FALSE</code> for each element until it encounters an element that meets the specified criteria. All remaining elements in its output will be <code>TRUE</code>.</p>
 
@@ -537,7 +537,7 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <p>You can think of the <code>cumall</code> function as answering the question &quot;Have <strong>any</strong> of the elements in the vector up to this point met the criteria?&quot;</p>
 
-</article></slide><slide class=''><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-2">
+</article></slide><slide class=""><hgroup><h2>Cumulative Logical Tests</h2></hgroup><article  id="cumulative-logical-tests-2">
 
 <p>These cumulative logical tests can be especially useful for filtering entire groups of observations.</p>
 
@@ -548,23 +548,23 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 <pre class = 'prettyprint lang-r'>marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
 
 <pre >## # A tibble: 14,929 x 16
-##      age gender           first      last       city  state country    div
-##    &lt;int&gt; &lt;fctr&gt;          &lt;fctr&gt;    &lt;fctr&gt;     &lt;fctr&gt; &lt;fctr&gt;  &lt;fctr&gt; &lt;fctr&gt;
-##  1    29      M             Sam   Blasiak  N Potomac     MD     USA  25-29
-##  2    21      F Belianesh Zemed     Gebre   Ethiopia     NR     ETH  20-24
-##  3    22      F           Teyba     Naser   Ethiopia     NR     ETH  20-24
-##  4    24      M           Dylan     Keith  Arlington     VA     USA  20-24
-##  5    26      M          Carlos   Renjifo   Columbia     MD     USA  25-29
-##  6    25      M         Patrick    Murray Washington     DC     USA  25-29
-##  7    37      M           Randy McDermott Alexandria     VA     USA  35-39
-##  8    19      F           Abebu     Gelan   Ethiopia     NR     ETH    19-
-##  9    36      F       Catherine   Ndereba      Kenya     NR     KEN  35-39
-## 10    25      M            Dave    Miller   Leesburg     VA     USA  25-29
+##      age gender           first      last       city state country   div
+##    &lt;int&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
+##  1    29      M             Sam   Blasiak  N Potomac    MD     USA 25-29
+##  2    21      F Belianesh Zemed     Gebre   Ethiopia    NR     ETH 20-24
+##  3    22      F           Teyba     Naser   Ethiopia    NR     ETH 20-24
+##  4    24      M           Dylan     Keith  Arlington    VA     USA 20-24
+##  5    26      M          Carlos   Renjifo   Columbia    MD     USA 25-29
+##  6    25      M         Patrick    Murray Washington    DC     USA 25-29
+##  7    37      M           Randy McDermott Alexandria    VA     USA 35-39
+##  8    19      F           Abebu     Gelan   Ethiopia    NR     ETH   19-
+##  9    36      F       Catherine   Ndereba      Kenya    NR     KEN 35-39
+## 10    25      M            Dave    Miller   Leesburg    VA     USA 25-29
 ## # ... with 14,919 more rows, and 8 more variables: place &lt;int&gt;,
 ## #   time &lt;dbl&gt;, netTime &lt;dbl&gt;, waitTime &lt;dbl&gt;, quintile &lt;int&gt;,
 ## #   pBelow &lt;dbl&gt;, lag_time &lt;dbl&gt;, cumAvgNetTime &lt;dbl&gt;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-4">
+</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-4">
 
 <p>This is possible because <code>dplyr</code> extends the standard data frame functionality, and creates a new kind of data frame called a <code>tbl_df</code> or table data frame.</p>
 
@@ -578,7 +578,7 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 
 <pre >## [1] &quot;list&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-5">
+</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-5">
 
 <p>While <code>do</code> is to <code>summarise</code> as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of how to work with lists, and of the class of objects you&#39;ve stored in the list.</p>
 
@@ -587,7 +587,7 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 <pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
   mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-6">
+</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-6">
 
 <pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
   mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
@@ -595,15 +595,15 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 <pre >## # A tibble: 2 x 3
 ## # Groups:   gender [2]
 ##   gender time_by_age   Rsquared
-##   &lt;fctr&gt;      &lt;list&gt;      &lt;dbl&gt;
+##    &lt;chr&gt;      &lt;list&gt;      &lt;dbl&gt;
 ## 1      F    &lt;S3: lm&gt; 0.01764281
 ## 2      M    &lt;S3: lm&gt; 0.02734674</pre>
 
 <p>Lots of work to find out that age is an awful predictor of net time!!</p>
 
-<p>The <code>do</code> function is an awesome tool, but don&#39;t use it when you don&#39;t necesarily need its power, as it might create more work for you in the long run.</p>
+<p>The <code>do</code> function is an awesome tool, but don&#39;t use it when you don&#39;t necessarily need its power, as it might create more work for you in the long run.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
+</article></slide><slide class=""><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
 
 <ol>
 <li>Make a new column called <code>division_place</code> that gives a runners place within their own age division (given by the <code>div</code> variable)

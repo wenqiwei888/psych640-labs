@@ -25,7 +25,7 @@ Before we start, load `dplyr` and download the data. The `marathon` dataset hold
 
 ```{r forshow, eval=FALSE}
 library(dplyr)
-marathon <- read.csv("http://wjhopper.github.io//psych640/data/marathon.csv")
+marathon <- read.csv("http://wjhopper.github.io//psych640-labs/data/marathon.csv")
 str(marathon)
 ```
 
@@ -59,7 +59,7 @@ marathon_sorted <- arrange(marathon2, place)
 
 One drawback to this approach is that it promotes using uninformative variable names, like `marathon1`, because there aren't good single words to describe what has changed and most results are just intermediate, "one-off" data frames.
 
-Additionally, it is prone to simple typos (missing the `1` on the end of `marathon`) and can make your script slow due to making copies of approximately identical data sets.
+Additionally, it is prone to simple typos (missing the `1` on the end of `marathon`) and can use lots of memory in the long run by keeping copies of approximately identical data sets.
 
 ## The "Identity Crisis" method
 An alternative style is to re-assign the variable after each step: If you use `marathon` as the input to a function, overwrite the `marathon` variable with the output of that function.
@@ -70,11 +70,9 @@ marathon <- mutate(marathon, waitTime = time - netTime)
 marathon <- arrange(marathon, place)
 ```
 
-This is better, but it also makes your script fragile because the lines become too tightly coupled. 
+This is somewhat better semantically, but it also introduces ambiguity, especially in interactive situations. If you have a variable called `marathon`, what do you have? Is it the `marathon` variable after the `select`, or after the `mutate` or after the `arrange`? 
 
-For example, your operations on the `marathon` data frame in line 5 of your script likely depend on what you did on lines 1:4.
-
-But if you make a mistake in line 5, and overwrite the variable with bad output, you need to run lines 1:4 again after fixing the error (instead of just fixing line 5). This is problematic when there are long-distance dependencies (e.g. line 100 depends on line 10) and when previous lines perform long-running operations.
+When there are lots of steps, and you're running and re-running code, its easy to forget what you have and haven't done.
 
 ## The "One Line or Bust" Method
 The intrepid coder who realizes the perils of constant object creation and overwriting variables may attempt to have it all. They want a single variable, assigned a single time, and they will get it by writing a single line of code!
@@ -110,7 +108,7 @@ c(10,NA,22) %>% mean(na.rm = TRUE)
 
 Omitting the `x` argument would normally cause an error, but not here because its value is supplied via the `%>%` operator. 
 
-The vector `c(10,NA,22)` gets used as the value of the `x`  argument (instead of`trim`) because `x` is the first argument **not** supplied in the argument list.
+The vector `c(10,NA,22)` gets used as the value of the `x` argument (instead of `trim`) because `x` is the first argument **not** supplied in the argument list.
 
 ## Pipes
 The first unnamed argument will receive its value through the pipe, regardless of serial position in the formal argument list.
@@ -285,14 +283,14 @@ class(marathon_lm$time_by_age[[1]])
 
 While `do` is to `summarise` as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of lists, as well as the class of objects you've stored in the list.
 
-So, don't use `do` when you don't neccesarily need its power.
+So, don't use `do` when you don't necessarily need its power.
 
 ## Activities
 
 1. Make a new column called `division_place` that gives a runners place within their own age division (given by the `div` variable)
-    - Hint: Be sure the data is sorted properly, and the `n()` function can be used inside `mutate` to tell you the size of the group you're operating on.
-2. Use the data in the `lag_time` column to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner's finish (e.g., it should tell you how much time passed between the first place finisher and the 100th place finisher).
-    - Hint: Use one of the cummulative agggregation functions we talked about.
+    - Hint: There is more than one way to do this (See `?dplyr::ranking` for possibilities), but using explicit sorting and the `n()` function will help you with problem 2.
+2. Use the data in the `lag_time` column we made earlier to make a new variable which shows how much time elapsed between the first place finisher and each remaining runner's finish (e.g., it should tell you how much time passed between the first place finisher and the second place finisher, and the first place finisher and the third place finisher, etc.).
+    - Hint: Use one of the cumulative aggregation functions we talked about.
     
 Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with `%>%`).
 
@@ -381,7 +379,7 @@ marathon_lm %>% group_by(gender) %>%
 
 Lots of work to find out that age is an awful predictor of net time!!
 
-The `do` function is an awesome tool, but don't use it when you don't necesarily need its power, as it might create more work for you in the long run.
+The `do` function is an awesome tool, but don't use it when you don't necessarily need its power, as it might create more work for you in the long run.
 
 ## Activities
 
