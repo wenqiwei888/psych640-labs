@@ -27,8 +27,8 @@ Next, download and import the two datasets we will be practicing with: the [hare
 
 
 ```{r importdata,echo=TRUE,eval = FALSE}
-hares <- read.csv("http://wjhopper.github.io/psych640/data/hare_lynx.csv")
-memory <- read.csv("http://wjhopper.github.io/psych640/data/memorydata.csv")
+hares <- read.csv("http://wjhopper.github.io/psych640-labs/data/hare_lynx.csv")
+memory <- read.csv("http://wjhopper.github.io/psych640-labs/data/memorydata.csv")
 ```
 
 If you have not read the "Data Semantics" slides, I strongly recommend you go back and read those before continuing on.
@@ -181,7 +181,7 @@ Usually your measure  variable *should* be the last column, but if you have mult
 1. Using `dcast`, reshape the data frame `hareMelted` to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.
 2. Download [this dataset](../data/JJ.csv), which measures the quarterly earnings per Johnson & Johnson share from 1960 to 1980.
 ```{r getJJ,eval=FALSE}
-JJ <- read.csv("http://wjhopper.github.io/psych640/data/JJ.csv")
+JJ <- read.csv("http://wjhopper.github.io/psych640-labs/data/JJ.csv")
 ```
 Reshape it to use fiscal quarter as an ID variable instead of using Qtr1, Qtr2, Qtr3, and Qtr4 as measure variables.
 
@@ -206,7 +206,7 @@ dcast(InsectSprays, obsID ~ spray, value.var = 'count')
 ## More reshaping {.memory}
 Now we'll work with the loci/image/rhyme memory data set, which I've modified to include a second between-subject factor, presentation duration.
 ```{r getMem, eval =FALSE}
-memory <- read.csv("http://wjhopper.github.io/psych640/data/memorydata.csv")
+memory <- read.csv("http://wjhopper.github.io/psych640-labs/data/memorydata.csv")
 ```
 ```{r memorydata,echo=FALSE}
 memory <- read.csv("../data/memorydata.csv")

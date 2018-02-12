@@ -31,7 +31,7 @@ We'll demonstrate how to use each function with a small dataset, so its easy to 
 ```{r, eval=FALSE, cache=FALSE}
 install.packages("tidyr")
 library(tidyr)
-temperature <- read.csv("https://wjhopper.github.io/psych640/data/temperature.csv")
+temperature <- read.csv("https://wjhopper.github.io/psych640-labs/data/temperature.csv")
 temperature
 ```
 
@@ -118,7 +118,7 @@ The `spread` function takes 3 required arguments:
 
 1. `data`: the name of the data frame to re-arrange
 2. `key`: the name of the existing variable whose *N* unique values will be "spread out" into *N* new variables
-3. `value`: the name of the existing variable whose values will be used as observations in the *N* to-be-created variables.
+3. `value`: the name of the existing variable whose values will be used as values in the *N* to-be-created variables.
 
 ## The `spread()` function
 So to undo the wider-to-longer normalization we just performed, we would use this function call:
@@ -154,7 +154,7 @@ pander(spread(data = temperature, key = "date", value = "temp"))
 ## Common `spread()` problems
 A common issue encountered with the `spread` function is the somewhat mysterious error "<code style="color: red;">Duplicate identifiers for rows ... </code>".
 
-Basically, this means is that the rows of your data frame are not uniquely identifiable, and `spread` can't figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.
+Basically, this means is that when the column(s) given in the `value` argument are removed, the rows of your data frame are not unique. Thus, `spread` can't figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.
 
 In general, the solution is to give each row a unique ID number like so:
 
@@ -205,7 +205,7 @@ pander(temperature)
 ## The `separate()` function
 Let's separate this amalgamated "date" variable into 3 different variables, one for the month, day, and year.
 
-The `separate` function has 3 required arguments, and a 4^th^ optional argument you almost always want to specify.
+The `separate` function has 3 required arguments, and a 4^th^ optional argument you almost may want to specify.
 
 1. `data`: the name of the data frame to re-arrange
 2. `col`: the bare name of the variable to be split-up
@@ -250,7 +250,7 @@ The `unite` function has 3 required arguments, and 2 other arguments you often w
 
 1. `data`: the name of the data frame to re-arrange
 2. `col`: the bare name of the to-be-created amalgam variable
-3. `...` : a list of bare columns whose values are to be combined row-wise and placed inside the new variable `col`
+3. `...` : bare columns whose values are to be combined row-wise and placed inside the new variable `col`
 4. `sep`: the separator to use between combined values (defaults to `"_"`).
 5. `remove`: a logical value indicating whether or not to remove columns from the data frame after combining them (defaults to `TRUE`).
 

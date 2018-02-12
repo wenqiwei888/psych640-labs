@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,8 +81,8 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../theme/css/cellHighlighting.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\cellHighlighting.css" type="text/css" />
 
 </head>
 
@@ -96,11 +96,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-02-12</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Reshaping your data</h2></hgroup><article  id="reshaping-your-data">
+<slide class=""><hgroup><h2>Reshaping your data</h2></hgroup><article  id="reshaping-your-data">
 
 <p>Let get into reshaping some data with using the <code>reshape2</code> package. Install that package now with <code>install.packages(&quot;reshape2&quot;)</code> and load it with <code>library(reshape2)</code>.</p>
 
@@ -108,12 +108,12 @@
 
 <p>Next, download and import the two datasets we will be practicing with: the <a href='../data/hare_lynx.csv' title=''>hare-lynx trapping data set</a> and the familiar <a href='../data/memorydata.csv' title=''>loci/image/rhyme memory experiment data</a>.</p>
 
-<pre class = 'prettyprint lang-r'>hares &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/hare_lynx.csv&quot;)
-memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>hares &lt;- read.csv(&quot;http://wjhopper.github.io/psych640-labs/data/hare_lynx.csv&quot;)
+memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640-labs/data/memorydata.csv&quot;)</pre>
 
 <p>If you have not read the &quot;Data Semantics&quot; slides, I strongly recommend you go back and read those before continuing on.</p>
 
-</article></slide><slide class=''><hgroup><h2>Melting and casting</h2></hgroup><article  id="melting-and-casting">
+</article></slide><slide class=""><hgroup><h2>Melting and casting</h2></hgroup><article  id="melting-and-casting">
 
 <p>Changing a dataset&#39;s layout with tools from <code>reshape2</code> revolves around two operations, melting and casting.</p>
 
@@ -123,7 +123,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Reshaping often begins by melting data into long format, so we will begin by using the <code>melt</code> function with the hares-lynx data.</p>
 
-</article></slide><slide class=''><hgroup><h2>The hare-lynx dataset</h2></hgroup><article  id="haresData">
+</article></slide><slide class=""><hgroup><h2>The hare-lynx dataset</h2></hgroup><article  id="haresData">
 
 <p>This dataset records the number of hares and lynx trapped in North Canada from 1900 to 1920.</p>
 
@@ -174,7 +174,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>This is a wide dataset, because it has a column for each variable. But it is non-normalized, because <strong>hare</strong> and <strong>lynx</strong> are used as variables, when they should be used in the cells of the table as the values the variable <strong>Animal</strong> can take.</p>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt">
 
 <p>The <code>melt</code> function takes values that are stored in column headers and moves them into rows in the data set, while preserving their relationships to other values. It has 4 key arguments:</p>
 
@@ -185,7 +185,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <li><code>value.name</code>: A character vector used to name the new column in the reshaped data that holds the measured values.</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-1">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-1">
 
 <p>To normalize our data, we need to shift <code>Hare</code> and <code>Lynx</code> from measured variables into values, so we set <code>measure.vars = c(&quot;Hares&quot;,&quot;Lynx&quot;)</code>. We also need to preserve the <code>Year</code> column as an ID variable, so we set <code>id.vars = &quot;Year&quot;</code>.</p>
 
@@ -197,7 +197,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
                  measure.vars=c(&quot;Hares&quot;,&quot;Lynx&quot;),
                  variable.name=&quot;Animal&quot;, value.name=&quot;Trapped&quot;)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-2">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-2">
 
 <p>Lets compare the structure of the data before and after melting.</p>
 
@@ -294,7 +294,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table></div>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-3">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-3">
 
 <p>If you omit either the <code>id.vars</code> or the <code>measure.vars</code> arguments, <code>melt</code> assumes all columns that were not specified as ID variables or measure variable belong to the other set.</p>
 
@@ -341,7 +341,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-4">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-4">
 
 <p>Here, we only specify the value of <code>measure.vars</code>, and <code>melt</code> assumes all other columns (<code>Year</code>) should be used as ID variables. Thus, we get the same result as the previous slide.</p>
 
@@ -387,7 +387,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>We can also see that when we omit values for the <code>variable.name</code> and <code>value.name</code> arguments, <code>melt</code> defaults to using the generic terms &quot;variable&quot; and &quot;value&quot; for those column names.</p>
 
-</article></slide><slide class=''><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-5">
+</article></slide><slide class=""><hgroup><h2>Stacking Data with <code>melt</code></h2></hgroup><article  id="stacking-data-with-melt-5">
 
 <p>If you omit both <code>id.vars</code> and <code>measure.vars</code>, <code>melt</code> assumes all columns holding character data or factors are ID variables, and any other columns are measure variables.</p>
 
@@ -424,7 +424,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Since all columns in <code>hares</code> hold numeric data which get treated as measure variables, melt gives the warning seen above about having no ID variables.</p>
 
-</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast">
+</article></slide><slide class=""><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast">
 
 <p>The <code>dcast</code> function is the inverse of the <code>melt</code> function: it takes a variable&#39;s values stored in rows of a dataset and making a new column for each one.</p>
 
@@ -435,7 +435,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <li><p>On the right side of the <code>~</code> operator, list the column in the data frame whose values should be &quot;spread out&quot; to form new variables.</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-1">
+</article></slide><slide class=""><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-1">
 
 <p>Lets use <code>dcast</code> to reshape our new normalized data set <code>hareMelted</code> back into its original shape.</p>
 
@@ -448,7 +448,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <pre class = 'prettyprint lang-r'>hareOrig &lt;- dcast(hareMelted, formula = Year ~ Animal,
                   value.var=&quot;Trapped&quot;)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-2">
+</article></slide><slide class=""><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-2">
 
 <p>Lets look at the resulting data frame - we got our original layout back!</p>
 
@@ -544,7 +544,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table></div>
 
-</article></slide><slide class=''><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-3">
+</article></slide><slide class=""><hgroup><h2>Spreading Data with <code>dcast</code></h2></hgroup><article  id="spreading-data-with-dcast-3">
 
 <p>The <code>value.var</code> argument is optional and if omitted, <code>dcast</code> will use some heuristics to guess which column holds the measured variable in your data.</p>
 
@@ -555,14 +555,14 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Usually your measure variable <em>should</em> be the last column, but if you have multiple measure variables in the same data frame, these heuristics will not necessarily give you the desired result.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities">
+</article></slide><slide class=""><hgroup><h2>Activities</h2></hgroup><article  id="activities">
 
 <ol>
 <li>Using <code>dcast</code>, reshape the data frame <code>hareMelted</code> to a data frame which has Animal Type as an ID variable, and the years 1900 to 1920 as measured variables.</li>
 <li>Download <a href='../data/JJ.csv' title=''>this dataset</a>, which measures the quarterly earnings per Johnson &amp; Johnson share from 1960 to 1980.</li>
 </ol>
 
-<pre class = 'prettyprint lang-r'>JJ &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/JJ.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>JJ &lt;- read.csv(&quot;http://wjhopper.github.io/psych640-labs/data/JJ.csv&quot;)</pre>
 
 <p>Reshape it to use fiscal quarter as an ID variable instead of using Qtr1, Qtr2, Qtr3, and Qtr4 as measure variables.</p>
 
@@ -576,11 +576,11 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>NB: Be specific about which column is the measured variable.</p>
 
-</article></slide><slide class=''><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping" class="memory">
+</article></slide><slide class=""><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping" class="memory">
 
 <p>Now we&#39;ll work with the loci/image/rhyme memory data set, which I&#39;ve modified to include a second between-subject factor, presentation duration.</p>
 
-<pre class = 'prettyprint lang-r'>memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640-labs/data/memorydata.csv&quot;)</pre>
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -635,7 +635,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>This data set is normalized, and holds 128 values across 40 unique observations from 3 ID variables (<code>Subject</code>, <code>Method</code>, and <code>Duration</code>) and 1 measure variable (<code>Score</code>). The observational unit is a subject in a condition of method and condition of duration.</p>
 
-</article></slide><slide class=''><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping-1" class="memory">
+</article></slide><slide class=""><hgroup><h2>More reshaping</h2></hgroup><article  id="more-reshaping-1" class="memory">
 
 <p>Lets say we wanted to de-normalize this dataset to only use subject and method as ID variables. This layout would use more rows to hold the data, so we need the <code>melt</code> function to &quot;lengthen&quot; or &quot;stack&quot; the data.</p>
 
@@ -705,7 +705,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Melting missing values</h2></hgroup><article  id="melting-missing-values" class="memory">
+</article></slide><slide class=""><hgroup><h2>Melting missing values</h2></hgroup><article  id="melting-missing-values" class="memory">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -762,7 +762,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>If a value is <strong>implictly</strong> missing, like an <code>NA</code> from a male respondent in a survey that asked about pregnancy history, then set the <code>na.rm</code> argument to <code>TRUE</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>When and when <em>not</em> to melt</h2></hgroup><article  id="when-and-when-not-to-melt" class="memory">
+</article></slide><slide class=""><hgroup><h2>When and when <em>not</em> to melt</h2></hgroup><article  id="when-and-when-not-to-melt" class="memory">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -819,7 +819,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Instead, the values of the presentation duration variable better aid analysis and interpretation when used as values in an ID variable.</p>
 
-</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation" class="memory">
+</article></slide><slide class=""><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation" class="memory">
 
 <p>Lets use <code>dcast</code> to reshape our long form data into a form that uses each of the four practice methods as measure variables. Using the grouping formula <code>Subject ~ Method</code> to reshape the data gives an unexpected result:</p>
 
@@ -872,7 +872,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>We see the number 2 instead of scores and durations because our formula defined groups of more than one observation. <code>dcast</code> handles this situation by applying a function to summarize the observations with a single value (the default aggregation function is <code>length</code>).</p>
 
-</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="agg">
+</article></slide><slide class=""><hgroup><h2>Aggregation</h2></hgroup><article  id="agg">
 
 <p>To better understand why this happens, lets take a closer look at our formula. <code>Subject ~ Method</code> defines <code>Subject</code> as the only ID variable, and <code>Method</code> as the only measured variable.</p>
 
@@ -960,7 +960,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>These groups form the values for the new measure variables, but since the groups are too large they are first summarized with <code>length</code>, yielding our result of all twos.</p>
 
-</article></slide><slide class=''><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation-1" class="memory">
+</article></slide><slide class=""><hgroup><h2>Aggregation</h2></hgroup><article  id="aggregation-1" class="memory">
 
 <p>If you really <em>did</em> want to layout your this way, but aren&#39;t interested in reporting the number of observation in each group, you have two options:</p>
 
@@ -977,7 +977,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </ul></li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely">
+</article></slide><slide class=""><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely">
 
 <p>It would be useful to know the average number of items recalled in each condition. We can use <code>dcast</code> with the appropriate grouping formula and aggregation function to find this out!</p>
 
@@ -1013,7 +1013,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Our formula says &quot;Take the scores at each unique value of <code>Method</code> and group them by their <code>Duration</code>&quot;. This makes 8 groups of 4 observations, and we set <code>fun.aggregate = mean</code> to summarize these four values with a single value, the mean.</p>
 
-</article></slide><slide class=''><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely-1">
+</article></slide><slide class=""><hgroup><h2>Aggregating Wisely</h2></hgroup><article  id="aggregating-wisely-1">
 
 <p>If we would like to see the mean of each condition, ignoring the fact that some observations were not made when they should have been, we can include <code>na.rm = TRUE</code>.</p>
 
@@ -1047,7 +1047,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables">
+</article></slide><slide class=""><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables">
 
 <p>Alternatively, you may not have meant to aggregate the data at all and instead misspecified the grouping formula.</p>
 
@@ -1061,7 +1061,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-1">
+</article></slide><slide class=""><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-1">
 
 <p>Subject &amp; Duration as ID vars</p>
 
@@ -1150,7 +1150,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-2">
+</article></slide><slide class=""><hgroup><h2>Formulas with &gt; 2 variables</h2></hgroup><article  id="formulas-with-2-variables-2">
 
 <p>Method and Duration values get combined in the column headers</p>
 
@@ -1158,12 +1158,19 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <table class = 'rmdtable'>
 <caption>Table continues below</caption>
+<col width="10%" />
+<col width="20%" />
+<col width="17%" />
+<col width="18%" />
+<col width="15%" />
+<col width="17%" />
 <tr class="header">
 <th align="center">Subject</th>
 <th align="center">Control_Duration</th>
 <th align="center">Control_Score</th>
 <th align="center">Image_Duration</th>
 <th align="center">Image_Score</th>
+<th align="center">Loci_Duration</th>
 </tr>
 <tr class="odd">
 <td align="center">1</td>
@@ -1171,6 +1178,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <td align="center">11</td>
 <td align="center">2</td>
 <td align="center">NA</td>
+<td align="center">2</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
@@ -1178,6 +1186,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <td align="center">NA</td>
 <td align="center">6</td>
 <td align="center">NA</td>
+<td align="center">6</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
@@ -1185,6 +1194,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <td align="center">4</td>
 <td align="center">2</td>
 <td align="center">16</td>
+<td align="center">2</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
@@ -1192,8 +1202,10 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <td align="center">2</td>
 <td align="center">6</td>
 <td align="center">13</td>
+<td align="center">6</td>
 </tr>
 <tr class="odd">
+<td align="center">&#8230;</td>
 <td align="center">&#8230;</td>
 <td align="center">&#8230;</td>
 <td align="center">&#8230;</td>
@@ -1204,31 +1216,26 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <table class = 'rmdtable'>
 <tr class="header">
-<th align="center">Loci_Duration</th>
 <th align="center">Loci_Score</th>
 <th align="center">Rhyme_Duration</th>
 <th align="center">Rhyme_Score</th>
 </tr>
 <tr class="odd">
-<td align="center">2</td>
 <td align="center">NA</td>
 <td align="center">2</td>
 <td align="center">16</td>
 </tr>
 <tr class="even">
-<td align="center">6</td>
 <td align="center">9</td>
 <td align="center">6</td>
 <td align="center">14</td>
 </tr>
 <tr class="odd">
-<td align="center">2</td>
 <td align="center">18</td>
 <td align="center">2</td>
 <td align="center">9</td>
 </tr>
 <tr class="even">
-<td align="center">6</td>
 <td align="center">8</td>
 <td align="center">6</td>
 <td align="center">16</td>
@@ -1237,11 +1244,10 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <td align="center">&#8230;</td>
 <td align="center">&#8230;</td>
 <td align="center">&#8230;</td>
-<td align="center">&#8230;</td>
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Special forumula terms</h2></hgroup><article  id="special-forumula-terms">
+</article></slide><slide class=""><hgroup><h2>Special forumula terms</h2></hgroup><article  id="special-forumula-terms">
 
 <p>There are two special terms you can include in your grouping formulas in place of column names: <code>...</code> and <code>.</code></p>
 
@@ -1250,7 +1256,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <li>The <code>.</code> term means &quot;no variables&quot;, so using it makes your formula mean &quot;group by nothing&quot;</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Using &#8230;</h2></hgroup><article  id="using-...">
+</article></slide><slide class=""><hgroup><h2>Using &#8230;</h2></hgroup><article  id="using-...">
 
 <p>Casting the <code>memLong</code> data frame using <code>Subject + variable ~ Method</code> and <code>... ~ Method</code> give the same results because <code>Subject</code> and <code>variable</code> are the only remaining columns after specifying <code>value.var</code> as <code>value</code>.</p>
 
@@ -1344,7 +1350,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Using .</h2></hgroup><article  id="using-.">
+</article></slide><slide class=""><hgroup><h2>Using .</h2></hgroup><article  id="using-.">
 
 <p>Here we use the special term <code>.</code> to write a formula telling <code>dcast</code> to group all the the measured values for method of practice by nothing else!</p>
 
@@ -1369,7 +1375,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 
 <p>Since there are multiple measurements for each methods, <code>dcast</code> applies the defaults aggregation function <code>length</code> to boil the observations down to a single value. The value 16 means 16 measurements were taken for each practice method.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
+</article></slide><slide class=""><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
 
 <ol>
 <li>Reshape the <code>airquality</code> dataset to only use month and day as ID variables. Should missing values be dropped or preserved?</li>
@@ -1378,7 +1384,7 @@ memory &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/memorydata.c
 <li>Using <code>melt</code> and then <code>dcast</code> on the built in <code>DNase</code> dataset, find the average protein concentration and optical density on each run of the DNA assay. The final data frame should have <code>Run</code> as an ID variable, and <code>conc</code> and <code>density</code> as measure variables.</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>More Resources</h2></hgroup><article  id="more-resources">
+</article></slide><slide class=""><hgroup><h2>More Resources</h2></hgroup><article  id="more-resources">
 
 <ul>
 <li><a href='http://seananderson.ca/2013/10/19/reshape.html' title=''>A brief intro but good intro to reshape2</a></li>
