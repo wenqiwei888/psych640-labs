@@ -43,10 +43,10 @@ When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, 
 [Review Exercises](./labs/Review640.html) | 1/22/18
 [dplyr, part 1: Basic Verbs](./labs/dplyr_part1.html) | 1/29/18
 [dplyr, part 2: Advanced Verbs and Pipes](./labs/dplyr_part2.html) | 2/5/18
-[Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | TBA
-[Reshaping Data with tidyr](./labs/tidyr.html) | TBA
+[Data Semantics: A Reshaping Prelude](./labs/data_semantics.html) | 2/12/18
+[Reshaping Data with tidyr](./labs/tidyr.html) | 2/12/18
 [Reshaping Data with reshape2](./labs/reshape.html) | N/A
-[Merging Datasets with Joins](./labs/joins.html) |  TBA
+[Merging Datasets with Joins](./labs/joins.html) |  2/26/18
 [ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | TBA
 [ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| TBA
 [Writing Functions](./labs/functions.html)| TBA
