@@ -93,7 +93,7 @@ This makes it easy to see that the single unit of observation in this dataset is
 ```{r goodData5, ref.label= "goodData",echo=FALSE}
 ```
 
-When each variable forms a column, each observation forms a row, and the table holds measurements from a single observational unit, the dataset is said to be [normalized](https://en.wikipedia.org/wiki/Third_normal_form). This is the optimal format for your data in most cases.
+When each column holds values of a single variable, each row holds all values from a single observation, and the table holds measurements from a single observational unit, the dataset is said to be [normalized](https://en.wikipedia.org/wiki/Third_normal_form). This is the optimal layout for your data in most cases.
 
 But normalized is far from the only format datasets may come in, and we will now examine two broader classes of data forms, "long" and "wide".
 
@@ -104,31 +104,30 @@ long <- melt(gooddata, measure.vars = 1:3)
 pander(long,style = "rmarkdown")
 ```
 
-Long datasets have a column whose values identify which variable the values in *other* columns are associated with. 
+Long datasets have a column whose values identify which variable the values in *other* columns are associated with. This is sometimes called an "Entity-Attribute-Value" (EAV) data model.
 
 This format differs from normalized data in that it does not preserve the "variables-as-columns" and "observations-as-rows relationship".
 
 All the variables are stuffed into one column and single observations are now spread over multiple rows.
 
 ## Data Semantics: Wide Data {#wide}
-Wide datasets are defined by having a column for each variable, so the normalized data set we looked at earlier was also a wide data set.
+Wide datasets split the values from one variable into multiple columns, according to the value of *another* variable it was observed with. Many of the example datasets in your book use this layout, as it is a very compact representation of data.
 
-But, not all wide data sets are normalized. Below is another version of the same data, but this version contains less information about the data. 
+The "wide" version of the migraine dataset below splits the headache counts into two different columns, depending on which treatment condition the count was observed in.
+contains less information about the data.
 
 ```{r widedata, echo=FALSE,message=FALSE}
 wide <- dcast(gooddata, ... ~ treatment)
 pander(wide,style = "rmarkdown")
 ```
 
-Here, the `headaches` label is gone, and single observations are now combined into one row. Additionally, `a` and `b` are now used as distinct variables, instead of as different values of the "condition" variable.
+This layout trades compactness for information. The `headaches` label is gone, and single observations are now combined into one row. Additionally, `a` and `b` are now used as distinct variables, instead of as different values of the "condition" variable.
 
 ## Trouble defining 'Wide' and 'Long'
 While wide data and long data *do* have concrete definitions, these terms are often used imprecisely. 
 
 They are often used in a relative sense, meaning to make a set of data longer or wider than it originally was, which may or may not correspond to making the data fit the actual definition of wide or long. 
 
-These labels can also be confusing because when you change data from one layout to another, the absolute size of the table may shrink, but the new shape may still be referred to as wide or long form.
-
-Additionally, a dataset may have many different layouts that each can be called wide or long form.
+These labels can also be confusing because when you change data to a "wide" layout, it may or may not get literally wider. Additionally, a dataset may have many different layouts that each can be called wide or long form.
 
 So, read carefully whenever you see these terms, and take care when using them yourself.

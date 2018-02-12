@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,8 +81,8 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../theme/css/cellHighlighting.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\cellHighlighting.css" type="text/css" />
 
 </head>
 
@@ -96,11 +96,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-02-12</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Why shape matters</h2></hgroup><article  id="why-shape-matters">
+<slide class=""><hgroup><h2>Why shape matters</h2></hgroup><article  id="why-shape-matters">
 
 <ul>
 <li><p>Reshaping refers to the act of changing the physical layout of a data set</p></li>
@@ -113,7 +113,7 @@
 <li><p>You <em>could</em> put all your data on a single 1 million character line, but that would impede working with it and understanding it</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics">
+</article></slide><slide class=""><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics">
 
 <p>To prepare for learning a reshaping tool set, it is useful to define a vocabulary we can use to describe the content of our datasets, independent of their physical form.</p>
 
@@ -131,7 +131,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics-1">
+</article></slide><slide class=""><hgroup><h2>Data Semantics</h2></hgroup><article  id="data-semantics-1">
 
 <p>Lets make these terms more concrete with an example dataset.</p>
 
@@ -175,7 +175,7 @@
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Values</h2></hgroup><article  id="values">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Values</h2></hgroup><article  id="values">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -218,7 +218,7 @@
 <p>The <span style="color: #288E26">
 values</span> are everything that is not a row or column label. They are represented physically by each cell of the table.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="variables">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="variables">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -267,7 +267,7 @@ variables</span> are represented physically by the columns in the data set. Here
 <li><code>headache</code>, with five values (or six,depending on how you think of the missing value (NA, 16, 3, 2, 11, 1).</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="VarTypes">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Variables</h2></hgroup><article  id="VarTypes">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -328,7 +328,7 @@ Measured variables</span> represent what is measured from that observational uni
 <li>For example, row 2 could be written \(Y_{person = John Smith, treatment = b} = 2\)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Observations</h2></hgroup><article  id="observations">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Observations</h2></hgroup><article  id="observations">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -373,7 +373,7 @@ observation</span> made is represented physically by a row in the data frame.</p
 
 <p>This makes it easy to see that the single unit of observation in this dataset is a person within a treatment condition.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Normal Form</h2></hgroup><article  id="data-semantics-normal-form">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Normal Form</h2></hgroup><article  id="data-semantics-normal-form">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -413,11 +413,11 @@ observation</span> made is represented physically by a row in the data frame.</p
 </tr>
 </table>
 
-<p>When each variable forms a column, each observation forms a row, and the table holds measurements from a single observational unit, the dataset is said to be <a href='https://en.wikipedia.org/wiki/Third_normal_form' title=''>normalized</a>. This is the optimal format for your data in most cases.</p>
+<p>When each column holds values of a single variable, each row holds all values from a single observation, and the table holds measurements from a single observational unit, the dataset is said to be <a href='https://en.wikipedia.org/wiki/Third_normal_form' title=''>normalized</a>. This is the optimal layout for your data in most cases.</p>
 
 <p>But normalized is far from the only format datasets may come in, and we will now examine two broader classes of data forms, &quot;long&quot; and &quot;wide&quot;.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Long Data</h2></hgroup><article  id="long" class="table-column">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Long Data</h2></hgroup><article  id="long" class="table-column">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -498,17 +498,17 @@ observation</span> made is represented physically by a row in the data frame.</p
 </tr>
 </table>
 
-<p>Long datasets have a column whose values identify which variable the values in <em>other</em> columns are associated with.</p>
+<p>Long datasets have a column whose values identify which variable the values in <em>other</em> columns are associated with. This is sometimes called an &quot;Entity-Attribute-Value&quot; (EAV) data model.</p>
 
 <p>This format differs from normalized data in that it does not preserve the &quot;variables-as-columns&quot; and &quot;observations-as-rows relationship&quot;.</p>
 
 <p>All the variables are stuffed into one column and single observations are now spread over multiple rows.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Semantics: Wide Data</h2></hgroup><article  id="wide">
+</article></slide><slide class=""><hgroup><h2>Data Semantics: Wide Data</h2></hgroup><article  id="wide">
 
-<p>Wide datasets are defined by having a column for each variable, so the normalized data set we looked at earlier was also a wide data set.</p>
+<p>Wide datasets split the values from one variable into multiple columns, according to the value of <em>another</em> variable it was observed with. Many of the example datasets in your book use this layout, as it is a very compact representation of data.</p>
 
-<p>But, not all wide data sets are normalized. Below is another version of the same data, but this version contains less information about the data.</p>
+<p>The &quot;wide&quot; version of the migrane dataset below splits the headache counts into two different columns, depending on which treatement condition the count was observed in. contains less information about the data.</p>
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -533,17 +533,15 @@ observation</span> made is represented physically by a row in the data frame.</p
 </tr>
 </table>
 
-<p>Here, the <code>headaches</code> label is gone, and single observations are now combined into one row. Additionally, <code>a</code> and <code>b</code> are now used as distinct variables, instead of as different values of the &quot;condition&quot; variable.</p>
+<p>This layout trades compactness for information. The <code>headaches</code> label is gone, and single observations are now combined into one row. Additionally, <code>a</code> and <code>b</code> are now used as distinct variables, instead of as different values of the &quot;condition&quot; variable.</p>
 
-</article></slide><slide class=''><hgroup><h2>Trouble defining &#39;Wide&#39; and &#39;Long&#39;</h2></hgroup><article  id="trouble-defining-wide-and-long">
+</article></slide><slide class=""><hgroup><h2>Trouble defining &#39;Wide&#39; and &#39;Long&#39;</h2></hgroup><article  id="trouble-defining-wide-and-long">
 
 <p>While wide data and long data <em>do</em> have concrete definitions, these terms are often used imprecisely.</p>
 
 <p>They are often used in a relative sense, meaning to make a set of data longer or wider than it originally was, which may or may not correspond to making the data fit the actual definition of wide or long.</p>
 
-<p>These labels can also be confusing because when you change data from one layout to another, the absolute size of the table may shrink, but the new shape may still be referred to as wide or long form.</p>
-
-<p>Additionally, a dataset may have many different layouts that each can be called wide or long form.</p>
+<p>These labels can also be confusing because when you change data to a &quot;wide&quot; layout, it may or may not get literally wider. Additionally, a dataset may have many different layouts that each can be called wide or long form.</p>
 
 <p>So, read carefully whenever you see these terms, and take care when using them yourself.</p></article></slide>
 
