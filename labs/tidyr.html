@@ -465,7 +465,7 @@ temperature</pre>
 
 <p>A common issue encountered with the <code>spread</code> function is the somewhat mysterious error &quot;<code style="color: red;">Duplicate identifiers for rows &#8230; </code>&quot;.</p>
 
-<p>Basically, this means is that when the column(s) given in the <code>value</code> argument are removed, the rows of your data frame are not unique. Thus, <code>spread</code> can&#39;t figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.</p>
+<p>Basically, this means is that when the column given as the <code>value</code> argument is removed, the rows of your data frame are not unique. Thus, <code>spread</code> can&#39;t figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.</p>
 
 <p>In general, the solution is to give each row a unique ID number like so:</p>
 

@@ -154,7 +154,7 @@ pander(spread(data = temperature, key = "date", value = "temp"))
 ## Common `spread()` problems
 A common issue encountered with the `spread` function is the somewhat mysterious error "<code style="color: red;">Duplicate identifiers for rows ... </code>".
 
-Basically, this means is that when the column(s) given in the `value` argument are removed, the rows of your data frame are not unique. Thus, `spread` can't figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.
+Basically, this means is that when the column given as the `value` argument is removed, the rows of your data frame are not unique. Thus, `spread` can't figure out which observations belong in each row when it reshapes that data. Rather than potentially corrupt your data, it gives up instead.
 
 In general, the solution is to give each row a unique ID number like so:
 

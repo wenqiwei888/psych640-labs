@@ -114,7 +114,6 @@ All the variables are stuffed into one column and single observations are now sp
 Wide datasets split the values from one variable into multiple columns, according to the value of *another* variable it was observed with. Many of the example datasets in your book use this layout, as it is a very compact representation of data.
 
 The "wide" version of the migraine dataset below splits the headache counts into two different columns, depending on which treatment condition the count was observed in.
-contains less information about the data.
 
 ```{r widedata, echo=FALSE,message=FALSE}
 wide <- dcast(gooddata, ... ~ treatment)
