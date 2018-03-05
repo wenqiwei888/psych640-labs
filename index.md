@@ -47,8 +47,8 @@ When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, 
 [Reshaping Data with tidyr](./labs/tidyr.html) | 2/12/18
 [Reshaping Data with reshape2](./labs/reshape.html) | N/A
 [Merging Datasets with Joins](./labs/joins.html) |  2/26/18
-[ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | TBA
-[ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| TBA
+[ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | 3/5/18
+[ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| 3/19/18
 [Writing Functions](./labs/functions.html)| TBA
 [Functional Programming: The apply functions](./labs/apply.html) | TBA
 [Functional Programming: Higher-Order Functions and Closures](./labs/apply_part2.html) | TBA
