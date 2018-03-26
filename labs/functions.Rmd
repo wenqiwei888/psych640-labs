@@ -29,7 +29,7 @@ f <- function(arguments) { body }
 ```
 This expression is called a *function declaration* or a *function definition*.
 
-`arguments` represents a set of variable names (and optionally default values) to be used within the function, and `body` represents one or more an R expressions.
+`arguments` represents a set of variable names (and optionally default values) to be used within the function, and `body` represents one or more R expressions.
 
 The usual assignment operator, `<-`, creates the object you can use to call the function. Just like any other variable, the name to the left of the `<-` operator is arbitrary.
 
@@ -61,7 +61,6 @@ Arguments *without* a default value must always be specified on the function cal
 <div class = "errormsg", style="margin-top: 10px;">
 ```{r optionalTwo, error=TRUE}
 f(arg2=pi) # I always forget pi is a built in constant!!
-# Sorry for the formatting, errors don't line wrap
 ```
 </div>
 
@@ -115,23 +114,21 @@ f("autumn leaves")
 ## Returning multiple values
 If you were writing a function to perform a t-test, you would probably  like to write one function that tells you the t score, the degrees of freedom, and the *p* value, instead of writing one function for each.
 
-Unfortunately, returning multiple objects is impossible in R; the language simply does not support this behavior.
+In R, we achieve this by by storing the values we want to be output together in a single object.
 
-However, we can circumvent this limitation by storing the multiple values we want to be output together in a single object!
+Returning a list is a good general purpose solution to this problem, because lists are designed to have named elements of arbitrary sizes and type.
 
 ## Returning multiple values
-Returning a list is a good general purpose solution to this problem, because lists are designed to have elements of arbitrary length and type.
-
-For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.
-```{r listReturns, eval=TRUE}
+This function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.
+```{r listReturns, eval=TRUE, collapse=TRUE}
 summaryStats <- function(x) {
   x <- list(mean = mean(x),
             stdDev = sd(x),
-            range = range(x),
             sem = sd(x)/sqrt(length(x)))
   return(x)
 }
 statList <- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
+str(statList)
 statList$sem
 ```
 
@@ -248,7 +245,7 @@ A breakpoint is a flag set on a line of code in your function that tells the R i
 This method can save you quite a bit of time versus using the `debug` function by allowing you to stop execution just before the line where an error occurs.
 
 ## Setting breakpoints { .img-centered}
-To set a breakpoint, use the mouse to click in the blank space between the line number of the expression you wish to pause execution prior to and the left edge of the editor pane.
+To set a breakpoint, use the mouse to click in the blank space between the line number you want start debugging on and the left edge of the editor pane.
 
 This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints.
 ![setBreakpoint](../images/setBreakpoint.png)

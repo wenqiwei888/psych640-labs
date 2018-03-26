@@ -49,7 +49,7 @@ When viewing the slides, press the <kbd>f</kbd> key to toggle full screen mode, 
 [Merging Datasets with Joins](./labs/joins.html) |  2/26/18
 [ggplot2: The grammar of graphics, part 1](./labs/ggplot_part1.html) | 3/5/18
 [ggplot2: The grammar of graphics, part 2](./labs/ggplot_part2.html)| 3/19/18
-[Writing Functions](./labs/functions.html)| TBA
+[Writing Functions](./labs/functions.html)| 3/26/18
 [Functional Programming: The apply functions](./labs/apply.html) | TBA
 [Functional Programming: Higher-Order Functions and Closures](./labs/apply_part2.html) | TBA
 [Text Processing Basics](./labs/text_data.html) | TBA

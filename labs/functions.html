@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-03-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-03-26</p>
           </hgroup>
   </slide>
 
@@ -123,7 +123,7 @@
 
 <p>This expression is called a <em>function declaration</em> or a <em>function definition</em>.</p>
 
-<p><code>arguments</code> represents a set of variable names (and optionally default values) to be used within the function, and <code>body</code> represents one or more an R expressions.</p>
+<p><code>arguments</code> represents a set of variable names (and optionally default values) to be used within the function, and <code>body</code> represents one or more R expressions.</p>
 
 <p>The usual assignment operator, <code>&lt;-</code>, creates the object you can use to call the function. Just like any other variable, the name to the left of the <code>&lt;-</code> operator is arbitrary.</p>
 
@@ -160,9 +160,7 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 <div style="margin-top: 10px;" class="errormsg">
 <pre class = 'prettyprint lang-r'>f(arg2=pi) # I always forget pi is a built in constant!!</pre>
 
-<pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre>
-
-<pre class = 'prettyprint lang-r'># Sorry for the formatting, errors don&#39;t line wrap</pre></div>
+<pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre></div>
 
 </article></slide><slide class=''><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
 
@@ -228,27 +226,28 @@ f(&quot;autumn leaves&quot;)</pre>
 
 <p>If you were writing a function to perform a t-test, you would probably like to write one function that tells you the t score, the degrees of freedom, and the <em>p</em> value, instead of writing one function for each.</p>
 
-<p>Unfortunately, returning multiple objects is impossible in R; the language simply does not support this behavior.</p>
+<p>In R, we achieve this by by storing the values we want to be output together in a single object.</p>
 
-<p>However, we can circumvent this limitation by storing the multiple values we want to be output together in a single object!</p>
+<p>Returning a list is a good general purpose solution to this problem, because lists are designed to have named elements of arbitrary sizes and type.</p>
 
 </article></slide><slide class=''><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values-1">
 
-<p>Returning a list is a good general purpose solution to this problem, because lists are designed to have elements of arbitrary length and type.</p>
-
-<p>For example, this function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
+<p>This function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
 
 <pre class = 'prettyprint lang-r'>summaryStats &lt;- function(x) {
   x &lt;- list(mean = mean(x),
             stdDev = sd(x),
-            range = range(x),
             sem = sd(x)/sqrt(length(x)))
   return(x)
 }
 statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
-statList$sem</pre>
-
-<pre >## [1] 6.227733</pre>
+str(statList)
+## List of 3
+##  $ mean  : num 56.4
+##  $ stdDev: num 26.5
+##  $ sem   : num 5.31
+statList$sem
+## [1] 5.309598</pre>
 
 </article></slide><slide class=''><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
 
@@ -374,7 +373,7 @@ statList &lt;- summaryStats(x)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-1" class="img-centered">
 
-<p>To set a breakpoint, use the mouse to click in the blank space between the line number of the expression you wish to pause execution prior to and the left edge of the editor pane.</p>
+<p>To set a breakpoint, use the mouse to click in the blank space between the line number you want start debugging on and the left edge of the editor pane.</p>
 
 <p>This should place an open red circle in the blank space where you clicked, and a small notification should pop up telling you that you must source the file to activate the breakpoints. <img src='../images/setBreakpoint.png' title=''/></p>
 
