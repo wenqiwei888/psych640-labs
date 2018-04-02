@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-04-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-04-02</p>
           </hgroup>
   </slide>
 
@@ -197,9 +197,9 @@ identical(x, y)</pre>
 
 <p>The formal argument lists for these functions have an unmistakable pattern: Each one has arguments named <code>X</code> and <code>FUN</code>.</p>
 
-<p><code>FUN</code>, as you might imagine, is be the function you wish to apply. And <code>X</code> is the data structure whose individual elements will have that function applied to them.</p>
+<p><code>FUN</code>, as you might imagine, is the function you wish to apply. And <code>X</code> is the data structure whose individual elements will have that function applied to them.</p>
 
-<p><code>X</code> can be any object that has elements (which is pretty much every R object)! So, the keys to understanding the behavior of <code>*apply</code> functions are:</p>
+<p><code>X</code> can be any object that has elements (which is pretty much every R object!). So, the keys to understanding the behavior of <code>*apply</code> functions are:</p>
 
 <ol>
 <li>Understanding what things are considered to be &quot;the elements&quot; for any given data structure <code>X</code></li>
@@ -291,7 +291,7 @@ identical(x,y)</pre>
 
 <p>However, this is a false dichotomy, and there are several simple techniques that give you complete control over the arguments to the function call inside the <code>*apply</code> functions.</p>
 
-</article></slide><slide class=''><hgroup><h2>Using the &#8230; elipsis</h2></hgroup><article  id="using-the-...-elipsis">
+</article></slide><slide class=''><hgroup><h2>Using the &#8230; ellipsis</h2></hgroup><article  id="using-the-...-ellipsis">
 
 <p>Each <code>*apply</code> functions includes the ellipsis (the <code>...</code>) in their formal argument lists.</p>
 
@@ -311,7 +311,7 @@ identical(x,y)</pre>
 
 <p>Another useful way to control the arguments to your function are to supply anonymous functions as the <code>FUN</code> argument.</p>
 
-<p>Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared &quot;in-line&quot; (i.e., inside another function call), and used as &quot;one-off&quot; tools when you need to supply a function as a argument, but have no other use for that specific function.</p>
+<p>Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared &quot;in-line&quot; (i.e., inside another function call), and used as &quot;one-off&quot; tools when you need to supply a function as an argument, but have no other use for that specific function.</p>
 
 <p>Here we&#39;ll use an anonymous function to get seqeuncecs starting at 15, and going to 8 and 6, respectively.</p>
 
@@ -340,7 +340,7 @@ data$Var4 &lt;- as.factor(data$Var4)</pre>
 
 <p>To see how, lets start by reading in the <code>marathon</code> dataset.</p>
 
-<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;http://wjhopper.github.io/psych640/data/marathon.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>marathon &lt;- read.csv(&quot;http://wjhopper.github.io/psych640-labs/data/marathon.csv&quot;)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Practical lapply</h2></hgroup><article  id="practical-lapply-2">
 

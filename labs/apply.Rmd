@@ -82,9 +82,9 @@ NB: The help pages for these functions are obtuse, even for R help pages. Hopefu
 ## The X <del>Files</del> FUNS
 The formal argument lists for these functions have an unmistakable pattern: Each one has arguments named `X` and `FUN`.
 
-`FUN`, as you might imagine, is be the function you wish to apply. And `X` is the data structure whose individual elements will have that function applied to them.
+`FUN`, as you might imagine, is the function you wish to apply. And `X` is the data structure whose individual elements will have that function applied to them.
 
-`X` can be any object that has elements (which is pretty much every R object)! So, the keys to understanding the behavior of `*apply` functions are:
+`X` can be any object that has elements (which is pretty much every R object!). So, the keys to understanding the behavior of `*apply` functions are:
 
 1) Understanding what things are considered to be "the elements" for any given data structure `X`
 2) Knowing the size of input that `FUN` consumes (e.g., scalar value, vector, data frame, etc.)
@@ -141,7 +141,7 @@ By default, each element of the data structure is used as the first argument for
 
 However, this is a false dichotomy, and there are several simple techniques that give you complete control over the arguments to the function call inside the `*apply` functions.
 
-## Using the ... elipsis
+## Using the ... ellipsis
 Each `*apply` functions includes the ellipsis (the `...`) in their formal argument lists. 
 
 The ellipsis is used to pass any named arguments not matching the `*apply` function's native named arguments (i.e., any arguments not named `X` or `FUN`) to the function you've specified.
@@ -155,7 +155,7 @@ lapply(c(8,6), seq, from = 3) # from 3 to 8, and from 3 to 6
 ## Using an anonymous function
 Another useful way to control the arguments to your function are to supply anonymous functions as the `FUN` argument.
 
-Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared "in-line" (i.e., inside another function call), and used as "one-off" tools when you need to supply a function as a argument, but have no other use for that specific function. 
+Anonymous functions are normal function declarations that are not assigned a name in your environment. They are declared "in-line" (i.e., inside another function call), and used as "one-off" tools when you need to supply a function as an argument, but have no other use for that specific function. 
 
 Here we'll use an anonymous function to get seqeuncecs starting at 15, and going to 8 and 6, respectively.
 
@@ -181,7 +181,7 @@ Because a data frame is actually a list, we can add or overwrite columns with el
 To see how, lets start by reading in the `marathon` dataset.
 
 ```{r, sapply_tofactor, eval=FALSE}
-marathon <- read.csv("http://wjhopper.github.io/psych640/data/marathon.csv")
+marathon <- read.csv("http://wjhopper.github.io/psych640-labs/data/marathon.csv")
 ```
 ```{r, sapply_tofactor_real, echo = FALSE}
 marathon <- read.csv("../data/marathon.csv")
