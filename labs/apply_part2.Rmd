@@ -153,9 +153,9 @@ A place where this function is quite useful in "real life" is joining together s
 Using `Reduce(left_join, list(df1, df2, df3, df4, df5))` is a lot better than writing out all 4 joins explicitly.
 
 ## Closures
-A closure is a function that returns *another* function as its result. This name stems from the fact that all functions in R are said to be *enclosed* in an environment.
+A closure is a function with access to data *not* supplied using the argument interface. In R, the accessible data (if any) are the objects defined in the environment the function is *enclosed* in.
 
-The environment that encloses a function is the environment where it was defined. For example, if I executed the statement `f <- function(x) { x+1 }` in the console, then then function `f` would be enclosed in the global environment.
+The environment that encloses a function is the environment where it was defined. For example, if I executed the statement `f <- function(x) { x+1 }` in the console, then function `f` would be enclosed in the global environment.
 
 ```{r}
 f <- function() { x+1 }
@@ -163,7 +163,7 @@ environment(f)
 ```
 
 ## Closures
-This relationship matters because R employs a method of matching variables (i.e., `x`) to values (i.e., `10`) known as *lexical scoping*. Lexical scoping means that if R can't find the value associated with a variable in the current environment, it looks in the enclosing environment.
+This relationship matters because R employs a method of matching variables (i.e., `x`) to values (i.e., `10`) known as *lexical scoping*. Lexical scoping means that if R can't find the value associated with a variable in the current environment, it looks in the enclosing environment. In other words, it looks in the environment where the function was created.
 
 So if our function `f <- function() { x+1 }` is invoked, the variable `x` is not defined in the function's local environment, and so R will look in `f`'s enclosing environment for the value of `x`.
 

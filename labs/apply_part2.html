@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-04-09</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Last Time&#8230;</h2></hgroup><article  id="last-time...">
+<slide class=""><hgroup><h2>Last Time&#8230;</h2></hgroup><article  id="last-time...">
 
 <p>We explored &quot;First-Class&quot; functions in R, and how having functions be &quot;just another object&quot; makes the <code>apply</code> family of functions possible (<code>lapply</code>, <code>sapply</code>, <code>vapply</code> and regular old <code>apply</code>).</p>
 
@@ -111,7 +111,7 @@
 <li>Closures (a.k.a. functions, but with some data along for the ride)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>R&#39;s Sytactic Sugar</h2></hgroup><article  id="rs-sytactic-sugar">
+</article></slide><slide class=""><hgroup><h2>R&#39;s Sytactic Sugar</h2></hgroup><article  id="rs-sytactic-sugar">
 
 <p>R is a functional programming language at its core, and functional programming languages are organized around (you guessed it) functions. In &quot;pure&quot; functional languages, <em>everything</em> is done as a function call.</p>
 
@@ -125,7 +125,7 @@
 
 <pre class = 'prettyprint lang-r'>2*(-3)</pre>
 
-</article></slide><slide class=''><hgroup><h2>What? How? Why?</h2></hgroup><article  id="what-how-why">
+</article></slide><slide class=""><hgroup><h2>What? How? Why?</h2></hgroup><article  id="what-how-why">
 
 <p>We got two-thirds instead of -6 because of this particularly evil snippet of code.</p>
 
@@ -137,7 +137,7 @@ e$`(` &lt;- function(x) -x
 suppressMessages(attach(e))
 rm(e)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Everything that happens is a function call</h2></hgroup><article  id="everything-that-happens-is-a-function-call">
+</article></slide><slide class=""><hgroup><h2>Everything that happens is a function call</h2></hgroup><article  id="everything-that-happens-is-a-function-call">
 
 <p>This works precisely because the <code>*</code> and <code>(</code> operators are functions - they just have an atypical syntax that makes them more natural to use. But, we can always use them with &quot;traditional&quot; function syntax by back-quoting them (which disables their typical evaluation).</p>
 
@@ -151,7 +151,7 @@ rm(e)</pre>
 
 <p>This is true for all of R&#39;s &quot;infix&quot; operators: <code>+</code>, <code>-</code>, <code>/</code>, <code>&lt;-</code>, <code>[</code>, <code>[[</code>, <code>!</code>, <code>==</code>, <code>%in%</code>, <code>%*%</code>, etc. They are all functions!</p>
 
-</article></slide><slide class=''><hgroup><h2>Using infix operations in functional programming</h2></hgroup><article  id="using-infix-operations-in-functional-programming">
+</article></slide><slide class=""><hgroup><h2>Using infix operations in functional programming</h2></hgroup><article  id="using-infix-operations-in-functional-programming">
 
 <p>Using infix operators in functional programming contexts can be quite useful. For example, if I had a list of vectors, and wanted to remove the first element in each vector, but still keep them in the list, I could do the following:</p>
 
@@ -169,7 +169,7 @@ lapply(x ,`[`, -1) # -1 is passed as the argument to `[`</pre>
 ## [[3]]
 ## [1] 10  9</pre>
 
-</article></slide><slide class=''><hgroup><h2>Higher-Order Functions</h2></hgroup><article  id="higher-order-functions">
+</article></slide><slide class=""><hgroup><h2>Higher-Order Functions</h2></hgroup><article  id="higher-order-functions">
 
 <p>Higher-Order functions are functions that take other functions as arguments, and return a vector as output</p>
 
@@ -181,13 +181,13 @@ lapply(x ,`[`, -1) # -1 is passed as the argument to `[`</pre>
 <li><code>Reduce()</code></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map">
+</article></slide><slide class=""><hgroup><h2>Map</h2></hgroup><article  id="map">
 
 <p><code>Map</code> is a close cousin of the <code>*apply</code> functions, and can be thought of as a &quot;multivariate&quot; apply function.</p>
 
 <p>Instead of providing each <em>individual</em> element of a <em>single</em> vector as an argument to a function, it provides <em>sets</em> of elements from <em>multiple</em> vectors as arguments to a function.</p>
 
-</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map-1">
+</article></slide><slide class=""><hgroup><h2>Map</h2></hgroup><article  id="map-1">
 
 <p>Last week, we saw that the following two expressions were equivalent:</p>
 
@@ -208,7 +208,7 @@ str(y)</pre>
 
 <p>But what if we wanted the <code>from</code> argument to vary between calls to seq? Say we wanted the sequence going to 8 to start at 3, but the sequence going to 6 to start at 1?</p>
 
-</article></slide><slide class=''><hgroup><h2>Map</h2></hgroup><article  id="map-2">
+</article></slide><slide class=""><hgroup><h2>Map</h2></hgroup><article  id="map-2">
 
 <p>When you want multiple arguments to vary on each function call, that&#39;s a job for <code>Map</code>. All we have to do is provide a second vector that has the values we want to be used as the <code>from</code> arguments.</p>
 
@@ -229,7 +229,7 @@ str(y)</pre>
 ##  $ : int [1:6] 3 4 5 6 7 8
 ##  $ : int [1:6] 1 2 3 4 5 6</pre>
 
-</article></slide><slide class=''><hgroup><h2>do.call</h2></hgroup><article  id="do.call">
+</article></slide><slide class=""><hgroup><h2>do.call</h2></hgroup><article  id="do.call">
 
 <p>The <code>do.call</code> function is useful when the values you want to use as arguments to a function are stored inside of a list. For example, the following two expressions are equivalent:</p>
 
@@ -244,7 +244,7 @@ do.call(mean, x)</pre>
 
 <p>This is commonly used together with functions that take a potentially unlimited number of arguments (e.g., <code>rbind</code> and <code>cbind</code>).</p>
 
-</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce">
+</article></slide><slide class=""><hgroup><h2>Reduce</h2></hgroup><article  id="reduce">
 
 <p>The <code>Reduce</code> function uses a binary function (i.e., a function that takes 2 arguments) to successively combine the elements of a vector or list.</p>
 
@@ -257,7 +257,7 @@ do.call(mean, x)</pre>
 <li><code>x</code>: The vector or list whose elements will be passed to <code>f</code></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-1">
+</article></slide><slide class=""><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-1">
 
 <p>So if we had a vector with 4 elements (<code>x1</code>, <code>x2</code>, <code>x3</code>, and <code>x4</code>), and some function <code>f</code>, <code>Reduce</code> performs the following operation internally:</p>
 
@@ -271,7 +271,7 @@ f( f( f(x1, x2), x3), x4)</pre>
 
 <p>Finally, the result of that operation is used as an argument to <code>f</code> again, along with <code>x4</code>, to find the final result.</p>
 
-</article></slide><slide class=''><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-2">
+</article></slide><slide class=""><hgroup><h2>Reduce</h2></hgroup><article  id="reduce-2">
 
 <p>For example, we could use the <code>Reduce</code> function to calculate a the sum of an entire numeric vector</p>
 
@@ -291,20 +291,20 @@ f( f( f(x1, x2), x3), x4)</pre>
 
 <p>Using <code>Reduce(left_join, list(df1, df2, df3, df4, df5))</code> is a lot better than writing out all 4 joins explicitly.</p>
 
-</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures">
+</article></slide><slide class=""><hgroup><h2>Closures</h2></hgroup><article  id="closures">
 
-<p>A closure is a function that returns <em>another</em> function as its result. This name stems from the fact that all functions in R are said to be <em>enclosed</em> in an environment.</p>
+<p>A closure is a function with access to data <em>not</em> supplied using the argument interface. In R, the accessible data (if any) are the objects defined in the environment the function is <em>enclosed</em> in.</p>
 
-<p>The environment that encloses a function is the environment where it was defined. For example, if I executed the statement <code>f &lt;- function(x) { x+1 }</code> in the console, then then function <code>f</code> would be enclosed in the global environment.</p>
+<p>The environment that encloses a function is the environment where it was defined. For example, if I executed the statement <code>f &lt;- function(x) { x+1 }</code> in the console, then function <code>f</code> would be enclosed in the global environment.</p>
 
 <pre class = 'prettyprint lang-r'>f &lt;- function() { x+1 }
 environment(f)</pre>
 
-<pre >## &lt;environment: 0x6df5e78&gt;</pre>
+<pre >## &lt;environment: R_GlobalEnv&gt;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-1">
+</article></slide><slide class=""><hgroup><h2>Closures</h2></hgroup><article  id="closures-1">
 
-<p>This relationship matters because R employs a method of matching variables (i.e., <code>x</code>) to values (i.e., <code>10</code>) known as <em>lexical scoping</em>. Lexical scoping means that if R can&#39;t find the value associated with a variable in the current environment, it looks in the enclosing environment.</p>
+<p>This relationship matters because R employs a method of matching variables (i.e., <code>x</code>) to values (i.e., <code>10</code>) known as <em>lexical scoping</em>. Lexical scoping means that if R can&#39;t find the value associated with a variable in the current environment, it looks in the enclosing environment. In other words, it looks in the environment where the function was created.</p>
 
 <p>So if our function <code>f &lt;- function() { x+1 }</code> is invoked, the variable <code>x</code> is not defined in the function&#39;s local environment, and so R will look in <code>f</code>&#39;s enclosing environment for the value of <code>x</code>.</p>
 
@@ -319,7 +319,7 @@ f()</pre>
 
 <pre >## [1] 11</pre>
 
-</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-2">
+</article></slide><slide class=""><hgroup><h2>Closures</h2></hgroup><article  id="closures-2">
 
 <p>This relationship becomes more interesting if a function is defined inside another function.</p>
 
@@ -332,13 +332,13 @@ f()</pre>
 }
 g_prime &lt;- f()</pre>
 
-<pre >## &lt;environment: 0x6b69d60&gt;</pre>
+<pre >## &lt;environment: 0x000000000f584e10&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>environment(g_prime)</pre>
 
-<pre >## &lt;environment: 0x6b69d60&gt;</pre>
+<pre >## &lt;environment: 0x000000000f584e10&gt;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-3">
+</article></slide><slide class=""><hgroup><h2>Closures</h2></hgroup><article  id="closures-3">
 
 <p>This means that the function <code>g</code> can access and use any variables defined inside <code>f</code>&#39;s environment.</p>
 
@@ -351,7 +351,7 @@ g_prime &lt;- f()</pre>
 g_prime &lt;- f(10)
 g_prime()</pre>
 
-</article></slide><slide class=''><hgroup><h2>Closures</h2></hgroup><article  id="closures-4">
+</article></slide><slide class=""><hgroup><h2>Closures</h2></hgroup><article  id="closures-4">
 
 <p>Yes, <code>g_prime()</code> will return 11.</p>
 
@@ -366,7 +366,7 @@ g_prime()</pre>
 
 <p>That&#39;s because the variable <code>x</code> was assigned a value of 10 inside <code>f</code>&#39;s local execution environment by calling <code>f(10)</code>, and because <code>g</code> has access to variables defined in its enclosing environment.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Execute the following statements, which will write several .csv&#39;s to a temp folder and create a vector called <code>filenames</code> which holds the full path to each file.</p>
 
@@ -382,7 +382,7 @@ sapply(1:10, function(x) {
 filenames &lt;- list.files(path = tmp, pattern = &quot;FakeSubject[0-9]+.csv&quot;,
                         full.names = TRUE)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Combine the data in each csv into a single data frame. The catch: you may only use a single statement that must be 50 characters or less (not counting variable assignment).</p>
 
