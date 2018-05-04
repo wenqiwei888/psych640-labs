@@ -188,4 +188,4 @@ So, you can't `rbind()` two data frames with different variables.
 ## Merging Datasets
 Sometimes you'll want to combine two datasets based on common values in a shared variable.
 
-We'll cover these types of merging operations, called "joins", [later in the course](../joins.html). But if you are certain you need to understand how to do this before we cover them in class, come see me =)
+We'll cover these types of merging operations, called "joins", [later in the course](joins.html). But if you are certain you need to understand how to do this before we cover them in class, come see me =)

@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
@@ -105,7 +105,7 @@
 }
 </style>
 
-<slide class=''><hgroup><h2>What is the Rmarkdown toolkit?</h2></hgroup><article  id="what-is-the-rmarkdown-toolkit">
+<slide class=""><hgroup><h2>What is the Rmarkdown toolkit?</h2></hgroup><article  id="what-is-the-rmarkdown-toolkit">
 
 <p>Functionally, Rmarkdown provides a solution to the problem of separating our work (i.e., our R code) from the reporting of our results.</p>
 
@@ -115,7 +115,7 @@
 
 <p>The final product of our work becomes a typeset PDF or HTML document explaining all of our work and results, rather than an arcane R script and console output with random copy-pasta to a word document.</p>
 
-</article></slide><slide class=''><hgroup><h2>Installing Dependencies</h2></hgroup><article  id="installing-dependencies">
+</article></slide><slide class=""><hgroup><h2>Installing Dependencies</h2></hgroup><article  id="installing-dependencies">
 
 <p>If you&#39;re running a newer version* of Rstudio, then you should have Rmarkdown installed already. Other R package dependencies will be automatically pulled in as needed when you start using Rmarkdown.</p>
 
@@ -125,7 +125,7 @@
 
 <p>*newer means newer than version 98.932 (released June 2014)</p>
 
-</article></slide><slide class=''><hgroup><h2>Documentation</h2></hgroup><article  id="documentation">
+</article></slide><slide class=""><hgroup><h2>Documentation</h2></hgroup><article  id="documentation">
 
 <p>Since we can&#39;t exhaustively learn Rmarkdown in one class, you&#39;ll need to know where to look for help and refreshers.</p>
 
@@ -136,7 +136,7 @@
 <li>For a longer, more in depth intro checkout <a href='http://www.introductoryr.co.uk/Reproducibility/Markdown_guide.html' title=''>this tutorial</a> by Rob Knell</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>The R part of Rmarkdown</h2></hgroup><article  id="the-r-part-of-rmarkdown" class="helppage">
+</article></slide><slide class=""><hgroup><h2>The R part of Rmarkdown</h2></hgroup><article  id="the-r-part-of-rmarkdown" class="helppage">
 
 <ol>
 <li>Start by going to File &#8211;&gt; New File &#8211;&gt; R Markdown</li>
@@ -147,7 +147,7 @@
 
 <img src='../images/Rmarkdownsample.png' title='fig:'/><p class='caption'>Rmarkdown Template</p>
 
-</article></slide><slide class=''><hgroup><h2>Success! Now, more work!</h2></hgroup><article  id="success-now-more-work">
+</article></slide><slide class=""><hgroup><h2>Success! Now, more work!</h2></hgroup><article  id="success-now-more-work">
 
 <p>We&#39;ve created our first dynamic document, huzzah!</p>
 
@@ -155,7 +155,7 @@
 
 <p>We&#39;ll work through the sections of this document together, and as we go through it, try to connect the dots between the format of the input document, and the resulting elements in the output document.</p>
 
-</article></slide><slide class=''><hgroup><h2>YAML</h2></hgroup><article  id="yaml">
+</article></slide><slide class=""><hgroup><h2>YAML</h2></hgroup><article  id="yaml">
 
 <p>The section at the very top, separated from the rest of the document by the 3 dashes <code>---</code>, is called the YAML header (YAML stands for <strong>Y</strong>AML <strong>A</strong>int <strong>M</strong>arkup <strong>L</strong>anguage).</p>
 
@@ -163,26 +163,26 @@
 
 <p>For example, the <kbd> <code>output: html_document</code> </kbd> option tells interpreter to construct an HTML document (as opposed to a PDF)</p>
 
-</article></slide><slide class=''><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics">
+</article></slide><slide class=""><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics">
 
 <p><img src='../images/Text1.png' title=''/><br/></p>
 
-</article></slide><slide class=''><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics-1">
+</article></slide><slide class=""><hgroup><h2>Markdown &amp; Plain Text Basics</h2></hgroup><article  id="markdown-plain-text-basics-1">
 
 <p><img src='../images/Text2.png' title=''/><br/></p>
 
-</article></slide><slide class=''><hgroup><h2>Images</h2></hgroup><article  id="images">
+</article></slide><slide class=""><hgroup><h2>Images</h2></hgroup><article  id="images">
 
 <p><img src='../images/images.png' title=''/><br/></p>
 
-</article></slide><slide class=''><hgroup><h2>Embedding Equations with LaTeX syntax</h2></hgroup><article  id="embedding-equations-with-latex-syntax">
+</article></slide><slide class=""><hgroup><h2>Embedding Equations with LaTeX syntax</h2></hgroup><article  id="embedding-equations-with-latex-syntax">
 
 <ul>
 <li>For inline equations, enclose your equations in single <code>$</code> like so: <kbd> <code>$equation$</code> </kbd></li>
 <li>To give your equation its own centered &quot;paragraph&quot;, use double <code>$</code> with spaces, like so: <kbd><code>$$ equation $$</code></kbd> <img src='../images/latex.png' title=''/></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Tables</h2></hgroup><article  id="tables">
+</article></slide><slide class=""><hgroup><h2>Tables</h2></hgroup><article  id="tables">
 
 <p><img src='../images/Tables.png' title=''/><br/><br></p>
 
@@ -209,13 +209,15 @@
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>R code chunks</h2></hgroup><article  id="r-code-chunks">
+</article></slide><slide class=""><hgroup><h2>R code chunks</h2></hgroup><article  id="r-code-chunks">
 
 <p><img src='../images/chunks.png' title=''/><br/></p>
 
-</article></slide><slide class=''><hgroup><h2>Converting R data structures to Markdown</h2></hgroup><article  id="converting-r-data-structures-to-markdown">
+</article></slide><slide class=""><hgroup><h2>Converting R data structures to Markdown</h2></hgroup><article  id="converting-r-data-structures-to-markdown">
 
 <p><img src='../images/kable.png' title=''/><br/></p>
+
+<pre >## Warning: package &#39;knitr&#39; was built under R version 3.4.4</pre>
 
 <table class = 'rmdtable'>
 <caption>With Knitr</caption>
@@ -249,11 +251,11 @@
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Chunks with Plots</h2></hgroup><article  id="chunks-with-plots">
+</article></slide><slide class=""><hgroup><h2>Chunks with Plots</h2></hgroup><article  id="chunks-with-plots">
 
-<p><img src='../images/plotchunk.png' title=''/> <img src="rmarkdown_files/figure-html/Car plot-1.png" width="432" style="display: block; margin: auto;" /></p>
+<p><img src='../images/plotchunk.png' title=''/> <img src="rmarkdown_files/figure-html/Car%20plot-1.png" width="432" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Other Features</h2></hgroup><article  id="other-features" class="in-list-img">
+</article></slide><slide class=""><hgroup><h2>Other Features</h2></hgroup><article  id="other-features" class="in-list-img">
 
 <p>RStudio also allows you to evaluate the code inside you code chunks without knitting the document.</p>
 
@@ -271,7 +273,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Activity: Writing a Report on <code>InsectSprays</code></h2></hgroup><article  id="activity-writing-a-report-on-insectsprays">
+</article></slide><slide class=""><hgroup><h2>Activity: Writing a Report on <code>InsectSprays</code></h2></hgroup><article  id="activity-writing-a-report-on-insectsprays">
 
 <ol>
 <li>Create a new .Rmd file, set up to compile to HTML</li>
@@ -285,7 +287,7 @@
 <li>Add a proper table summarizing the <code>InsectSprays</code> data frame in your document using <code>kable</code>. Keep the lines of R code loading the <code>knitr</code> package and generating the table out of the final document.</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Styling your HTML</h2></hgroup><article  id="styling-your-html">
+</article></slide><slide class=""><hgroup><h2>Styling your HTML</h2></hgroup><article  id="styling-your-html">
 
 <p>Your resulting HTML document can be extensively customized by including styling information via CSS (<strong>C</strong>ascading <strong>S</strong>tyle <strong>S</strong>heets).</p>
 
@@ -295,13 +297,13 @@
 
 <p><code>css: &quot;path/to/your/stylesheet.css&quot;</code></p>
 
-</article></slide><slide class=''><hgroup><h2>Producing HTML slideshows with Rmarkdown</h2></hgroup><article  id="producing-html-slideshows-with-rmarkdown">
+</article></slide><slide class=""><hgroup><h2>Producing HTML slideshows with Rmarkdown</h2></hgroup><article  id="producing-html-slideshows-with-rmarkdown">
 
 <p>You can take an existing Rmd file, change the output type in the YAML header to <code>ioslides_presentaion</code>, and then add slide separators everywhere you want to divide content up into discrete slides. <img src='../images/slides.png' title=''/></p>
 
 <p>Or if you want to start a new Rmd file set up to compile to a slide show, go to File &#8211;&gt; New File &#8211;&gt; R Markdown, select &quot;Presentation&quot; from the menu on the left, and pick your format (I prefer ioslides)</p>
 
-</article></slide><slide class=''><hgroup><h2>Producing PDFs with Rmarkdown</h2></hgroup><article  id="producing-pdfs-with-rmarkdown">
+</article></slide><slide class=""><hgroup><h2>Producing PDFs with Rmarkdown</h2></hgroup><article  id="producing-pdfs-with-rmarkdown">
 
 <p>It also easy to make your final document a PDF. Creating PDFs requires a \(\LaTeX\) installation. <a href='http://miktex.org/download' title=''>MikTeX</a> is preferred for Window&#39;s, while <a href='https://tug.org/mactex/mactex-download.html' title=''>MacTex</a> is preferred for Mac.</p>
 

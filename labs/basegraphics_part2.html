@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,8 +81,8 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../theme/css/toothgrow.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\toothgrow.css" type="text/css" />
 
 </head>
 
@@ -96,11 +96,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Different Data, Different Plots</h2></hgroup><article  id="different-data-different-plots">
+<slide class=""><hgroup><h2>Different Data, Different Plots</h2></hgroup><article  id="different-data-different-plots">
 
 <ul>
 <li>Today we&#39;re going to move away from scatter plots and lines graphs, and use the <code>ToothGrow</code> data set to look at:
@@ -117,7 +117,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>ToothGrow</h2></hgroup><article  id="toothgrow">
+</article></slide><slide class=""><hgroup><h2>ToothGrow</h2></hgroup><article  id="toothgrow">
 
 <ul>
 <li>The <code>ToothGrow</code> data set measures the effects of Vitamin C on the length of Guinea Pig teeth.</li>
@@ -139,7 +139,7 @@
 ## 5  6.4   VC  0.5
 ## 6 10.0   VC  0.5</pre>
 
-</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Histograms</h2></hgroup><article  id="histograms" class="smaller">
 
 <ul>
 <li>Histograms summarize a single continuous variable by showing the relative likelihoods of observing specific values. To give a representative summary, be sure to consider:
@@ -161,7 +161,7 @@
 
 <p><img src="basegraphics_part2_files/figure-html/tooth_hist-2.png" width="432" /></p></div>
 
-</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-1" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-1" class="smaller">
 
 <ul>
 <li>You can change whether values that fall <strong>exactly</strong> on a break value are sorted into the left or the right hand bin.
@@ -180,7 +180,7 @@
 
 <p><img src="basegraphics_part2_files/figure-html/tooth_hist2-2.png" width="432" /></p></div>
 
-</article></slide><slide class=''><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-2">
+</article></slide><slide class=""><hgroup><h2>Histograms</h2></hgroup><article  id="histograms-2">
 
 <p>In the previous example, the bins were too wide and made the histogram appear rectangular. We can change this with the <code>breaks</code> argument:</p>
 
@@ -190,7 +190,7 @@
 
 <p>The <code>mfrow</code> value is set by using the <code>par()</code> function, and is used to divide the figure window up into a grid of different regions, allowing a different plot to be drawn in each region.</p>
 
-</article></slide><slide class=''><hgroup><h2>¡Danger!</h2></hgroup><article  id="danger">
+</article></slide><slide class=""><hgroup><h2>Â¡Danger!</h2></hgroup><article  id="adanger">
 
 <p>When using <code>par</code>, remember that the changes you make affect <em>all subsequent plots</em>, which is not usually what you want.</p>
 
@@ -202,7 +202,7 @@ par(par_defaults) # Reset the  defaults </pre>
 
 <p>If you happen to forget this, another trick is to restart your R session (Ctrl + Shift + f10) or &quot;Restart R&quot; under the &quot;Session&quot; menu.</p>
 
-</article></slide><slide class=''><hgroup><h2>par</h2></hgroup><article  id="par">
+</article></slide><slide class=""><hgroup><h2>par</h2></hgroup><article  id="par">
 
 <p>With the warnings finished, lets change the plot window layout.</p>
 
@@ -219,13 +219,13 @@ par(par_defaults) # Reset the  defaults </pre>
 
 <pre class = 'prettyprint lang-r'>par(mfrow = c(2,2)) # sets a 2x2 grid of plots</pre>
 
-</article></slide><slide class=''><hgroup><h2>Comparing Breaks</h2></hgroup><article  id="comparing-breaks" class="helppage">
+</article></slide><slide class=""><hgroup><h2>Comparing Breaks</h2></hgroup><article  id="comparing-breaks" class="helppage">
 
 <p>Now that we&#39;ve set par, lets looks at 4 different values for the `breaks&#39; arguments (the right two columns seem the best)</p>
 
 <p><br> <img src="basegraphics_part2_files/figure-html/diff_breaks-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Common Axis</h2></hgroup><article  id="common-axis" class="smaller img-centered">
+</article></slide><slide class=""><hgroup><h2>Common Axis</h2></hgroup><article  id="common-axis" class="smaller img-centered">
 
 <p>When putting multiple plots on one figure, its often useful to have them share a common axis. You can suppress the plotting of the axis by setting the <code>xaxt</code> or <code>yaxt</code> to &#39;n&#39;, and then manually drawing an axis on the last figure you plot</p>
 
@@ -236,7 +236,7 @@ axis(side=1,col=&quot;blue&quot;, lwd=2) # side 1 is bottom axis</pre>
 
 <p><img src="basegraphics_part2_files/figure-html/no_acis-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots" class="img-centered">
 
 <p>Box plots are a good way to present the shape of an observed sample along with some summary statistics.</p>
 
@@ -249,7 +249,7 @@ boxplot(OJ, AA, names=c(&quot;Orange Juice&quot;,&quot;Ascorbic Acid&quot;),
 
 <p><img src="basegraphics_part2_files/figure-html/boxplotting-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Box Plots</h2></hgroup><article  id="box-plots-1" class="img-centered">
 
 <p>If our data come from a data frame, we can use a formula instead of subsetting out every individual group.</p>
 
@@ -259,7 +259,7 @@ boxplot(OJ, AA, names=c(&quot;Orange Juice&quot;,&quot;Ascorbic Acid&quot;),
 
 <p><img src="basegraphics_part2_files/figure-html/boxplot_formula-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Customizing Box Plots</h2></hgroup><article  id="customizing-box-plots" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Customizing Box Plots</h2></hgroup><article  id="customizing-box-plots" class="img-centered">
 
 <p>Two useful boxplot customizations are:</p>
 
@@ -273,7 +273,7 @@ boxplot(OJ, AA, names=c(&quot;Orange Juice&quot;,&quot;Ascorbic Acid&quot;),
 
 <p><img src="basegraphics_part2_files/figure-html/boxplot_formula2-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot" class="img-centered">
 
 <p>Bar plots are used to visualize single summary statistics, like the mean and median across groups. Here is the basic syntax for <code>barplot</code> for plotting a vector.</p>
 
@@ -282,7 +282,7 @@ boxplot(OJ, AA, names=c(&quot;Orange Juice&quot;,&quot;Ascorbic Acid&quot;),
 
 <p><img src="basegraphics_part2_files/figure-html/simple_barplot-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-1">
+</article></slide><slide class=""><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-1">
 
 <p>Since bar plots only plot 1 value per group, we need to summarise the <code>ToothGrowth</code> data before plotting.</p>
 
@@ -316,7 +316,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 
 <p>Reshaping from <code>data.frame</code> to <code>matrix</code> is necessary because <code>barplot</code> can only work with vectors or matrices.</p>
 
-</article></slide><slide class=''><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-2" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Bar Plot</h2></hgroup><article  id="bar-plot-2" class="img-centered">
 
 <p>The default <code>barplot</code> settings for a matrix are not so hot.</p>
 
@@ -324,7 +324,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 
 <p><img src="basegraphics_part2_files/figure-html/bar-1.png" width="720" /> Side-by-side barplots are preferred to stacked barplots, and we need a legend, to have a functional plot.</p>
 
-</article></slide><slide class=''><hgroup><h2>Barplot: Good</h2></hgroup><article  id="barplot-good" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Barplot: Good</h2></hgroup><article  id="barplot-good" class="img-centered">
 
 <p>Use <code>beside=TRUE</code> to put the bars next to one another.</p>
 
@@ -332,7 +332,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 
 <p><img src="basegraphics_part2_files/figure-html/barplot_good-1.png" width="480" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Barplot: Better</h2></hgroup><article  id="barplot-better" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Barplot: Better</h2></hgroup><article  id="barplot-better" class="img-centered">
 
 <p>Lets place the bars side by side, and increase the size of the main title (<code>cex.main</code>), the axis labels, (<code>cex.lab</code>) and the axis tick labels (<code>cex.axis</code> affects the y axis tick labels, <code>cex.names</code> affects x axis tick labels).</p>
 
@@ -342,7 +342,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 
 <p><img src="basegraphics_part2_files/figure-html/barplot_better-1.png" width="480" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Barplot: Best</h2></hgroup><article  id="barplot-best" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Barplot: Best</h2></hgroup><article  id="barplot-best" class="img-centered">
 
 <p>Finally, lets add a legend with the <code>legend.text</code> argument, and choose a location for it with the <code>args.legend</code> argument. Alternatively, you could use the <code>legend</code> function directly.</p>
 
@@ -353,7 +353,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 
 <p><img src="basegraphics_part2_files/figure-html/barplot_best-1.png" width="480" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Legend Placement</h2></hgroup><article  id="legend-placement">
+</article></slide><slide class=""><hgroup><h2>Legend Placement</h2></hgroup><article  id="legend-placement">
 
 <p>In a barplot, its hard to know what x and y coordinates to use for your legend if the position keywords are not appropriate for your plot (e.g. the &quot;topright&quot; corner has data in it).</p>
 
@@ -366,7 +366,7 @@ TG &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;%
 <li>Yay!</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Asepct Ratio</h2></hgroup><article  id="asepct-ratio" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Asepct Ratio</h2></hgroup><article  id="asepct-ratio" class="smaller">
 
 <ul>
 <li>We can force the length of the x and y axis to be equal on our plots
@@ -402,7 +402,7 @@ barplot(TG, beside = TRUE,
 
 <p><img src="basegraphics_part2_files/figure-html/barplot_aspect-2.png" width="480" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Barplots</h2></hgroup><article  id="barplots">
+</article></slide><slide class=""><hgroup><h2>Barplots</h2></hgroup><article  id="barplots">
 
 <p>One thing is missing from our barplots that was included in our other 2 types of figures: An estimate of variability!</p>
 
@@ -411,6 +411,8 @@ barplot(TG, beside = TRUE,
 <pre class = 'prettyprint lang-r'>TGerr &lt;- ToothGrowth %&gt;% group_by(supp,dose) %&gt;% 
   summarise(sd = sd(len)/sqrt(n())) %&gt;%
   acast(supp~dose,value.var=&quot;sd&quot;)</pre>
+
+<pre >## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</pre>
 
 <table class = 'rmdtable'>
 <caption>Standard Error of the Mean for Tooth Length by Supplement and Dosage</caption>
@@ -434,7 +436,7 @@ barplot(TG, beside = TRUE,
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars">
+</article></slide><slide class=""><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars">
 
 <p>The key to plotting error bars is capturing the return value of <code>barplot</code>, which tells you the x-axis coordinates the bars are centered on.</p>
 
@@ -449,7 +451,7 @@ print(x)</pre>
 
 <p>Then, you can use this matrix to tell the <code>arrows</code> function where to plot the error bars along the x axis.</p>
 
-</article></slide><slide class=''><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Error Bars</h2></hgroup><article  id="error-bars-1" class="img-centered">
 
 <p><code>arrows()</code> needs the starting x and y coordinates of the error bars (arguments <code>x0</code> and <code>y0</code>) and the ending x and y coordinates (arguments <code>x1</code> and <code>y1</code>).</p>
 
@@ -460,7 +462,7 @@ print(x)</pre>
 
 <p><img src="basegraphics_part2_files/figure-html/errorbars_step2-1.png" width="480" /></p>
 
-</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control">
+</article></slide><slide class=""><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control">
 
 <p>Lets imagine we want to put our histogram, box plot and barplot on the same figure.</p>
 
@@ -468,7 +470,7 @@ print(x)</pre>
 
 <p>A better choice would be to use the <code>layout</code> function, which lets you divide the plot window into rows and columns for multiple plots, but <strong>also</strong> lets you specify how many rows and columns each plot takes up.</p>
 
-</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-1">
+</article></slide><slide class=""><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-1">
 
 <ul>
 <li>The primary argument to <code>layout</code> is a <code>mat</code>, a numeric matrix</li>
@@ -484,7 +486,7 @@ print(x)</pre>
 <li>Draw the second and third plots in one column each of the second row</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-2" class="smaller img-centered">
+</article></slide><slide class=""><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-2" class="smaller img-centered">
 
 <p>Lets use this layout matrix to put our 3 plots in the same figure window.</p>
 
@@ -499,7 +501,7 @@ par(mfrow=c(1,1)) # reset back to default layout</pre>
 
 <p><img src="basegraphics_part2_files/figure-html/layouttime-1.png" width="768" /></p>
 
-</article></slide><slide class=''><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-3">
+</article></slide><slide class=""><hgroup><h2>More layout control</h2></hgroup><article  id="more-layout-control-3">
 
 <p>You might notice that there is still some &quot;dead space&quot; in this layout (i.e. space where it is not useful) and a lack of space where we might want some to be.</p>
 
@@ -510,7 +512,7 @@ par(mfrow=c(1,1)) # reset back to default layout</pre>
 <li>the outer margin size (the padding between the figure limits and the window edges)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma" class="img-centered">
 
 <ul>
 <li>The graphical parameter <code>mar</code> controls the inner margins, shown as the distance between the green and blue boxes below</li>
@@ -519,7 +521,7 @@ par(mfrow=c(1,1)) # reset back to default layout</pre>
 
 <p><img src='../images/margins.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma-1" class="helppage">
+</article></slide><slide class=""><hgroup><h2>mar and oma</h2></hgroup><article  id="mar-and-oma-1" class="helppage">
 
 <p>You change these distances with the <code>par</code> function, passing in a 4-element vector. The 4 elements of the vector correspond to the distances along the bottom, left, top, and right sides, respectively.</p>
 
@@ -528,7 +530,7 @@ par(oma = c(1,1,1,1)) # Add 1 line of padding around the window</pre>
 
 <p><img src="basegraphics_part2_files/figure-html/adjustmargins-1.png" width="768" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Using the <code>warpbreaks</code> data set:</p>
 

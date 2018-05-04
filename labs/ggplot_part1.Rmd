@@ -270,7 +270,7 @@ library(wesanderson)
 ggplot(Indometh, aes(x = time, y = conc, color = Subject)) + 
   geom_line() +
   geom_point(size = 1.5) + 
-  scale_color_manual(values = wes_palette("Zissou",6,type = "continuous"))
+  scale_color_manual(values = wes_palette("Zissou1",6,type = "continuous"))
 
 ```
 

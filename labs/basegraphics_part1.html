@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-10-30" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-10-30</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Base R Graphics</h2></hgroup><article  id="base-r-graphics">
+<slide class=""><hgroup><h2>Base R Graphics</h2></hgroup><article  id="base-r-graphics">
 
 <ul>
 <li>R includes highly flexible and powerful tools for visualizing many kinds of data
@@ -116,7 +116,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>plot</h2></hgroup><article  id="plot" class="img-centered">
 
 <ul>
 <li>Lets start with the most commonly used graphing function: <code>plot()</code></li>
@@ -127,7 +127,7 @@
 
 <p><img src="basegraphics_part1_files/figure-html/pressure-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>plot</h2></hgroup><article  id="plot-1" class="img-centered">
 
 <p><img src="basegraphics_part1_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
 
@@ -139,7 +139,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>plot</h2></hgroup><article  id="plot-2" class="helppage">
+</article></slide><slide class=""><hgroup><h2>plot</h2></hgroup><article  id="plot-2" class="helppage">
 
 <p>Wait, plot only takes 2 arguments???</p>
 
@@ -147,7 +147,7 @@
 
 <p><img src='../images/plot.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Global Graphical Parameters</h2></hgroup><article  id="global-graphical-parameters">
+</article></slide><slide class=""><hgroup><h2>Global Graphical Parameters</h2></hgroup><article  id="global-graphical-parameters">
 
 <p>Deep down, inside <del>the depths of the earth</del> the <strong>graphics</strong> namespace, R maintains default settings that govern the appearance of every figure you generate.</p>
 
@@ -166,7 +166,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters" class="helppage">
+</article></slide><slide class=""><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters" class="helppage">
 
 <p>For now, we&#39;re going to look at which aspects of our figure we can change <em>just</em> through the <code>plot()</code> function interface.</p>
 
@@ -176,7 +176,7 @@
 
 <p><img src='../images/plotdefault.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-1" class="img-centered">
 
 <ul>
 <li>Start by changing the 3 things you always change:
@@ -193,7 +193,7 @@
 
 <p><img src="basegraphics_part1_files/figure-html/changelabels-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-2" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Plot-Specific Parameters</h2></hgroup><article  id="plot-specific-parameters-2" class="img-centered">
 
 <ul>
 <li>We can also change way the data points are displayed, with the <code>type</code> argument.
@@ -208,7 +208,7 @@
 
 <p><img src="basegraphics_part1_files/figure-html/overplotting-1.png" width="720" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot">
+</article></slide><slide class=""><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot">
 
 <ul>
 <li>You can manipulate other aspects of your plot&#39;s appearance in the function call to <code>plot()</code>, even though they are not listed in the <strong>Usage</strong> section
@@ -219,7 +219,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot-1">
+</article></slide><slide class=""><hgroup><h2>Interfacing with <code>par</code> via <code>plot</code></h2></hgroup><article  id="interfacing-with-par-via-plot-1">
 
 <table class = 'rmdtable'>
 <col width="6%" />
@@ -262,7 +262,7 @@
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Change all the things!</h2></hgroup><article  id="change-all-the-things">
+</article></slide><slide class=""><hgroup><h2>Change all the things!</h2></hgroup><article  id="change-all-the-things">
 
 <pre class = 'prettyprint lang-r'>plot(pressure$temperature, pressure$pressure, xlab = &quot;Temperature (C)&quot;,
      ylab = &quot;Pressure (mm of Hg)&quot;, main = &quot;Vapor Pressure of Mercury&quot;,
@@ -272,7 +272,7 @@
 
 <p><img src="basegraphics_part1_files/figure-html/allthingsmustchange-1.png" width="720" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Using the <code>mtcars</code> dataset, plot each cars miles per gallon against its weight in a scatter plot (miles per gallon is in the <code>mpg</code> column, and its weight is in the <code>wt</code> column).</p>
 
@@ -280,7 +280,7 @@
 
 <p>What kind of relationship do weight and mpg have?</p>
 
-</article></slide><slide class=''><hgroup><h2>Adding to an existing figure</h2></hgroup><article  id="adding-to-an-existing-figure">
+</article></slide><slide class=""><hgroup><h2>Adding to an existing figure</h2></hgroup><article  id="adding-to-an-existing-figure">
 
 <ul>
 <li>We rarely plot one set of points or one line and call it a day. Having two sets of data on a figure that makes comparison easy is often the entire point of a figure!</li>
@@ -294,7 +294,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points">
+</article></slide><slide class=""><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points">
 
 <ul>
 <li>Not surprisingly, the R function which can draw new points is called <code>points</code></li>
@@ -310,7 +310,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Adding points</h2></hgroup><article  id="adding-points-1" class="img-centered">
 
 <p>Lets plot the exponential and logarithmic functions of base 2 against each other, at a few small integers.</p>
 
@@ -320,7 +320,7 @@ points(x=0:8, y = log2(0:8),col = &quot;red&quot;)</pre>
 
 <p><img src="basegraphics_part1_files/figure-html/logandexp-1.png" width="384" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adding lines</h2></hgroup><article  id="adding-lines" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Adding lines</h2></hgroup><article  id="adding-lines" class="img-centered">
 
 <p>Next we&#39;ll visualize this relationship with a line graph via the <code>lines()</code> function. If we want a smooth line, we&#39;ll need to use <em>a lot</em> of points.</p>
 
@@ -332,7 +332,7 @@ lines(x=x2, y = log2(x2), col = &quot;red&quot;,lwd=2)</pre>
 
 <p><img src="basegraphics_part1_files/figure-html/logandexp_line-1.png" width="336" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adding text</h2></hgroup><article  id="adding-text" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Adding text</h2></hgroup><article  id="adding-text" class="img-centered">
 
 <p>Next we&#39;ll add the identity line, and label it with the <code>text()</code> function.</p>
 
@@ -341,7 +341,7 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
 <p><img src="basegraphics_part1_files/figure-html/logandexp_identity-1.png" width="384" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adding a legend</h2></hgroup><article  id="adding-a-legend" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Adding a legend</h2></hgroup><article  id="adding-a-legend" class="img-centered">
 
 <p>We&#39;ll include a legend that associates each function with its line color so others can tell which function is which, using the <code>legend()</code> function.</p>
 
@@ -352,7 +352,7 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
 <p><img src="basegraphics_part1_files/figure-html/logandexp_legend-1.png" width="384" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Show the standard normal PDF and the Student&#39;s t PDF with 15 degrees of freedom on the same plot, across a reasonable range on the x-axis.</p>
 
@@ -360,7 +360,7 @@ text(x=4,y=4.75,labels=&quot;y=x&quot;) # centered at (4,4.75)</pre>
 
 <p>Remember that you can calculate the normal density at any point on the x axis using <code>dnorm</code> and the t density using <code>dt</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Next Time</h2></hgroup><article  id="next-time">
+</article></slide><slide class=""><hgroup><h2>Next Time</h2></hgroup><article  id="next-time">
 
 <p>Next Up: bar plot, box plots, histograms, and <code>par()</code></p></article></slide>
 

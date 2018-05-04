@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-10-02" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-10-02</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
@@ -108,7 +108,7 @@
 }
 </style>
 
-<slide class=''><hgroup><h2>Recall&#8230;</h2></hgroup><article  id="recall...">
+<slide class=""><hgroup><h2>Recall&#8230;</h2></hgroup><article  id="recall...">
 
 <ul>
 <li>Subsetting is the process of slicing a smaller chunk out of a larger data structure</li>
@@ -117,7 +117,7 @@
 <li>Logical testing uses relational operators like <code>&lt;</code> and <code>==</code> and logical operators (e.g., <code>&amp;&amp;</code> and <code>||</code>) to test which elements in our data structure meet specific requirements</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Higher Dimensional Structures</h2></hgroup><article  id="higher-dimensional-structures">
+</article></slide><slide class=""><hgroup><h2>Higher Dimensional Structures</h2></hgroup><article  id="higher-dimensional-structures">
 
 <p>Now we&#39;ll learn how to index data structures with more than one dimension.</p>
 
@@ -127,7 +127,7 @@
 <li><p>Lists are <em>technically</em> 1D vectors, but they have tricky differences from atomic vectors, so we&#39;ll save them until the end.</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Indexing Matrices</h2></hgroup><article  id="indexing-matrices">
+</article></slide><slide class=""><hgroup><h2>Indexing Matrices</h2></hgroup><article  id="indexing-matrices">
 
 <p>To index a matrix, all that is required is to have two vectors inside our square brackets, separated from each other by a comma.</p>
 
@@ -140,7 +140,7 @@
 <li>logical vectors specifying for each column and row whether we want to access it (<code>TRUE</code>) or ignore it (<code>FALSE</code>)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Matrix Examples</h2></hgroup><article  id="matrix-examples">
+</article></slide><slide class=""><hgroup><h2>Matrix Examples</h2></hgroup><article  id="matrix-examples">
 
 <p>Create a small matrix &amp; index it with numeric vectors:</p>
 
@@ -161,7 +161,7 @@ dummy</pre>
 ## [1,]    4    2
 ## [2,]    3    1</pre>
 
-</article></slide><slide class=''><hgroup><h2>Matrix Examples</h2></hgroup><article  id="matrix-examples-1">
+</article></slide><slide class=""><hgroup><h2>Matrix Examples</h2></hgroup><article  id="matrix-examples-1">
 
 <p>If you want to select <strong>all</strong> of one dimension, (e.g., keep all rows or all columns) but index the other dimension, provide the separating comma as usual, but don&#39;t give any indexing vector for the dimension you want to stay 100% intact.</p>
 
@@ -181,7 +181,7 @@ dummy</pre>
 
 <pre >## [1] 4 3</pre>
 
-</article></slide><slide class=''><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures">
+</article></slide><slide class=""><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures">
 
 <p>We can apply our relational operators to entire matrices in the same manner as vectors. The resulting logical matrix has the same dimensions as the one we apply the test to.</p>
 
@@ -197,7 +197,7 @@ dummy</pre>
 ## [1,] FALSE TRUE FALSE
 ## [2,]  TRUE TRUE FALSE</pre>
 
-</article></slide><slide class=''><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures-1">
+</article></slide><slide class=""><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures-1">
 
 <p>We can also apply logical testing and logical indexing to specific dimensions of a matrix.</p>
 
@@ -217,7 +217,7 @@ dummy</pre>
 ## [1,]    4    2
 ## [2,]    3    1</pre>
 
-</article></slide><slide class=''><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures-2">
+</article></slide><slide class=""><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures-2">
 
 <p>This example keeps all the rows of the matrix where the value in the first column is greater than 5.</p>
 
@@ -238,7 +238,7 @@ dummy</pre>
 <pre >##      [,1] [,2] [,3]
 ## [1,]    6    4    2</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <ol>
 <li>Create the following matrix \(\left(\begin{array}{cccc} 1 &amp; 4 &amp; 7 \\ 2 &amp; 5 &amp; 8 \\ 3 &amp; 6 &amp; 9 \end{array}\right)\)</li>
@@ -247,13 +247,13 @@ dummy</pre>
 <li>Subset the columns that have a mean of more than 4 (Hint: apply the <code>colMeans</code> function to the matrix)</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
 
 <p>To learn about data frames, we&#39;re going to use several data frames that come built-in with R as part of the <code>datasets</code> package. Try typing <code>InsectSprays</code>, <code>iris</code>, <code>airquality</code> and <code>mtcars</code> into the console to be sure they are loaded and available to you.</p>
 
 <p>Since they are included as part of a package, you will <em>not</em> see them listed in your environment pane.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-1">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-1">
 
 <ul>
 <li>The <code>[row,column]</code> indexing style used with matrices also applies to data frames</li>
@@ -262,7 +262,7 @@ dummy</pre>
 <li>It&#39;s also much easier to remember the name of something than remember its position in a data frame</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-2">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-2">
 
 <p>We have previously seen examples of subsetting a <em>single</em> column from a data frame using that columns name, and the <code>$</code> operator.</p>
 
@@ -272,7 +272,7 @@ dummy</pre>
 ## [15] 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4
 ## [29] 15.8 19.7 15.0 21.4</pre>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-3">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-3">
 
 <p>To subset <em>multiple</em> columns, we need to use <code>[row,column]</code> style indexing (not the <code>$</code>).</p>
 
@@ -288,7 +288,7 @@ dummy</pre>
 ## Hornet Sportabout   18.7 360.0    3
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 27 rows ]</pre>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-4">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames-4">
 
 <p>One of the most common subsetting tasks with a data frame (or matrix) is the need to select values in one column <strong>where the values in another column meet a certain criteria</strong>.</p>
 
@@ -300,7 +300,7 @@ dummy</pre>
 
 <p>There are 2 syntactic approaches to this, both of which use relational operators &amp; logical indexing.</p>
 
-</article></slide><slide class=''><hgroup><h2>Method 1: Index the data frame itself</h2></hgroup><article  id="method-1-index-the-data-frame-itself">
+</article></slide><slide class=""><hgroup><h2>Method 1: Index the data frame itself</h2></hgroup><article  id="method-1-index-the-data-frame-itself">
 
 <p>We will use the <code>[row,column]</code> method to pick out the values of the <code>count</code> column in <code>InsectSprays</code> where spray A was used.</p>
 
@@ -321,7 +321,7 @@ dummy</pre>
 ## [23] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 42 entries ]</pre>
 
-</article></slide><slide class=''><hgroup><h2>Method 1: Index the data frame itself</h2></hgroup><article  id="method-1-index-the-data-frame-itself-1">
+</article></slide><slide class=""><hgroup><h2>Method 1: Index the data frame itself</h2></hgroup><article  id="method-1-index-the-data-frame-itself-1">
 
 <ul>
 <li>Next, we combine this with a character vector of the column names we&#39;re interested in, and put it inside our <code>[]</code> brackets</li>
@@ -335,7 +335,7 @@ dummy</pre>
 <li>If we leave the column vector out, this statement will return a data frame. Can you guess how many unique values will be in the spray column in this case?</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Method 2: Index a vector <em>from</em> the data frame</h2></hgroup><article  id="method-2-index-a-vector-from-the-data-frame">
+</article></slide><slide class=""><hgroup><h2>Method 2: Index a vector <em>from</em> the data frame</h2></hgroup><article  id="method-2-index-a-vector-from-the-data-frame">
 
 <ul>
 <li>Now, we will use the <code>$</code> operator to subset the <code>count</code> column from the <code>InsectSprays</code> data frame</li>
@@ -350,7 +350,7 @@ dummy</pre>
 
 <pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
-</article></slide><slide class=''><hgroup><h2>Method 1 vs Method 2: When to use which method?</h2></hgroup><article  id="method-1-vs-method-2-when-to-use-which-method">
+</article></slide><slide class=""><hgroup><h2>Method 1 vs Method 2: When to use which method?</h2></hgroup><article  id="method-1-vs-method-2-when-to-use-which-method">
 
 <ul>
 <li>Use Method 1 when you want your final result to be a 2D structure
@@ -366,7 +366,7 @@ dummy</pre>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Errors when indexing by name</h2></hgroup><article  id="errors-when-indexing-by-name">
+</article></slide><slide class=""><hgroup><h2>Errors when indexing by name</h2></hgroup><article  id="errors-when-indexing-by-name">
 
 <p>If you try to subset a column of a data frame using the <code>$</code> operator, but the name of the column doesn&#39;t exist, <code>R</code> will return `NULL``</p>
 
@@ -381,7 +381,7 @@ dummy</pre>
 
 <pre >## Error in `[.data.frame`(InsectSprays, , &quot;neeeeeeighhhhh&quot;): undefined columns selected</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Errors when indexing by name</h2></hgroup><article  id="errors-when-indexing-by-name-1">
+</article></slide><slide class=""><hgroup><h2>Errors when indexing by name</h2></hgroup><article  id="errors-when-indexing-by-name-1">
 
 Its also a common mistake to forget the quotes around names inside the <code>[]</code> brackets, which will throw an &quot;object not found&quot; error.
 
@@ -390,7 +390,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <pre >## Error in `[.data.frame`(InsectSprays, , spray): object &#39;spray&#39; not found</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Using the <code>iris</code> data frame:</p>
 
@@ -400,7 +400,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 <li>What species have a recorded sepal width less than 2.1?</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
+</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists">
 
 <p>As we learned previously in the Data Structures and Types lessons, lists are the most abstract data structure, capable of holding heterogeneous data types as well as holding other data structures.</p>
 
@@ -416,7 +416,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 <li>If you don&#39;t give the thing you&#39;re storing a name, it will be quite hard to find it later since there is no inherent organization other than order</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>List example</h2></hgroup><article  id="list-example">
+</article></slide><slide class=""><hgroup><h2>List example</h2></hgroup><article  id="list-example">
 
 <pre class = 'prettyprint lang-r'>biglist &lt;- list(training = c(1,3,2,4),
                 data = data.frame(trial = 1:4,
@@ -444,7 +444,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## $name
 ## [1] &quot;Herp McDerpsen&quot;</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Indexing Lists</h2></hgroup><article  id="indexing-lists">
+</article></slide><slide class=""><hgroup><h2>Indexing Lists</h2></hgroup><article  id="indexing-lists">
 
 <ul>
 <li>Lists elements can have names, and can be accessed by name, just like the columns of a data frame</li>
@@ -456,7 +456,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 <li>Lists may be indexed &quot;normally&quot;, using single square brackets (i.e., <code>[]</code>), or &quot;recursively&quot;, using double square brackets (i.e., <code>[[]]</code>).</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Double vs Single Square Brackets</h2></hgroup><article  id="double-vs-single-square-brackets">
+</article></slide><slide class=""><hgroup><h2>Double vs Single Square Brackets</h2></hgroup><article  id="double-vs-single-square-brackets">
 
 <p>Indexing a list with a single <code>[]</code> will return a list. But indexing with <code>[[]]</code> returns the actual object <strong>stored in</strong> that position</p>
 
@@ -479,7 +479,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <pre >## [1] &quot;matrix&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Indexing lists by name</h2></hgroup><article  id="indexing-lists-by-name">
+</article></slide><slide class=""><hgroup><h2>Indexing lists by name</h2></hgroup><article  id="indexing-lists-by-name">
 
 <pre class = 'prettyprint lang-r'>biglist$data # Returns a data frame</pre>
 
@@ -501,7 +501,7 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 ## $name
 ## [1] &quot;Herp McDerpsen&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
 
 <ol>
 <li>Subset the first 3 elements of <code>biglist</code> by name</li>
@@ -509,15 +509,102 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 <li>Extract the character vector stored in the <code>name</code> field of <code>biglist</code></li>
 </ol>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Replacing and Removing Values</h2></hgroup><article  id="replacing-and-removing-values">
 
-</article></slide><slide class=''><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Replacing and Removing Values</h2></hgroup><article  id="replacing-and-removing-values-1">
+
+<p>You can use indexing operation on the left hand side of an assignment operation to remove or replace values in your data structure. The basic recipe looks like:</p>
+
+<p><code>DataObject[LogicalCriteria] &lt;- NewValues</code></p>
+
+<p>A note of caution: this is an irreversible operation. It would behoove you to make a backup copy of your data structure before altering it, like so:</p>
+
+<p><code>backup_object &lt;- DataObject</code></p>
+
+<p><code>DataObject[LogicalCriteria] &lt;- NewValues</code></p>
+
+</article></slide><slide class=""><hgroup><h2>Replacing Values</h2></hgroup><article  id="replacing-values">
+
+<p>Lets change the some of pesticide names in the <code>spray</code> column of the <code>InsectSprays</code> data frame to be more informative than just &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, etc.</p>
+
+<p>First, coerce the <code>spray</code> variable from a factor vector into a character vector, for reasons&#8230;</p>
+
+<pre class = 'prettyprint lang-r'>InsectSprays$spray &lt;- as.character(InsectSprays$spray)</pre>
+
+<p>Then, subset the combination of rows and columns you wish to overwrite, and assign a replacement value to them.</p>
+
+<pre class = 'prettyprint lang-r'>InsectSprays[InsectSprays$spray==&#39;A&#39;,&#39;spray&#39;] &lt;- &quot;SPRAY_OF_DOOOOM&quot;
+InsectSprays[InsectSprays$spray==&#39;B&#39;,&#39;spray&#39;] &lt;- &quot;fairy_dust&quot;
+InsectSprays[c(1,21),]</pre>
+
+<pre >##    count           spray
+## 1     10 SPRAY_OF_DOOOOM
+## 21    19      fairy_dust</pre>
+
+</article></slide><slide class=""><hgroup><h2>Removing Columns or List Elements</h2></hgroup><article  id="removing-columns-or-list-elements">
+
+<p>You can remove single columns from a data frame column or single elements from a list by setting their values to be the <code>NULL</code> object.</p>
+
+<pre class = 'prettyprint lang-r'>backup_iris &lt;- iris
+ncol(iris)</pre>
+
+<pre >## [1] 5</pre>
+
+<pre class = 'prettyprint lang-r'>iris$Sepal.Length &lt;- NULL
+str(iris)</pre>
+
+<pre >## &#39;data.frame&#39;:    150 obs. of  4 variables:
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</pre>
+
+</article></slide><slide class=""><hgroup><h2>Removing Multiple Rows and Columns</h2></hgroup><article  id="removing-multiple-rows-and-columns">
+
+<p>Unfortunately, this method of assigning value to be <code>NULL</code> isn&#39;t a general solution for all data structures.</p>
+
+<p>When you want to remove rows and columns from matrices and data frame, or individual elements from lists and vectors, is better not to think about deleting at all.</p>
+
+<p>It&#39;s more useful to frame the problem in terms of what you want to keep.</p>
+
+</article></slide><slide class=""><hgroup><h2>Removing Multiple Rows and Columns</h2></hgroup><article  id="removing-multiple-rows-and-columns-1">
+
+<p>For instance, if you think the first 5 rows of a matrix or data frame are useless to you, don&#39;t try to delete them in place. Instead, reassign the name of that matrix or data frame to be the result of a subsetting operation that selects only the elements you wish to keep.</p>
+
+<pre class = 'prettyprint lang-r'>iris</pre>
+
+<pre >##     Sepal.Width Petal.Length Petal.Width    Species
+## 1           3.5          1.4         0.2     setosa
+## 2           3.0          1.4         0.2     setosa
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 148 rows ]</pre>
+
+<pre class = 'prettyprint lang-r'>iris &lt;- iris[6:nrow(iris),]
+iris</pre>
+
+<pre >##     Sepal.Width Petal.Length Petal.Width    Species
+## 6           3.9          1.7         0.4     setosa
+## 7           3.4          1.4         0.3     setosa
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 143 rows ]</pre>
+
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-3">
+
+<p>Use the <code>airquality</code> data frame and do the following:</p>
+
+<ol>
+<li>Remove the <code>Wind</code> column.</li>
+<li>Find the <code>is.na()</code> function to find and remove rows that are missing observations in the <code>Ozone</code> column.</li>
+<li>Replace the entries in the <code>Day</code> column that have value 1 with the character string &#39;Sunday&#39;.</li>
+</ol>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Advanced Extras</h2></hgroup><article  id="advanced-extras">
+
+</article></slide><slide class=""><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing" class="img-centered">
 
 <p>Matrices can also be indexed as if they were a 1D structure, like a vector. The figure below shows the mapping between the (row,column) indices and the &#39;linear indices&#39;. <img src='../images/linear_index.gif' title=''/></p>
 
 <p>The linear indices start at row 1 of column 1, and travel down the rows of column 1, then continue on in row 1 of column 2, then travel down the rows of column 2, etc&#8230;</p>
 
-</article></slide><slide class=''><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing-1">
+</article></slide><slide class=""><hgroup><h2>Linear Indexing</h2></hgroup><article  id="linear-indexing-1">
 
 <pre class = 'prettyprint lang-r'>dummy</pre>
 
@@ -531,7 +618,31 @@ Its also a common mistake to forget the quotes around names inside the <code>[]<
 
 <pre class = 'prettyprint lang-r'>dummy[5] # Fifth element</pre>
 
-<pre >## [1] 2</pre></article></slide>
+<pre >## [1] 2</pre>
+
+</article></slide><slide class=""><hgroup><h2>Logicals &amp; 2D structures</h2></hgroup><article  id="logicals-2d-structures-3">
+
+<p>This example runs without an error, but the output makes no sense because we are trying to index columns based on the sum of the rows!</p>
+
+<pre class = 'prettyprint lang-r'>dummy[,rowSums(dummy) &gt; 10]</pre>
+
+<pre >##      [,1] [,2]
+## [1,]    6    2
+## [2,]    5    1</pre>
+
+<p>So it is quite easy to write code that successfully executes, but which produces meaningless output! This is much more insidious than an outright error!</p>
+
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-4">
+
+<p>Try to reason about what R &quot;is doing&quot; in the previous example. Why do we get the output we get?</p>
+
+<pre class = 'prettyprint lang-r'>dummy[,rowSums(dummy) &gt; 10]</pre>
+
+<pre >##      [,1] [,2]
+## [1,]    6    2
+## [2,]    5    1</pre>
+
+<p>As a hint, try running the code &quot;from the inside out&quot;, one logical step at a time.</p></article></slide>
 
 
   <slide class="backdrop"></slide>

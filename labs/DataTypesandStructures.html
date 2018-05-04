@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-09-25" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-09-25</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>What is a data type?</h2></hgroup><article  id="what-is-a-data-type">
+<slide class=""><hgroup><h2>What is a data type?</h2></hgroup><article  id="what-is-a-data-type">
 
 <ul>
 <li>The data type of piece of information is defined by
@@ -116,7 +116,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Integers &amp; Doubles</h2></hgroup><article  id="integers-doubles">
+</article></slide><slide class=""><hgroup><h2>Integers &amp; Doubles</h2></hgroup><article  id="integers-doubles">
 
 <ul>
 <li>Just as in mathematics, the <strong>integer</strong> data type can only represent whole numbers
@@ -134,7 +134,7 @@
 <li>Doubles and integers together are referred to as the &quot;numeric&quot; data types.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Character</h2></hgroup><article  id="character">
+</article></slide><slide class=""><hgroup><h2>Character</h2></hgroup><article  id="character">
 
 <ul>
 <li>The <strong>character</strong> data type (sometimes referred to as the &quot;string&quot; data type) is used for representing textual data</li>
@@ -152,7 +152,7 @@ a</pre>
 
 <pre >## Error in eval(expr, envir, enclos): object &#39;foobar&#39; not found</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Numbers as Numerics vs. Numbers as Characters</h2></hgroup><article  id="numbers-as-numerics-vs.-numbers-as-characters">
+</article></slide><slide class=""><hgroup><h2>Numbers as Numerics vs. Numbers as Characters</h2></hgroup><article  id="numbers-as-numerics-vs.-numbers-as-characters">
 
 <ul>
 <li>4.2 can be represented in R as both a character and a double. But, only in one case can mathematical operations be performed on them.</li>
@@ -169,7 +169,7 @@ a</pre>
 
 <p>This illustrates that practical differences between data types we care about are that some types do not support some operations (e.g. characters do not support math)</p>
 
-</article></slide><slide class=''><hgroup><h2>Logical</h2></hgroup><article  id="logical">
+</article></slide><slide class=""><hgroup><h2>Logical</h2></hgroup><article  id="logical">
 
 <ul>
 <li>Logical data can only take on 2 possible values: 1 (<code>TRUE</code>) or 0 (<code>FALSE</code>)</li>
@@ -184,7 +184,7 @@ a</pre>
 <li>This type of data will be more useful when we learn about data manipulation and program control flow.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Checking Data Types</h2></hgroup><article  id="checking-data-types">
+</article></slide><slide class=""><hgroup><h2>Checking Data Types</h2></hgroup><article  id="checking-data-types">
 
 <p>You can use the <code>typeof</code> function to see what data type an object holds.</p>
 
@@ -204,7 +204,7 @@ a</pre>
 
 <pre >## [1] &quot;logical&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Coercion</h2></hgroup><article  id="coercion">
+</article></slide><slide class=""><hgroup><h2>Coercion</h2></hgroup><article  id="coercion">
 
 <ul>
 <li>Values stored in one data type can often be changed to another data type. This transformation is called <em>coercion</em></li>
@@ -231,7 +231,7 @@ a</pre>
 
 <pre >## Error in &quot;TRUE&quot; + 1: non-numeric argument to binary operator</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
+</article></slide><slide class=""><hgroup><h2>Data Structures</h2></hgroup><article  id="data-structures" class="dslist">
 
 <p>Of course, it is helpful in a language focused on analyzing data to have the ability to group multiple values together.</p>
 
@@ -254,7 +254,7 @@ In this course, we will primarily be working with 4 different types of data stru
 <li>Lists</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors">
+</article></slide><slide class=""><hgroup><h2>Vectors</h2></hgroup><article  id="vectors">
 
 <p>Vectors are 1 dimensional data structures which can hold numeric, logical, and character data.</p>
 
@@ -264,7 +264,7 @@ In this course, we will primarily be working with 4 different types of data stru
 
 <p>Vectors are the most basic data structures in R. In fact, all the scalar values we have worked with so far are represented internally by R as vectors of length 1!!</p>
 
-</article></slide><slide class=''><hgroup><h2>Creating a vector</h2></hgroup><article  id="creating-a-vector">
+</article></slide><slide class=""><hgroup><h2>Creating a vector</h2></hgroup><article  id="creating-a-vector">
 
 <p>Vectors, no matter what type of data they hold, can be created by using the <code>c()</code> function in R, short for <em>concatenate</em>.</p>
 
@@ -279,7 +279,7 @@ char_vector &lt;- c(&quot;foo&quot;,&quot;bar&quot;,&quot;herp&quot;,&quot;derp&
 
 <pre >## [1]  1 10 45 -1  1  2  3  4  5</pre>
 
-</article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
+</article></slide><slide class=""><hgroup><h2>Names</h2></hgroup><article  id="names">
 
 <p>After you create a vector, you can give the elements names, using the <code>names()</code> function, and a character vector.</p>
 
@@ -295,7 +295,7 @@ new_vector</pre>
 
 <p>This can be useful later when you want to pick out a few values from the larger vector (we&#39;ll talk more about this sort of thing in the next lab).</p>
 
-</article></slide><slide class=''><hgroup><h2>Vector Tricks</h2></hgroup><article  id="vector-tricks">
+</article></slide><slide class=""><hgroup><h2>Vector Tricks</h2></hgroup><article  id="vector-tricks">
 
 <p>You can create a sequential numeric vector using the colon operator <code>:</code>, instead of typing out hundreds or thousands of values by hand.</p>
 
@@ -311,7 +311,7 @@ new_vector</pre>
 
 <pre >## [1]  5  8 11 14 17 20</pre>
 
-</article></slide><slide class=''><hgroup><h2>Element-wise Math operations</h2></hgroup><article  id="element-wise-math-operations">
+</article></slide><slide class=""><hgroup><h2>Element-wise Math operations</h2></hgroup><article  id="element-wise-math-operations">
 
 <p>You can apply the math operators we used in the first class to vectors as well. When you add, divide, multiply, or subtract a set of vectors, R matches the vectors up by position and applies the operation to each pair of elements.</p>
 
@@ -329,14 +329,14 @@ vec2 + vec1</pre>
 
 <p>If you want to find the grand sum or product of all the elements in a numeric vector, use the <code>sum()</code> and <code>prod()</code> functions, respectively.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <ol>
 <li>Try to create a vector that uses all the 4 basic data types. What type of data is stored in the resulting vector?</li>
 <li>Take <code>vec1</code> and <code>vec2</code> you created earlier and concatenate them together, and find the grand sum.</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Matrices</h2></hgroup><article  id="matrices">
+</article></slide><slide class=""><hgroup><h2>Matrices</h2></hgroup><article  id="matrices">
 
 <p>Matrices in R are the same as matrices from linear algebra, with the notable difference of being able to hold non-numeric types of data.</p>
 
@@ -349,7 +349,7 @@ vec2 + vec1</pre>
 
 <p>Like vectors, data types may <em>not</em> be mixed in a matrix (e.g. you cannot have some elements be characters and other be numeric, etc.)</p>
 
-</article></slide><slide class=''><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices">
+</article></slide><slide class=""><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices">
 
 <p>A matrix is created by feeding a vector into the <code>matrix()</code> function, and specifying either the number of rows <em>or</em> number of columns, <em>or</em> both.</p>
 
@@ -368,7 +368,7 @@ long</pre>
 ## [2,]    2  100
 ## [3,]    3  101</pre>
 
-</article></slide><slide class=''><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices-1">
+</article></slide><slide class=""><hgroup><h2>Creating Matrices</h2></hgroup><article  id="creating-matrices-1">
 
 <p>If you want a large matrix but with only a few unique values, take advantage of R&#39;s ability to <strong>recycle</strong> input.</p>
 
@@ -387,7 +387,7 @@ long</pre>
 ## [1,]    4    4    4    4    4    4    4    4    4     4
 ## [2,]    0    0    0    0    0    0    0    0    0     0</pre>
 
-</article></slide><slide class=''><hgroup><h2>Matrix Operations</h2></hgroup><article  id="matrix-operations">
+</article></slide><slide class=""><hgroup><h2>Matrix Operations</h2></hgroup><article  id="matrix-operations">
 
 <p>You can inspect the dimensionality of a matrix (or any R object) with the <code>dim</code> function.</p>
 
@@ -405,7 +405,7 @@ long</pre>
 
 <pre >## [1] 6</pre>
 
-</article></slide><slide class=''><hgroup><h2>Matrix Math</h2></hgroup><article  id="matrix-math">
+</article></slide><slide class=""><hgroup><h2>Matrix Math</h2></hgroup><article  id="matrix-math">
 
 <p>When doing math on matrices with the <code>+</code>, <code>*</code>, <code>/</code> or <code>-</code> operators, R will by default applies the operations element-wise (i.e., add the first element of one matrix to the first element of the other matrix, etc.).</p>
 
@@ -418,17 +418,17 @@ long</pre>
 ## [2,]  202  9906 10300
 ## [3,]  205 10008 10501</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Try creating a matrix with 900 elements and 9 columns that contains only logical <code>TRUE</code>s. Confirm the dimensionality using R.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
+</article></slide><slide class=""><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
 
 <p>Like matrices, Data Frames are are 2D, rectangular data structures, but are more flexible because they allow for different data types to be stored in each column.</p>
 
 <p>A Data Frame is usually the best way to store and work with data that mixes qualitative and quantitative variables.</p>
 
-</article></slide><slide class=''><hgroup><h2>Creating Data Frames</h2></hgroup><article  id="creating-data-frames">
+</article></slide><slide class=""><hgroup><h2>Creating Data Frames</h2></hgroup><article  id="creating-data-frames">
 
 <p>Data frames can be created by passing <code>name = value</code> pairs to the <code>data.frame()</code> function. The values should be vectors (of any type) and the names should be unquoted strings of text, which will be used to label each column. Importantly, all the vectors stored in the data frame must be of <em>identical length</em>.</p>
 
@@ -445,7 +445,7 @@ df</pre>
 ## 3 4 1   Nov
 ## 4 2 4   Jan</pre>
 
-</article></slide><slide class=''><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors">
+</article></slide><slide class=""><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors">
 
 <p>This example also shows an extra argument, <code>stringsAsFactors = FALSE</code>, that was <strong>not</strong> a variable to store in the data frame. This argument controls how R interprets character vectors (a.k.a. strings) when forming the data frame.</p>
 
@@ -455,7 +455,7 @@ df</pre>
 
 <p>If <code>stringsAsFactors = FALSE</code>, then R leaves the input data alone when forming the data frame.</p>
 
-</article></slide><slide class=''><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors-1">
+</article></slide><slide class=""><hgroup><h2>stringsAsFactors?</h2></hgroup><article  id="stringsasfactors-1">
 
 <p>What should you use?</p>
 
@@ -467,7 +467,7 @@ df</pre>
 
 <p>If you want to know more about the reasons for all this nonsense, <a href='https://simplystatistics.org/2015/07/24/stringsasfactors-an-unauthorized-biography/' title=''>stringsAsFactors: An unauthorized biography</a> and <a href='http://notstatschat.tumblr.com/post/124987394001/stringsasfactors-sigh' title=''>stringsAsFactors = <sigh></a> are two great reads.</p>
 
-</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps">
+</article></slide><slide class=""><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps">
 
 <p>The <code>data.frame()</code> function can also recycle input, so you can save some keystrokes if you have a column that has only a few unique values that repeat.</p>
 
@@ -483,7 +483,7 @@ df</pre>
 ## 3 4 1   Sep
 ## 4 2 4   Sep</pre>
 
-</article></slide><slide class=''><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps-1">
+</article></slide><slide class=""><hgroup><h2>Data Frame Tricks (and Traps)</h2></hgroup><article  id="data-frame-tricks-and-traps-1">
 
 <p>The <code>data.frame()</code> function will throw an error if the length of the longer vector is not a multiple of the shorter vector&#39;s lengths.</p>
 
@@ -497,13 +497,13 @@ df</pre>
 
 <p>Recycling enables concise code, but can make for hard to spot bugs when you didn&#39;t intended for recycling to happen. Use this feature with care, and favor being explicit about your vector lengths when programming.</p>
 
-</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
+</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists">
 
 <p>Lists are the most abstract and flexible data structure in R. Lists can hold any type of R object, but doesn&#39;t impose any relationship between them.</p>
 
 <p>You can have a list holding matrices, data frames, vectors, and even lists holding other lists!</p>
 
-</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists-1">
+</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists-1">
 
 <p>Think of lists like a folder on your hard drive.</p>
 
@@ -511,7 +511,7 @@ df</pre>
 
 <p>Use a list when you need to group data structures of different sizes and types together. But carefully consider if there is another way, because the lack of structured relationships between the data in different list elements can make them tricky to work with</p>
 
-</article></slide><slide class=''><hgroup><h2>Creating Lists</h2></hgroup><article  id="creating-lists">
+</article></slide><slide class=""><hgroup><h2>Creating Lists</h2></hgroup><article  id="creating-lists">
 
 <p>As you might have guessed, you can create lists of your own with the <code>list()</code> function.</p>
 
@@ -528,7 +528,7 @@ biglist</pre>
 ## 1 A 1
 ## 2 B 2</pre>
 
-</article></slide><slide class=''><hgroup><h2>List Tips</h2></hgroup><article  id="list-tips">
+</article></slide><slide class=""><hgroup><h2>List Tips</h2></hgroup><article  id="list-tips">
 
 <ul>
 <li>Avoid nesting lists if you can. One level of nesting is usually all right, but more than 1 is pain.</li>
@@ -543,7 +543,7 @@ biglist</pre>
 ##   ..$ x: Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 2
 ##   ..$ y: int [1:2] 1 2</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-2">
 
 <p>Create a data frame that holds you and your neighbor(s) first name, last name, and age. Think about the appropriate variables your data frame should have to represent this information in a well-organized manner</p>
 

@@ -280,7 +280,7 @@ You may have noticed that the API (i.e., standard syntax) for `tidyr` functions 
 
 However, `tidyr` is *not* the only choice for reshaping data. The `reshape2` package is also quite useful. Its focus is on reshaping more broadly (e.g., from one type of data structure to another, reshaping through aggregation, etc.). If you need a more general reshaping tool, start with the following `reshape2` tutorials:
 
-- [My reshape2 lab](https://wjhopper.github.io/psych640/labs/reshape.html)
+- [My reshape2 lab](reshape.html)
 - [A brief but good intro to reshape2](http://seananderson.ca/2013/10/19/reshape.html)
 - [Hadley Wickham's intro to reshape2](http://had.co.nz/reshape/introduction.pdf)
 

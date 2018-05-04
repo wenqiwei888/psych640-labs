@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-11-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,10 +52,10 @@
   <script src="lib/ioslides-13.5.1/js/hammer.js"></script>
   <script src="lib/ioslides-13.5.1/js/slide-controller.js"></script>
   <script src="lib/ioslides-13.5.1/js/slide-deck.js"></script>
-  <script src="lib/htmlwidgets-0.9/htmlwidgets.js"></script>
+  <script src="lib/htmlwidgets-1.2/htmlwidgets.js"></script>
   <script src="lib/viz-0.3/viz.js"></script>
   <link href="lib/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-  <script src="lib/grViz-binding-0.9.1/grViz.js"></script>
+  <script src="lib/grViz-binding-1.0.0/grViz.js"></script>
 
   <style type="text/css">
 
@@ -99,11 +99,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-11-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Go with the &quot;Flow&quot;</h2></hgroup><article  id="go-with-the-flow">
+<slide class=""><hgroup><h2>Go with the &quot;Flow&quot;</h2></hgroup><article  id="go-with-the-flow">
 
 <ul>
 <li>Any program will be designed to perform some set of computational operations, for example:
@@ -117,7 +117,7 @@
 <li>A key objective when writing your code is to make your program&#39;s control flow as simple as possible while minimizing redundancy.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow">
+</article></slide><slide class=""><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow">
 
 <ul>
 <li>So far, the control flow of your code has been solely determined by the line number of each expression
@@ -134,7 +134,7 @@ x2 &lt;- mean(group2$extra) # Calculate group 2 means
 sem &lt;- sqrt(.5*(var(group1$extra) + var(group2$extra)))*sqrt(2/10) # Calculate SEM
 t &lt;- (x1-x2)/sem # Find the t score</pre>
 
-</article></slide><slide class=''><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow-1">
+</article></slide><slide class=""><hgroup><h2>Linear Program Flow</h2></hgroup><article  id="linear-program-flow-1">
 
 <ul>
 <li>The control flow diagram for this script is shown below
@@ -147,10 +147,10 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 </ul></li>
 </ul>
 
-<div id="htmlwidget-db12396514cbdb0b8300" style="width:720px;height:150px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-db12396514cbdb0b8300">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-351d254f26861e7a4e4e" style="width:720px;height:150px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-351d254f26861e7a4e4e">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 0.9]\n\nA; B; C; D;\nA ->B; B -> C; C->D; \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
-</article></slide><slide class=''><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
+</article></slide><slide class=""><hgroup><h2>Altering the Flow</h2></hgroup><article  id="altering-the-flow">
 
 <ul>
 <li>R has expressions which can alter this linear flow. Specifically, we can:
@@ -174,7 +174,7 @@ t &lt;- (x1-x2)/sem # Find the t score</pre>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>if else syntax</h2></hgroup><article  id="if-else-syntax">
+</article></slide><slide class=""><hgroup><h2>if else syntax</h2></hgroup><article  id="if-else-syntax">
 
 <p>An <code>if else</code> statement allows us to conditionally evaluate specific statements. The general syntax is:</p>
 
@@ -191,7 +191,7 @@ if (condition) {
 <li><code>expression_C</code> and <code>expression_D</code> are two different blocks of R code that should be contained in curly braces</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>if else control flow</h2></hgroup><article  id="if-else-control-flow">
+</article></slide><slide class=""><hgroup><h2>if else control flow</h2></hgroup><article  id="if-else-control-flow">
 
 <pre class = 'prettyprint lang-r'>expression_A
 expression_B
@@ -201,15 +201,15 @@ if (condition) {
   expression_D 
 }</pre>
 
-<div id="htmlwidget-6884dc3d90fae815fe7d" style="width:720px;height:225px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6884dc3d90fae815fe7d">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4ca761beae446680e516" style="width:720px;height:225px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4ca761beae446680e516">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA->B\nB->C [label=\"if(condition)\" fontsize = 18]\nB->D [label=\"else\" fontsize = 18]\nD->E\nC->E\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 <ul>
 <li>If <code>condition</code> is equal to <code>TRUE</code>, take the path through C</li>
 <li>Otherwise, take the path through D</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else">
+</article></slide><slide class=""><hgroup><h2>if else</h2></hgroup><article  id="if-else">
 
 <p>Lets take a look at some simple examples of conditional branching. Here we&#39;ll use an <code>if else</code> statement to print out which of two random integers is larger.</p>
 
@@ -227,7 +227,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
 <pre >## [1] &quot;Y Wins!&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-1">
+</article></slide><slide class=""><hgroup><h2>if else</h2></hgroup><article  id="if-else-1">
 
 <p>But we forgot a corner case - what if y equals x? We can add on additional if into this same statement like so:</p>
 
@@ -249,7 +249,7 @@ print(sprintf(&quot;X is %d, Y is %d&quot;, x, y))</pre>
 
 <p>We can have as many <code>else if</code> statements chained together as we want, but only one <code>else</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>if else</h2></hgroup><article  id="if-else-2">
+</article></slide><slide class=""><hgroup><h2>if else</h2></hgroup><article  id="if-else-2">
 
 <p>We can also use just the <code>if</code> part of the statement.</p>
 
@@ -260,7 +260,7 @@ if (x &lt; 0) {
   x &lt;- abs(x)
 }</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Sample 2 random values from a standard normal distribution, using <code>rnorm()</code>. Call them x and y.</p>
 
@@ -272,17 +272,17 @@ if (x &lt; 0) {
 <li>If x and y fall on either side of the mean, print &quot;x and y straddle the mean&quot;</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Loops</h2></hgroup><article  id="loops">
+</article></slide><slide class=""><hgroup><h2>Loops</h2></hgroup><article  id="loops">
 
 <p>Loops are a class of control flow that allow you to repeat the same operations over and over again, without explicitly writing out those operations over and over again in the code.</p>
 
 <ul>
 <li><code>for</code> loops repeat your operations for an explicit number of repetitions</li>
-<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-2a560ad00bd8f80114e3" style="width:720px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2a560ad00bd8f80114e3">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
+<li><code>while</code> loops repeat your operations an indeterminate number of times, stopping only when a pre-specified condition occurs (whenever that might be) <div id="htmlwidget-a3fdce6750d41ebf64c4" style="width:720px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a3fdce6750d41ebf64c4">{"x":{"diagram":"\ndigraph linear {\n\ngraph [rankdir = LR]\n\nnode [shape = circle,\n      fixedsize = true,\n      width = 1,\n      fontsize = 18]\n\nA; B; C; D; E;\nA ->B; B -> C; C->D; D->E;\nC->C [label=\"repeat step C x times\" tailport=\"e\" headport = \"w\" fontsize = 18];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
+</article></slide><slide class=""><hgroup><h2>for loops</h2></hgroup><article  id="for-loops">
 
 <p>At the heart of a <code>for</code> loop is the R object which determines the number of iterations your <code>for</code> loop should make.</p>
 
@@ -298,7 +298,7 @@ if (x &lt; 0) {
 ## [1] 2
 ## [1] 3</pre>
 
-</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-1">
+</article></slide><slide class=""><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-1">
 
 <p>But the counter variable doesn&#39;t have to be sequential integers enumerating which iteration of the loop you are on. It can be any vector, and <code>i</code> will sequentially take on each value in the vector.</p>
 
@@ -313,7 +313,7 @@ if (x &lt; 0) {
 ## [1] &quot;2&quot;
 ## [1] &quot;1&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-2">
+</article></slide><slide class=""><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-2">
 
 <pre class = 'prettyprint lang-r'>for (i in c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,3,2,1)) {
   print(i)
@@ -326,7 +326,7 @@ if (x &lt; 0) {
 <li>The value of <code>i</code> changed on every iteration of the loop, as evidenced by the fact that <code>print(i)</code> spit out a different value every time</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-3">
+</article></slide><slide class=""><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-3">
 
 <p>For loops are most often used for their &quot;side effects&quot;</p>
 
@@ -334,7 +334,7 @@ if (x &lt; 0) {
 
 <p>This technique can be used to modify objects in the global environment, e.g., adding new values to an existing data frame</p>
 
-</article></slide><slide class=''><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-4">
+</article></slide><slide class=""><hgroup><h2>for loops</h2></hgroup><article  id="for-loops-4">
 
 <p>To demonstrate this indexing, here we:</p>
 
@@ -354,7 +354,7 @@ for (x in indices) { print(letters[x,]) }</pre>
 ## [1] &quot;C&quot; &quot;G&quot;
 ## [1] &quot;D&quot; &quot;H&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group Means Example</h2></hgroup><article  id="group-means-example">
+</article></slide><slide class=""><hgroup><h2>Group Means Example</h2></hgroup><article  id="group-means-example">
 
 <p>A common problem to solve in R is calculating summary statistics for each group in some data set. We&#39;re going to tackle this problem in the <code>InsectSprays</code> data set.</p>
 
@@ -369,7 +369,7 @@ for (x in indices) { print(letters[x,]) }</pre>
 
 <p>First we&#39;ll walk through how we would accomplish this process with a purely linear control flow, and then we&#39;ll see how to approach the problem with a loop.</p>
 
-</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way">
+</article></slide><slide class=""><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way">
 
 <p>First we need find the unique sprays used, and create a &quot;placeholder&quot; data frame which will end up storing the mean for each spray.</p>
 
@@ -385,7 +385,7 @@ print(sprayMeans)</pre>
 ## 5     E        NA
 ## 6     F        NA</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-1">
+</article></slide><slide class=""><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-1">
 
 <p>Then we select the first spray, and use <code>$</code> and <code>==</code> to extract the observed counts for that spray group from the <code>InsectSprays</code> data frame.</p>
 
@@ -402,7 +402,7 @@ print(counts)</pre>
 
 <pre >##  [1] 10  7 20 14 14 12 10 23 17 20 14 13</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-2">
+</article></slide><slide class=""><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-2">
 
 <p>Then we average those extracted counts, subset our place holder data frame, and fill in the count column for this specific spray with the mean value.</p>
 
@@ -422,7 +422,7 @@ sprayMeans</pre>
 ## 5     E        NA
 ## 6     F        NA</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-3">
+</article></slide><slide class=""><hgroup><h2>Group means: the hard way</h2></hgroup><article  id="group-means-the-hard-way-3">
 
 <pre >##   spray meanCount
 ## 1     A      14.5
@@ -436,7 +436,7 @@ sprayMeans</pre>
 
 <p>Oh wait, <code>for</code> loops do just that!</p>
 
-</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop">
+</article></slide><slide class=""><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop">
 
 <p>We start the same way as before, finding the unique sprays used, and creating a &quot;placeholder&quot; data frame to store results.</p>
 
@@ -452,7 +452,7 @@ print(sprayMeans)</pre>
 ## 5     E        NA
 ## 6     F        NA</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-1">
+</article></slide><slide class=""><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-1">
 
 <p>But this time we use a for loop, looping over each unique spray. Inside the loop, we:</p>
 
@@ -469,7 +469,7 @@ for (i in sprays) {
   sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- mean(counts)
 }</pre>
 
-</article></slide><slide class=''><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-2">
+</article></slide><slide class=""><hgroup><h2>Group means: <code>for</code> loop</h2></hgroup><article  id="group-means-for-loop-2">
 
 <p>The result is a data frame the holds the mean insect count for each unique spray used, with no code duplication</p>
 
@@ -483,13 +483,13 @@ for (i in sprays) {
 ## 5     E  3.500000
 ## 6     F 16.666667</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Write a for loop that calculates the cumulative sum of the vector <code>c(7,2,22,5,33,8)</code>.</p>
 
 <p>If you don&#39;t know, the cumulative sum is a sequence of the partial sums of a given sequence. For example, the cumulative sum of the vector <code>c(1,2,3)</code> is (1,3,6).</p>
 
-</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops">
+</article></slide><slide class=""><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops">
 
 <ul>
 <li><code>while</code> loops are like a hybrid of an <code>if else</code> and <code>for</code> loops
@@ -500,18 +500,13 @@ for (i in sprays) {
 </ul></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>k &lt;- 1
+<pre class = 'prettyprint lang-r_simple'>k &lt;- 1
 while(k &lt; 5) {
   print(k)
   k &lt;- k + 1
 }</pre>
 
-<pre >## [1] 1
-## [1] 2
-## [1] 3
-## [1] 4</pre>
-
-</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-1">
+</article></slide><slide class=""><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-1">
 
 <ul>
 <li><code>while</code> loops are appropriate to write when you don&#39;t know <em>a priori</em> how many iterations you will need
@@ -531,7 +526,7 @@ print(paste(&quot;Success only took&quot;,samples,&quot;samples&quot;))</pre>
 
 <pre >## [1] &quot;Success only took 386 samples&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
+</article></slide><slide class=""><hgroup><h2><code>while</code> loops</h2></hgroup><article  id="while-loops-2">
 
 <p>A good example of looping indefinitely until a condition occurs is the brute-force method of calculating how many trials you will need to achieve a specific level of experimental power</p>
 
@@ -545,7 +540,7 @@ print(paste(n, &quot;trials needed&quot;))</pre>
 
 <pre >## [1] &quot;23 trials needed&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>loop pro-tips</h2></hgroup><article  id="loop-pro-tips">
+</article></slide><slide class=""><hgroup><h2>loop pro-tips</h2></hgroup><article  id="loop-pro-tips">
 
 <ul>
 <li>Loops are often slow, so when you start writing one, carefully consider whether or not there is another solution.</li>
@@ -561,7 +556,7 @@ for (i in sprays) {
   sprayMeans[sprayMeans$spray==i,&#39;meanCount&#39;] &lt;- mean(counts)
 }</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>stop</code></h2></hgroup><article  id="stop">
+</article></slide><slide class=""><hgroup><h2><code>stop</code></h2></hgroup><article  id="stop">
 
 <ul>
 <li>You can halt the execution of your program using a <code>stop</code> statement

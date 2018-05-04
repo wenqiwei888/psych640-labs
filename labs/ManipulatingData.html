@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-10-02" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -96,17 +96,17 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-10-02</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Indexing</h2></hgroup><article  id="indexing">
+<slide class=""><hgroup><h2>Indexing</h2></hgroup><article  id="indexing">
 
 <p>All throughout your data analysis pipeline, you will face the need to take smaller chunks out of a larger data structure. Sometimes you will need to change the data that is stored in your structure, or use it as input to another function, or perhaps you need to plot it.</p>
 
 <p>The task of slicing a smaller chunk out of a larger data structure is called <strong>indexing</strong> in R (sometimes called <strong>subsetting</strong> depending on context), and is performed using the square bracket characters <code>[]</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Indexing &#39;Ingredients&#39;</h2></hgroup><article  id="indexing-ingredients">
+</article></slide><slide class=""><hgroup><h2>Indexing &#39;Ingredients&#39;</h2></hgroup><article  id="indexing-ingredients">
 
 <p>Indexing a data structure in R requires 4 ingredients.</p>
 
@@ -127,7 +127,7 @@
 
 <p>We will focus on learning what can go inside the square brackets for different types of R data structures</p>
 
-</article></slide><slide class=''><hgroup><h2>Indexing Vectors</h2></hgroup><article  id="indexing-vectors">
+</article></slide><slide class=""><hgroup><h2>Indexing Vectors</h2></hgroup><article  id="indexing-vectors">
 
 <p>Broadly, there are 2 types of indexing vectors that are useful inside the square brackets.</p>
 
@@ -146,7 +146,7 @@
 
 <p>We&#39;ll start with numeric indexing vectors to get a feel for the general procedure, and move up to logical indexing.</p>
 
-</article></slide><slide class=''><hgroup><h2>Numeric Index Vectors</h2></hgroup><article  id="numeric-index-vectors">
+</article></slide><slide class=""><hgroup><h2>Numeric Index Vectors</h2></hgroup><article  id="numeric-index-vectors">
 
 <p>We&#39;ll start by slicing smaller chunks out of a larger vector. Here, the numeric vectors inside the brackets tell R the <em>positions</em> of the elements we wish to extract.</p>
 
@@ -164,7 +164,7 @@ alphabet[c(1,26)] # Extract First and 26th element</pre>
 
 <pre >##  [1] &quot;a&quot; &quot;c&quot; &quot;e&quot; &quot;g&quot; &quot;i&quot; &quot;k&quot; &quot;m&quot; &quot;o&quot; &quot;q&quot; &quot;s&quot; &quot;u&quot; &quot;w&quot; &quot;y&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Common Errors with Numeric Indices</h2></hgroup><article  id="common-errors-with-numeric-indices">
+</article></slide><slide class=""><hgroup><h2>Common Errors with Numeric Indices</h2></hgroup><article  id="common-errors-with-numeric-indices">
 
 <p>The most common mistake is including a value in your indexing vector which is greater than the length of the vector you are subsetting</p>
 
@@ -181,7 +181,7 @@ Another common mistake is forgetting to concatenate the values you want to use f
 
 <pre >## Error in alphabet[1, 5, 10]: incorrect number of dimensions</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>Indexing Tricks</h2></hgroup><article  id="indexing-tricks">
+</article></slide><slide class=""><hgroup><h2>Indexing Tricks</h2></hgroup><article  id="indexing-tricks">
 
 <p>Instead of creating a vector of values you <em>do</em> want to pick out, it may be easier to come up with a vector of ones you <em>don&#39;t</em> want. We can use negative number&#39;s to specify which vector elements we don&#39;t want.</p>
 
@@ -196,7 +196,7 @@ Another common mistake is forgetting to concatenate the values you want to use f
 
 <p>Indexing with positive vectors is usually preferred, as the intent of the code is more clear, but sometimes this is easier and more clear (e.g. when dropping the first or last value)</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Execute the following code and look at the values in <code>months</code>:</p>
 
@@ -215,7 +215,7 @@ months</pre>
 <li>Index <code>months</code> to pull out every third month</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing">
+</article></slide><slide class=""><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing">
 
 <p>When performing logical indexing, you supply a vector specifying whether to extract a specific element (with a <code>TRUE</code>) or to <em>not</em> extract a specific element (with a <code>FALSE</code>).</p>
 
@@ -231,7 +231,7 @@ months</pre>
 
 <pre >## [1] &quot;a&quot; &quot;z&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-1">
+</article></slide><slide class=""><hgroup><h2>Logical Indexing</h2></hgroup><article  id="logical-indexing-1">
 
 <p>But this specific example is not a good use case for logical vectors. Why?</p>
 
@@ -242,7 +242,7 @@ months</pre>
 
 <p>The logical vector&#39;s utility comes into play when you <em>don&#39;t</em> know the numeric positions of the elements you are interested in.</p>
 
-</article></slide><slide class=''><hgroup><h2>Logical Tests</h2></hgroup><article  id="logical-tests">
+</article></slide><slide class=""><hgroup><h2>Logical Tests</h2></hgroup><article  id="logical-tests">
 
 <p>&quot;But wait&quot; you say: &quot;If we don&#39;t know where they are already, how are we going to find them?&quot;. This brings us to <strong>logical testing</strong> and <strong>relational operators</strong></p>
 
@@ -255,7 +255,7 @@ months</pre>
 
 <p>You already know lots of relational operators. The equal to, greater than and less than expressions from 3rd grade math are all relational operators!</p>
 
-</article></slide><slide class=''><hgroup><h2>Relational Operators Table</h2></hgroup><article  id="relational-operators-table">
+</article></slide><slide class=""><hgroup><h2>Relational Operators Table</h2></hgroup><article  id="relational-operators-table">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -295,7 +295,7 @@ months</pre>
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Relational Operators &amp; Indexing</h2></hgroup><article  id="relational-operators-indexing">
+</article></slide><slide class=""><hgroup><h2>Relational Operators &amp; Indexing</h2></hgroup><article  id="relational-operators-indexing">
 
 <p>What makes relational operators useful is that they can be applied to all the elements of a data structure simultaneously.</p>
 
@@ -316,7 +316,7 @@ print(x)</pre>
 
 <p>When this logical vector is used to index the vector <code>x</code>, only the elements where the logical vector has value <code>TRUE</code> are returned.</p>
 
-</article></slide><slide class=''><hgroup><h2>Relational Operators &amp; Indexing</h2></hgroup><article  id="relational-operators-indexing-1">
+</article></slide><slide class=""><hgroup><h2>Relational Operators &amp; Indexing</h2></hgroup><article  id="relational-operators-indexing-1">
 
 <p>We index character vectors using the <code>==</code> and <code>!=</code> operators, but not the greater/less than operators. Quantity makes no sense for characters!</p>
 
@@ -335,7 +335,7 @@ print(x)</pre>
 ##  [6] &quot;June&quot;      &quot;August&quot;    &quot;September&quot; &quot;October&quot;   &quot;November&quot; 
 ## [11] &quot;December&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Other Useful Tests: <code>is.na()</code></h2></hgroup><article  id="other-useful-tests-is.na">
+</article></slide><slide class=""><hgroup><h2>Other Useful Tests: <code>is.na()</code></h2></hgroup><article  id="other-useful-tests-is.na">
 
 <p>Unfortunately, we often have to deal with missing observations in real world data sets. R codes missing data as <code>NA</code> (or sometimes <code>NaN</code>). We can use the <code>is.na()</code> function to find any missing values in a vector.</p>
 
@@ -348,7 +348,7 @@ is.na(missingno)</pre>
 
 <pre >## [1] 10  1  4  2 99</pre>
 
-</article></slide><slide class=''><hgroup><h2>Other Useful Tests: modulus division</h2></hgroup><article  id="other-useful-tests-modulus-division">
+</article></slide><slide class=""><hgroup><h2>Other Useful Tests: modulus division</h2></hgroup><article  id="other-useful-tests-modulus-division">
 
 <p>Another important arithmetic operatoris the modulus operator <code>%%</code>, which gives us the remainder of division. For example: <code>5 %% 3</code> is <code>2</code>, because 3 goes into 5 once, with 2 left over.</p>
 
@@ -367,7 +367,7 @@ lisa %% 17</pre>
 
 <pre >## [1]  34 187</pre>
 
-</article></slide><slide class=''><hgroup><h2>Tips and Tricks</h2></hgroup><article  id="tips-and-tricks">
+</article></slide><slide class=""><hgroup><h2>Tips and Tricks</h2></hgroup><article  id="tips-and-tricks">
 
 <p>A useful function to know is <code>which()</code>. When used on a logical vector, it will return to your the position indices of the vector&#39;s <code>TRUE</code> element. It is useful when you want to know <strong>where</strong> in the vector your matches occur.</p>
 
@@ -379,7 +379,7 @@ lisa %% 17</pre>
 
 <pre >## [1] 1 4</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity-1">
 
 <p>Write an expression using logical testing and indexing that, when applied to the vector <code>dummy</code>, returns the same output as the numeric indexing example shown below.</p>
 
@@ -388,7 +388,7 @@ dummy[5:7]</pre>
 
 <pre >## [1] 21 22 23</pre>
 
-</article></slide><slide class=''><hgroup><h2>Testing Multiple Conditions</h2></hgroup><article  id="testing-multiple-conditions">
+</article></slide><slide class=""><hgroup><h2>Testing Multiple Conditions</h2></hgroup><article  id="testing-multiple-conditions">
 
 <p>Sometimes you need to select elements based on multiple conditions. For example, you might want to select only those values that are less than 4 standard deviations above or below the mean.</p>
 
@@ -412,7 +412,7 @@ dummy[5:7]</pre>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Logical Operators</h2></hgroup><article  id="logical-operators">
+</article></slide><slide class=""><hgroup><h2>Logical Operators</h2></hgroup><article  id="logical-operators">
 
 <table class = 'rmdtable'>
 <tr class="header">
@@ -457,7 +457,7 @@ dummy[5:7]</pre>
 
 <p>The scalar operators only test the <em>first pair</em> of elements from their input, regardless of length, and return a single <code>TRUE</code> or <code>FALSE</code>. Thus, scalar operators should only be used for comparing a single value to another single value.</p>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions">
 
 <p>Let&#39;s say we wanted to select the elements in <code>lisa</code> which were less than 500 or greater than 1000.</p>
 
@@ -485,7 +485,7 @@ dummy[5:7]</pre>
 </ul></li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1" class="conditionals">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-1" class="conditionals">
 
 <p>The goal is to have our test return a <code>TRUE</code> for each element that passes the &quot;less than 500&quot; test <strong>OR</strong> passes the &quot;greater than 1000&quot; test.</p>
 
@@ -557,7 +557,7 @@ dummy[5:7]</pre>
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-2">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-2">
 
 <p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot;&quot; test <strong>OR</strong> if it passed the &quot;greater than 1000&quot;&quot; test.</p>
 
@@ -628,7 +628,7 @@ dummy[5:7]</pre>
 
 <pre >## [1]   34   63  187   78 3330</pre>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-3">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-3">
 
 <p>Now let&#39;s say we wanted to select the elements in <code>lisa</code> which were less than 500 and greater than or equal to 50.</p>
 
@@ -652,7 +652,7 @@ dummy[5:7]</pre>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-4">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-4">
 
 <p>Our goal of the test is to have it return a <code>TRUE</code> for each element if it passed the &quot;less than 500&quot; test <strong>AND</strong> if it passed the &quot;greater than 50&quot; test.</p>
 
@@ -723,7 +723,7 @@ dummy[5:7]</pre>
 
 <pre >## [1]  63 187  78</pre>
 
-</article></slide><slide class=''><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-5">
+</article></slide><slide class=""><hgroup><h2>Indexing with Multiple Conditions</h2></hgroup><article  id="indexing-with-multiple-conditions-5">
 
 <pre class = 'prettyprint lang-r'>lisa[lisa &lt; 500 &amp; lisa &gt;= 998]</pre>
 
@@ -733,7 +733,7 @@ dummy[5:7]</pre>
 
 <p>So why does this test and subset return nothing? Because no number can be less than 500 and greater than 998, so every test comes back <code>FALSE</code>, and all elements are ignored in the subset.</p>
 
-</article></slide><slide class=''><hgroup><h2>Exercise</h2></hgroup><article  id="exercise">
+</article></slide><slide class=""><hgroup><h2>Exercise</h2></hgroup><article  id="exercise">
 
 <ol>
 <li><p>Use R to find all the numbers between 1 and 10,000 that are multiples of 2 or multiples of 3. How many are there?</p></li>

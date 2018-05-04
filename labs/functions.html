@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2018-03-26" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2018-03-26</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function">
+<slide class=""><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function">
 
 <p>Consider a common situation: You need to perform a set of identical or extremely similar operations on several different pieces of information. What do you do?</p>
 
@@ -107,7 +107,7 @@
 
 <p>While straightforward, this approach ends up costing more in the long run: Your script quickly grows in length and becomes difficult to read, and any time you need to make a change, you have to carefully keep track of every instance that needs changing.</p>
 
-</article></slide><slide class=''><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function-1">
+</article></slide><slide class=""><hgroup><h2>Why write a new function?</h2></hgroup><article  id="why-write-a-new-function-1">
 
 <p>A better approach which keeps your code clear and maintainable is to keep it <a href='https://en.wikipedia.org/wiki/Don&#39;t_repeat_yourself' title=''>DRY</a>, meaning &quot;Don&#39;t Repeat Yourself&quot;.</p>
 
@@ -115,7 +115,7 @@
 
 <p>When you have a set of operations you want to use more than once, writing a function to contain them allows you to reuse the code <em>without</em> repeating the code itself.</p>
 
-</article></slide><slide class=''><hgroup><h2>Creating New Functions</h2></hgroup><article  id="creating-new-functions">
+</article></slide><slide class=""><hgroup><h2>Creating New Functions</h2></hgroup><article  id="creating-new-functions">
 
 <p>You can create a new function object in R with the <code>function</code> keyword and the following syntax:</p>
 
@@ -127,7 +127,7 @@
 
 <p>The usual assignment operator, <code>&lt;-</code>, creates the object you can use to call the function. Just like any other variable, the name to the left of the <code>&lt;-</code> operator is arbitrary.</p>
 
-</article></slide><slide class=''><hgroup><h2>Arguments</h2></hgroup><article  id="arguments">
+</article></slide><slide class=""><hgroup><h2>Arguments</h2></hgroup><article  id="arguments">
 
 <p>Any arguments defined in the declaration can be used as variables inside the function body. To define multiple arguments, each argument must be separated by a comma.</p>
 
@@ -140,7 +140,7 @@ f(&quot;eleventeen&quot;, -Inf)</pre>
 
 <pre >## [1] &quot;arg1 is eleventeen and arg2 is -Inf&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Optional Arguments</h2></hgroup><article  id="optional-arguments">
+</article></slide><slide class=""><hgroup><h2>Optional Arguments</h2></hgroup><article  id="optional-arguments">
 
 <p>You can assign default values for arguments with the <code>=</code> operator. While the <code>&lt;-</code> and <code>=</code> operators are usually interchangeable, <strong>only <code>=</code> may be used in function definitions and function calls</strong>.</p>
 
@@ -153,7 +153,7 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <pre >## [1] &quot;arg1 is squidily diddly and arg2 is not supplied!&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Required Arguments</h2></hgroup><article  id="required-arguments">
+</article></slide><slide class=""><hgroup><h2>Required Arguments</h2></hgroup><article  id="required-arguments">
 
 <p>Arguments <em>without</em> a default value must always be specified on the function call. Omitting them will always result in a fatal error.</p>
 
@@ -162,7 +162,7 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <pre >## Error in paste(&quot;arg1 is&quot;, arg1, &quot;and arg2 is&quot;, arg2): argument &quot;arg1&quot; is missing, with no default</pre></div>
 
-</article></slide><slide class=''><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
+</article></slide><slide class=""><hgroup><h2>A reminder: positional vs. named arguments</h2></hgroup><article  id="a-reminder-positional-vs.-named-arguments">
 
 <p>When you call a function without using argument name, the values you supply are matched with the functions arguments <strong>by position</strong> (i.e., first supplied value goes with argument 1, second supplied value goes with argument 2, etc.)</p>
 
@@ -176,15 +176,15 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <pre >## [1] &quot;arg1 is starchild and arg2 is sir nose d&#39;voidoffunk&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>The function body</h2></hgroup><article  id="the-function-body" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>The function body</h2></hgroup><article  id="the-function-body" class="img-centered">
 
 <p>The function body should just contain normal R code! Easy!</p>
 
-<p>Here&#39;s a picture of <a href='https://www.youtube.com/watch?v=YNXkw96HC7k' title=''>Sir Nose D’Voidoffunk</a> to take up the slide. <img src='../images/sirNose.jpg' title=''/></p>
+<p>Here&#39;s a picture of <a href='https://www.youtube.com/watch?v=YNXkw96HC7k' title=''>Sir Nose Dâ€™Voidoffunk</a> to take up the slide. <img src='../images/sirNose.jpg' title=''/></p>
 
 <p>His nose is long because he&#39;s been fakin&#39; the funk.</p>
 
-</article></slide><slide class=''><hgroup><h2>Function output</h2></hgroup><article  id="function-output">
+</article></slide><slide class=""><hgroup><h2>Function output</h2></hgroup><article  id="function-output">
 
 <p>All the functions you&#39;re familiar with do more than just print something to the console: they give you a result in the form of an R object, which you can assign to a variable in your environment.</p>
 
@@ -200,7 +200,7 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <p>It appears our function output is the character vector we created in the function body.</p>
 
-</article></slide><slide class=''><hgroup><h2>Function output</h2></hgroup><article  id="function-output-1">
+</article></slide><slide class=""><hgroup><h2>Function output</h2></hgroup><article  id="function-output-1">
 
 <p>This makes intuitive sense on one level: making that string was the only expression in the function body, so what else would the output be?</p>
 
@@ -208,7 +208,7 @@ f(&quot;squidily diddly&quot;) # only 1 argument given!</pre>
 
 <p>By default, functions return the value of the <strong>last</strong> expression evaluated in the function body.</p>
 
-</article></slide><slide class=''><hgroup><h2>Return Statements</h2></hgroup><article  id="return-statements">
+</article></slide><slide class=""><hgroup><h2>Return Statements</h2></hgroup><article  id="return-statements">
 
 <p>However, relying on implicit behavior doesn&#39;t make for the most understandable code. Additionally, you may want to a function to stop running and return a value at different places of the body (an &#39;early return&#39;).</p>
 
@@ -222,7 +222,7 @@ f(&quot;autumn leaves&quot;)</pre>
 
 <pre >## [1] &quot;arg1 is autumn leaves and arg2 is not supplied!&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values">
+</article></slide><slide class=""><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values">
 
 <p>If you were writing a function to perform a t-test, you would probably like to write one function that tells you the t score, the degrees of freedom, and the <em>p</em> value, instead of writing one function for each.</p>
 
@@ -230,7 +230,7 @@ f(&quot;autumn leaves&quot;)</pre>
 
 <p>Returning a list is a good general purpose solution to this problem, because lists are designed to have named elements of arbitrary sizes and type.</p>
 
-</article></slide><slide class=''><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values-1">
+</article></slide><slide class=""><hgroup><h2>Returning multiple values</h2></hgroup><article  id="returning-multiple-values-1">
 
 <p>This function returns a list of summary statistics for a numeric vector, which can then be accessed by name from the list.</p>
 
@@ -243,13 +243,13 @@ f(&quot;autumn leaves&quot;)</pre>
 statList &lt;- summaryStats(runif(25,0,100)) #25 random values from 0 to 100
 str(statList)
 ## List of 3
-##  $ mean  : num 56.4
-##  $ stdDev: num 26.5
-##  $ sem   : num 5.31
+##  $ mean  : num 50
+##  $ stdDev: num 29.2
+##  $ sem   : num 5.83
 statList$sem
-## [1] 5.309598</pre>
+## [1] 5.834567</pre>
 
-</article></slide><slide class=''><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
+</article></slide><slide class=""><hgroup><h2>Using your functions</h2></hgroup><article  id="using-your-functions">
 
 <p>Like any object in R, your function object must be assigned and available from the global environment before you can use it.</p>
 
@@ -259,7 +259,7 @@ statList$sem
 
 <p>However, this method makes scripts confusing to follow, and is prone to error thanks to violating the DRY principle: when you make a change to your cool new function in one script, you have to change it in every file you&#39;ve declared it in if you want to the function to have consistent behavior (which every function should!!!)</p>
 
-</article></slide><slide class=''><hgroup><h2>Sourcing your functions</h2></hgroup><article  id="sourcing-your-functions">
+</article></slide><slide class=""><hgroup><h2>Sourcing your functions</h2></hgroup><article  id="sourcing-your-functions">
 
 <p>A better solution is to have one (or more) .R file where you define a single function (or several of related functions), and use the <code>source</code> keyword to execute the file and define the function whenever you want use it.</p>
 
@@ -269,7 +269,7 @@ statList$sem
 
 <p>You can treat the <code>source</code> keyword like the <code>library</code> function this way, and adhere to the DRY principle by having single, authoritative versions of your functions.</p>
 
-</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors">
+</article></slide><slide class=""><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors">
 
 <p>The <code>summaryStats</code> function implicitly requires that it&#39;s argument, <code>x</code>, be a numeric vector. If <code>x</code> is not a numeric vector with one or more elements, it makes no sense to take the mean or standard deviation.</p>
 
@@ -277,13 +277,13 @@ statList$sem
 
 <p>But can you guarantee that your group member or lab member knows that? And can you absolutely guarantee that <code>summaryStats</code> won&#39;t be unintentionally passed some other type of data when called from a more complex or non-interactive program?</p>
 
-</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-1">
+</article></slide><slide class=""><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-1">
 
 <p>The answer of course, is no. When you write a function, you should think carefully about what range of inputs your function can reliably compute sensible output from.</p>
 
 <p>Then, write expressions which test to be sure input meets your accepted conditions, and throw your own <em>informative</em> errors when they are not.</p>
 
-</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-2">
+</article></slide><slide class=""><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-2">
 
 <p>R provides the <code>stop</code> function which allows you to signal an error using your own message, and halt execution of the current function.</p>
 
@@ -299,7 +299,7 @@ statList$sem
   }
 }</pre>
 
-</article></slide><slide class=''><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-3">
+</article></slide><slide class=""><hgroup><h2>User-Defined Errors</h2></hgroup><article  id="user-defined-errors-3">
 
 <p>Lets test it out!</p>
 
@@ -321,7 +321,7 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>Hooray, an error! Whenever you write a test for your input, always test it with bad input to be sure it catches it.</p>
 
-</article></slide><slide class=''><hgroup><h2>Debugging your functions</h2></hgroup><article  id="debugging-your-functions">
+</article></slide><slide class=""><hgroup><h2>Debugging your functions</h2></hgroup><article  id="debugging-your-functions">
 
 <p>The process of examining your code to track down the source of errors is easy enough in a normal R script: just interactively run one line at a time till you find the root cause.</p>
 
@@ -329,7 +329,7 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>We&#39;ll cover two basic ways you can debug code execution inside functions: by using the <code>debug</code> function, and by setting breakpoints through Rstudio.</p>
 
-</article></slide><slide class=''><hgroup><h2>The <code>debug</code> function</h2></hgroup><article  id="the-debug-function">
+</article></slide><slide class=""><hgroup><h2>The <code>debug</code> function</h2></hgroup><article  id="the-debug-function">
 
 <p>When you want to interactively debug a function, provide the function object as an argument to the <code>debug</code> function.</p>
 
@@ -341,7 +341,7 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>The console prompt <code>&gt;</code> should change to read <code>Browse [x]&gt;</code>, where x is some integer. In Rstudio, a new tab should open in the editor pane titled &quot;Source Viewer&quot;, and a set of navigation controls should appear just above the console window.</p>
 
-</article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging" class="img-centered">
 
 <p><img src='../images/debugControls.png' title=''/> The navigation controls &amp; corresponding keyboard shortcuts are shown above, and explained below:</p>
 
@@ -357,7 +357,7 @@ statList &lt;- summaryStats(x)</pre>
 <li>&quot;Quit: Exit debugging mode and halt all execution</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging-1">
+</article></slide><slide class=""><hgroup><h2>Interactive Debugging</h2></hgroup><article  id="interactive-debugging-1">
 
 <p>When you decide that you want <code>summaryStats</code> to execute normally and no longer run under debugging mode, use the <code>undebug</code> function:</p>
 
@@ -365,13 +365,13 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>Any subsequent calls to <code>summaryStats</code> will proceed as normal.</p>
 
-</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints">
+</article></slide><slide class=""><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints">
 
 <p>A breakpoint is a flag set on a line of code in your function that tells the R interpreter to enter debugging mode when it hits that line. Just before executing the line with the breakpoint, R will enter debugging mode just like when you used the <code>debug</code> function.</p>
 
 <p>This method can save you quite a bit of time versus using the <code>debug</code> function by allowing you to stop execution just before the line where an error occurs.</p>
 
-</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-1" class="img-centered">
 
 <p>To set a breakpoint, use the mouse to click in the blank space between the line number you want start debugging on and the left edge of the editor pane.</p>
 
@@ -379,7 +379,7 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>You can set as many breakpoints as you wish, but you need to source the file each time you add new ones to activate them.</p>
 
-</article></slide><slide class=''><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-2">
+</article></slide><slide class=""><hgroup><h2>Setting breakpoints</h2></hgroup><article  id="setting-breakpoints-2">
 
 <p>Hit the &#39;source&#39; button in the top right button of the editor pane to activate the breakpoints. This should dismiss the popup, and the open red circle should become a filled red circle, indicating the breakpoint is active.</p>
 
@@ -387,11 +387,11 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>The next time this function is called, the function will pause before executing the lines with the breakpoints on them.</p>
 
-</article></slide><slide class=''><hgroup><h2>Clearing Breakpoints</h2></hgroup><article  id="clearing-breakpoints">
+</article></slide><slide class=""><hgroup><h2>Clearing Breakpoints</h2></hgroup><article  id="clearing-breakpoints">
 
 <p>After you&#39;ve squashed all your bugs, you can clear any breakpoints you&#39;ve set by clicking on the red circles representing each one. This will remove the breakpoint, after which you must source the file again to deactivate them.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Write a function called <code>find</code> that searches a given vector for a specific value, and returns it&#39;s position(s) in the vector.</p>
 
@@ -406,7 +406,7 @@ statList &lt;- summaryStats(x)</pre>
 
 <p>Go the next slide for some input/output examples to help you start.</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity Examples</h2></hgroup><article  id="activity-examples">
+</article></slide><slide class=""><hgroup><h2>Activity Examples</h2></hgroup><article  id="activity-examples">
 
 <p>Here is a more a concrete example of what your function should behave like. When you think you are done, test your function to make sure your function can reproduce the results.</p>
 

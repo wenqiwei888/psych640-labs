@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2018-01-29" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -95,7 +95,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2018-01-29</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
@@ -432,18 +432,18 @@ MoldbrdBroad &lt;- mean(cropYield$Yield[cropYield$Till == &#39;Moldbrd&#39;
 
 <pre >## # A tibble: 99 x 4
 ## # Groups:   Till, Fert [9]
-##    Field   Till    Fert Yield
-##    &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-##  1     1 Chisel   Broad   119
-##  2     1 Chisel    Deep   130
+##    Field Till   Fert    Yield
+##    &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;   &lt;int&gt;
+##  1     1 Chisel Broad     119
+##  2     1 Chisel Deep      130
 ##  3     1 Chisel Surface   123
-##  4     2 Chisel   Broad   135
-##  5     2 Chisel    Deep   148
+##  4     2 Chisel Broad     135
+##  5     2 Chisel Deep      148
 ##  6     2 Chisel Surface   134
-##  7     3 Chisel   Broad   140
-##  8     3 Chisel    Deep   146
+##  7     3 Chisel Broad     140
+##  8     3 Chisel Deep      146
 ##  9     3 Chisel Surface   142
-## 10     4 Chisel   Broad   126
+## 10     4 Chisel Broad     126
 ## # ... with 89 more rows</pre>
 
 <p>This line tells you which columns the groups are based on, and how many individual groups they form.</p>
@@ -467,17 +467,17 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 
 <pre >## # A tibble: 9 x 3
 ## # Groups:   Till [?]
-##      Till    Fert avgYeild
-##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
-## 1  Chisel   Broad 124.2500
-## 2  Chisel    Deep 133.7500
-## 3  Chisel Surface 131.4167
-## 4 Moldbrd   Broad 140.8000
-## 5 Moldbrd    Deep 151.0000
-## 6 Moldbrd Surface 146.0000
-## 7   Ridge   Broad 128.0000
-## 8   Ridge    Deep 155.4545
-## 9   Ridge Surface 153.1818</pre>
+##   Till    Fert    avgYeild
+##   &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt;
+## 1 Chisel  Broad       124.
+## 2 Chisel  Deep        134.
+## 3 Chisel  Surface     131.
+## 4 Moldbrd Broad       141.
+## 5 Moldbrd Deep        151 
+## 6 Moldbrd Surface     146 
+## 7 Ridge   Broad       128 
+## 8 Ridge   Deep        155.
+## 9 Ridge   Surface     153.</pre>
 
 </article></slide><slide class=""><hgroup><h2>Group-wise operations</h2></hgroup><article  id="group-wise-operations">
 
@@ -485,17 +485,17 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 
 <pre >## # A tibble: 9 x 3
 ## # Groups:   Till [?]
-##      Till    Fert avgYeild
-##     &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
-## 1  Chisel   Broad 124.2500
-## 2  Chisel    Deep 133.7500
-## 3  Chisel Surface 131.4167
-## 4 Moldbrd   Broad 140.8000
-## 5 Moldbrd    Deep 151.0000
-## 6 Moldbrd Surface 146.0000
-## 7   Ridge   Broad 128.0000
-## 8   Ridge    Deep 155.4545
-## 9   Ridge Surface 153.1818</pre>
+##   Till    Fert    avgYeild
+##   &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt;
+## 1 Chisel  Broad       124.
+## 2 Chisel  Deep        134.
+## 3 Chisel  Surface     131.
+## 4 Moldbrd Broad       141.
+## 5 Moldbrd Deep        151 
+## 6 Moldbrd Surface     146 
+## 7 Ridge   Broad       128 
+## 8 Ridge   Deep        155.
+## 9 Ridge   Surface     153.</pre>
 
 <p>The <code>Groups</code> line at the top has changed: now our data frame is only grouped by <code>Till</code>, and the group size is now <code>[?]</code>.</p>
 
@@ -509,17 +509,17 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 
 <pre >## # A tibble: 9 x 3
 ## # Groups:   Till [?]
-##      Till    Fert grpSize
-##     &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;
-## 1  Chisel   Broad      12
-## 2  Chisel    Deep      12
-## 3  Chisel Surface      12
-## 4 Moldbrd   Broad      10
-## 5 Moldbrd    Deep      10
+##   Till    Fert    grpSize
+##   &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;
+## 1 Chisel  Broad        12
+## 2 Chisel  Deep         12
+## 3 Chisel  Surface      12
+## 4 Moldbrd Broad        10
+## 5 Moldbrd Deep         10
 ## 6 Moldbrd Surface      10
-## 7   Ridge   Broad      11
-## 8   Ridge    Deep      11
-## 9   Ridge Surface      11</pre>
+## 7 Ridge   Broad        11
+## 8 Ridge   Deep         11
+## 9 Ridge   Surface      11</pre>
 
 </article></slide><slide class=""><hgroup><h2>Ungrouping</h2></hgroup><article  id="ungrouping">
 
@@ -528,16 +528,16 @@ grpMeans &lt;- summarise(cropsGrouped, avgYeild = mean(Yield)) # lemon squeezy</
 <pre class = 'prettyprint lang-r'>ungroup(cropsGrouped) # no more &quot;Groups&quot; line</pre>
 
 <pre >## # A tibble: 99 x 4
-##   Field   Till    Fert Yield
-##   &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-## 1     1 Chisel   Broad   119
-## 2     1 Chisel    Deep   130
+##   Field Till   Fert    Yield
+##   &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;   &lt;int&gt;
+## 1     1 Chisel Broad     119
+## 2     1 Chisel Deep      130
 ## 3     1 Chisel Surface   123
-## 4     2 Chisel   Broad   135
-## 5     2 Chisel    Deep   148
+## 4     2 Chisel Broad     135
+## 5     2 Chisel Deep      148
 ## 6     2 Chisel Surface   134
-## 7     3 Chisel   Broad   140
-## 8     3 Chisel    Deep   146
+## 7     3 Chisel Broad     140
+## 8     3 Chisel Deep      146
 ## # ... with 91 more rows</pre>
 
 <p>You can check a data frames grouped/ungrouped status with the <code>is.grouped</code> function.</p>

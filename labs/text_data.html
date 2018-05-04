@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Text Processing Basics</h2></hgroup><article  id="text-processing-basics">
+<slide class=""><hgroup><h2>Text Processing Basics</h2></hgroup><article  id="text-processing-basics">
 
 <p>R is primarily a numeric computing environment, but has a wide array of tools to process textual data as well.</p>
 
@@ -111,7 +111,7 @@
 
 <p>Today, we&#39;ll cover some basic functions for manipulating strings and character vectors, including how to combine and split apart pieces of strings, search for strings that match a pattern, and replace portions of strings with other characters.</p>
 
-</article></slide><slide class=''><hgroup><h2>Elements vs. Characters</h2></hgroup><article  id="elements-vs.-characters">
+</article></slide><slide class=""><hgroup><h2>Elements vs. Characters</h2></hgroup><article  id="elements-vs.-characters">
 
 <p>There is an important distinction between the number of elements in a character vector, and the number of characters in a single string.</p>
 
@@ -127,7 +127,7 @@
 
 <pre >## [1] 1 4 3</pre>
 
-</article></slide><slide class=''><hgroup><h2>Changing Cases</h2></hgroup><article  id="changing-cases">
+</article></slide><slide class=""><hgroup><h2>Changing Cases</h2></hgroup><article  id="changing-cases">
 
 <p>If you want to change <em>all</em> the characters in a vector to lower or uppercase characters, we can use the <code>tolower()</code> and <code>toupper()</code> functions.</p>
 
@@ -145,7 +145,7 @@
 
 <pre >## [1] TRUE</pre>
 
-</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors">
+</article></slide><slide class=""><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors">
 
 <p>The <code>paste</code> function is used to combine two or more character vectors into one vector.</p>
 
@@ -157,9 +157,9 @@
 
 <pre class = 'prettyprint lang-r'>paste(&quot;The current date and time is: &quot;, date())</pre>
 
-<pre >## [1] &quot;The current date and time is:  Thu Jul 27 12:48:19 2017&quot;</pre>
+<pre >## [1] &quot;The current date and time is:  Fri May 04 12:23:09 2018&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-1">
+</article></slide><slide class=""><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-1">
 
 <p>If the vectors have more than one element, and each vector has the same length, their elements will be pasted together pairwise.</p>
 
@@ -176,7 +176,7 @@
 
 <pre >## [1] &quot;Good vs. Bad&quot;    &quot;Light vs. Dark&quot;  &quot;Right vs. Wrong&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-2">
+</article></slide><slide class=""><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-2">
 
 <p>If the vectors have more than one element, but each vector <em>does not</em> have the same length, R will do some weird recycling of each vectors elements&#8230;</p>
 
@@ -188,7 +188,7 @@
 
 <p><code>c(&quot;A&quot;,&quot;B&quot;)</code> gets extended to <code>c(&quot;A&quot;,&quot;B&quot;,&quot;A&quot;,&quot;B&quot;,&quot;A&quot;)</code> and <code>c(&quot;C&quot;,&quot;D&quot;,&quot;E&quot;)</code> gets extended out to be <code>c(&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,&quot;C&quot;,&quot;D&quot;)</code>. This is probably not what you want, so be careful.</p>
 
-</article></slide><slide class=''><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-3">
+</article></slide><slide class=""><hgroup><h2>Combining Character Vectors</h2></hgroup><article  id="combining-character-vectors-3">
 
 <p><code>paste()</code> can also combine the many elements of a character vector into a single element, by supplying a value for the <code>collapse</code> argument.</p>
 
@@ -205,7 +205,7 @@
 
 <p>&quot;1&quot; and &quot;4&quot;, &quot;2&quot; and &quot;5&quot;, and &quot;3&quot; and &quot;6&quot; are concatenated with a space, then &quot;1 4&quot;, &quot;2 5&quot; and &quot;3 6&quot; are collapsed with a &quot; + &quot;.</p>
 
-</article></slide><slide class=''><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart">
+</article></slide><slide class=""><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart">
 
 <p>If we want to extract some of the characters within a string, and we know the specific <em>positions</em> of the characters within a string we want to extract (e.g., the first through the fifth characters), we can use the <code>substr()</code> function.</p>
 
@@ -221,7 +221,7 @@
 
 <pre >## [1] &quot;bcd&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart-1">
+</article></slide><slide class=""><hgroup><h2>Splitting vectors apart</h2></hgroup><article  id="splitting-vectors-apart-1">
 
 <p><code>substr</code> is a vectorized function, so we can extract sub-strings from each string in character vectors with more than 1 elements. You can also make <code>start</code> and <code>stop</code> the same value to extract just one character.</p>
 
@@ -237,7 +237,7 @@
 
 <p>Here, we extract the first and second characters from &quot;Pill&quot;, the second and third characters from &quot;xzzy&quot;, and the third and fourth characters from &quot;haa!&quot;.</p>
 
-</article></slide><slide class=''><hgroup><h2>Patern Matching</h2></hgroup><article  id="patern-matching">
+</article></slide><slide class=""><hgroup><h2>Patern Matching</h2></hgroup><article  id="patern-matching">
 
 <p>What if you want to extract part of a string, but don&#39;t know for sure where the part you want will be located? Or what if you want to count the number of times a specific word occurs in some text, but the text isn&#39;t broken up by individual words already?</p>
 
@@ -245,7 +245,7 @@
 
 <p>Regular expressions (or regexes, for short) are a double edged sword: they are extremely powerful and useful, but can easily <a href='https://thedailywtf.com/articles/The_Call_of_Codethulhu' title=''>summon Codethulu</a>. We&#39;ll just touch on some basics today, and leave the dangerous stuff for another class.</p>
 
-</article></slide><slide class=''><hgroup><h2>grep</h2></hgroup><article  id="grep">
+</article></slide><slide class=""><hgroup><h2>grep</h2></hgroup><article  id="grep">
 
 <p>R&#39;s <code>grep()</code> function (an acronym for &quot; <b>g</b>lobal <b>r</b>egular <b>e</b>xpression <b>p</b>rint&quot;) is commonly used to search for matches to a regular expression pattern within the elements of a character vector.</p>
 
@@ -260,7 +260,7 @@
 
 <p>But, we can have it return the actual character strings that were matched by setting the <code>value</code> argument to <code>TRUE</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Literal Character Patterns</h2></hgroup><article  id="literal-character-patterns">
+</article></slide><slide class=""><hgroup><h2>Literal Character Patterns</h2></hgroup><article  id="literal-character-patterns">
 
 <p>The simplest regular expressions include only literal characters, e.g., a, b, c, 1, 2, 3, etc.</p>
 
@@ -278,7 +278,7 @@
 
 <pre >## [1]  TRUE  TRUE  TRUE FALSE</pre>
 
-</article></slide><slide class=''><hgroup><h2>Character Classes</h2></hgroup><article  id="character-classes">
+</article></slide><slide class=""><hgroup><h2>Character Classes</h2></hgroup><article  id="character-classes">
 
 <p>We can also specify a <em>set</em> of possible characters to match. If <em>any</em> of the characters in the set occur in the string, it is considered a match.</p>
 
@@ -290,7 +290,7 @@
 
 <pre >## [1] &quot;cat&quot;  &quot;cart&quot; &quot;bar&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Ranges of Characters</h2></hgroup><article  id="ranges-of-characters">
+</article></slide><slide class=""><hgroup><h2>Ranges of Characters</h2></hgroup><article  id="ranges-of-characters">
 
 <p>If you want to specify a large range of characters for your set, the <code>-</code> symbol provides a convenient shorthand you can use to define <em>ranges</em> of characters.</p>
 
@@ -304,7 +304,7 @@
 
 <pre >## [1] &quot;funky&quot; &quot;#1&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters">
+</article></slide><slide class=""><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters">
 
 <p>We can use regular expressions to describe which characters in a string we would like to replace, and substitute in new characters using the <code>gsub()</code> function.</p>
 
@@ -318,7 +318,7 @@
 
 <p>If you want to remove the characters matching your regular expression, use an empty string (written <code>&quot;&quot;</code>) for the <code>replacement</code> argument.</p>
 
-</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-1">
+</article></slide><slide class=""><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-1">
 
 <p>Lets imagine that some of the elements in a character vector have variable amounts trailing or leading whitespace, and we want to remove it.</p>
 
@@ -333,7 +333,7 @@ text</pre>
 
 <pre >## [1] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-2">
+</article></slide><slide class=""><hgroup><h2>Replacing Characters</h2></hgroup><article  id="replacing-characters-2">
 
 <p>Now lets try the same task of stripping whitespace off the ends, but with a little more complex string:</p>
 
@@ -346,7 +346,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 
 <p>But, we can get around this by using <em>anchors</em>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Anchoring</h2></hgroup><article  id="anchoring">
+</article></slide><slide class=""><hgroup><h2>Anchoring</h2></hgroup><article  id="anchoring">
 
 <p>There are two anchors in regular expressions: the <code>^</code> anchor, which anchors a pattern to the beginning of the string, and the <code>$</code> anchor, which anchors a pattern to the end of the string.</p>
 
@@ -364,7 +364,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 
 <pre >## [1] &quot;  The quick brown fox jumped over the lazy dog   &quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size">
+</article></slide><slide class=""><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size">
 
 <p>But this time, <code>gsub</code> only removed 1 single space at the beginning and end. Huh?</p>
 
@@ -378,7 +378,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 <li><code>?</code> : Means &quot;match preceding character <em>zero or one times</em>&quot;</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size-1">
+</article></slide><slide class=""><hgroup><h2>Controlling Match Size</h2></hgroup><article  id="controlling-match-size-1">
 
 <p>In our case, we want to replace one or more whitespace characters, so we&#39;ll use the <code>+</code>.</p>
 
@@ -386,7 +386,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 
 <pre >## [1] &quot;The quick brown fox jumped over the lazy dog&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings">
+</article></slide><slide class=""><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings">
 
 <p>Finally, we&#39;ll look at how to split single strings into several pieces (while still retaining both pieces in our output).</p>
 
@@ -397,7 +397,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 <li><code>split</code>: A regular expression which defines which patterns will divide the elements of <code>x</code> into smaller units.</li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-1">
+</article></slide><slide class=""><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-1">
 
 <p>The most common use case for <code>strsplit</code> is splitting a string based on a literal character (otherwise known as splitting on a delimiter).</p>
 
@@ -411,7 +411,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 
 <p>Since <code>strsplit</code> has no way of knowing how many pieces a given string might be split up into, it always returns a list with as many elements as there are in <code>x</code>. The elements of the list it returns hold the split pieces.</p>
 
-</article></slide><slide class=''><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-2">
+</article></slide><slide class=""><hgroup><h2>Splitting Strings</h2></hgroup><article  id="splitting-strings-2">
 
 <p>If empty matches are found to the pattern in <code>split</code>, (usually when <code>split</code> is <code>&quot;&quot;</code>), <code>x</code> is split into single characters.</p>
 
@@ -420,7 +420,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 <pre >## [[1]]
 ## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Splitting on Special Strings</h2></hgroup><article  id="splitting-on-special-strings">
+</article></slide><slide class=""><hgroup><h2>Splitting on Special Strings</h2></hgroup><article  id="splitting-on-special-strings">
 
 <p>What happens if the delimiter you want to split on is a character that has special meaning in a regex, like <code>+</code> or <code>.</code> (which is a special character class the matches <em>any</em> character other than line breaks)?</p>
 
@@ -436,7 +436,7 @@ gsub(&quot; &quot;, &quot;&quot;, text)</pre>
 <pre >## [[1]]
 ## [1] &quot;1&quot; &quot;2&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>Select the elements from the following character vectors have two or more &quot;S&quot; characters. How many &quot;S&quot; characters are there in each of those elements?</p>
 

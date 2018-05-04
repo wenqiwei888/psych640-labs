@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,11 +95,11 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Functions</h2></hgroup><article  id="functions">
+<slide class=""><hgroup><h2>Functions</h2></hgroup><article  id="functions">
 
 <p>So far, we have used several functions in lab examples and activities, and many more in the R scripts from lecture.</p>
 
@@ -107,7 +107,7 @@
 
 <p>But what are functions, other than the names of things you type in to get your answers?</p>
 
-</article></slide><slide class=''><hgroup><h2>What is a Function?</h2></hgroup><article  id="what-is-a-function">
+</article></slide><slide class=""><hgroup><h2>What is a Function?</h2></hgroup><article  id="what-is-a-function">
 
 <p>A function is fixed piece of code that accepts input values, performs some operations or calculations on these values, and returns some results.</p>
 
@@ -119,7 +119,7 @@
 <li>\(y\) is the output, in this case the result of taking the square root of \(x\)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Function Terminology:</h2></hgroup><article  id="function-terminology">
+</article></slide><slide class=""><hgroup><h2>Function Terminology:</h2></hgroup><article  id="function-terminology">
 
 <ul>
 <li>When you use a function in your script, you are performing a &#39;function call&#39; (in computer science-ish terms).</li>
@@ -136,7 +136,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>?mean</h2></hgroup><article  id="mean" class="img-centered helppage">
+</article></slide><slide class=""><hgroup><h2>?mean</h2></hgroup><article  id="mean" class="img-centered helppage">
 
 <p>Lets start by going to the help page for the mean. You can access it two easy ways:</p>
 
@@ -147,13 +147,13 @@
 
 <p><img src='../images/mean_page1_short.png' title=''/> <br></p>
 
-</article></slide><slide class=''><hgroup><h2>?mean</h2></hgroup><article  id="mean-1" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean</h2></hgroup><article  id="mean-1" class="image-column helppage">
 
 <p><img src='../images/mean_usage.png' title=''/> In the top left corner, you are shown the name of the help page you are on, as well as the package/namespace the function lives in.</p>
 
 <p>Under that is the title of the help page, and a basic description of what the functions listed on this page are used to accomplish</p>
 
-</article></slide><slide class=''><hgroup><h2>?mean: usage</h2></hgroup><article  id="mean-usage" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean: usage</h2></hgroup><article  id="mean-usage" class="image-column helppage">
 
 <p><img src='../images/mean_usage.png' title=''/> The usage section tells you:</p>
 
@@ -169,7 +169,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>?mean: Usage</h2></hgroup><article  id="mean-usage-1" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean: Usage</h2></hgroup><article  id="mean-usage-1" class="image-column helppage">
 
 <p><img src='../images/mean_usage.png' title=''/> But the usage section is also cryptic!</p>
 
@@ -181,7 +181,7 @@
 
 <p>For clarification, we must go the the arguments sections.</p>
 
-</article></slide><slide class=''><hgroup><h2>?mean: Arguments</h2></hgroup><article  id="mean-arguments" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean: Arguments</h2></hgroup><article  id="mean-arguments" class="image-column helppage">
 
 <p><img src='../images/mean_arguments.png' title=''/> The detailed descriptions in the arguments section tell us what types of values each argument is permitted to take on.</p>
 
@@ -189,7 +189,7 @@
 
 <p>For example, the <code>na.rm</code> argument must be a logical value (i.e., <code>TRUE</code> or <code>FALSE</code>) and it controls whether or not missing values are removed before finding the mean.</p>
 
-</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed Arguments</h2></hgroup><article  id="named-vs.-unnamed-arguments">
+</article></slide><slide class=""><hgroup><h2>Named vs. Unnamed Arguments</h2></hgroup><article  id="named-vs.-unnamed-arguments">
 
 <p>Every function argument has a name (e.g., <code>x</code>, <code>na.rm</code>, <code>trim</code>). When you call a function, those names can be used in a <code>keyname = value</code> style of syntax, or they may be omitted in favor of just specifying the value.</p>
 
@@ -199,7 +199,7 @@
 
 <p>If you mix and match named and unnamed, unnamed inputs that R encounters will be paired up with the unmatched arguments following their order in the Usage section.</p>
 
-</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed Examples</h2></hgroup><article  id="named-vs.-unnamed-examples">
+</article></slide><slide class=""><hgroup><h2>Named vs. Unnamed Examples</h2></hgroup><article  id="named-vs.-unnamed-examples">
 
 <pre class = 'prettyprint lang-r'>&gt; data &lt;- c(4,10,3,33,2,NA,43,22,31,95)
 &gt; mean(x=data) # named key/value style</pre>
@@ -224,11 +224,11 @@
 <div>
 
 
-</article></slide><slide class=''><hgroup><h2>Named vs. Unnamed: Verdict?</h2></hgroup><article  id="named-vs.-unnamed-verdict" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Named vs. Unnamed: Verdict?</h2></hgroup><article  id="named-vs.-unnamed-verdict" class="img-centered">
 
 <p>Prefer named arguments. <img src='http://dev.mensfeld.pl/wp-content/uploads/2014/08/you-have-been-warned.jpg' title=''/></p>
 
-</article></slide><slide class=''><hgroup><h2>An Argument&#39;s Name vs. An Argument&#39;s Value</h2></hgroup><article  id="an-arguments-name-vs.-an-arguments-value">
+</article></slide><slide class=""><hgroup><h2>An Argument&#39;s Name vs. An Argument&#39;s Value</h2></hgroup><article  id="an-arguments-name-vs.-an-arguments-value">
 
 <p>As we just discussed, all the arguments a function accepts have a name that identifies them.</p>
 
@@ -236,7 +236,7 @@
 
 <p>So, when you call <code>mean(x=data)</code> (or <code>mean(data)</code>), the values you had stored in <code>data</code> become known to the code inside the <code>mean</code> function by the name <code>x</code> instead of <code>data</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping">
+</article></slide><slide class=""><hgroup><h2>Scoping</h2></hgroup><article  id="scoping">
 
 <ul>
 <li>The code which calculates the mean runs &quot;in its own world&quot;
@@ -253,11 +253,11 @@
  *Unless the calling environment <em>is also</em> the enclosing environment, but we are not going to worry about that now. </span></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-1">
+</article></slide><slide class=""><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-1">
 
 <p><img src='../images/scoping.svg' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-2">
+</article></slide><slide class=""><hgroup><h2>Scoping</h2></hgroup><article  id="scoping-2">
 
 <pre class = 'prettyprint lang-r'>&gt; data &lt;- c(10, 11, 12)
 &gt; x &lt;- c(1, 2, 3)
@@ -283,7 +283,7 @@
 <div>
 
 
-</article></slide><slide class=''><hgroup><h2><code>...</code> : The &quot;dot dot dot&quot;</h2></hgroup><article  id="the-dot-dot-dot">
+</article></slide><slide class=""><hgroup><h2><code>...</code> : The &quot;dot dot dot&quot;</h2></hgroup><article  id="the-dot-dot-dot">
 
 <ul>
 <li>You will often encounter the lines like &quot;<code>...</code> <strong>: further arguments passed to other methods</strong>&quot; in the <code>Arguments</code> section.</li>
@@ -291,7 +291,7 @@
 <li>Protip: When looking for help on this, do not google &quot;R dot dot dot&quot; of &quot;R &#8230;&quot;. It will not be helpful. Instead, google for &quot;R ellipsis&quot;</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>?mean: Value</h2></hgroup><article  id="mean-value" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean: Value</h2></hgroup><article  id="mean-value" class="image-column helppage">
 
 <p><img src='../images/mean_value.png' title=''/> The value section tells you about what the function returns to you when it finishes its calculations.</p>
 
@@ -302,7 +302,7 @@
 
 <p>The return value may differ depending on which arguments were used, and what their values were.</p>
 
-</article></slide><slide class=''><hgroup><h2>?mean: Examples</h2></hgroup><article  id="mean-examples" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?mean: Examples</h2></hgroup><article  id="mean-examples" class="image-column helppage">
 
 <p><img src='../images/mean_examples.png' title=''/> Help pages generally end with a section showing toy examples of using the function.</p>
 
@@ -310,7 +310,7 @@
 
 <p>They can also show the effects of using different combinations of arguments on the returned value.</p>
 
-</article></slide><slide class=''><hgroup><h2>?var</h2></hgroup><article  id="var" class="img-centered helppage">
+</article></slide><slide class=""><hgroup><h2>?var</h2></hgroup><article  id="var" class="img-centered helppage">
 
 <p>Lets take a look at the help page for the <code>var()</code> function now.</p>
 
@@ -318,13 +318,13 @@
 
 <p><img src='../images/var_top.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>?var</h2></hgroup><article  id="var-1" class="image-column helppage">
+</article></slide><slide class=""><hgroup><h2>?var</h2></hgroup><article  id="var-1" class="image-column helppage">
 
 <p><img src='../images/var_arguments.png' title=''/> While there are 4 different functions defined here, they all have similar syntax</p>
 
 <p>In fact, looking at the <code>Arugments</code> section we see that there are only 6 unique arguments between these 4 functions!</p>
 
-</article></slide><slide class=''><hgroup><h2>Activity: Simulating Card Dealing</h2></hgroup><article  id="activity-simulating-card-dealing" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Activity: Simulating Card Dealing</h2></hgroup><article  id="activity-simulating-card-dealing" class="img-centered">
 
 <p>Your activity is to simulate dealing a hand of 5 cards from a standard deck of playing cards.</p>
 
@@ -332,7 +332,7 @@
 
 <p><img src='../images/cards.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck" class="img-centered">
 
 <ol>
 <li>Create a vector representing the face value of each card in the deck. Abbreviate Ace as &quot;A&quot;, King as &quot;K&quot;, etc.
@@ -346,7 +346,7 @@
 
 <p><img src='../images/cards.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-1" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-1" class="img-centered">
 
 <ol>
 <li>Create a vector representing the suite of each card in the deck. Abbreviate Hearts as &quot;H&quot;, Clubs as &quot;C&quot;, etc.
@@ -359,7 +359,7 @@
 
 <p><img src='../images/cards.png' title=''/><br></p>
 
-</article></slide><slide class=''><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-2">
+</article></slide><slide class=""><hgroup><h2>Creating the deck</h2></hgroup><article  id="creating-the-deck-2">
 
 <ol>
 <li>Combine these 2 vectors into a single vector that representing the deck of cards
@@ -370,7 +370,7 @@
 </ul></li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Dealing the Cards</h2></hgroup><article  id="dealing-the-cards">
+</article></slide><slide class=""><hgroup><h2>Dealing the Cards</h2></hgroup><article  id="dealing-the-cards">
 
 <ol>
 <li>Simulate drawing 5 cards from this virtual &quot;deck&quot; vector.

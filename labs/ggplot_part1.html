@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2017-07-27" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,7 @@
 
   </style>
 
-  <link rel="stylesheet" href="../theme/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="..\theme\css\custom.css" type="text/css" />
 
 </head>
 
@@ -95,11 +95,13 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2017-07-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>The Grammar of Graphics</h2></hgroup><article  id="the-grammar-of-graphics">
+<pre >## Warning: package &#39;ggplot2&#39; was built under R version 3.4.4</pre>
+
+<slide class=""><hgroup><h2>The Grammar of Graphics</h2></hgroup><article  id="the-grammar-of-graphics">
 
 <p>The <code>ggplot2</code> package provides a library of plotting and graphics tools that implements the <a href='http://www.springer.com/us/book/9780387245447' title=''>&quot;Grammar of Graphics&quot;</a> (Wilkison, 2005; Wilkinson, Anand, &amp; Grossman, 2005).</p>
 
@@ -107,7 +109,7 @@
 
 <p>Realizing that <code>ggplot2</code> implements a new &quot;grammar&quot; than you&#39;ve used previously helps facilitate adopting a different mindset than you&#39;ve used previously, which in turn helps produce more effective visualizations, more quickly.</p>
 
-</article></slide><slide class=''><hgroup><h2>The Grammar of Graphics</h2></hgroup><article  id="the-grammar-of-graphics-1">
+</article></slide><slide class=""><hgroup><h2>The Grammar of Graphics</h2></hgroup><article  id="the-grammar-of-graphics-1">
 
 <p>The <code>ggplot</code> system of plotting distinguishes between three main sets of features that all visualizations posses.</p>
 
@@ -129,7 +131,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Aesthetics</h2></hgroup><article  id="aesthetics">
+</article></slide><slide class=""><hgroup><h2>Aesthetics</h2></hgroup><article  id="aesthetics">
 
 <p>Aesthetics are the &quot;simple&quot; features possessed by data when they are displayed visually</p>
 
@@ -147,7 +149,7 @@
 <li>E.g., the color of each datum may be the same, or colors may differ in order to convey that there are different groups of data.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Geoms</h2></hgroup><article  id="geoms">
+</article></slide><slide class=""><hgroup><h2>Geoms</h2></hgroup><article  id="geoms">
 
 <p>Geoms are the geometric objects chosen to instantiate the data visually, like points, lines, bars, or text.</p>
 
@@ -164,7 +166,7 @@
 <li>A line can&#39;t have a shape aesthetic (it&#39;s a line) or a fill aesthetic (it&#39;s 1D, you can&#39;t fill it), but it can have different types (dotted, dashed, etc) and line colors.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Scales</h2></hgroup><article  id="scales">
+</article></slide><slide class=""><hgroup><h2>Scales</h2></hgroup><article  id="scales">
 
 <p>Scales are the features of a plot that allow you to measure the aesthetics (i.e., map them back from colors and shapes to the variable and values of the dataset)</p>
 
@@ -175,7 +177,7 @@
 
 <p>Importantly, the general term &quot;scales&quot; is chosen over the more common term &quot;legend&quot; because these features of the plot are used to measure and map many different aesthetics, discrete or continuous.</p>
 
-</article></slide><slide class=''><hgroup><h2>ggplot is data-driven plotting</h2></hgroup><article  id="ggplot-is-data-driven-plotting">
+</article></slide><slide class=""><hgroup><h2>ggplot is data-driven plotting</h2></hgroup><article  id="ggplot-is-data-driven-plotting">
 
 <p>The ggplot tool set is specifically oriented around creating a plot from your <em>dataset</em>, rather than from individual vectors.</p>
 
@@ -185,7 +187,7 @@
 
 <p>So the main aim of the <code>ggplot</code> tool set is to take the relational structure you&#39;ve already defined in your data frame and translate it into a visualization via <em>aesthetic mappings</em>.</p>
 
-</article></slide><slide class=''><hgroup><h2>Mapping variables to aesthetics</h2></hgroup><article  id="mapping-variables-to-aesthetics">
+</article></slide><slide class=""><hgroup><h2>Mapping variables to aesthetics</h2></hgroup><article  id="mapping-variables-to-aesthetics">
 
 <p>Making a plot with <code>ggplot2</code> always begins with a call to the <code>ggplot</code> function, which takes 2 arguments:</p>
 
@@ -194,7 +196,7 @@
 <li><code>mapping:</code> The list of aesthetic mappings to use for the plot</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Mapping variables to aesthetics</h2></hgroup><article  id="mapping-variables-to-aesthetics-1">
+</article></slide><slide class=""><hgroup><h2>Mapping variables to aesthetics</h2></hgroup><article  id="mapping-variables-to-aesthetics-1">
 
 <p>The <code>mapping</code> argument requires a special list of values created by the function <code>aes</code>. The <code>aes</code> function constructs this list when you provide it special key/value pairs</p>
 
@@ -203,13 +205,13 @@
 <li>The &quot;values&quot; are unquoted names of variables (i.e., column names) in your data frame</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Getting Started</h2></hgroup><article  id="getting-started">
+</article></slide><slide class=""><hgroup><h2>Getting Started</h2></hgroup><article  id="getting-started">
 
 <p>It&#39;s time to start getting into some code! For our examples, we&#39;ll use the built-in <code>Orange</code> dataset, which contains measurements of trunk circumference (measured in mm.) over time (measured in days) from 5 orange trees.</p>
 
 <table class = 'rmdtable'>
 <col width="9%" />
-<col width="8%" />
+<col width="9%" />
 <col width="20%" />
 <tr class="header">
 <th align="center">Tree</th>
@@ -263,7 +265,7 @@
 </tr>
 </table>
 
-</article></slide><slide class=''><hgroup><h2>A First Plot</h2></hgroup><article  id="a-first-plot">
+</article></slide><slide class=""><hgroup><h2>A First Plot</h2></hgroup><article  id="a-first-plot">
 
 <p>Lets think about how best to visualize these circumferences.</p>
 
@@ -277,7 +279,7 @@
 ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree))</pre>
 
-</article></slide><slide class=''><hgroup><h2>A First (Blank) Plot</h2></hgroup><article  id="a-first-blank-plot">
+</article></slide><slide class=""><hgroup><h2>A First (Blank) Plot</h2></hgroup><article  id="a-first-blank-plot">
 
 <pre class = 'prettyprint lang-r'>ggplot(data = Orange,
        mapping = aes(x = age, y = circumference, color = Tree))</pre>
@@ -286,7 +288,7 @@ ggplot(data = Orange,
 
 <p>Where&#39;s the <del>beef</del> data? Our plot is blank because we didn&#39;t add any geometric objects to represent the data!</p>
 
-</article></slide><slide class=''><hgroup><h2>Adding layers to the plot</h2></hgroup><article  id="adding-layers-to-the-plot">
+</article></slide><slide class=""><hgroup><h2>Adding layers to the plot</h2></hgroup><article  id="adding-layers-to-the-plot">
 
 <p>To add a geom object to represent the data, we need to add a new &quot;layer&quot; containing those geom objects to the plot.</p>
 
@@ -300,7 +302,7 @@ ggplot(data = Orange,
 <li><code>geom_point</code>, <code>geom_line</code>, <code>geom_bar</code>, <code>geom_boxplot</code>, etc.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Adding layers to the plot</h2></hgroup><article  id="adding-layers-to-the-plot-1">
+</article></slide><slide class=""><hgroup><h2>Adding layers to the plot</h2></hgroup><article  id="adding-layers-to-the-plot-1">
 
 <p>Lets use points to instantiate our data on the plot, via the <code>geom_points()</code> function, and then add the layer of points to our blank plot with the <code>+</code> operator.</p>
 
@@ -310,7 +312,7 @@ ggplot(data = Orange,
 
 <p><img src="ggplot_part1_files/figure-html/points-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Scales are free!</h2></hgroup><article  id="scales-are-free">
+</article></slide><slide class=""><hgroup><h2>Scales are free!</h2></hgroup><article  id="scales-are-free">
 
 <p>Because we mapped the <code>Tree</code> variable to the <code>color</code> aesthetic, we get a different color point for each tree. Additionally, a legend is automatically drawn.</p>
 
@@ -320,7 +322,7 @@ ggplot(data = Orange,
 
 <p><img src="ggplot_part1_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>ggplots are first-class</h2></hgroup><article  id="ggplots-are-first-class">
+</article></slide><slide class=""><hgroup><h2>ggplots are first-class</h2></hgroup><article  id="ggplots-are-first-class">
 
 <p>Note that we do <em>not</em> necessarily have to create the entire plot at once. ggplots can be saved as R objects, instead of being drawn in the plot window, simply by using the assignment operator.</p>
 
@@ -330,7 +332,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/firstclass-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Changing geoms</h2></hgroup><article  id="changing-geoms">
+</article></slide><slide class=""><hgroup><h2>Changing geoms</h2></hgroup><article  id="changing-geoms">
 
 <p>Let&#39;s also connect the points for each tree, using <code>geom_line</code>, so a viewer can easily chart the course of a single tree&#39;s growth.</p>
 
@@ -341,7 +343,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/lines-1.png" width="576" style="display: block; margin: auto;" /> Notice how the color scale automatically shows both lines and points now!</p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale">
+</article></slide><slide class=""><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale">
 
 <p>One annoyance is that the scale seems to sorts the trees in random order. As it turns out, there is a method to this madness.</p>
 
@@ -353,7 +355,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p>As mentioned previously, <code>ggplot</code> is oriented around the characteristics of your data set, and if a variable is an ordered factor, then ggplot respects that ordering when it creates its scales.</p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-1">
+</article></slide><slide class=""><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-1">
 
 <p>Lets change the variable to be a regular, un-ordered factor. We can use R functions on variables inside <code>aes</code> just as if they were normal objects.</p>
 
@@ -366,7 +368,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/unordered-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-2">
+</article></slide><slide class=""><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-2">
 
 <p>However, we need not modify the dataset itself to achieve the desired result: we can manipulate the scale itself with some functions provided by <code>ggplot</code>.</p>
 
@@ -388,7 +390,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p>Here, we&#39;ll use the <code>scale_color_discrete</code> function to modify our scale, because we&#39;ve mapped each tree to a distinct color.</p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-3">
+</article></slide><slide class=""><hgroup><h2>Adjusting the scale</h2></hgroup><article  id="adjusting-the-scale-3">
 
 <p>The <code>limits</code> argument sets the range of the scale, as well as the default order of the displayed labels.</p>
 
@@ -399,7 +401,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/unordered_easy-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors">
+</article></slide><slide class=""><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors">
 
 <p>You can exactly specify which colors to use using their color names (see <code>?colors</code>) or Hexadecimal RGB values and <code>scale_color_manual</code>.</p>
 
@@ -412,7 +414,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/manual-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-1">
+</article></slide><slide class=""><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-1">
 
 <p>If you have the <code>RColorBrewer</code> package, you can use the color palettes it provides via the <code>scale_color_brewer()</code> function.</p>
 
@@ -420,7 +422,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/palletes-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-2">
+</article></slide><slide class=""><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-2">
 
 <p>Let&#39;s use the <code>&quot;Set1&quot;</code> pallete for our colors by specifying the <code>palette</code> argument to <code>scale_color_brewer</code></p>
 
@@ -431,13 +433,13 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/set1-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-3" class="img-centered">
+</article></slide><slide class=""><hgroup><h2>Adjusting the colors</h2></hgroup><article  id="adjusting-the-colors-3" class="img-centered">
 
 <p>There are many custom-made pallets to choose from, if you&#39;re willing to go looking for them. For example, one of my favorite sets of palletes are the <a href='https://github.com/karthik/wesanderson' title=''>Wes Anderson Color Palletes</a>, which I encourage you to check out.</p>
 
 <p><img src='../images/rushmore.jpg' title=''/><br/></p>
 
-</article></slide><slide class=''><hgroup><h2>Setting an aesthetic</h2></hgroup><article  id="setting-an-aesthetic">
+</article></slide><slide class=""><hgroup><h2>Setting an aesthetic</h2></hgroup><article  id="setting-an-aesthetic">
 
 <p>We can also set the aesthetics for our data to a constant property (i.e., <em>not</em> have the aesthetic change across levels of a variable).</p>
 
@@ -450,7 +452,7 @@ plot_obj + geom_point() # now we see our plot</pre>
 
 <p><img src="ggplot_part1_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=''><hgroup><h2>Activity</h2></hgroup><article  id="activity">
+</article></slide><slide class=""><hgroup><h2>Activity</h2></hgroup><article  id="activity">
 
 <p>The <code>Indometh</code> dataset has pharmacokinetics measurements (i.e., excretion/absorption of a drug) of the NSAID pain-killer <em>indometacin</em>.</p>
 

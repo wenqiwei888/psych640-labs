@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2018-02-05" />
+  <meta name="date" content="2018-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -96,7 +96,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2018-02-05</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2018-05-04</p>
           </hgroup>
   </slide>
 
@@ -127,13 +127,13 @@ str(marathon)</pre>
 ##  $ time   : num  108.4 95.8 130.9 133.9 100.5 ...
 ##  $ netTime: num  94.8 89.9 118.6 121.4 93.5 ...
 ##  $ age    : int  28 32 22 28 28 44 29 29 30 37 ...
-##  $ gender : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; ...
-##  $ first  : chr  &quot;Jeremy&quot; &quot;Nicodemo&quot; &quot;Heather&quot; &quot;Carissa&quot; ...
-##  $ last   : chr  &quot;Aaronson&quot; &quot;Abagon&quot; &quot;Abbey&quot; &quot;Abbott&quot; ...
-##  $ city   : chr  &quot;Silver Spring&quot; &quot;Mongomery Village&quot; &quot;Arlington&quot; &quot;Arlington&quot; ...
-##  $ state  : chr  &quot;MD&quot; &quot;MD&quot; &quot;VA&quot; &quot;VA&quot; ...
-##  $ country: chr  &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; &quot;USA&quot; ...
-##  $ div    : chr  &quot;25-29&quot; &quot;30-34&quot; &quot;20-24&quot; &quot;25-29&quot; ...</pre>
+##  $ gender : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 2 1 1 2 1 2 2 2 1 ...
+##  $ first  : Factor w/ 2941 levels &quot;Aakar&quot;,&quot;Aaron&quot;,..: 1279 2085 1073 424 1087 1441 687 2444 1229 1383 ...
+##  $ last   : Factor w/ 8755 levels &quot;Aaronson&quot;,&quot;Abagon&quot;,..: 1 2 3 4 4 4 5 6 6 6 ...
+##  $ city   : Factor w/ 1259 levels &quot;Aberdeen&quot;,&quot;Abingdon&quot;,..: 1027 743 48 48 48 375 1172 1172 48 705 ...
+##  $ state  : Factor w/ 51 levels &quot;AE&quot;,&quot;AK&quot;,&quot;AL&quot;,..: 21 21 46 46 46 46 9 9 46 46 ...
+##  $ country: Factor w/ 13 levels &quot;AUS&quot;,&quot;CAN&quot;,&quot;ETH&quot;,..: 13 13 13 13 13 13 13 13 13 13 ...
+##  $ div    : Factor w/ 14 levels &quot;19-&quot;,&quot;20-24&quot;,..: 3 4 2 3 3 6 3 3 4 5 ...</pre>
 
 </article></slide><slide class=""><hgroup><h2>The prelude to analysis</h2></hgroup><article  id="the-prelude-to-analysis">
 
@@ -213,7 +213,7 @@ marathon &lt;- arrange(marathon, place)</pre>
 
 <p>Omitting the <code>x</code> argument would normally cause an error, but not here because its value is supplied via the <code>%&gt;%</code> operator.</p>
 
-<p>The vector <code>c(10,NA,22)</code> gets used as the value of the <code>x</code> argument (instead of<code>trim</code>) because <code>x</code> is the first argument <strong>not</strong> supplied in the argument list.</p>
+<p>The vector <code>c(10,NA,22)</code> gets used as the value of the <code>x</code> argument (instead of <code>trim</code>) because <code>x</code> is the first argument <strong>not</strong> supplied in the argument list.</p>
 
 </article></slide><slide class=""><hgroup><h2>Pipes</h2></hgroup><article  id="pipes-1">
 
@@ -260,8 +260,6 @@ c(19,38,14,20) %&gt;% cov(x=., y=.) # piped data becomes x and y</pre>
   mutate(waitTime = time - netTime) %&gt;%
   arrange(place)</pre>
 
-<pre >## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.1</pre>
-
 <p>We omit the data frame argument to <code>select</code>, <code>mutate</code>, and <code>arrange</code> because it is supplied from the previous functions output, via the pipe operator.</p>
 
 </article></slide><slide class=""><hgroup><h2>Window Functions</h2></hgroup><article  id="window-functions">
@@ -284,19 +282,17 @@ select(marathon, gender:last, netTime, quintile)</pre>
 
 <pre >## # A tibble: 14,969 x 5
 ## # Groups:   gender [2]
-##    gender           first        last netTime quintile
-##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;int&gt;
-##  1      F          Lineth   Chepkurui  53.533        1
-##  2      M        Ridouane    Harroufi  45.933        1
-##  3      F Belianesh Zemed       Gebre  53.917        1
-##  4      M          Feyisa       Liesa  45.967        1
-##  5      F           Teyba       Naser  53.967        1
-##  6      M           Silas        Sang  45.983        1
-##  7      M           Karim El Mabchour  46.000        1
-##  8      F           Abebu       Gelan  54.433        1
-##  9      M         Stephen    Chemlany  46.100        1
-## 10      F       Catherine     Ndereba  54.450        1
-## # ... with 14,959 more rows</pre>
+##   gender first           last        netTime quintile
+##   &lt;fct&gt;  &lt;fct&gt;           &lt;fct&gt;         &lt;dbl&gt;    &lt;int&gt;
+## 1 F      Lineth          Chepkurui      53.5        1
+## 2 M      Ridouane        Harroufi       45.9        1
+## 3 F      Belianesh Zemed Gebre          53.9        1
+## 4 M      Feyisa          Liesa          46.0        1
+## 5 F      Teyba           Naser          54.0        1
+## 6 M      Silas           Sang           46.0        1
+## 7 M      Karim           El Mabchour    46          1
+## 8 F      Abebu           Gelan          54.4        1
+## # ... with 1.496e+04 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>The <code>percent_rank()</code> function</h2></hgroup><article  id="the-percent_rank-function">
 
@@ -308,19 +304,17 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 
 <pre >## # A tibble: 14,969 x 5
 ## # Groups:   gender [2]
-##    gender           first        last netTime       pBelow
-##     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;        &lt;dbl&gt;
-##  1      F          Lineth   Chepkurui  53.533 0.0000000000
-##  2      M        Ridouane    Harroufi  45.933 0.0000000000
-##  3      F Belianesh Zemed       Gebre  53.917 0.0001201779
-##  4      M          Feyisa       Liesa  45.967 0.0001504664
-##  5      F           Teyba       Naser  53.967 0.0002403557
-##  6      M           Silas        Sang  45.983 0.0003009329
-##  7      M           Karim El Mabchour  46.000 0.0004513993
-##  8      F           Abebu       Gelan  54.433 0.0003605336
-##  9      M         Stephen    Chemlany  46.100 0.0006018658
-## 10      F       Catherine     Ndereba  54.450 0.0004807115
-## # ... with 14,959 more rows</pre>
+##   gender first           last        netTime   pBelow
+##   &lt;fct&gt;  &lt;fct&gt;           &lt;fct&gt;         &lt;dbl&gt;    &lt;dbl&gt;
+## 1 F      Lineth          Chepkurui      53.5 0       
+## 2 M      Ridouane        Harroufi       45.9 0       
+## 3 F      Belianesh Zemed Gebre          53.9 0.000120
+## 4 M      Feyisa          Liesa          46.0 0.000150
+## 5 F      Teyba           Naser          54.0 0.000240
+## 6 M      Silas           Sang           46.0 0.000301
+## 7 M      Karim           El Mabchour    46   0.000451
+## 8 F      Abebu           Gelan          54.4 0.000361
+## # ... with 1.496e+04 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>The <code>lead()</code> function</h2></hgroup><article  id="the-lead-function">
 
@@ -360,19 +354,17 @@ select(marathon, gender:last, netTime, pBelow)</pre>
 select(marathon, gender:last, netTime, lag_time)</pre>
 
 <pre >## # A tibble: 14,969 x 5
-##    gender        first        last netTime lag_time
-##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-##  1      M     Ridouane    Harroufi  45.933    0.000
-##  2      M       Feyisa       Liesa  45.967    0.034
-##  3      M        Silas        Sang  45.983    0.016
-##  4      M        Karim El Mabchour  46.000    0.017
-##  5      M      Stephen    Chemlany  46.100    0.100
-##  6      M Cosmas Koech     Kimuati  46.133    0.033
-##  7      M     Philemon       Terer  46.467    0.334
-##  8      M       Samuel     Ndereba  46.967    0.500
-##  9      M      Kiplimo     Kimutai  47.050    0.083
-## 10      M          Lee       Troop  47.717    0.667
-## # ... with 14,959 more rows</pre>
+##   gender first        last        netTime lag_time
+##   &lt;fct&gt;  &lt;fct&gt;        &lt;fct&gt;         &lt;dbl&gt;    &lt;dbl&gt;
+## 1 M      Ridouane     Harroufi       45.9   0     
+## 2 M      Feyisa       Liesa          46.0   0.0340
+## 3 M      Silas        Sang           46.0   0.0160
+## 4 M      Karim        El Mabchour    46     0.017 
+## 5 M      Stephen      Chemlany       46.1   0.1   
+## 6 M      Cosmas Koech Kimuati        46.1   0.033 
+## 7 M      Philemon     Terer          46.5   0.334 
+## 8 M      Samuel       Ndereba        47.0   0.5   
+## # ... with 1.496e+04 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates">
 
@@ -399,19 +391,17 @@ select(marathon, gender:last, netTime, lag_time)</pre>
 select(marathon, gender:last, netTime, cumAvgNetTime)</pre>
 
 <pre >## # A tibble: 14,969 x 5
-##    gender        first        last netTime cumAvgNetTime
-##     &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;         &lt;dbl&gt;
-##  1      M     Ridouane    Harroufi  45.933      45.93300
-##  2      M       Feyisa       Liesa  45.967      45.95000
-##  3      M        Silas        Sang  45.983      45.96100
-##  4      M        Karim El Mabchour  46.000      45.97075
-##  5      M      Stephen    Chemlany  46.100      45.99660
-##  6      M Cosmas Koech     Kimuati  46.133      46.01933
-##  7      M     Philemon       Terer  46.467      46.08329
-##  8      M       Samuel     Ndereba  46.967      46.19375
-##  9      M      Kiplimo     Kimutai  47.050      46.28889
-## 10      M          Lee       Troop  47.717      46.43170
-## # ... with 14,959 more rows</pre>
+##   gender first        last        netTime cumAvgNetTime
+##   &lt;fct&gt;  &lt;fct&gt;        &lt;fct&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+## 1 M      Ridouane     Harroufi       45.9          45.9
+## 2 M      Feyisa       Liesa          46.0          46.0
+## 3 M      Silas        Sang           46.0          46.0
+## 4 M      Karim        El Mabchour    46            46.0
+## 5 M      Stephen      Chemlany       46.1          46.0
+## 6 M      Cosmas Koech Kimuati        46.1          46.0
+## 7 M      Philemon     Terer          46.5          46.1
+## 8 M      Samuel       Ndereba        47.0          46.2
+## # ... with 1.496e+04 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Cummulative Aggregates</h2></hgroup><article  id="cummulative-aggregates-2" class="img-centered">
 
@@ -444,9 +434,9 @@ marathon_lm</pre>
 ## 
 ## # A tibble: 2 x 2
 ##   gender time_by_age
-## *  &lt;chr&gt;      &lt;list&gt;
-## 1      F    &lt;S3: lm&gt;
-## 2      M    &lt;S3: lm&gt;</pre>
+## * &lt;fct&gt;  &lt;list&gt;     
+## 1 F      &lt;S3: lm&gt;   
+## 2 M      &lt;S3: lm&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Do anything with do</h2></hgroup><article  id="do-anything-with-do-2" class="smaller">
 
@@ -548,77 +538,18 @@ cumany(x == &quot;A&quot;)# Same as x[1]==&quot;A&quot;, x[1]==&quot;A&quot; || 
 <pre class = 'prettyprint lang-r'>marathon %&gt;% filter(cumany(gender == &quot;F&quot;)) %&gt;% slice(-1)</pre>
 
 <pre >## # A tibble: 14,929 x 16
-##      age gender           first      last       city state country   div
-##    &lt;int&gt;  &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
-##  1    29      M             Sam   Blasiak  N Potomac    MD     USA 25-29
-##  2    21      F Belianesh Zemed     Gebre   Ethiopia    NR     ETH 20-24
-##  3    22      F           Teyba     Naser   Ethiopia    NR     ETH 20-24
-##  4    24      M           Dylan     Keith  Arlington    VA     USA 20-24
-##  5    26      M          Carlos   Renjifo   Columbia    MD     USA 25-29
-##  6    25      M         Patrick    Murray Washington    DC     USA 25-29
-##  7    37      M           Randy McDermott Alexandria    VA     USA 35-39
-##  8    19      F           Abebu     Gelan   Ethiopia    NR     ETH   19-
-##  9    36      F       Catherine   Ndereba      Kenya    NR     KEN 35-39
-## 10    25      M            Dave    Miller   Leesburg    VA     USA 25-29
-## # ... with 14,919 more rows, and 8 more variables: place &lt;int&gt;,
-## #   time &lt;dbl&gt;, netTime &lt;dbl&gt;, waitTime &lt;dbl&gt;, quintile &lt;int&gt;,
-## #   pBelow &lt;dbl&gt;, lag_time &lt;dbl&gt;, cumAvgNetTime &lt;dbl&gt;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-4">
-
-<p>This is possible because <code>dplyr</code> extends the standard data frame functionality, and creates a new kind of data frame called a <code>tbl_df</code> or table data frame.</p>
-
-<pre class = 'prettyprint lang-r'>class(marathon_lm)</pre>
-
-<pre >## [1] &quot;rowwise_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
-
-<p>A <code>tbl_df</code> can use a list as a column, instead of requiring a column to be an atomic vector (atomic just means a vector where each element is required to have a length of 1).</p>
-
-<pre class = 'prettyprint lang-r'>class(marathon_lm$time_by_age)</pre>
-
-<pre >## [1] &quot;list&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-5">
-
-<p>While <code>do</code> is to <code>summarise</code> as a lightsaber is to a butterknife, great power comes with great responsibility. Working with these special list columns requires both a good understanding of how to work with lists, and of the class of objects you&#39;ve stored in the list.</p>
-
-<p>Here, to make a column for the \(R^2\) value of each model, you must group by gender, extract the <code>lm</code> object from the <code>time_by_age</code> list with <code>[[1]]</code>, apply the <code>summary</code> function to it, and access the <code>r.squared</code> element from the summary.</p>
-
-<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
-  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Do anything with <code>do</code></h2></hgroup><article  id="do-anything-with-do-6">
-
-<pre class = 'prettyprint lang-r'>marathon_lm %&gt;% group_by(gender) %&gt;%
-  mutate(Rsquared = summary(time_by_age[[1]])$r.squared)</pre>
-
-<pre >## # A tibble: 2 x 3
-## # Groups:   gender [2]
-##   gender time_by_age   Rsquared
-##    &lt;chr&gt;      &lt;list&gt;      &lt;dbl&gt;
-## 1      F    &lt;S3: lm&gt; 0.01764281
-## 2      M    &lt;S3: lm&gt; 0.02734674</pre>
-
-<p>Lots of work to find out that age is an awful predictor of net time!!</p>
-
-<p>The <code>do</code> function is an awesome tool, but don&#39;t use it when you don&#39;t necessarily need its power, as it might create more work for you in the long run.</p>
-
-</article></slide><slide class=""><hgroup><h2>Activities</h2></hgroup><article  id="activities-1">
-
-<ol>
-<li>Make a new column called <code>division_place</code> that gives a runners place within their own age division (given by the <code>div</code> variable)
-
-<ul>
-<li>Hint: Be sure the data is sorted properly, and the <code>n()</code> function can be used inside <code>mutate</code> to tell you the size of the group you&#39;re operating on.</li>
-</ul></li>
-<li>Which age division had the longest streak of Kenyan (<code>KEN</code>) runners finish before a runner from another country finished?
-
-<ul>
-<li>Hint: Try filtering with the <code>cumall</code> function, and inspecting the <code>division_place</code> variable you created.</li>
-</ul></li>
-</ol>
-
-<p>Bonus points for doing this with 1 or fewer variable assignments (i.e., doing it in a single pipeline with <code>%&gt;%</code>).</p></article></slide>
+##     age gender first   last  city  state country div   place  time netTime
+##   &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1    29 M      Sam     Blas~ N Po~ MD    USA     25-29    40  53.8    53.8
+## 2    21 F      Belian~ Gebre Ethi~ NR    ETH     20-24     2  53.9    53.9
+## 3    22 F      Teyba   Naser Ethi~ NR    ETH     20-24     3  54.0    54.0
+## 4    24 M      Dylan   Keith Arli~ VA    USA     20-24    41  54.1    54.0
+## 5    26 M      Carlos  Renj~ Colu~ MD    USA     25-29    42  54.2    54.1
+## 6    25 M      Patrick Murr~ Wash~ DC    USA     25-29    43  54.2    54.2
+## 7    37 M      Randy   McDe~ Alex~ VA    USA     35-39    44  54.4    54.3
+## 8    19 F      Abebu   Gelan Ethi~ NR    ETH     19-       4  54.4    54.4
+## # ... with 1.492e+04 more rows, and 5 more variables: waitTime &lt;dbl&gt;,
+## #   quintile &lt;int&gt;, pBelow &lt;dbl&gt;, lag_time &lt;dbl&gt;, cumAvgNetTime &lt;dbl&gt;</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
