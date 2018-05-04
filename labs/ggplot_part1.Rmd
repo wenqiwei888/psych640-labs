@@ -4,7 +4,7 @@ author: "William Hopper"
 date: "`r Sys.Date()`"
 ---
 
-```{r setup, echo=FALSE}
+```{r setup, echo=FALSE, warning=FALSE}
 library(whoppeR)
 library(pander)
 library(ggplot2)
