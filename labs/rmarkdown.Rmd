@@ -58,7 +58,7 @@ Since we can't exhaustively learn Rmarkdown in one class, you'll need to know wh
 ## Success! Now, more work!
 We've created our first dynamic document, huzzah!
 
-But we're going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640/gh-pages/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let's get to making even better documents.
+But we're going to learn even more than how to press some buttons, so grab <a href="https://raw.githubusercontent.com/wjhopper/psych640-labs/gh-pages/data/rmarkdown_example.Rmd" download>this .Rmd file </a>, open it up and let's get to making even better documents.
 
 We'll work through the sections of this document together, and as we go through it, try to connect the dots between the format of the input document, and the resulting elements in the output document.
 
